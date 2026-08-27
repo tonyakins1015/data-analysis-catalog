@@ -1,0 +1,877 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전국 농업재해 피해 분석 | 농업재해 빅데이터허브</title>
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --ink:#0A1B2E; --ink2:#12324F; --gov:#12559C; --gov-d:#0D3E75; --gov-l:#E8F0F9;
+  --paper:#EDF0F4; --card:#fff; --line:#D9E0E9; --line2:#EDF1F5;
+  --text:#16202B; --muted:#5F6E80; --grain:#C8912B;
+  --d1:#FBEDE7; --d2:#F3C9B6; --d3:#E79C7C; --d4:#D26A48; --d5:#A93A21;
+  --p1:#E9F3F0; --p2:#BADFD5; --p3:#82C4B3; --p4:#3E9C86; --p5:#14705C;
+  --r:3px;
+  --f: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+       "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
+  --fm: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--f); background:var(--paper); color:var(--text);
+  font-size:14px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  font-feature-settings:"tnum";
+}
+a{color:inherit}
+.wrap{max-width:1360px;margin:0 auto;padding:0 20px}
+
+/* ---------- 정부 상단 고지 ---------- */
+.govbar{background:var(--ink);color:#C8D4E2;font-size:12px;letter-spacing:-.01em}
+.govbar .wrap{display:flex;align-items:center;gap:8px;height:32px}
+.govbar b{color:#fff;font-weight:600}
+.govbar .dot{width:5px;height:5px;border-radius:50%;background:var(--grain);flex:none}
+.govbar .right{margin-left:auto;display:flex;gap:16px;color:#8FA3B8}
+
+/* ---------- 사이트 헤더 ---------- */
+.site{background:#fff;border-bottom:1px solid var(--line)}
+.site .wrap{display:flex;align-items:center;height:64px;gap:28px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+.mark{width:34px;height:34px;flex:none;border-radius:2px;background:var(--gov);
+  display:grid;place-items:center}
+.mark svg{display:block}
+.brand .t{font-size:19px;font-weight:800;letter-spacing:-.045em;color:var(--ink)}
+.brand .s{font-size:11px;color:var(--muted);letter-spacing:.02em;font-weight:500}
+.gnb{margin-left:auto;display:flex;gap:26px;font-size:14.5px;font-weight:600;
+  letter-spacing:-.02em;color:#33465C}
+.gnb span{padding:6px 0;border-bottom:2px solid transparent;cursor:default}
+.gnb span.on{color:var(--gov);border-color:var(--gov)}
+
+/* ---------- 히어로 ---------- */
+.hero{position:relative;background:var(--ink2);overflow:hidden;
+  border-bottom:3px solid var(--grain)}
+.hero::before{content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(900px 300px at 78% -30%, rgba(200,145,43,.30), transparent 62%),
+    linear-gradient(105deg, #0A1B2E 0%, #12324F 52%, #16456D 100%);}
+.hero .grid{position:absolute;inset:0;opacity:.16;
+  background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+  background-size:52px 52px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 42%,#000 80%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 42%,#000 80%,transparent)}
+.hero .wrap{position:relative;padding:34px 20px 32px;text-align:center}
+.hero .eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;
+  font-weight:600;letter-spacing:.09em;color:#F0D9A8;margin-bottom:9px}
+.hero .eyebrow::before,.hero .eyebrow::after{content:"";width:22px;height:1px;
+  background:rgba(240,217,168,.55)}
+.hero h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.05em;color:#fff}
+.hero p{margin:9px 0 0;font-size:13.5px;color:#B9CADC;letter-spacing:-.02em}
+
+/* ---------- 탭 네비 ---------- */
+.tabs{background:var(--ink2);border-bottom:1px solid rgba(255,255,255,.09)}
+.tabs .wrap{display:flex;align-items:stretch;height:50px;padding:0 20px}
+.tabs .home{width:50px;background:var(--grain);display:grid;place-items:center;
+  margin-left:-20px}
+.tabs .tab{display:flex;align-items:center;white-space:nowrap;padding:0 22px;font-size:13.5px;
+  font-weight:600;letter-spacing:-.025em;color:#A9BDD1;
+  border-right:1px solid rgba(255,255,255,.09)}
+.tabs .tab.on{background:rgba(255,255,255,.10);color:#fff}
+.tabs .tools{margin-left:auto;display:flex;align-items:center;gap:4px}
+.tabs .tools button{background:none;border:0;width:40px;height:50px;cursor:pointer;
+  color:#9FB4C9;border-left:1px solid rgba(255,255,255,.09)}
+.tabs .tools button:hover{color:#fff;background:rgba(255,255,255,.08)}
+
+/* ---------- 필터 ---------- */
+.filters{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.filters .wrap{display:flex;align-items:center;gap:18px;padding:11px 20px;flex-wrap:wrap}
+.fnote{font-size:12px;color:var(--muted);letter-spacing:-.02em}
+.fgrp{display:flex;align-items:center;gap:7px;margin-left:auto}
+.fgrp:not(:last-child){margin-left:0}
+.fgrp label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+select{font-family:var(--f);font-size:13px;font-weight:600;color:var(--text);
+  padding:6px 28px 6px 10px;border:1px solid var(--line);border-radius:var(--r);
+  background:#fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0h10L5 6z' fill='%235F6E80'/%3E%3C/svg%3E") no-repeat right 10px center;
+  -webkit-appearance:none;appearance:none;cursor:pointer;min-width:132px}
+select:focus-visible,button:focus-visible,.tile:focus-visible,th:focus-visible{
+  outline:2px solid var(--gov);outline-offset:2px}
+
+/* ---------- 레이아웃 ---------- */
+main{padding:20px 0 60px}
+.sec{margin-bottom:20px}
+.sec-h{display:flex;align-items:baseline;gap:11px;margin:0 0 11px;flex-wrap:wrap}
+.sec-h h2{margin:0;font-size:16.5px;font-weight:800;letter-spacing:-.045em;
+  padding-left:10px;border-left:3px solid var(--gov)}
+.sec-h .d{font-size:11.5px;color:var(--muted);letter-spacing:-.02em}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g-map{grid-template-columns:minmax(0,420px) minmax(0,1fr)}
+.g-heat{grid-template-columns:minmax(0,1fr) minmax(0,340px)}
+.g3{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) minmax(0,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:15px 16px 16px;min-width:0}
+.card > h3{margin:0 0 3px;font-size:13.5px;font-weight:700;letter-spacing:-.035em;
+  display:flex;align-items:center;gap:6px}
+.card > h3::before{content:"";width:3px;height:12px;background:var(--grain);flex:none}
+.card .sub{margin:0 0 13px;font-size:11.5px;color:var(--muted);letter-spacing:-.02em}
+
+/* ---------- KPI ---------- */
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.kpi{background:#fff;padding:14px 15px 15px}
+.kpi .k{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:-.01em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi .v{font-size:25px;font-weight:800;letter-spacing:-.055em;margin-top:4px;
+  line-height:1.1;color:var(--ink)}
+.kpi .v em{font-style:normal;font-size:13px;font-weight:600;color:var(--muted);
+  margin-left:3px;letter-spacing:-.02em}
+.kpi .m{font-size:11px;color:var(--muted);margin-top:3px;letter-spacing:-.02em}
+.kpi.hot .v{color:var(--d5)}
+
+/* ---------- 타일맵 ---------- */
+.tilemap{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:2px}
+.tile{position:relative;aspect-ratio:1/.74;border:1px solid rgba(0,0,0,.10);
+  border-radius:2px;padding:7px 8px;cursor:pointer;text-align:left;
+  font-family:var(--f);display:flex;flex-direction:column;justify-content:space-between;
+  transition:transform .12s ease, box-shadow .12s ease}
+.tile:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(10,27,46,.20);z-index:2}
+.tile[aria-pressed="true"]{box-shadow:0 0 0 2.5px var(--ink);z-index:3}
+.tile .rk{position:absolute;top:6px;right:7px;font-size:9.5px;font-weight:700;
+  opacity:.55;font-family:var(--fm)}
+.tile .nm{font-size:13px;font-weight:700;letter-spacing:-.04em}
+.tile .vl{font-size:14.5px;font-weight:800;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.tile.lite{color:var(--ink)} .tile.dark{color:#fff}
+.legend{display:flex;align-items:center;gap:0;margin-top:12px;font-size:10.5px;
+  color:var(--muted);flex-wrap:wrap}
+.legend .sw{width:34px;height:11px;border:1px solid rgba(0,0,0,.08)}
+.legend .lb{margin:0 7px 0 5px;font-family:var(--fm);font-size:10px}
+.legend .cap{flex:0 0 100%;margin:0 0 6px;font-weight:700;letter-spacing:-.02em;color:var(--text)}
+
+/* ---------- 테이블 ---------- */
+.tbl-w{overflow:auto;border:1px solid var(--line2);border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead th{position:sticky;top:0;background:var(--gov-l);color:var(--ink2);
+  font-weight:700;text-align:right;padding:8px 10px;white-space:nowrap;cursor:pointer;
+  border-bottom:1px solid var(--line);letter-spacing:-.03em;z-index:1;user-select:none}
+thead th:first-child,thead th:nth-child(2){text-align:left}
+thead th .ar{color:var(--gov);font-size:9px;margin-left:2px}
+tbody td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--line2);
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+tbody td:first-child{text-align:left;color:var(--muted);font-family:var(--fm);font-size:11px}
+tbody td:nth-child(2){text-align:left;font-weight:700}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:#F7FAFD}
+tbody tr.on{background:var(--gov-l)}
+tbody tr.on td:nth-child(2){color:var(--gov-d)}
+.bar-c{position:relative}
+.bar-c i{position:absolute;left:0;top:50%;transform:translateY(-50%);height:16px;
+  background:var(--d2);opacity:.55;border-radius:1px;z-index:0}
+.bar-c span{position:relative;z-index:1}
+
+/* ---------- 히트맵 ---------- */
+.heat{width:100%;border-collapse:separate;border-spacing:2px;font-size:11.5px}
+.heat th{font-weight:700;color:var(--muted);letter-spacing:-.035em;padding:0 0 5px;
+  font-size:10.5px;line-height:1.25;vertical-align:bottom;text-align:center}
+.heat th.rh{text-align:left;padding-right:8px;color:var(--text);font-size:12px;width:52px}
+.heat td{text-align:center;padding:6px 2px;border-radius:2px;font-weight:700;
+  font-variant-numeric:tabular-nums;cursor:pointer;letter-spacing:-.03em}
+.heat tr.on th.rh{color:var(--gov-d);text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- 가로 막대 ---------- */
+.hb{display:grid;grid-template-columns:98px 1fr 68px;align-items:center;gap:9px;
+  margin-bottom:7px;font-size:12px}
+.hb .l{color:var(--text);letter-spacing:-.035em;font-weight:600;text-align:right;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hb .t{height:15px;background:var(--line2);border-radius:1px;overflow:hidden}
+.hb .t i{display:block;height:100%;border-radius:1px}
+.hb .v{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;
+  color:var(--ink2);letter-spacing:-.03em}
+.hb .v small{color:var(--muted);font-weight:500;margin-left:3px}
+
+/* ---------- 기타 ---------- */
+svg.chart{display:block;width:100%;height:auto}
+.pill{display:inline-block;padding:2px 7px;border-radius:2px;font-size:10.5px;
+  font-weight:700;letter-spacing:-.02em}
+.pill.ok{background:var(--p1);color:var(--p5)}
+.pill.warn{background:var(--d1);color:var(--d5)}
+.note{background:#FFFDF6;border:1px solid #EADDBE;border-left:3px solid var(--grain);
+  border-radius:var(--r);padding:12px 15px;font-size:12px;color:#4A4230;
+  letter-spacing:-.02em;line-height:1.65}
+.note b{color:#6B5A2E}
+.srcs{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;font-size:12px}
+.src{background:#fff;padding:12px 14px}
+.src .n{font-weight:700;letter-spacing:-.035em;margin-bottom:3px}
+.src .m{color:var(--muted);font-size:11px;letter-spacing:-.02em;line-height:1.5}
+.chk{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chk div{font-size:11px;background:var(--p1);color:var(--p5);border-radius:2px;
+  padding:4px 9px;font-weight:600;letter-spacing:-.025em}
+footer{background:var(--ink);color:#8FA3B8;font-size:11.5px;padding:22px 0 26px;
+  letter-spacing:-.02em}
+footer .wrap{display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+footer b{color:#DCE6F0;font-weight:600}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;
+  font-size:11.5px;padding:6px 9px;border-radius:3px;z-index:99;opacity:0;
+  transition:opacity .1s;letter-spacing:-.02em;white-space:nowrap;
+  box-shadow:0 3px 10px rgba(0,0,0,.25)}
+.tip.on{opacity:1}
+
+@media (max-width:1120px){
+  .kpis{grid-template-columns:repeat(3,1fr)}
+  .g-map,.g-heat,.g3,.g2{grid-template-columns:1fr}
+  .srcs{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  .govbar .wrap > span:nth-of-type(2), .govbar .right span:first-child{display:none}
+}
+@media (max-width:660px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .gnb,.hero .grid,.govbar .right{display:none}
+  .hero h1{font-size:22px}
+  .tabs .wrap{overflow-x:auto;scrollbar-width:none}
+  .tabs .wrap::-webkit-scrollbar{display:none}
+  .tabs .tab{padding:0 13px;font-size:12.5px}
+  .tabs .tools{position:sticky;right:0;background:var(--ink2)}
+  .hb{grid-template-columns:76px 1fr 58px}
+  .heat{font-size:10px} .heat th{font-size:9px} .heat td{padding:5px 1px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="govbar"><div class="wrap">
+  <span class="dot"></span>
+  <b>공공데이터 기반 분석 서비스</b>
+  <span>· 원자료 출처 농업정책보험금융원(공공데이터포털 파일데이터)</span>
+  <span class="right"><span>공공누리 제1유형</span><span>기준일 2024-12-31</span></span>
+</div></div>
+
+<header class="site"><div class="wrap">
+  <a class="brand" href="#">
+    <span class="mark" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+      <path d="M12 2.5 21 7v10l-9 4.5L3 17V7z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/>
+      <path d="M12 7v10M7.5 9.5l4.5 3 4.5-3" stroke="#C8912B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg></span>
+    <span>
+      <span class="t">농업재해 빅데이터허브</span><br>
+      <span class="s">NATIONAL AGRICULTURAL DISASTER DATA HUB</span>
+    </span>
+  </a>
+  <nav class="gnb">
+    <span>빅데이터</span><span class="on">특화분석</span><span>빅데이터활용</span>
+    <span>대시보드</span><span>이용안내</span>
+  </nav>
+</div></header>
+
+<section class="hero">
+  <div class="grid"></div>
+  <div class="wrap">
+    <div class="eyebrow">전국 17개 시도 · 2001–2024</div>
+    <h1>농업재해 피해 분석</h1>
+    <p>전국 지자체가 함께 쓰는 농업재해 빅데이터허브</p>
+  </div>
+</section>
+
+<nav class="tabs"><div class="wrap">
+  <div class="home" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+    <path d="M3.5 11 12 4l8.5 7M6 9.5V20h12V9.5" stroke="#0A1B2E" stroke-width="1.9"
+      stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="tab">빅데이터활용</div>
+  <div class="tab">농업재해 분석</div>
+  <div class="tab on">농업재해 피해 현황</div>
+  <div class="tools">
+    <button type="button" title="공유" aria-label="공유"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="18" cy="5.5" r="2.6" stroke="currentColor" stroke-width="1.7"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.7"/><circle cx="18" cy="18.5" r="2.6" stroke="currentColor" stroke-width="1.7"/><path d="m8.4 10.7 7.2-3.9M8.4 13.3l7.2 3.9" stroke="currentColor" stroke-width="1.7"/></svg></button>
+    <button type="button" title="링크 복사" aria-label="링크 복사"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M10 14a4 4 0 0 0 5.7 0l3-3A4 4 0 0 0 13 5.4l-1.7 1.7M14 10a4 4 0 0 0-5.7 0l-3 3A4 4 0 0 0 11 18.6l1.7-1.7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+    <button type="button" title="인쇄" aria-label="인쇄" onclick="window.print()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M7 9V3.5h10V9M7 18H4.5V9.5h15V18H17M7 14.5h10V21H7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+  </div>
+</div></nav>
+
+<div class="filters"><div class="wrap">
+  <span class="fnote">시도 타일 또는 표의 행을 선택하면 아래 분석이 해당 지역 기준으로 바뀝니다.</span>
+  <div class="fgrp">
+    <label for="fSido">지역</label>
+    <select id="fSido"></select>
+  </div>
+  <div class="fgrp" style="margin-left:0">
+    <label for="fMetric">지도 지표</label>
+    <select id="fMetric">
+      <option value="lossRatio">손해율 (%)</option>
+      <option value="paid">지급보험금 (백만원)</option>
+      <option value="claims">지급건수 (건)</option>
+      <option value="accidents">사고접수 (건)</option>
+      <option value="joinRate">가입률 (%)</option>
+      <option value="area">가입면적 (ha)</option>
+    </select>
+  </div>
+  <div class="fgrp" style="margin-left:0">
+    <label for="fHeat">히트맵 기준</label>
+    <select id="fHeat">
+      <option value="share">지역 내 구성비 (%)</option>
+      <option value="abs">사고접수 건수</option>
+    </select>
+  </div>
+</div></div>
+
+<main class="wrap">
+
+  <div class="kpis sec" id="kpis"></div>
+
+  <section class="sec">
+    <div class="sec-h"><h2>전국 피해 추이</h2>
+      <span class="d">농작물재해보험 지급 기준 · 2001–2024년</span></div>
+    <div class="grid g2">
+      <div class="card">
+        <h3>연도별 지급보험금과 손해율</h3>
+        <p class="sub">막대는 지급보험금(백만원), 선은 손해율(%). 손해율 100%는 거둔 보험료만큼 보험금이 나갔다는 뜻입니다.</p>
+        <div id="cCombo"></div>
+      </div>
+      <div class="card">
+        <h3>가입 확대와 피해 노출</h3>
+        <p class="sub">면적가입률(%)과 가입면적(ha). 피해 규모를 해석할 때 필요한 분모입니다.</p>
+        <div id="cJoin"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-h"><h2>시도별 현황</h2>
+      <span class="d">2024년 기준 · 타일 위치는 실제 지리를 단순화한 배치입니다</span></div>
+    <div class="grid g-map">
+      <div class="card">
+        <h3 id="mapTitle">시도 타일맵</h3>
+        <p class="sub" id="mapSub"></p>
+        <div class="tilemap" id="tilemap"></div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="card">
+        <h3>시도 순위표</h3>
+        <p class="sub">머리글을 누르면 정렬 기준이 바뀝니다. 행을 누르면 해당 지역이 선택됩니다.</p>
+        <div class="tbl-w"><table id="rank">
+          <thead><tr id="rankHead"></tr></thead>
+          <tbody id="rankBody"></tbody>
+        </table></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-h"><h2>재해 원인별 사고접수</h2>
+      <span class="d">농작물재해보험 사고접수 1,170,090건 · 8개 원인 구분</span></div>
+    <div class="grid g-heat">
+      <div class="card">
+        <h3>시도 × 재해원인 히트맵</h3>
+        <p class="sub" id="heatSub"></p>
+        <div id="heat"></div>
+      </div>
+      <div class="card">
+        <h3 id="causeTitle">재해원인 구성</h3>
+        <p class="sub" id="causeSub"></p>
+        <div id="causeBars"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-h"><h2>보험 목적물 구성</h2>
+      <span class="d">2024년 계약 논작물 세부현황 1,843,012건 전수 집계</span></div>
+    <div class="grid g3">
+      <div class="card">
+        <h3>품목별 가입면적</h3>
+        <p class="sub">논작물 6개 품목. 벼가 압도적 비중을 차지합니다.</p>
+        <div id="cDonut"></div>
+      </div>
+      <div class="card">
+        <h3>품종별 계약건수 상위 12</h3>
+        <p class="sub">피해 발생 시 품종 단위로 대응 범위를 좁힐 때 쓰는 기준입니다.</p>
+        <div id="cVar"></div>
+      </div>
+      <div class="card">
+        <h3>이앙 시기 분포</h3>
+        <p class="sub">계약건수 기준 월별 이앙일자. 재해 발생 시점과 생육 단계를 맞춰 볼 수 있습니다.</p>
+        <div id="cMonth"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-h"><h2>데이터 출처와 해석 기준</h2>
+      <span class="d">이 화면의 모든 수치는 아래 원자료에서 직접 계산했습니다</span></div>
+    <div class="srcs" id="srcs"></div>
+    <div class="chk" id="checks"></div>
+    <div class="note" style="margin-top:14px">
+      <b>지표를 읽을 때 유의할 점</b><br>
+      · 이 화면의 &lsquo;피해&rsquo;는 <b>농작물재해보험에서 지급된 보험금</b> 기준입니다. 보험에 들지 않은 농가의 피해는
+        잡히지 않으므로 실제 피해 규모의 하한선으로 보아야 합니다. 2024년 전국 면적가입률은 54.2%입니다.<br>
+      · <b>사고접수 건수와 지급건수는 집계 기준이 다릅니다.</b> 원자료에서 사고접수는 1,170,090건,
+        지급건수는 263,766건으로 자릿수가 다르므로 두 값을 직접 나누거나 비교하지 마십시오.
+        사고접수는 원인별 구성을 보는 용도로만 씁니다.<br>
+      · <b>지역별 시계열은 제공되지 않습니다.</b> 시도별 개방 자료는 2024년 단년치여서 연도별 추이는 전국 단위로만
+        표시했습니다. 시도별 연도 축은 원자료에 없어 만들지 않았습니다.<br>
+      · <b>공간 해상도는 시도까지입니다.</b> 읍면동 단위 농업재해 피해면적은 NDMS 피해조사 원자료로,
+        전국 단위로 개방되지 않습니다. 시군구 단위 확장은 지자체별 자체 개방분을 개별 확보해야 합니다.<br>
+      · 타일맵의 색 구간은 <b>5분위(quantile) 분류</b>입니다. 값의 편차가 커서 등간격으로 나누면 대부분의 지역이
+        같은 색으로 눌려 보이기 때문입니다.
+    </div>
+  </section>
+
+</main>
+
+<footer><div class="wrap">
+  <b>농업재해 빅데이터허브</b>
+  <span>원자료 · 농업정책보험금융원 농작물재해보험 공공데이터 6종</span>
+  <span>기준일 · 2024-12-31</span>
+  <span>이용조건 · 공공누리 제1유형(출처표시)</span>
+</div></footer>
+
+<div class="tip" id="tip"></div>
+
+<script>
+const DATA = {"national":{"name":"전국","targetArea":1247327.645,"farms":589676.0,"contracts":684140.0,"parcels":2914718.0,"sumInsured":31575066.56,"area":676226.0016,"joinRate":54.21398334,"netPremium":1142335.069,"riskPremium":1042752.921,"premiumRate":3.617838989,"claims":263766.0,"paid":1020784.142,"lossRatio":97.89319424},"sido":[{"name":"서울","targetArea":553.696788,"farms":130.0,"contracts":139.0,"parcels":793.0,"sumInsured":10635.64,"area":42.772868,"joinRate":7.724962276,"netPremium":207.62755,"riskPremium":189.337484,"premiumRate":1.952186704,"claims":13.0,"paid":52.351503,"lossRatio":27.64983557},{"name":"부산","targetArea":4554.335607,"farms":873.0,"contracts":1133.0,"parcels":4824.0,"sumInsured":151148.11,"area":701.736176,"joinRate":15.40809103,"netPremium":1712.7624,"riskPremium":1561.473586,"premiumRate":1.133168255,"claims":119.0,"paid":539.784467,"lossRatio":34.56891438},{"name":"대구","targetArea":11947.22911,"farms":3479.0,"contracts":4514.0,"parcels":16834.0,"sumInsured":251418.08,"area":2285.039249,"joinRate":19.1261022,"netPremium":17131.24122,"riskPremium":15649.07897,"premiumRate":6.813846172,"claims":1975.0,"paid":15148.80623,"lossRatio":96.80318091},{"name":"인천","targetArea":13736.64994,"farms":4299.0,"contracts":4416.0,"parcels":23247.0,"sumInsured":127322.77,"area":7894.939148,"joinRate":57.4735411,"netPremium":3489.06757,"riskPremium":3179.972024,"premiumRate":2.740332754,"claims":1108.0,"paid":2916.511247,"lossRatio":91.71499702},{"name":"광주","targetArea":8134.722529,"farms":3309.0,"contracts":3962.0,"parcels":13518.0,"sumInsured":211460.23,"area":2662.738084,"joinRate":32.73299212,"netPremium":4223.90898,"riskPremium":3853.440308,"premiumRate":1.99749569,"claims":1176.0,"paid":3010.230386,"lossRatio":78.11799705},{"name":"대전","targetArea":2452.38284,"farms":1002.0,"contracts":1055.0,"parcels":3231.0,"sumInsured":35898.31,"area":534.789509,"joinRate":21.80693407,"netPremium":1287.8512,"riskPremium":1173.780227,"premiumRate":3.58749813,"claims":315.0,"paid":750.497299,"lossRatio":63.93848539},{"name":"울산","targetArea":5756.418522,"farms":2057.0,"contracts":2248.0,"parcels":9098.0,"sumInsured":75150.9,"area":1672.269484,"joinRate":29.05051948,"netPremium":5460.68133,"riskPremium":4992.911903,"premiumRate":7.266288667,"claims":596.0,"paid":1352.472848,"lossRatio":27.08785723},{"name":"세종","targetArea":5221.85779,"farms":3079.0,"contracts":3225.0,"parcels":9647.0,"sumInsured":67977.73,"area":2402.067611,"joinRate":46.00024948,"netPremium":2464.30858,"riskPremium":2244.972678,"premiumRate":3.625170449,"claims":661.0,"paid":1953.524044,"lossRatio":87.01772022},{"name":"경기","targetArea":108642.8458,"farms":29587.0,"contracts":34977.0,"parcels":167226.0,"sumInsured":2369989.72,"area":36875.82586,"joinRate":33.94224958,"netPremium":41895.61919,"riskPremium":38202.99297,"premiumRate":1.767755313,"claims":6154.0,"paid":25570.9488,"lossRatio":66.93441222},{"name":"강원","targetArea":65145.12845,"farms":23156.0,"contracts":26246.0,"parcels":113710.0,"sumInsured":1278712.39,"area":26765.88881,"joinRate":41.08655466,"netPremium":39145.33044,"riskPremium":35694.04143,"premiumRate":3.06130845,"claims":8586.0,"paid":32423.18145,"lossRatio":90.83639776},{"name":"충북","targetArea":69656.03054,"farms":30817.0,"contracts":34623.0,"parcels":132365.0,"sumInsured":1374410.85,"area":28135.21879,"joinRate":40.39164818,"netPremium":78920.66039,"riskPremium":72008.0229,"premiumRate":5.742144744,"claims":11400.0,"paid":62334.84868,"lossRatio":86.56653268},{"name":"충남","targetArea":193085.2814,"farms":90745.0,"contracts":102268.0,"parcels":479847.0,"sumInsured":4621814.11,"area":122820.6384,"joinRate":63.60952915,"netPremium":144744.403,"riskPremium":131898.5235,"premiumRate":3.131766002,"claims":43175.0,"paid":183359.686,"lossRatio":139.0157229},{"name":"전북","targetArea":172418.6429,"farms":83986.0,"contracts":95113.0,"parcels":458362.0,"sumInsured":3509048.07,"area":117897.6893,"joinRate":68.37873641,"netPremium":132575.9196,"riskPremium":120937.879,"premiumRate":3.778116372,"claims":36440.0,"paid":133977.9005,"lossRatio":110.7824129},{"name":"전남","targetArea":233519.6555,"farms":122075.0,"contracts":134504.0,"parcels":617176.0,"sumInsured":4173713.2,"area":155648.4533,"joinRate":66.65325578,"netPremium":195289.4392,"riskPremium":178179.553,"premiumRate":4.679033509,"claims":66165.0,"paid":209968.4754,"lossRatio":117.8409485},{"name":"경북","targetArea":183776.549,"farms":98604.0,"contracts":119917.0,"parcels":458224.0,"sumInsured":4618086.87,"area":87620.17149,"joinRate":47.6775584,"netPremium":300902.7369,"riskPremium":275238.8233,"premiumRate":6.515744405,"claims":48142.0,"paid":212308.5467,"lossRatio":77.13611916},{"name":"경남","targetArea":127132.6567,"farms":70904.0,"contracts":86254.0,"parcels":345727.0,"sumInsured":5357371.65,"area":61852.95473,"joinRate":48.65229464,"netPremium":108139.4754,"riskPremium":98734.67507,"premiumRate":2.018517333,"claims":24573.0,"paid":94536.84323,"lossRatio":95.74837125},{"name":"제주","targetArea":41593.56136,"farms":21574.0,"contracts":29546.0,"parcels":60889.0,"sumInsured":3340907.93,"area":20412.8088,"joinRate":49.07684778,"netPremium":64744.03582,"riskPremium":59013.44222,"premiumRate":1.937917392,"claims":13168.0,"paid":40579.53323,"lossRatio":68.76320327}],"causes":["냉해·동해·동상해","호우","태풍·강풍","우박","한해(가뭄)·폭염","폭설·설해","조수해","기타 자연재해"],"causeBySido":{"서울":{"total":30,"values":[0,0,8,0,0,9,5,8]},"부산":{"total":743,"values":[1,252,18,0,17,0,3,452]},"대구":{"total":5207,"values":[1762,1230,123,7,394,0,199,1492]},"인천":{"total":5308,"values":[7,1388,2793,9,54,18,19,1020]},"광주":{"total":4642,"values":[81,435,635,19,655,3,17,2797]},"대전":{"total":1011,"values":[18,736,52,0,51,1,42,111]},"울산":{"total":3483,"values":[363,139,1039,0,200,0,73,1669]},"세종":{"total":2114,"values":[106,1366,127,0,132,2,22,359]},"경기":{"total":26093,"values":[1043,11347,3037,36,1512,3106,830,5182]},"강원":{"total":34691,"values":[1480,11151,4401,28,6362,1097,1553,8619]},"충북":{"total":42095,"values":[4824,11163,1764,71,9474,1137,1506,12156]},"충남":{"total":188824,"values":[5230,85607,9704,185,9932,93,483,77590]},"전북":{"total":158272,"values":[6770,38126,5919,225,23759,525,1982,80966]},"전남":{"total":362698,"values":[13932,70486,20136,2278,24443,109,1706,229608]},"경북":{"total":177290,"values":[40368,22866,7153,168,23124,133,9378,74100]},"경남":{"total":104532,"values":[15072,15878,4331,1342,6179,29,1097,60604]},"제주":{"total":53057,"values":[3001,12140,5893,53,13636,174,202,17958]}},"causeNational":{"total":1170090,"values":[94058,284310,67133,4421,119924,6436,19117,574691]},"yearPay":[{"year":2001,"claims":410,"paid":1379.0,"lossRatio":45.7},{"year":2002,"claims":6945,"paid":34709.0,"lossRatio":433.5},{"year":2003,"claims":10156,"paid":50018.0,"lossRatio":290.8},{"year":2004,"claims":3354,"paid":13599.0,"lossRatio":42.3},{"year":2005,"claims":6344,"paid":23871.0,"lossRatio":43.5},{"year":2006,"claims":6077,"paid":21112.0,"lossRatio":36.6},{"year":2007,"claims":9300,"paid":61464.0,"lossRatio":110.4},{"year":2008,"claims":4419,"paid":24932.0,"lossRatio":45.0},{"year":2009,"claims":11110,"paid":66176.0,"lossRatio":105.8},{"year":2010,"claims":17951,"paid":90330.0,"lossRatio":104.6},{"year":2011,"claims":25125,"paid":132628.0,"lossRatio":119.5},{"year":2012,"claims":59462,"paid":490978.0,"lossRatio":357.1},{"year":2013,"claims":10630,"paid":45088.0,"lossRatio":21.9},{"year":2014,"claims":15259,"paid":144978.0,"lossRatio":66.9},{"year":2015,"claims":7150,"paid":52444.0,"lossRatio":18.2},{"year":2016,"claims":147109,"paid":106904.0,"lossRatio":33.1},{"year":2017,"claims":33577,"paid":279673.0,"lossRatio":89.0},{"year":2018,"claims":85099,"paid":534450.0,"lossRatio":103.2},{"year":2019,"claims":190492,"paid":898048.0,"lossRatio":186.2},{"year":2020,"claims":225240,"paid":1015827.0,"lossRatio":150.6},{"year":2021,"claims":172822,"paid":573989.0,"lossRatio":74.2},{"year":2022,"claims":162232,"paid":555777.0,"lossRatio":65.0},{"year":2023,"claims":215368,"paid":1004249.0,"lossRatio":107.3},{"year":2024,"claims":263766,"paid":1020784.0,"lossRatio":97.9}],"yearJoin":[{"year":2001,"farms":8055,"contracts":8086,"sumInsured":92449.0,"area":4096.0,"joinRate":17.5,"netPremium":3016.0,"subsidyState":1508.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":1508.0},{"year":2002,"farms":18549,"contracts":18620,"sumInsured":271186.0,"area":10994.0,"joinRate":18.3,"netPremium":8008.0,"subsidyState":4004.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":4004.0},{"year":2003,"farms":16480,"contracts":16521,"sumInsured":306754.0,"area":11001.0,"joinRate":15.2,"netPremium":17202.0,"subsidyState":8601.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":8601.0},{"year":2004,"farms":24093,"contracts":24874,"sumInsured":513321.0,"area":17546.0,"joinRate":18.2,"netPremium":32143.0,"subsidyState":16071.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":16071.0},{"year":2005,"farms":26328,"contracts":27780,"sumInsured":613877.0,"area":20301.0,"joinRate":23.4,"netPremium":54847.0,"subsidyState":33608.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":21239.0},{"year":2006,"farms":27398,"contracts":34818,"sumInsured":753347.0,"area":21466.0,"joinRate":24.0,"netPremium":57627.0,"subsidyState":33891.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":23736.0},{"year":2007,"farms":29145,"contracts":38273,"sumInsured":882947.0,"area":23661.0,"joinRate":22.7,"netPremium":55670.0,"subsidyState":30050.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":25620.0},{"year":2008,"farms":32538,"contracts":43783,"sumInsured":931583.0,"area":26037.0,"joinRate":23.1,"netPremium":55423.0,"subsidyState":29014.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":26409.0},{"year":2009,"farms":45882,"contracts":61626,"sumInsured":1251573.0,"area":48331.0,"joinRate":12.5,"netPremium":62524.0,"subsidyState":30989.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":31535.0},{"year":2010,"farms":52738,"contracts":73593,"sumInsured":1626945.0,"area":53452.0,"joinRate":13.6,"netPremium":86357.0,"subsidyState":43241.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":21693.0},{"year":2011,"farms":67653,"contracts":91744,"sumInsured":2059482.0,"area":86604.0,"joinRate":15.0,"netPremium":111004.0,"subsidyState":55515.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":27004.0},{"year":2012,"farms":74983,"contracts":101293,"sumInsured":2411826.0,"area":108373.0,"joinRate":13.6,"netPremium":151609.0,"subsidyState":75804.0,"subsidySido":12990.0,"subsidySigungu":26835.0,"farmerShare":35981.0},{"year":2013,"farms":95102,"contracts":122730,"sumInsured":3318410.0,"area":160203.0,"joinRate":19.1,"netPremium":226900.0,"subsidyState":113448.0,"subsidySido":17082.0,"subsidySigungu":44641.0,"farmerShare":51730.0},{"year":2014,"farms":89038,"contracts":117966,"sumInsured":3534657.0,"area":134264.0,"joinRate":16.1,"netPremium":233962.0,"subsidyState":116977.0,"subsidySido":18943.0,"subsidySigungu":47678.0,"farmerShare":50363.0},{"year":2015,"farms":120546,"contracts":154176,"sumInsured":5032290.0,"area":183596.0,"joinRate":21.5,"netPremium":308477.0,"subsidyState":154252.0,"subsidySido":27856.0,"subsidySigungu":66424.0,"farmerShare":59945.0},{"year":2016,"farms":179470,"contracts":240781,"sumInsured":7061910.0,"area":296007.0,"joinRate":27.4,"netPremium":344669.0,"subsidyState":172157.0,"subsidySido":31976.0,"subsidySigungu":74447.0,"farmerShare":66090.0},{"year":2017,"farms":191206,"contracts":284648,"sumInsured":8489230.0,"area":316835.0,"joinRate":29.7,"netPremium":334252.0,"subsidyState":166707.0,"subsidySido":35443.0,"subsidySigungu":70524.0,"farmerShare":61578.0},{"year":2018,"farms":275133,"contracts":330243,"sumInsured":13031849.0,"area":376593.0,"joinRate":32.9,"netPremium":550149.0,"subsidyState":271334.0,"subsidySido":57973.0,"subsidySigungu":126858.0,"farmerShare":93984.0},{"year":2019,"farms":339582,"contracts":397689,"sumInsured":15695682.0,"area":456024.0,"joinRate":38.8,"netPremium":511146.0,"subsidyState":252154.0,"subsidySido":62068.0,"subsidySigungu":123237.0,"farmerShare":73688.0},{"year":2020,"farms":440173,"contracts":515037,"sumInsured":19976337.0,"area":550174.0,"joinRate":45.0,"netPremium":722223.0,"subsidyState":355306.0,"subsidySido":84360.0,"subsidySigungu":180563.0,"farmerShare":101994.0},{"year":2021,"farms":497884,"contracts":577917,"sumInsured":22367959.0,"area":594250.0,"joinRate":49.4,"netPremium":848524.0,"subsidyState":417546.0,"subsidySido":100073.0,"subsidySigungu":213311.0,"farmerShare":117595.0},{"year":2022,"farms":512995,"contracts":593943,"sumInsured":26179793.0,"area":609793.0,"joinRate":49.9,"netPremium":949656.0,"subsidyState":466677.0,"subsidySido":116121.0,"subsidySigungu":247167.0,"farmerShare":119692.0},{"year":2023,"farms":547183,"contracts":634212,"sumInsured":29190999.0,"area":636727.0,"joinRate":52.0,"netPremium":1039681.0,"subsidyState":506116.0,"subsidySido":130793.0,"subsidySigungu":273302.0,"farmerShare":129469.0},{"year":2024,"farms":589676,"contracts":684140,"sumInsured":31575067.0,"area":676226.0,"joinRate":54.2,"netPremium":1141145.0,"subsidyState":544222.0,"subsidySido":145285.0,"subsidySigungu":307424.0,"farmerShare":144213.0}],"sggCount":{"서울":25,"부산":16,"대구":9,"인천":10,"광주":5,"대전":5,"울산":5,"세종":1,"경기":51,"충북":15,"충남":17,"전북":16,"전남":22,"경북":25,"경남":23,"제주":2,"강원":18},"crop":{"rows":1843012,"items":[{"name":"벼","contracts":1802742,"areaHa":458113.9},{"name":"보리","contracts":18271,"areaHa":7874.1},{"name":"밀","contracts":13686,"areaHa":5200.9},{"name":"귀리","contracts":5966,"areaHa":2008.9},{"name":"벼[조사료용]","contracts":1798,"areaHa":1168.0},{"name":"(농업수입안정)보리","contracts":549,"areaHa":208.2}],"varieties":[{"name":"청무벼","contracts":370137},{"name":"신동진벼","contracts":221170},{"name":"삼광벼","contracts":188552},{"name":"친들벼","contracts":152546},{"name":"영호진미","contracts":114035},{"name":"일반중만생기타","contracts":113871},{"name":"일품벼","contracts":89300},{"name":"남평벼","contracts":70813},{"name":"추청벼","contracts":58400},{"name":"동진찰벼","contracts":54810},{"name":"오대벼","contracts":37118},{"name":"백옥찰벼","contracts":32937}],"styles":[{"name":"기계이앙","contracts":1799094},{"name":"미상","contracts":21450},{"name":"산파","contracts":14504},{"name":"직파","contracts":4316},{"name":"담수직파","contracts":3648}],"months":[{"m":1,"contracts":34},{"m":2,"contracts":10},{"m":3,"contracts":0},{"m":4,"contracts":14833},{"m":5,"contracts":1217485},{"m":6,"contracts":564889},{"m":7,"contracts":7323},{"m":8,"contracts":0},{"m":9,"contracts":11},{"m":10,"contracts":3130},{"m":11,"contracts":34219},{"m":12,"contracts":1078}],"states":[{"name":"정상","contracts":1322330},{"name":"소멸","contracts":520682}]},"checks":[{"label":"시도 합계 보험금 = 연도별 2024 지급보험금","computed":1020784.1,"published":1020784.0,"ok":true},{"label":"시도 합계 지급건수 = 연도별 2024 지급건수","computed":263766.0,"published":263766.0,"ok":true},{"label":"시도 합계 가입면적 = 연도별 2024 가입면적","computed":676226.0,"published":676226.0,"ok":true},{"label":"시도 합계 가입농가수 = 연도별 2024 가입농가수","computed":589676.0,"published":589676.0,"ok":true},{"label":"사고원인 시도 합계 = 전국 총합계","computed":1170090,"published":1170090.0,"ok":true},{"label":"사고원인 항목 합 = 전국 총합계","computed":1170090,"published":1170090.0,"ok":true}]};
+
+/* ---------------- 공통 ---------------- */
+const $ = s => document.querySelector(s);
+const nf = (v, d = 0) => v == null ? '-' :
+  v.toLocaleString('ko-KR', {minimumFractionDigits: d, maximumFractionDigits: d});
+const esc = s => String(s).replace(/[&<>"]/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const SVGNS = 'http://www.w3.org/2000/svg';
+const D_SCALE = ['--d1','--d2','--d3','--d4','--d5'].map(v =>
+  getComputedStyle(document.documentElement).getPropertyValue(v).trim());
+const P_SCALE = ['--p1','--p2','--p3','--p4','--p5'].map(v =>
+  getComputedStyle(document.documentElement).getPropertyValue(v).trim());
+
+const tip = $('#tip');
+function bindTip(el, html) {
+  el.addEventListener('mouseenter', () => { tip.innerHTML = html; tip.classList.add('on'); });
+  el.addEventListener('mousemove', e => {
+    const w = tip.offsetWidth;
+    tip.style.left = Math.min(e.clientX + 13, innerWidth - w - 10) + 'px';
+    tip.style.top = (e.clientY - 34) + 'px';
+  });
+  el.addEventListener('mouseleave', () => tip.classList.remove('on'));
+}
+
+/* 5분위 구간 나누기 */
+function quantiles(vals) {
+  const s = vals.filter(v => v != null).slice().sort((a, b) => a - b);
+  const q = p => {
+    const i = (s.length - 1) * p, lo = Math.floor(i), hi = Math.ceil(i);
+    return s[lo] + (s[hi] - s[lo]) * (i - lo);
+  };
+  return [q(0.2), q(0.4), q(0.6), q(0.8)];
+}
+const classOf = (v, br) => v == null ? 0 : br.reduce((a, b) => a + (v > b ? 1 : 0), 0);
+
+/* ---------------- 상태 ---------------- */
+const METRICS = {
+  lossRatio: {label:'손해율', unit:'%', d:1, scale:'d',
+    desc:'거둔 보험료 대비 나간 보험금 비율. 높을수록 그해 피해가 컸다는 뜻입니다.'},
+  paid:      {label:'지급보험금', unit:'백만원', d:0, scale:'d',
+    desc:'2024년 한 해 동안 해당 지역 농가에 지급된 보험금 총액입니다.'},
+  claims:    {label:'지급건수', unit:'건', d:0, scale:'d',
+    desc:'보험금이 실제로 지급된 계약 건수입니다.'},
+  accidents: {label:'사고접수', unit:'건', d:0, scale:'d',
+    desc:'재해 발생을 신고한 사고접수 건수입니다. 지급건수와는 집계 기준이 다릅니다.'},
+  joinRate:  {label:'가입률', unit:'%', d:1, scale:'p',
+    desc:'대상면적 중 실제로 보험에 가입된 면적의 비율입니다.'},
+  area:      {label:'가입면적', unit:'ha', d:0, scale:'p',
+    desc:'농작물재해보험에 가입된 농지 면적입니다.'},
+};
+let metric = 'lossRatio', heatMode = 'share', sel = null;
+let sortKey = 'paid', sortDir = -1;
+
+const SIDO = DATA.sido.map(s => ({
+  ...s,
+  accidents: (DATA.causeBySido[s.name] || {total: null}).total,
+  sgg: DATA.sggCount[s.name] ?? null,
+}));
+const byName = Object.fromEntries(SIDO.map(s => [s.name, s]));
+const val = (s, k) => s[k];
+
+/* 타일맵 배치 (4열 × 7행) */
+const TILEPOS = {
+  경기:[3,1], 강원:[4,1],
+  인천:[2,2], 서울:[3,2],
+  충남:[2,3], 충북:[3,3], 경북:[4,3],
+  세종:[2,4], 대전:[3,4], 대구:[4,4],
+  전북:[2,5], 울산:[4,5],
+  광주:[1,6], 전남:[2,6], 경남:[3,6], 부산:[4,6],
+  제주:[1,7],
+};
+
+/* ---------------- KPI ---------------- */
+function renderKpis() {
+  const n = DATA.national, y = DATA.yearPay.at(-1), j = DATA.yearJoin.at(-1);
+  const peak = DATA.yearPay.reduce((a, b) => b.paid > a.paid ? b : a);
+  const s = sel ? byName[sel] : null;
+  const items = s ? [
+    ['선택 지역', s.name, `전국 17개 시도 중 법정 시군구 ${nf(s.sgg)}개`, false],
+    ['손해율', nf(s.lossRatio,1)+'<em>%</em>',
+      `전국 ${nf(n.lossRatio,1)}% 대비 ${s.lossRatio>=n.lossRatio?'높음':'낮음'}`, s.lossRatio>=100],
+    ['지급보험금', nf(Math.round(s.paid)), `전국의 ${nf(s.paid/n.paid*100,1)}%`, false],
+    ['지급건수', nf(s.claims)+'<em>건</em>', `전국의 ${nf(s.claims/n.claims*100,1)}%`, false],
+    ['가입면적', nf(Math.round(s.area))+'<em>ha</em>', `가입률 ${nf(s.joinRate,1)}%`, false],
+    ['가입농가', nf(s.farms)+'<em>호</em>', `계약 ${nf(s.contracts)}건`, false],
+  ] : [
+    ['기준연도', '2024', `2001년 이후 ${DATA.yearPay.length}년치 누적 관측`, false],
+    ['지급보험금', nf(Math.round(y.paid)), '단위 백만원 · 약 1조 208억원', false],
+    ['손해율', nf(y.lossRatio,1)+'<em>%</em>',
+      `최고치 ${nf(peak.lossRatio,1)}% (${peak.year}년)`, y.lossRatio>=100],
+    ['지급건수', nf(y.claims)+'<em>건</em>', `가입건수 ${nf(j.contracts)}건 대비`, false],
+    ['사고접수', nf(DATA.causeNational.total)+'<em>건</em>', '8개 재해원인 구분', false],
+    ['면적가입률', nf(j.joinRate,1)+'<em>%</em>',
+      `가입면적 ${nf(Math.round(j.area))}ha`, false],
+  ];
+  $('#kpis').innerHTML = items.map(([k,v,m,hot]) =>
+    `<div class="kpi${hot?' hot':''}"><div class="k">${k}</div>
+     <div class="v">${v}</div><div class="m">${m}</div></div>`).join('');
+}
+
+/* ---------------- 연도별 콤보 ---------------- */
+function renderCombo() {
+  const d = DATA.yearPay, W = 620, H = 300;
+  const L = 54, R = 46, T = 14, B = 40;
+  const iw = W - L - R, ih = H - T - B;
+  const maxPaid = Math.max(...d.map(v => v.paid));
+  const maxLR = Math.max(...d.map(v => v.lossRatio));
+  const bw = iw / d.length;
+  const x = i => L + bw * i + bw * 0.16;
+  const bwi = bw * 0.68;
+  const yP = v => T + ih - (v / maxPaid) * ih;
+  const yL = v => T + ih - (v / maxLR) * ih;
+  let g = '';
+  for (let t = 0; t <= 4; t++) {
+    const v = maxPaid * t / 4, y = yP(v);
+    g += `<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="var(--line2)"/>
+      <text x="${L-7}" y="${y+3.5}" text-anchor="end" font-size="9.5" fill="var(--muted)">${nf(Math.round(v/1000))}k</text>`;
+  }
+  for (let t = 0; t <= 4; t++) {
+    const v = maxLR * t / 4, y = yL(v);
+    g += `<text x="${W-R+7}" y="${y+3.5}" font-size="9.5" fill="var(--d4)">${nf(Math.round(v))}</text>`;
+  }
+  const bars = d.map((v, i) =>
+    `<rect class="cbar" data-i="${i}" x="${x(i)}" y="${yP(v.paid)}" width="${bwi}"
+      height="${Math.max(0.6, T+ih-yP(v.paid))}" fill="var(--gov)" opacity=".88" rx="1"/>`).join('');
+  const line = d.map((v, i) => `${x(i)+bwi/2},${yL(v.lossRatio)}`).join(' ');
+  const dots = d.map((v, i) =>
+    `<circle cx="${x(i)+bwi/2}" cy="${yL(v.lossRatio)}" r="2.4" fill="#fff"
+      stroke="var(--d5)" stroke-width="1.5"/>`).join('');
+  const ref = `<line x1="${L}" y1="${yL(100)}" x2="${W-R}" y2="${yL(100)}"
+      stroke="var(--d5)" stroke-width="1" stroke-dasharray="3 3" opacity=".55"/>
+    <rect x="${L+3}" y="${yL(100)-14}" width="60" height="12" fill="#fff" opacity=".82" rx="2"/>
+    <text x="${L+6}" y="${yL(100)-4.5}" font-size="9" fill="var(--d5)"
+      font-weight="700">손해율 100%</text>`;
+  const xl = d.map((v, i) => (i % 3 === 0 || i === d.length-1)
+    ? `<text x="${x(i)+bwi/2}" y="${T+ih+15}" text-anchor="middle" font-size="9.5"
+        fill="var(--muted)">${String(v.year).slice(2)}</text>` : '').join('');
+  const hit = d.map((v, i) =>
+    `<rect class="chit" data-i="${i}" x="${L+bw*i}" y="${T}" width="${bw}" height="${ih}"
+      fill="transparent"/>`).join('');
+  $('#cCombo').innerHTML =
+    `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="연도별 지급보험금과 손해율 추이">${g}${bars}
+      <polyline points="${line}" fill="none" stroke="var(--d5)" stroke-width="1.9"
+        stroke-linejoin="round"/>${dots}${ref}${xl}${hit}
+      <text x="${L}" y="${H-6}" font-size="9.5" fill="var(--muted)">단위 · 백만원(막대), %(선)</text>
+    </svg>`;
+  $('#cCombo').querySelectorAll('.chit').forEach(el => {
+    const v = d[+el.dataset.i];
+    bindTip(el, `<b>${v.year}년</b> · 지급보험금 ${nf(Math.round(v.paid))}백만원<br>
+      손해율 ${nf(v.lossRatio,1)}% · 지급 ${nf(v.claims)}건`);
+  });
+}
+
+/* ---------------- 가입 추이 ---------------- */
+function renderJoin() {
+  const d = DATA.yearJoin, W = 620, H = 300;
+  const L = 54, R = 46, T = 14, B = 40;
+  const iw = W - L - R, ih = H - T - B;
+  const maxA = Math.max(...d.map(v => v.area));
+  const maxR = Math.max(...d.map(v => v.joinRate));
+  const x = i => L + iw * i / (d.length - 1);
+  const yA = v => T + ih - (v / maxA) * ih;
+  const yR = v => T + ih - (v / maxR) * ih;
+  let g = '';
+  for (let t = 0; t <= 4; t++) {
+    const v = maxA * t / 4, y = yA(v);
+    g += `<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="var(--line2)"/>
+      <text x="${L-7}" y="${y+3.5}" text-anchor="end" font-size="9.5"
+        fill="var(--muted)">${nf(Math.round(v/1000))}k</text>
+      <text x="${W-R+7}" y="${yR(maxR*t/4)+3.5}" font-size="9.5"
+        fill="var(--p5)">${nf(Math.round(maxR*t/4))}</text>`;
+  }
+  const areaPath = `M${x(0)},${T+ih} ` +
+    d.map((v, i) => `L${x(i)},${yA(v.area)}`).join(' ') + ` L${x(d.length-1)},${T+ih} Z`;
+  const rline = d.map((v, i) => `${x(i)},${yR(v.joinRate)}`).join(' ');
+  const xl = d.map((v, i) => (i % 3 === 0 || i === d.length-1)
+    ? `<text x="${x(i)}" y="${T+ih+15}" text-anchor="middle" font-size="9.5"
+        fill="var(--muted)">${String(v.year).slice(2)}</text>` : '').join('');
+  const hit = d.map((v, i) =>
+    `<rect class="jhit" data-i="${i}" x="${x(i)-iw/(d.length-1)/2}" y="${T}"
+      width="${iw/(d.length-1)}" height="${ih}" fill="transparent"/>`).join('');
+  $('#cJoin').innerHTML =
+    `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="연도별 가입면적과 면적가입률 추이">${g}
+      <path d="${areaPath}" fill="var(--gov)" opacity=".14"/>
+      <polyline points="${d.map((v,i)=>`${x(i)},${yA(v.area)}`).join(' ')}" fill="none"
+        stroke="var(--gov)" stroke-width="1.9"/>
+      <polyline points="${rline}" fill="none" stroke="var(--p5)" stroke-width="2"
+        stroke-dasharray="4 3"/>
+      ${d.map((v,i)=>`<circle cx="${x(i)}" cy="${yR(v.joinRate)}" r="2.2"
+        fill="var(--p5)"/>`).join('')}${xl}${hit}
+      <text x="${L}" y="${H-6}" font-size="9.5" fill="var(--muted)">단위 · ha(면), %(점선)</text>
+    </svg>`;
+  $('#cJoin').querySelectorAll('.jhit').forEach(el => {
+    const v = d[+el.dataset.i];
+    bindTip(el, `<b>${v.year}년</b> · 가입면적 ${nf(Math.round(v.area))}ha<br>
+      가입률 ${nf(v.joinRate,1)}% · 가입농가 ${nf(v.farms)}호`);
+  });
+}
+
+/* ---------------- 타일맵 ---------------- */
+function renderMap() {
+  const M = METRICS[metric];
+  const vals = SIDO.map(s => val(s, metric));
+  const br = quantiles(vals);
+  const scale = M.scale === 'p' ? P_SCALE : D_SCALE;
+  const ranked = SIDO.slice().sort((a, b) => val(b, metric) - val(a, metric));
+  const rankOf = Object.fromEntries(ranked.map((s, i) => [s.name, i + 1]));
+  $('#mapTitle').textContent = `시도별 ${M.label}`;
+  $('#mapSub').textContent = M.desc;
+  $('#tilemap').innerHTML = SIDO.map(s => {
+    const [c, r] = TILEPOS[s.name] || [1, 1];
+    const k = classOf(val(s, metric), br);
+    return `<button type="button" class="tile ${k >= 3 ? 'dark' : 'lite'}"
+      data-n="${esc(s.name)}" aria-pressed="${sel === s.name}"
+      style="grid-column:${c};grid-row:${r};background:${scale[k]}">
+      <span class="rk">${rankOf[s.name]}</span>
+      <span class="nm">${esc(s.name)}</span>
+      <span class="vl">${nf(val(s, metric), M.d)}</span></button>`;
+  }).join('');
+  $('#tilemap').querySelectorAll('.tile').forEach(el => {
+    const s = byName[el.dataset.n];
+    bindTip(el, `<b>${s.name}</b> · ${M.label} ${nf(val(s, metric), M.d)}${M.unit}<br>
+      전국 ${rankOf[s.name]}위 / 17개 시도`);
+    el.onclick = () => select(sel === s.name ? null : s.name);
+  });
+  const edges = [Math.min(...vals), ...br, Math.max(...vals)];
+  $('#legend').innerHTML =
+    `<span class="cap">5분위 구간 · ${M.unit}</span>` +
+    scale.map((c, i) => `<span class="sw" style="background:${c}"></span>` +
+      (i < 4 ? `<span class="lb">${nf(edges[i+1], M.d)}</span>` : '')).join('');
+}
+
+/* ---------------- 순위표 ---------------- */
+const COLS = [
+  ['rank','순위',0], ['name','시도',0], ['farms','가입농가(호)',0],
+  ['area','가입면적(ha)',0], ['joinRate','가입률(%)',1],
+  ['claims','지급건수(건)',0], ['paid','보험금(백만원)',0],
+  ['lossRatio','손해율(%)',1], ['accidents','사고접수(건)',0],
+];
+function renderRank() {
+  $('#rankHead').innerHTML = COLS.map(([k, l]) =>
+    `<th data-k="${k}" tabindex="0" scope="col">${l}${
+      sortKey === k ? `<span class="ar">${sortDir < 0 ? '▼' : '▲'}</span>` : ''}</th>`).join('');
+  const rows = SIDO.slice().sort((a, b) => {
+    if (sortKey === 'name') return a.name.localeCompare(b.name, 'ko') * sortDir * -1;
+    return (val(b, sortKey) - val(a, sortKey)) * (sortDir < 0 ? 1 : -1);
+  });
+  const maxPaid = Math.max(...SIDO.map(s => s.paid));
+  $('#rankBody').innerHTML = rows.map((s, i) => `
+    <tr data-n="${esc(s.name)}" class="${sel === s.name ? 'on' : ''}">
+      <td>${i + 1}</td><td>${esc(s.name)}</td>
+      <td>${nf(s.farms)}</td><td>${nf(Math.round(s.area))}</td>
+      <td>${nf(s.joinRate, 1)}</td><td>${nf(s.claims)}</td>
+      <td class="bar-c"><i style="width:${s.paid / maxPaid * 100}%"></i>
+        <span>${nf(Math.round(s.paid))}</span></td>
+      <td style="font-weight:700;color:${s.lossRatio >= 100 ? 'var(--d5)' : 'inherit'}">
+        ${nf(s.lossRatio, 1)}</td>
+      <td>${nf(s.accidents)}</td></tr>`).join('');
+  $('#rankBody').querySelectorAll('tr').forEach(tr =>
+    tr.onclick = () => select(sel === tr.dataset.n ? null : tr.dataset.n));
+  $('#rankHead').querySelectorAll('th').forEach(th => {
+    const go = () => {
+      const k = th.dataset.k === 'rank' ? 'paid' : th.dataset.k;
+      if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = -1; }
+      renderRank();
+    };
+    th.onclick = go;
+    th.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } };
+  });
+}
+
+/* ---------------- 히트맵 ---------------- */
+function renderHeat() {
+  const cs = DATA.causes;
+  const rows = SIDO.map(s => {
+    const c = DATA.causeBySido[s.name];
+    return {name: s.name, total: c.total, v: c.values};
+  }).sort((a, b) => b.total - a.total);
+  const cells = [];
+  rows.forEach(r => r.v.forEach((v, i) =>
+    cells.push(heatMode === 'share' ? (r.total ? v / r.total * 100 : 0) : v)));
+  const br = quantiles(cells);
+  $('#heatSub').textContent = heatMode === 'share'
+    ? '각 시도 안에서 재해원인이 차지하는 비중(%)입니다. 지역 규모 차이를 걷어내고 재해 성격만 비교합니다. '
+      + '다만 합계가 작은 지역(서울 30건, 부산 743건)은 몇 건 차이로 비중이 크게 흔들리므로 오른쪽 합계를 함께 보십시오.'
+    : '사고접수 건수 원값입니다. 농업 규모가 큰 지역이 전반적으로 진하게 나타납니다.';
+  const HEAD = {
+    '냉해·동해·동상해':'냉해·동해<br>동상해', '한해(가뭄)·폭염':'한해(가뭄)<br>폭염',
+    '기타 자연재해':'기타<br>자연재해',
+  };
+  const head = `<tr><th class="rh">시도</th>` +
+    cs.map(c => `<th>${HEAD[c] || esc(c)}</th>`).join('') +
+    `<th style="width:56px">합계</th></tr>`;
+  const body = rows.map(r => {
+    const tds = r.v.map((v, i) => {
+      const m = heatMode === 'share' ? (r.total ? v / r.total * 100 : 0) : v;
+      const k = classOf(m, br);
+      return `<td data-n="${esc(r.name)}" data-c="${i}" style="background:${D_SCALE[k]};
+        color:${k >= 3 ? '#fff' : 'var(--ink)'}">${
+        heatMode === 'share' ? nf(m, 1) : nf(v)}</td>`;
+    }).join('');
+    return `<tr data-n="${esc(r.name)}" class="${sel === r.name ? 'on' : ''}">
+      <th class="rh">${esc(r.name)}</th>${tds}
+      <td style="background:var(--gov-l);color:var(--ink2)">${nf(r.total)}</td></tr>`;
+  }).join('');
+  $('#heat').innerHTML = `<table class="heat">${head}${body}</table>`;
+  $('#heat').querySelectorAll('td[data-c]').forEach(td => {
+    const r = rows.find(x => x.name === td.dataset.n), i = +td.dataset.c;
+    bindTip(td, `<b>${r.name} · ${cs[i]}</b><br>사고접수 ${nf(r.v[i])}건 ·
+      지역 내 ${nf(r.total ? r.v[i] / r.total * 100 : 0, 1)}%`);
+    td.onclick = () => select(sel === r.name ? null : r.name);
+  });
+  $('#heat').querySelectorAll('tr[data-n]').forEach(tr =>
+    tr.querySelector('.rh').onclick = () => select(sel === tr.dataset.n ? null : tr.dataset.n));
+}
+
+/* ---------------- 원인 구성 막대 ---------------- */
+const CAUSE_COLOR = ['#3D77B8','#1F6FA8','#C0603A','#8E7CC3','#C8912B','#5B8DAD','#4A9E86','#A9B3BE'];
+function renderCause() {
+  const name = sel || '전국';
+  const src = sel ? DATA.causeBySido[sel] : DATA.causeNational;
+  $('#causeTitle').textContent = `${name} 재해원인 구성`;
+  $('#causeSub').textContent = `사고접수 ${nf(src.total)}건 기준. 막대는 전체 대비 비중(%)입니다.`;
+  const pairs = DATA.causes.map((c, i) => ({c, v: src.values[i], i}))
+    .sort((a, b) => b.v - a.v);
+  const max = Math.max(...pairs.map(p => p.v)) || 1;
+  $('#causeBars').innerHTML = pairs.map(p => `
+    <div class="hb"><div class="l">${esc(p.c)}</div>
+      <div class="t"><i style="width:${p.v / max * 100}%;background:${CAUSE_COLOR[p.i]}"></i></div>
+      <div class="v">${nf(src.total ? p.v / src.total * 100 : 0, 1)}<small>%</small></div></div>`).join('')
+    + `<div style="margin-top:11px;font-size:11.5px;color:var(--muted);letter-spacing:-.02em">
+       ‘기타 자연재해’는 원자료에서 8개 구분 중 하나로 제공되는 항목이며, 하위 분류는 개방되어 있지 않습니다.</div>`;
+}
+
+/* ---------------- 논작물 ---------------- */
+function renderCrop() {
+  const it = DATA.crop.items, tot = it.reduce((a, b) => a + b.areaHa, 0);
+  const W = 260, cx = 130, cy = 118, rO = 92, rI = 55;
+  let a0 = -Math.PI / 2, arcs = '';
+  it.forEach((d, i) => {
+    const a1 = a0 + d.areaHa / tot * Math.PI * 2;
+    const big = a1 - a0 > Math.PI ? 1 : 0;
+    const p = (r, a) => `${(cx + r * Math.cos(a)).toFixed(2)},${(cy + r * Math.sin(a)).toFixed(2)}`;
+    arcs += `<path class="darc" data-i="${i}" d="M${p(rO,a0)} A${rO},${rO} 0 ${big} 1 ${p(rO,a1)}
+      L${p(rI,a1)} A${rI},${rI} 0 ${big} 0 ${p(rI,a0)} Z"
+      fill="${CAUSE_COLOR[i % CAUSE_COLOR.length]}" stroke="#fff" stroke-width="1.5"/>`;
+    a0 = a1;
+  });
+  $('#cDonut').innerHTML = `
+    <svg class="chart" viewBox="0 0 ${W} 236" role="img" aria-label="품목별 가입면적 구성">
+      ${arcs}
+      <text x="${cx}" y="${cy - 6}" text-anchor="middle" font-size="21" font-weight="800"
+        fill="var(--ink)" letter-spacing="-1">${nf(Math.round(tot))}</text>
+      <text x="${cx}" y="${cy + 12}" text-anchor="middle" font-size="10.5"
+        fill="var(--muted)">총 가입면적 (ha)</text>
+    </svg>` +
+    it.map((d, i) => `<div class="hb" style="grid-template-columns:14px 74px 1fr 74px">
+      <span style="width:10px;height:10px;border-radius:2px;background:${CAUSE_COLOR[i % CAUSE_COLOR.length]}"></span>
+      <div class="l" style="text-align:left">${esc(d.name)}</div>
+      <div class="t"><i style="width:${d.areaHa / it[0].areaHa * 100}%;
+        background:${CAUSE_COLOR[i % CAUSE_COLOR.length]};opacity:.55"></i></div>
+      <div class="v">${nf(d.areaHa, 1)}<small>ha</small></div></div>`).join('');
+  $('#cDonut').querySelectorAll('.darc').forEach(el => {
+    const d = it[+el.dataset.i];
+    bindTip(el, `<b>${d.name}</b> · ${nf(d.areaHa,1)}ha<br>
+      계약 ${nf(d.contracts)}건 · 전체의 ${nf(d.areaHa/tot*100,1)}%`);
+  });
+
+  const vs = DATA.crop.varieties, mv = vs[0].contracts;
+  $('#cVar').innerHTML = vs.map(v => `<div class="hb">
+    <div class="l">${esc(v.name)}</div>
+    <div class="t"><i style="width:${v.contracts / mv * 100}%;background:var(--grain);opacity:.8"></i></div>
+    <div class="v">${nf(Math.round(v.contracts / 1000))}<small>천건</small></div></div>`).join('');
+
+  const ms = DATA.crop.months, mm = Math.max(...ms.map(m => m.contracts));
+  const W2 = 300, H2 = 200, L2 = 8, B2 = 26, T2 = 10;
+  const bw = (W2 - L2 * 2) / 12;
+  const bars = ms.map((m, i) => {
+    const h = m.contracts / mm * (H2 - T2 - B2);
+    return `<g><rect class="mhit" data-i="${i}" x="${L2 + bw * i}" y="${T2}"
+        width="${bw}" height="${H2 - T2 - B2}" fill="transparent"/>
+      <rect x="${L2 + bw * i + bw * .18}" y="${H2 - B2 - h}" width="${bw * .64}"
+        height="${Math.max(h, m.contracts ? 1 : 0)}" rx="1"
+        fill="${m.contracts / mm > .3 ? 'var(--p5)' : 'var(--p3)'}"/>
+      <text x="${L2 + bw * i + bw / 2}" y="${H2 - B2 + 13}" text-anchor="middle"
+        font-size="9.5" fill="var(--muted)">${m.m}</text></g>`;
+  }).join('');
+  $('#cMonth').innerHTML = `<svg class="chart" viewBox="0 0 ${W2} ${H2}" role="img"
+    aria-label="월별 이앙 계약 분포">${bars}
+    <text x="${L2}" y="${H2 - 4}" font-size="9.5" fill="var(--muted)">월 · 계약건수 기준</text></svg>`;
+  $('#cMonth').querySelectorAll('.mhit').forEach(el => {
+    const m = ms[+el.dataset.i];
+    bindTip(el, `<b>${m.m}월</b> · ${nf(m.contracts)}건`);
+  });
+}
+
+/* ---------------- 출처 ---------------- */
+function renderSrcs() {
+  const S = [
+    ['농작물재해보험 시도별 가입 및 지급현황', '농업정책보험금융원 · 2024-12-31 · CSV',
+      '시도 타일맵, 순위표, KPI'],
+    ['농작물재해보험 시도별 사고원인별 사고접수 현황', '농업정책보험금융원 · 2024-12-31 · CSV',
+      '재해원인 히트맵, 원인 구성 막대'],
+    ['농작물재해보험 연도별 지급현황', '농업정책보험금융원 · 2001–2024 · CSV',
+      '연도별 지급보험금·손해율 추이'],
+    ['농작물재해보험 연도별 가입 현황', '농업정책보험금융원 · 2001–2024 · CSV',
+      '가입면적·면적가입률 추이'],
+    ['농작물재해보험 계약된 논작물 세부현황', '농업정책보험금융원 · 2024 · 1,843,012행',
+      '품목·품종·이앙시기 집계'],
+    ['법정동 코드', '농업정책보험금융원 · 2023-09-19 · CSV',
+      '시도명 표기 정규화, 시군구 수 산출'],
+  ];
+  $('#srcs').innerHTML = S.map(([n, m, u]) =>
+    `<div class="src"><div class="n">${n}</div>
+      <div class="m">${m}<br>활용 · ${u}</div></div>`).join('');
+  $('#checks').innerHTML = DATA.checks.map(c =>
+    `<div>${c.ok ? '검증 통과' : '불일치'} · ${c.label}</div>`).join('');
+}
+
+/* ---------------- 선택 연동 ---------------- */
+function select(name) {
+  sel = name;
+  $('#fSido').value = name || '';
+  renderKpis(); renderMap(); renderRank(); renderHeat(); renderCause();
+  if (name) {
+    const t = document.querySelector(`.tile[data-n="${CSS.escape(name)}"]`);
+    if (t) t.focus({preventScroll: true});
+  }
+}
+
+/* ---------------- 초기화 ---------------- */
+$('#fSido').innerHTML = `<option value="">전국</option>` +
+  SIDO.slice().sort((a, b) => a.name.localeCompare(b.name, 'ko'))
+    .map(s => `<option value="${esc(s.name)}">${esc(s.name)}</option>`).join('');
+$('#fSido').onchange = e => select(e.target.value || null);
+$('#fMetric').onchange = e => { metric = e.target.value; renderMap(); };
+$('#fHeat').onchange = e => { heatMode = e.target.value; renderHeat(); };
+
+renderKpis(); renderCombo(); renderJoin(); renderMap();
+renderRank(); renderHeat(); renderCause(); renderCrop(); renderSrcs();
+</script>
+</body>
+</html>
