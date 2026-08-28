@@ -9,11 +9,14 @@
 <style>
 :root{
   --ink:#0A1B2E; --ink2:#12324F; --gov:#12559C; --gov-d:#0D3E75; --gov-l:#E8F0F9;
-  --paper:#EDF0F4; --card:#fff; --line:#D9E0E9; --line2:#EDF1F5;
-  --text:#16202B; --muted:#5F6E80; --grain:#C8912B;
+  --paper:#EEF1F6; --card:#fff; --line:#DCE3EC; --line2:#EEF2F6;
+  --text:#16202B; --muted:#5B6B80; --grain:#C8912B; --grain-l:#F5E7CB;
   --d1:#FBEDE7; --d2:#F3C9B6; --d3:#E79C7C; --d4:#D26A48; --d5:#A93A21;
   --p1:#E9F3F0; --p2:#BADFD5; --p3:#82C4B3; --p4:#3E9C86; --p5:#14705C;
-  --r:3px;
+  --k1:#3D77B8; --k2:#C0603A; --k3:#8E7CC3; --k4:#4A9E86; --k5:#C8912B; --k6:#A9B3BE; --k7:#1F6FA8; --k8:#D26A48;
+  --shadow:0 1px 2px rgba(10,27,46,.05), 0 6px 18px -8px rgba(10,27,46,.14);
+  --shadow-sm:0 1px 2px rgba(10,27,46,.06);
+  --r:8px; --r-sm:4px;
   --f: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
        "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
   --fm: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
@@ -54,21 +57,26 @@ a{color:inherit}
   border-bottom:3px solid var(--grain)}
 .hero::before{content:"";position:absolute;inset:0;
   background:
-    radial-gradient(900px 300px at 78% -30%, rgba(200,145,43,.30), transparent 62%),
-    linear-gradient(105deg, #0A1B2E 0%, #12324F 52%, #16456D 100%);}
-.hero .grid{position:absolute;inset:0;opacity:.16;
+    radial-gradient(720px 420px at 82% -10%, rgba(255,206,110,.38), transparent 60%),
+    linear-gradient(115deg, #0A1B2E 0%, #123657 46%, #1A4E78 100%);}
+.hero .grid{position:absolute;inset:0;opacity:.14;
   background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
     linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
   background-size:52px 52px;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 42%,#000 80%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 42%,#000 80%,transparent)}
-.hero .wrap{position:relative;padding:34px 20px 32px;text-align:center}
+.hero-art{position:absolute;left:0;right:0;bottom:0;height:100%;pointer-events:none}
+.hero-art svg{position:absolute;bottom:0;width:100%;height:auto}
+.hero .wrap{position:relative;padding:36px 20px 34px;text-align:center;z-index:2}
 .hero .eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;
-  font-weight:600;letter-spacing:.09em;color:#F0D9A8;margin-bottom:9px}
+  font-weight:700;letter-spacing:.1em;color:#FBE3AC;margin-bottom:10px;
+  text-shadow:0 1px 6px rgba(0,0,0,.35)}
 .hero .eyebrow::before,.hero .eyebrow::after{content:"";width:22px;height:1px;
-  background:rgba(240,217,168,.55)}
-.hero h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.05em;color:#fff}
-.hero p{margin:9px 0 0;font-size:13.5px;color:#B9CADC;letter-spacing:-.02em}
+  background:rgba(251,227,172,.6)}
+.hero h1{margin:0;font-size:31px;font-weight:800;letter-spacing:-.05em;color:#fff;
+  text-shadow:0 2px 14px rgba(0,0,0,.35)}
+.hero p{margin:9px 0 0;font-size:13.5px;color:#D6E3F1;letter-spacing:-.02em;
+  text-shadow:0 1px 8px rgba(0,0,0,.3)}
 
 /* ---------- 탭 네비 ---------- */
 .tabs{background:var(--ink2);border-bottom:1px solid rgba(255,255,255,.09)}
@@ -95,11 +103,42 @@ select{font-family:var(--f);font-size:13px;font-weight:600;color:var(--text);
   padding:6px 28px 6px 10px;border:1px solid var(--line);border-radius:var(--r);
   background:#fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0h10L5 6z' fill='%235F6E80'/%3E%3C/svg%3E") no-repeat right 10px center;
   -webkit-appearance:none;appearance:none;cursor:pointer;min-width:132px}
-select:focus-visible,button:focus-visible,.tile:focus-visible,th:focus-visible{
+select:focus-visible,button:focus-visible,.mapwrap path:focus-visible,th:focus-visible{
   outline:2px solid var(--gov);outline-offset:2px}
 
 /* ---------- 레이아웃 ---------- */
 main{padding:20px 0 60px}
+
+/* ---------- 페이지 탭 ---------- */
+/* ---------- 빈 상태(업로드 전) ---------- */
+.emptybox{border:1.5px dashed var(--line);border-radius:var(--r-sm);background:var(--paper);
+  padding:26px 20px;text-align:center;color:var(--muted)}
+.emptybox b{display:block;font-size:13px;color:var(--ink2);margin-bottom:5px;font-weight:800}
+.emptybox p{margin:0;font-size:11.5px;line-height:1.6;max-width:360px;margin:0 auto}
+.kpi-empty{grid-column:1/-1;border:1.5px dashed var(--line);border-radius:var(--r);
+  background:#fff;padding:20px 18px;text-align:center;box-shadow:none!important}
+.kpi-empty b{display:block;font-size:14px;color:var(--ink2);margin-bottom:4px}
+.kpi-empty span{font-size:12px;color:var(--muted);line-height:1.6}
+.mapwrap path.region.disabled{cursor:default;opacity:.9}
+.mapwrap path.region.disabled:hover{filter:none}
+
+.pagetabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 18px;
+  background:var(--paper);padding:10px 0 4px;border-bottom:1px solid var(--line)}
+.ptab{font-family:var(--f);font-size:13px;font-weight:700;letter-spacing:-.02em;
+  color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:20px;
+  padding:8px 16px 8px 12px;cursor:pointer;display:flex;align-items:center;gap:7px;
+  transition:.12s ease;box-shadow:var(--shadow-sm)}
+.ptab span{font-family:var(--fm);font-size:10.5px;font-weight:800;color:var(--muted);
+  background:var(--paper);border-radius:10px;padding:1px 6px}
+.ptab:hover{color:var(--ink);border-color:var(--gov)}
+.ptab.on{background:var(--gov);color:#fff;border-color:var(--gov)}
+.ptab.on span{background:rgba(255,255,255,.22);color:#fff}
+.tabpanel[hidden]{display:none}
+@media (max-width:660px){
+  .pagetabs{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .pagetabs::-webkit-scrollbar{display:none}
+  .ptab{flex:none}
+}
 .sec{margin-bottom:20px}
 .sec-h{display:flex;align-items:baseline;gap:11px;margin:0 0 11px;flex-wrap:wrap}
 .sec-h h2{margin:0;font-size:16.5px;font-weight:800;letter-spacing:-.045em;
@@ -107,45 +146,46 @@ main{padding:20px 0 60px}
 .sec-h .d{font-size:11.5px;color:var(--muted);letter-spacing:-.02em}
 .grid{display:grid;gap:14px}
 .g2{grid-template-columns:1fr 1fr}
-.g-map{grid-template-columns:minmax(0,420px) minmax(0,1fr)}
-.g-heat{grid-template-columns:minmax(0,1fr) minmax(0,340px)}
+.g-map{grid-template-columns:minmax(0,460px) minmax(0,1fr)}
+.g-heat{grid-template-columns:minmax(0,1fr) minmax(0,300px) minmax(0,300px)}
 .g3{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr) minmax(0,1fr)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:15px 16px 16px;min-width:0}
-.card > h3{margin:0 0 3px;font-size:13.5px;font-weight:700;letter-spacing:-.035em;
-  display:flex;align-items:center;gap:6px}
-.card > h3::before{content:"";width:3px;height:12px;background:var(--grain);flex:none}
-.card .sub{margin:0 0 13px;font-size:11.5px;color:var(--muted);letter-spacing:-.02em}
+  padding:17px 18px 18px;min-width:0;box-shadow:var(--shadow-sm);transition:box-shadow .15s ease}
+.card:hover{box-shadow:var(--shadow)}
+.card > h3{margin:0 0 3px;font-size:14px;font-weight:800;letter-spacing:-.035em;
+  display:flex;align-items:center;gap:7px;color:var(--ink)}
+.card > h3::before{content:"";width:4px;height:13px;border-radius:2px;background:var(--grain);flex:none}
+.card .sub{margin:0 0 14px;font-size:11.5px;color:var(--muted);letter-spacing:-.02em;line-height:1.55}
 
 /* ---------- KPI ---------- */
-.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);
-  border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.kpi{background:#fff;padding:14px 15px 15px}
-.kpi .k{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:-.01em;
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.kpi{background:#fff;padding:15px 16px 16px;border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:box-shadow .15s ease,transform .15s ease}
+.kpi:hover{box-shadow:var(--shadow);transform:translateY(-1px)}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gov)}
+.kpi.hot::before{background:var(--d5)}
+.kpi .k{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:-.005em;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.kpi .v{font-size:25px;font-weight:800;letter-spacing:-.055em;margin-top:4px;
+.kpi .v{font-size:26px;font-weight:800;letter-spacing:-.055em;margin-top:5px;
   line-height:1.1;color:var(--ink)}
 .kpi .v em{font-style:normal;font-size:13px;font-weight:600;color:var(--muted);
   margin-left:3px;letter-spacing:-.02em}
 .kpi .m{font-size:11px;color:var(--muted);margin-top:3px;letter-spacing:-.02em}
 .kpi.hot .v{color:var(--d5)}
 
-/* ---------- 타일맵 ---------- */
-.tilemap{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:2px}
-.tile{position:relative;aspect-ratio:1/.74;border:1px solid rgba(0,0,0,.10);
-  border-radius:2px;padding:7px 8px;cursor:pointer;text-align:left;
-  font-family:var(--f);display:flex;flex-direction:column;justify-content:space-between;
-  transition:transform .12s ease, box-shadow .12s ease}
-.tile:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(10,27,46,.20);z-index:2}
-.tile[aria-pressed="true"]{box-shadow:0 0 0 2.5px var(--ink);z-index:3}
-.tile .rk{position:absolute;top:6px;right:7px;font-size:9.5px;font-weight:700;
-  opacity:.55;font-family:var(--fm)}
-.tile .nm{font-size:13px;font-weight:700;letter-spacing:-.04em}
-.tile .vl{font-size:14.5px;font-weight:800;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
-.tile.lite{color:var(--ink)} .tile.dark{color:#fff}
+/* ---------- 지도 ---------- */
+.mapwrap{position:relative;background:linear-gradient(180deg,#F3F6FA,#E9EEF4);
+  border-radius:var(--r-sm);border:1px solid var(--line2);padding:6px}
+.mapwrap svg{display:block;width:100%;height:auto}
+.mapwrap path.region{stroke:#fff;stroke-width:1.6;cursor:pointer;
+  transition:filter .12s ease, stroke-width .12s ease}
+.mapwrap path.region:hover{filter:brightness(1.08);stroke-width:2.2}
+.mapwrap path.region.on{stroke:var(--ink);stroke-width:2.6}
+.mapwrap text.mlabel{font-family:var(--f);font-weight:700;letter-spacing:-.03em;
+  pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.35)}
 .legend{display:flex;align-items:center;gap:0;margin-top:12px;font-size:10.5px;
   color:var(--muted);flex-wrap:wrap}
-.legend .sw{width:34px;height:11px;border:1px solid rgba(0,0,0,.08)}
+.legend .sw{width:34px;height:11px;border:1px solid rgba(0,0,0,.08);border-radius:2px}
 .legend .lb{margin:0 7px 0 5px;font-family:var(--fm);font-size:10px}
 .legend .cap{flex:0 0 100%;margin:0 0 6px;font-weight:700;letter-spacing:-.02em;color:var(--text)}
 
@@ -268,6 +308,22 @@ footer b{color:#DCE6F0;font-weight:600}
 
 <section class="hero">
   <div class="grid"></div>
+  <div class="hero-art" aria-hidden="true">
+    <svg viewBox="0 0 1360 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,120 C160,90 260,150 420,115 C580,80 660,140 820,110 C980,80 1100,135 1360,100 L1360,200 L0,200 Z"
+        fill="#0F2A44" opacity=".55"/>
+      <path d="M0,150 C180,120 320,170 480,140 C660,105 760,165 940,135 C1100,110 1220,155 1360,130 L1360,200 L0,200 Z"
+        fill="#0C2338" opacity=".7"/>
+      <g opacity=".5" stroke="#F0D9A8" stroke-width="1.6" stroke-linecap="round">
+        <g transform="translate(120,150)"><line x1="0" y1="0" x2="0" y2="34"/><line x1="0" y1="8" x2="-7" y2="0"/><line x1="0" y1="8" x2="7" y2="0"/><line x1="0" y1="16" x2="-7" y2="8"/><line x1="0" y1="16" x2="7" y2="8"/></g>
+        <g transform="translate(150,158)"><line x1="0" y1="0" x2="0" y2="30"/><line x1="0" y1="7" x2="-6" y2="0"/><line x1="0" y1="7" x2="6" y2="0"/><line x1="0" y1="14" x2="-6" y2="7"/><line x1="0" y1="14" x2="6" y2="7"/></g>
+        <g transform="translate(1180,148)"><line x1="0" y1="0" x2="0" y2="36"/><line x1="0" y1="9" x2="-8" y2="0"/><line x1="0" y1="9" x2="8" y2="0"/><line x1="0" y1="18" x2="-8" y2="9"/><line x1="0" y1="18" x2="8" y2="9"/></g>
+        <g transform="translate(1215,156)"><line x1="0" y1="0" x2="0" y2="30"/><line x1="0" y1="7" x2="-6" y2="0"/><line x1="0" y1="7" x2="6" y2="0"/><line x1="0" y1="14" x2="-6" y2="7"/><line x1="0" y1="14" x2="6" y2="7"/></g>
+      </g>
+      <circle cx="1085" cy="34" r="26" fill="#FFD98A" opacity=".28"/>
+      <circle cx="1085" cy="34" r="14" fill="#FFE7B8" opacity=".55"/>
+    </svg>
+  </div>
   <div class="wrap">
     <div class="eyebrow">전국 17개 시도 · 2001–2024</div>
     <h1>농업재해 피해 분석</h1>
@@ -290,7 +346,7 @@ footer b{color:#DCE6F0;font-weight:600}
 </div></nav>
 
 <div class="filters"><div class="wrap">
-  <span class="fnote">시도 타일 또는 표의 행을 선택하면 아래 분석이 해당 지역 기준으로 바뀝니다.</span>
+  <span class="fnote">지도 또는 표의 행을 선택하면 아래 분석이 해당 지역 기준으로 바뀝니다.</span>
   <div class="fgrp">
     <label for="fSido">지역</label>
     <select id="fSido"></select>
@@ -319,7 +375,20 @@ footer b{color:#DCE6F0;font-weight:600}
 
   <div class="kpis sec" id="kpis"></div>
 
-  <section class="sec">
+  <nav class="pagetabs" role="tablist" aria-label="화면 섹션 선택">
+    <button type="button" class="ptab on" role="tab" aria-selected="true" data-tab="trend">
+      <span>01</span>전국 피해 추이</button>
+    <button type="button" class="ptab" role="tab" aria-selected="false" data-tab="map">
+      <span>02</span>시도별 현황</button>
+    <button type="button" class="ptab" role="tab" aria-selected="false" data-tab="cause">
+      <span>03</span>재해원인</button>
+    <button type="button" class="ptab" role="tab" aria-selected="false" data-tab="crop">
+      <span>04</span>보험 목적물</button>
+    <button type="button" class="ptab" role="tab" aria-selected="false" data-tab="src">
+      <span>05</span>출처·해석기준</button>
+  </nav>
+
+  <section class="sec tabpanel" data-panel="trend">
     <div class="sec-h"><h2>전국 피해 추이</h2>
       <span class="d">농작물재해보험 지급 기준 · 2001–2024년</span></div>
     <div class="grid g2">
@@ -336,14 +405,14 @@ footer b{color:#DCE6F0;font-weight:600}
     </div>
   </section>
 
-  <section class="sec">
+  <section class="sec tabpanel" data-panel="map" hidden>
     <div class="sec-h"><h2>시도별 현황</h2>
-      <span class="d">2024년 기준 · 타일 위치는 실제 지리를 단순화한 배치입니다</span></div>
+      <span class="d">업로드된 지역만 표시 · 실제 행정구역 경계 지도</span></div>
     <div class="grid g-map">
       <div class="card">
-        <h3 id="mapTitle">시도 타일맵</h3>
+        <h3 id="mapTitle">시도별 지도</h3>
         <p class="sub" id="mapSub"></p>
-        <div class="tilemap" id="tilemap"></div>
+        <div class="mapwrap"><svg id="mapsvg" xmlns="http://www.w3.org/2000/svg"></svg></div>
         <div class="legend" id="legend"></div>
       </div>
       <div class="card">
@@ -357,14 +426,19 @@ footer b{color:#DCE6F0;font-weight:600}
     </div>
   </section>
 
-  <section class="sec">
+  <section class="sec tabpanel" data-panel="cause" hidden>
     <div class="sec-h"><h2>재해 원인별 사고접수</h2>
-      <span class="d">농작물재해보험 사고접수 1,170,090건 · 8개 원인 구분</span></div>
+      <span class="d" id="causeSecSub">업로드된 지역의 사고접수만 표시 · 8개 원인 구분</span></div>
     <div class="grid g-heat">
       <div class="card">
         <h3>시도 × 재해원인 히트맵</h3>
         <p class="sub" id="heatSub"></p>
         <div id="heat"></div>
+      </div>
+      <div class="card">
+        <h3 id="causeDonutTitle">재해원인 비중</h3>
+        <p class="sub">전체 사고접수 중 원인별 비중입니다. 도넛 조각을 누르면 하이라이트됩니다.</p>
+        <div id="causeDonut"></div>
       </div>
       <div class="card">
         <h3 id="causeTitle">재해원인 구성</h3>
@@ -374,9 +448,9 @@ footer b{color:#DCE6F0;font-weight:600}
     </div>
   </section>
 
-  <section class="sec">
+  <section class="sec tabpanel" data-panel="crop" hidden>
     <div class="sec-h"><h2>보험 목적물 구성</h2>
-      <span class="d">2024년 계약 논작물 세부현황 1,843,012건 전수 집계</span></div>
+      <span class="d" id="cropSecSub">전국 행 업로드 시 계약된 논작물 세부현황 전수 집계 표시</span></div>
     <div class="grid g3">
       <div class="card">
         <h3>품목별 가입면적</h3>
@@ -384,7 +458,7 @@ footer b{color:#DCE6F0;font-weight:600}
         <div id="cDonut"></div>
       </div>
       <div class="card">
-        <h3>품종별 계약건수 상위 12</h3>
+        <h3>품종별 계약건수 (상위 업로드분)</h3>
         <p class="sub">피해 발생 시 품종 단위로 대응 범위를 좁힐 때 쓰는 기준입니다.</p>
         <div id="cVar"></div>
       </div>
@@ -396,24 +470,22 @@ footer b{color:#DCE6F0;font-weight:600}
     </div>
   </section>
 
-  <section class="sec">
+  <section class="sec tabpanel" data-panel="src" hidden>
     <div class="sec-h"><h2>데이터 출처와 해석 기준</h2>
-      <span class="d">이 화면의 모든 수치는 아래 원자료에서 직접 계산했습니다</span></div>
+      <span class="d">이 화면의 모든 수치는 업로드한 표준 양식 CSV에서 직접 계산합니다</span></div>
     <div class="srcs" id="srcs"></div>
     <div class="chk" id="checks"></div>
     <div class="note" style="margin-top:14px">
       <b>지표를 읽을 때 유의할 점</b><br>
+      · 이 화면은 <b>기본 상태에 데이터가 들어있지 않습니다.</b> 파일 업로드에서 표준 양식 CSV를 내려받아 값을 채운 뒤
+        올리면 해당 지역·연도·항목만 활성화됩니다. 값을 임의로 채우지 않습니다.<br>
       · 이 화면의 &lsquo;피해&rsquo;는 <b>농작물재해보험에서 지급된 보험금</b> 기준입니다. 보험에 들지 않은 농가의 피해는
-        잡히지 않으므로 실제 피해 규모의 하한선으로 보아야 합니다. 2024년 전국 면적가입률은 54.2%입니다.<br>
-      · <b>사고접수 건수와 지급건수는 집계 기준이 다릅니다.</b> 원자료에서 사고접수는 1,170,090건,
-        지급건수는 263,766건으로 자릿수가 다르므로 두 값을 직접 나누거나 비교하지 마십시오.
+        잡히지 않으므로 실제 피해 규모의 하한선으로 보아야 합니다.<br>
+      · <b>사고접수 건수와 지급건수는 집계 기준이 다릅니다.</b> 두 값을 직접 나누거나 비교하지 마십시오.
         사고접수는 원인별 구성을 보는 용도로만 씁니다.<br>
-      · <b>지역별 시계열은 제공되지 않습니다.</b> 시도별 개방 자료는 2024년 단년치여서 연도별 추이는 전국 단위로만
-        표시했습니다. 시도별 연도 축은 원자료에 없어 만들지 않았습니다.<br>
-      · <b>공간 해상도는 시도까지입니다.</b> 읍면동 단위 농업재해 피해면적은 NDMS 피해조사 원자료로,
-        전국 단위로 개방되지 않습니다. 시군구 단위 확장은 지자체별 자체 개방분을 개별 확보해야 합니다.<br>
-      · 타일맵의 색 구간은 <b>5분위(quantile) 분류</b>입니다. 값의 편차가 커서 등간격으로 나누면 대부분의 지역이
-        같은 색으로 눌려 보이기 때문입니다.
+      · <b>지역별 시계열은 제공되지 않습니다.</b> 시도별 원자료는 단년치여서 연도별 추이는 전국 단위로만 표시합니다.<br>
+      · <b>공간 해상도는 시도까지입니다.</b> 읍면동 단위 농업재해 피해면적은 전국 단위로 개방되지 않습니다.<br>
+      · 지도의 색 구간은 <b>5분위(quantile) 분류</b>입니다. 업로드된 지역이 2곳 미만이면 단일색으로 표시됩니다.
     </div>
   </section>
 
@@ -429,7 +501,43 @@ footer b{color:#DCE6F0;font-weight:600}
 <div class="tip" id="tip"></div>
 
 <script>
-const DATA = {"national":{"name":"전국","targetArea":1247327.645,"farms":589676.0,"contracts":684140.0,"parcels":2914718.0,"sumInsured":31575066.56,"area":676226.0016,"joinRate":54.21398334,"netPremium":1142335.069,"riskPremium":1042752.921,"premiumRate":3.617838989,"claims":263766.0,"paid":1020784.142,"lossRatio":97.89319424},"sido":[{"name":"서울","targetArea":553.696788,"farms":130.0,"contracts":139.0,"parcels":793.0,"sumInsured":10635.64,"area":42.772868,"joinRate":7.724962276,"netPremium":207.62755,"riskPremium":189.337484,"premiumRate":1.952186704,"claims":13.0,"paid":52.351503,"lossRatio":27.64983557},{"name":"부산","targetArea":4554.335607,"farms":873.0,"contracts":1133.0,"parcels":4824.0,"sumInsured":151148.11,"area":701.736176,"joinRate":15.40809103,"netPremium":1712.7624,"riskPremium":1561.473586,"premiumRate":1.133168255,"claims":119.0,"paid":539.784467,"lossRatio":34.56891438},{"name":"대구","targetArea":11947.22911,"farms":3479.0,"contracts":4514.0,"parcels":16834.0,"sumInsured":251418.08,"area":2285.039249,"joinRate":19.1261022,"netPremium":17131.24122,"riskPremium":15649.07897,"premiumRate":6.813846172,"claims":1975.0,"paid":15148.80623,"lossRatio":96.80318091},{"name":"인천","targetArea":13736.64994,"farms":4299.0,"contracts":4416.0,"parcels":23247.0,"sumInsured":127322.77,"area":7894.939148,"joinRate":57.4735411,"netPremium":3489.06757,"riskPremium":3179.972024,"premiumRate":2.740332754,"claims":1108.0,"paid":2916.511247,"lossRatio":91.71499702},{"name":"광주","targetArea":8134.722529,"farms":3309.0,"contracts":3962.0,"parcels":13518.0,"sumInsured":211460.23,"area":2662.738084,"joinRate":32.73299212,"netPremium":4223.90898,"riskPremium":3853.440308,"premiumRate":1.99749569,"claims":1176.0,"paid":3010.230386,"lossRatio":78.11799705},{"name":"대전","targetArea":2452.38284,"farms":1002.0,"contracts":1055.0,"parcels":3231.0,"sumInsured":35898.31,"area":534.789509,"joinRate":21.80693407,"netPremium":1287.8512,"riskPremium":1173.780227,"premiumRate":3.58749813,"claims":315.0,"paid":750.497299,"lossRatio":63.93848539},{"name":"울산","targetArea":5756.418522,"farms":2057.0,"contracts":2248.0,"parcels":9098.0,"sumInsured":75150.9,"area":1672.269484,"joinRate":29.05051948,"netPremium":5460.68133,"riskPremium":4992.911903,"premiumRate":7.266288667,"claims":596.0,"paid":1352.472848,"lossRatio":27.08785723},{"name":"세종","targetArea":5221.85779,"farms":3079.0,"contracts":3225.0,"parcels":9647.0,"sumInsured":67977.73,"area":2402.067611,"joinRate":46.00024948,"netPremium":2464.30858,"riskPremium":2244.972678,"premiumRate":3.625170449,"claims":661.0,"paid":1953.524044,"lossRatio":87.01772022},{"name":"경기","targetArea":108642.8458,"farms":29587.0,"contracts":34977.0,"parcels":167226.0,"sumInsured":2369989.72,"area":36875.82586,"joinRate":33.94224958,"netPremium":41895.61919,"riskPremium":38202.99297,"premiumRate":1.767755313,"claims":6154.0,"paid":25570.9488,"lossRatio":66.93441222},{"name":"강원","targetArea":65145.12845,"farms":23156.0,"contracts":26246.0,"parcels":113710.0,"sumInsured":1278712.39,"area":26765.88881,"joinRate":41.08655466,"netPremium":39145.33044,"riskPremium":35694.04143,"premiumRate":3.06130845,"claims":8586.0,"paid":32423.18145,"lossRatio":90.83639776},{"name":"충북","targetArea":69656.03054,"farms":30817.0,"contracts":34623.0,"parcels":132365.0,"sumInsured":1374410.85,"area":28135.21879,"joinRate":40.39164818,"netPremium":78920.66039,"riskPremium":72008.0229,"premiumRate":5.742144744,"claims":11400.0,"paid":62334.84868,"lossRatio":86.56653268},{"name":"충남","targetArea":193085.2814,"farms":90745.0,"contracts":102268.0,"parcels":479847.0,"sumInsured":4621814.11,"area":122820.6384,"joinRate":63.60952915,"netPremium":144744.403,"riskPremium":131898.5235,"premiumRate":3.131766002,"claims":43175.0,"paid":183359.686,"lossRatio":139.0157229},{"name":"전북","targetArea":172418.6429,"farms":83986.0,"contracts":95113.0,"parcels":458362.0,"sumInsured":3509048.07,"area":117897.6893,"joinRate":68.37873641,"netPremium":132575.9196,"riskPremium":120937.879,"premiumRate":3.778116372,"claims":36440.0,"paid":133977.9005,"lossRatio":110.7824129},{"name":"전남","targetArea":233519.6555,"farms":122075.0,"contracts":134504.0,"parcels":617176.0,"sumInsured":4173713.2,"area":155648.4533,"joinRate":66.65325578,"netPremium":195289.4392,"riskPremium":178179.553,"premiumRate":4.679033509,"claims":66165.0,"paid":209968.4754,"lossRatio":117.8409485},{"name":"경북","targetArea":183776.549,"farms":98604.0,"contracts":119917.0,"parcels":458224.0,"sumInsured":4618086.87,"area":87620.17149,"joinRate":47.6775584,"netPremium":300902.7369,"riskPremium":275238.8233,"premiumRate":6.515744405,"claims":48142.0,"paid":212308.5467,"lossRatio":77.13611916},{"name":"경남","targetArea":127132.6567,"farms":70904.0,"contracts":86254.0,"parcels":345727.0,"sumInsured":5357371.65,"area":61852.95473,"joinRate":48.65229464,"netPremium":108139.4754,"riskPremium":98734.67507,"premiumRate":2.018517333,"claims":24573.0,"paid":94536.84323,"lossRatio":95.74837125},{"name":"제주","targetArea":41593.56136,"farms":21574.0,"contracts":29546.0,"parcels":60889.0,"sumInsured":3340907.93,"area":20412.8088,"joinRate":49.07684778,"netPremium":64744.03582,"riskPremium":59013.44222,"premiumRate":1.937917392,"claims":13168.0,"paid":40579.53323,"lossRatio":68.76320327}],"causes":["냉해·동해·동상해","호우","태풍·강풍","우박","한해(가뭄)·폭염","폭설·설해","조수해","기타 자연재해"],"causeBySido":{"서울":{"total":30,"values":[0,0,8,0,0,9,5,8]},"부산":{"total":743,"values":[1,252,18,0,17,0,3,452]},"대구":{"total":5207,"values":[1762,1230,123,7,394,0,199,1492]},"인천":{"total":5308,"values":[7,1388,2793,9,54,18,19,1020]},"광주":{"total":4642,"values":[81,435,635,19,655,3,17,2797]},"대전":{"total":1011,"values":[18,736,52,0,51,1,42,111]},"울산":{"total":3483,"values":[363,139,1039,0,200,0,73,1669]},"세종":{"total":2114,"values":[106,1366,127,0,132,2,22,359]},"경기":{"total":26093,"values":[1043,11347,3037,36,1512,3106,830,5182]},"강원":{"total":34691,"values":[1480,11151,4401,28,6362,1097,1553,8619]},"충북":{"total":42095,"values":[4824,11163,1764,71,9474,1137,1506,12156]},"충남":{"total":188824,"values":[5230,85607,9704,185,9932,93,483,77590]},"전북":{"total":158272,"values":[6770,38126,5919,225,23759,525,1982,80966]},"전남":{"total":362698,"values":[13932,70486,20136,2278,24443,109,1706,229608]},"경북":{"total":177290,"values":[40368,22866,7153,168,23124,133,9378,74100]},"경남":{"total":104532,"values":[15072,15878,4331,1342,6179,29,1097,60604]},"제주":{"total":53057,"values":[3001,12140,5893,53,13636,174,202,17958]}},"causeNational":{"total":1170090,"values":[94058,284310,67133,4421,119924,6436,19117,574691]},"yearPay":[{"year":2001,"claims":410,"paid":1379.0,"lossRatio":45.7},{"year":2002,"claims":6945,"paid":34709.0,"lossRatio":433.5},{"year":2003,"claims":10156,"paid":50018.0,"lossRatio":290.8},{"year":2004,"claims":3354,"paid":13599.0,"lossRatio":42.3},{"year":2005,"claims":6344,"paid":23871.0,"lossRatio":43.5},{"year":2006,"claims":6077,"paid":21112.0,"lossRatio":36.6},{"year":2007,"claims":9300,"paid":61464.0,"lossRatio":110.4},{"year":2008,"claims":4419,"paid":24932.0,"lossRatio":45.0},{"year":2009,"claims":11110,"paid":66176.0,"lossRatio":105.8},{"year":2010,"claims":17951,"paid":90330.0,"lossRatio":104.6},{"year":2011,"claims":25125,"paid":132628.0,"lossRatio":119.5},{"year":2012,"claims":59462,"paid":490978.0,"lossRatio":357.1},{"year":2013,"claims":10630,"paid":45088.0,"lossRatio":21.9},{"year":2014,"claims":15259,"paid":144978.0,"lossRatio":66.9},{"year":2015,"claims":7150,"paid":52444.0,"lossRatio":18.2},{"year":2016,"claims":147109,"paid":106904.0,"lossRatio":33.1},{"year":2017,"claims":33577,"paid":279673.0,"lossRatio":89.0},{"year":2018,"claims":85099,"paid":534450.0,"lossRatio":103.2},{"year":2019,"claims":190492,"paid":898048.0,"lossRatio":186.2},{"year":2020,"claims":225240,"paid":1015827.0,"lossRatio":150.6},{"year":2021,"claims":172822,"paid":573989.0,"lossRatio":74.2},{"year":2022,"claims":162232,"paid":555777.0,"lossRatio":65.0},{"year":2023,"claims":215368,"paid":1004249.0,"lossRatio":107.3},{"year":2024,"claims":263766,"paid":1020784.0,"lossRatio":97.9}],"yearJoin":[{"year":2001,"farms":8055,"contracts":8086,"sumInsured":92449.0,"area":4096.0,"joinRate":17.5,"netPremium":3016.0,"subsidyState":1508.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":1508.0},{"year":2002,"farms":18549,"contracts":18620,"sumInsured":271186.0,"area":10994.0,"joinRate":18.3,"netPremium":8008.0,"subsidyState":4004.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":4004.0},{"year":2003,"farms":16480,"contracts":16521,"sumInsured":306754.0,"area":11001.0,"joinRate":15.2,"netPremium":17202.0,"subsidyState":8601.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":8601.0},{"year":2004,"farms":24093,"contracts":24874,"sumInsured":513321.0,"area":17546.0,"joinRate":18.2,"netPremium":32143.0,"subsidyState":16071.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":16071.0},{"year":2005,"farms":26328,"contracts":27780,"sumInsured":613877.0,"area":20301.0,"joinRate":23.4,"netPremium":54847.0,"subsidyState":33608.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":21239.0},{"year":2006,"farms":27398,"contracts":34818,"sumInsured":753347.0,"area":21466.0,"joinRate":24.0,"netPremium":57627.0,"subsidyState":33891.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":23736.0},{"year":2007,"farms":29145,"contracts":38273,"sumInsured":882947.0,"area":23661.0,"joinRate":22.7,"netPremium":55670.0,"subsidyState":30050.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":25620.0},{"year":2008,"farms":32538,"contracts":43783,"sumInsured":931583.0,"area":26037.0,"joinRate":23.1,"netPremium":55423.0,"subsidyState":29014.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":26409.0},{"year":2009,"farms":45882,"contracts":61626,"sumInsured":1251573.0,"area":48331.0,"joinRate":12.5,"netPremium":62524.0,"subsidyState":30989.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":31535.0},{"year":2010,"farms":52738,"contracts":73593,"sumInsured":1626945.0,"area":53452.0,"joinRate":13.6,"netPremium":86357.0,"subsidyState":43241.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":21693.0},{"year":2011,"farms":67653,"contracts":91744,"sumInsured":2059482.0,"area":86604.0,"joinRate":15.0,"netPremium":111004.0,"subsidyState":55515.0,"subsidySido":0.0,"subsidySigungu":0.0,"farmerShare":27004.0},{"year":2012,"farms":74983,"contracts":101293,"sumInsured":2411826.0,"area":108373.0,"joinRate":13.6,"netPremium":151609.0,"subsidyState":75804.0,"subsidySido":12990.0,"subsidySigungu":26835.0,"farmerShare":35981.0},{"year":2013,"farms":95102,"contracts":122730,"sumInsured":3318410.0,"area":160203.0,"joinRate":19.1,"netPremium":226900.0,"subsidyState":113448.0,"subsidySido":17082.0,"subsidySigungu":44641.0,"farmerShare":51730.0},{"year":2014,"farms":89038,"contracts":117966,"sumInsured":3534657.0,"area":134264.0,"joinRate":16.1,"netPremium":233962.0,"subsidyState":116977.0,"subsidySido":18943.0,"subsidySigungu":47678.0,"farmerShare":50363.0},{"year":2015,"farms":120546,"contracts":154176,"sumInsured":5032290.0,"area":183596.0,"joinRate":21.5,"netPremium":308477.0,"subsidyState":154252.0,"subsidySido":27856.0,"subsidySigungu":66424.0,"farmerShare":59945.0},{"year":2016,"farms":179470,"contracts":240781,"sumInsured":7061910.0,"area":296007.0,"joinRate":27.4,"netPremium":344669.0,"subsidyState":172157.0,"subsidySido":31976.0,"subsidySigungu":74447.0,"farmerShare":66090.0},{"year":2017,"farms":191206,"contracts":284648,"sumInsured":8489230.0,"area":316835.0,"joinRate":29.7,"netPremium":334252.0,"subsidyState":166707.0,"subsidySido":35443.0,"subsidySigungu":70524.0,"farmerShare":61578.0},{"year":2018,"farms":275133,"contracts":330243,"sumInsured":13031849.0,"area":376593.0,"joinRate":32.9,"netPremium":550149.0,"subsidyState":271334.0,"subsidySido":57973.0,"subsidySigungu":126858.0,"farmerShare":93984.0},{"year":2019,"farms":339582,"contracts":397689,"sumInsured":15695682.0,"area":456024.0,"joinRate":38.8,"netPremium":511146.0,"subsidyState":252154.0,"subsidySido":62068.0,"subsidySigungu":123237.0,"farmerShare":73688.0},{"year":2020,"farms":440173,"contracts":515037,"sumInsured":19976337.0,"area":550174.0,"joinRate":45.0,"netPremium":722223.0,"subsidyState":355306.0,"subsidySido":84360.0,"subsidySigungu":180563.0,"farmerShare":101994.0},{"year":2021,"farms":497884,"contracts":577917,"sumInsured":22367959.0,"area":594250.0,"joinRate":49.4,"netPremium":848524.0,"subsidyState":417546.0,"subsidySido":100073.0,"subsidySigungu":213311.0,"farmerShare":117595.0},{"year":2022,"farms":512995,"contracts":593943,"sumInsured":26179793.0,"area":609793.0,"joinRate":49.9,"netPremium":949656.0,"subsidyState":466677.0,"subsidySido":116121.0,"subsidySigungu":247167.0,"farmerShare":119692.0},{"year":2023,"farms":547183,"contracts":634212,"sumInsured":29190999.0,"area":636727.0,"joinRate":52.0,"netPremium":1039681.0,"subsidyState":506116.0,"subsidySido":130793.0,"subsidySigungu":273302.0,"farmerShare":129469.0},{"year":2024,"farms":589676,"contracts":684140,"sumInsured":31575067.0,"area":676226.0,"joinRate":54.2,"netPremium":1141145.0,"subsidyState":544222.0,"subsidySido":145285.0,"subsidySigungu":307424.0,"farmerShare":144213.0}],"sggCount":{"서울":25,"부산":16,"대구":9,"인천":10,"광주":5,"대전":5,"울산":5,"세종":1,"경기":51,"충북":15,"충남":17,"전북":16,"전남":22,"경북":25,"경남":23,"제주":2,"강원":18},"crop":{"rows":1843012,"items":[{"name":"벼","contracts":1802742,"areaHa":458113.9},{"name":"보리","contracts":18271,"areaHa":7874.1},{"name":"밀","contracts":13686,"areaHa":5200.9},{"name":"귀리","contracts":5966,"areaHa":2008.9},{"name":"벼[조사료용]","contracts":1798,"areaHa":1168.0},{"name":"(농업수입안정)보리","contracts":549,"areaHa":208.2}],"varieties":[{"name":"청무벼","contracts":370137},{"name":"신동진벼","contracts":221170},{"name":"삼광벼","contracts":188552},{"name":"친들벼","contracts":152546},{"name":"영호진미","contracts":114035},{"name":"일반중만생기타","contracts":113871},{"name":"일품벼","contracts":89300},{"name":"남평벼","contracts":70813},{"name":"추청벼","contracts":58400},{"name":"동진찰벼","contracts":54810},{"name":"오대벼","contracts":37118},{"name":"백옥찰벼","contracts":32937}],"styles":[{"name":"기계이앙","contracts":1799094},{"name":"미상","contracts":21450},{"name":"산파","contracts":14504},{"name":"직파","contracts":4316},{"name":"담수직파","contracts":3648}],"months":[{"m":1,"contracts":34},{"m":2,"contracts":10},{"m":3,"contracts":0},{"m":4,"contracts":14833},{"m":5,"contracts":1217485},{"m":6,"contracts":564889},{"m":7,"contracts":7323},{"m":8,"contracts":0},{"m":9,"contracts":11},{"m":10,"contracts":3130},{"m":11,"contracts":34219},{"m":12,"contracts":1078}],"states":[{"name":"정상","contracts":1322330},{"name":"소멸","contracts":520682}]},"checks":[{"label":"시도 합계 보험금 = 연도별 2024 지급보험금","computed":1020784.1,"published":1020784.0,"ok":true},{"label":"시도 합계 지급건수 = 연도별 2024 지급건수","computed":263766.0,"published":263766.0,"ok":true},{"label":"시도 합계 가입면적 = 연도별 2024 가입면적","computed":676226.0,"published":676226.0,"ok":true},{"label":"시도 합계 가입농가수 = 연도별 2024 가입농가수","computed":589676.0,"published":589676.0,"ok":true},{"label":"사고원인 시도 합계 = 전국 총합계","computed":1170090,"published":1170090.0,"ok":true},{"label":"사고원인 항목 합 = 전국 총합계","computed":1170090,"published":1170090.0,"ok":true}]};
+const SIDO_NAMES = ["서울","부산","대구","인천","광주","대전","울산","세종","경기","강원","충북","충남","전북","전남","경북","경남","제주"];
+const CAUSE_NAMES = ["냉해·동해·동상해","호우","태풍·강풍","우박","한해(가뭄)·폭염","폭설·설해","조수해","기타 자연재해"];
+const CROP_ITEM_NAMES = ["벼","보리","밀","귀리","벼[조사료용]","(농업수입안정)보리"];
+const CROP_TOP20 = ["청무벼","신동진벼","삼광벼","친들벼","영호진미","일반중만생기타","일품벼","남평벼","추청벼","동진찰벼","오대벼","백옥찰벼","조평벼","황금노들벼","분질미","보람찬벼","참동진","일반조생종기타","고시히까리","새누리벼"];
+const CROP_STYLE_NAMES = ["기계이앙","산파","직파","담수직파","미상"];
+const CROP_STATE_NAMES = ["정상","소멸"];
+function emptyRegionFields(){
+  return {targetArea:null, farms:null, contracts:null, parcels:null, sumInsured:null, area:null,
+    joinRate:null, netPremium:null, riskPremium:null, premiumRate:null, claims:null, paid:null, lossRatio:null};
+}
+/* 초기 상태: 업로드된 데이터가 하나도 없는 빈 골격.
+   전국 값도 기본으로는 존재하지 않으며(요청사항), 표준 양식 CSV를 업로드해야 채워진다. */
+function freshData(){
+  return {
+    national: {name:'전국', ...emptyRegionFields()},
+    sido: SIDO_NAMES.map(name => ({name, ...emptyRegionFields()})),
+    causes: CAUSE_NAMES,
+    causeBySido: {},
+    causeNational: null,
+    yearPay: [],
+    yearJoin: [],
+    sggCount: {},
+    crop: {
+      rows: 0,
+      items: CROP_ITEM_NAMES.map(name => ({name, contracts:0, areaHa:0})),
+      varieties: CROP_TOP20.map(name => ({name, contracts:0})),
+      styles: CROP_STYLE_NAMES.map(name => ({name, contracts:0})),
+      months: Array.from({length:12}, (_,i) => ({m:i+1, contracts:0})),
+      states: CROP_STATE_NAMES.map(name => ({name, contracts:0})),
+    },
+  };
+}
+let DATA = freshData();
+function hasRegionData(s){ return !!s && s.contracts !== null && s.contracts !== undefined; }
+function hasNationalData(){ return hasRegionData(DATA.national); }
+
+const KOREA_MAP = {"viewBox": "0 0 560 640", "paths": {"서울": "M215.7,88.2 L214.6,88.5 L214.6,88.7 L214.6,88.8 L214.5,89.0 L214.5,89.5 L213.2,90.0 L213.2,90.1 L213.3,90.4 L213.1,91.2 L212.0,92.0 L212.5,92.8 L212.6,93.3 L212.5,93.5 L212.4,93.7 L210.9,94.1 L209.3,91.9 L206.2,93.0 L205.2,97.7 L205.1,97.7 L205.0,97.7 L204.9,97.7 L204.7,97.8 L204.5,97.8 L204.1,97.8 L203.5,97.7 L203.3,98.0 L203.2,98.1 L203.2,98.3 L203.3,98.5 L203.1,98.7 L203.1,98.6 L202.9,98.6 L202.7,98.7 L202.0,98.8 L201.7,98.9 L201.4,99.0 L201.3,99.0 L201.2,99.0 L201.2,99.2 L199.3,98.0 L198.3,97.4 L196.8,96.4 L196.7,97.8 L196.0,98.1 L196.1,98.2 L196.1,98.4 L196.0,98.4 L195.9,98.5 L195.8,98.4 L195.6,98.8 L195.5,98.9 L195.1,99.0 L195.0,99.3 L195.0,99.4 L194.9,99.5 L194.6,99.7 L194.6,99.9 L194.7,100.1 L194.7,100.2 L194.6,100.1 L194.5,100.0 L194.5,100.1 L194.3,100.3 L194.1,100.5 L193.7,100.7 L193.7,100.8 L193.8,100.8 L193.8,100.9 L194.2,101.2 L194.7,101.4 L195.2,101.4 L195.3,101.4 L195.4,101.4 L195.5,101.4 L195.6,101.5 L195.8,101.6 L196.0,101.8 L196.1,101.9 L196.6,102.1 L196.6,102.0 L196.5,102.0 L196.5,101.9 L196.6,101.8 L196.7,101.8 L196.7,101.7 L196.8,101.7 L197.2,101.6 L197.7,101.9 L197.8,101.9 L198.0,101.9 L198.5,101.9 L199.0,102.9 L199.0,103.1 L198.8,103.3 L198.8,103.5 L198.8,103.7 L198.7,103.8 L198.7,104.1 L198.7,104.2 L198.7,104.5 L198.5,104.7 L198.5,105.2 L198.4,105.3 L198.3,105.4 L197.7,105.7 L197.8,105.9 L197.9,105.9 L197.9,106.0 L198.3,106.2 L198.4,106.2 L198.6,106.4 L198.5,106.5 L198.4,106.6 L198.3,106.9 L198.3,107.1 L198.2,107.2 L198.1,107.2 L198.0,107.3 L198.0,107.4 L197.9,107.4 L197.9,107.5 L198.0,107.6 L198.1,107.7 L198.2,107.5 L198.3,107.4 L199.0,107.4 L200.5,107.6 L202.8,106.7 L206.0,111.0 L207.6,109.7 L210.2,110.6 L213.5,108.6 L214.0,108.2 L214.2,108.4 L214.6,109.0 L214.6,109.1 L214.7,109.2 L216.0,109.0 L216.3,108.3 L216.4,108.3 L216.6,108.4 L216.7,108.4 L217.0,110.1 L217.8,111.3 L218.0,111.3 L218.1,111.4 L218.3,111.4 L218.4,111.5 L218.9,111.4 L219.0,111.4 L219.4,111.4 L219.7,111.3 L220.1,110.7 L220.0,110.3 L220.3,110.3 L220.6,110.4 L221.3,110.1 L221.3,109.8 L221.4,109.8 L221.4,109.7 L221.5,109.5 L221.8,109.2 L221.8,109.1 L221.9,109.1 L222.3,109.1 L222.7,108.6 L226.1,107.6 L226.2,107.3 L226.3,107.3 L226.4,107.3 L226.4,107.2 L226.4,106.9 L226.5,106.7 L226.7,106.6 L227.3,106.3 L227.3,106.2 L227.4,106.0 L227.5,105.9 L227.5,105.8 L227.5,105.7 L227.6,105.4 L227.6,105.3 L227.5,105.3 L227.4,105.2 L227.3,105.1 L227.2,105.2 L226.8,105.1 L226.7,105.0 L226.6,105.0 L226.5,105.0 L226.4,105.1 L226.3,105.1 L225.9,104.9 L225.9,104.8 L225.8,104.7 L225.8,104.6 L225.8,104.5 L225.9,104.3 L226.0,104.1 L226.1,104.0 L226.2,104.0 L226.3,104.0 L226.2,104.0 L226.2,103.9 L226.2,103.7 L226.5,103.5 L226.5,103.4 L226.6,103.2 L226.9,102.9 L226.9,102.5 L227.2,102.1 L227.5,101.8 L227.8,101.5 L227.9,101.5 L228.9,101.4 L229.2,101.4 L229.4,101.4 L229.5,101.5 L229.5,101.4 L229.5,101.1 L229.4,100.9 L229.3,100.8 L229.4,100.4 L229.4,100.1 L229.3,100.0 L229.3,99.9 L229.2,99.8 L229.2,99.7 L229.0,99.2 L228.8,98.9 L228.8,98.5 L228.4,98.6 L228.2,98.6 L228.1,98.6 L227.9,98.7 L227.7,98.8 L227.2,99.1 L227.1,99.2 L226.7,99.4 L226.6,99.5 L222.8,100.5 L222.4,98.8 L223.9,96.4 L223.8,96.0 L223.8,95.8 L223.8,95.7 L223.8,95.6 L223.8,95.5 L223.8,95.4 L223.8,95.3 L223.8,95.2 L223.7,95.2 L223.0,92.9 L222.9,92.9 L222.7,92.9 L222.3,93.0 L221.9,93.0 L221.6,91.7 L221.8,91.3 L221.9,91.3 L222.0,91.3 L221.9,91.2 L221.9,91.1 L221.9,91.0 L222.0,90.8 L221.8,90.3 L221.7,90.1 L221.7,90.0 L222.0,89.4 L222.0,89.2 L222.0,89.1 L221.9,89.1 L221.8,89.1 L221.5,89.1 L221.1,89.0 L220.7,88.5 L218.2,89.3 L216.5,88.9 L215.7,88.2 Z", "부산": "M370.7,312.2 L369.2,313.3 L367.8,314.8 L369.4,318.3 L371.2,319.0 L372.6,316.3 L371.1,314.9 L370.7,312.2 Z M370.0,311.6 L371.5,312.8 L377.8,313.2 L381.2,312.9 L381.8,315.4 L387.2,314.0 L387.7,311.7 L390.2,309.8 L391.9,311.0 L396.0,311.4 L396.5,309.8 L395.3,307.1 L400.7,306.6 L402.6,304.6 L404.6,304.1 L407.1,298.9 L407.6,293.7 L409.5,291.9 L411.1,292.6 L411.5,292.0 L411.5,291.6 L411.6,291.6 L411.6,292.1 L411.7,292.1 L411.6,291.6 L411.5,291.6 L411.4,291.4 L411.4,291.3 L411.2,291.1 L410.5,291.0 L410.3,290.8 L409.9,290.8 L409.6,290.7 L409.5,290.7 L409.4,290.6 L409.5,290.5 L409.6,290.5 L409.6,290.4 L409.7,290.3 L409.8,290.2 L409.9,289.8 L409.5,289.4 L409.5,289.2 L409.5,289.1 L409.6,289.0 L409.6,288.9 L409.6,288.7 L409.7,288.7 L409.6,288.6 L409.5,288.6 L409.4,288.5 L409.2,288.0 L408.0,286.8 L404.2,287.4 L403.6,287.3 L403.0,286.9 L402.7,286.6 L400.7,289.7 L396.9,289.4 L395.1,293.3 L389.5,296.2 L386.9,296.3 L385.3,299.5 L375.6,301.5 L374.4,305.8 L368.1,306.4 L368.0,306.3 L370.4,308.7 L370.5,308.9 L371.6,310.1 L371.7,310.1 L370.0,311.6 Z", "대구": "M345.1,261.3 L344.9,258.8 L349.4,256.5 L351.7,256.5 L352.8,259.6 L358.2,258.0 L359.3,255.1 L358.2,252.1 L361.2,250.7 L360.4,249.0 L364.8,245.6 L364.4,241.4 L362.9,240.3 L363.6,236.4 L361.2,233.4 L359.3,232.7 L352.7,233.6 L351.3,235.3 L346.5,237.0 L345.0,240.7 L343.0,242.5 L340.4,243.2 L340.5,239.7 L336.4,240.2 L333.9,243.0 L332.5,246.7 L338.2,247.3 L340.9,248.7 L340.0,250.8 L335.7,250.5 L332.5,254.7 L336.7,257.7 L335.0,260.2 L330.4,259.1 L330.3,261.4 L333.9,264.5 L331.5,267.5 L336.7,266.4 L337.9,265.2 L343.0,265.0 L343.3,262.0 L345.1,261.3 Z", "인천": "M137.2,124.9 L135.6,127.8 L138.0,130.3 L142.2,128.3 L138.7,126.7 L137.2,124.9 Z M169.3,127.3 L170.6,125.8 L169.8,124.0 L166.9,124.0 L165.4,125.5 L165.0,128.3 L169.3,127.3 Z M171.1,102.7 L168.4,105.5 L163.9,105.6 L158.9,109.0 L161.0,110.5 L166.0,112.1 L171.4,108.3 L176.4,107.1 L177.9,106.1 L176.3,104.1 L171.1,102.7 Z M193.7,100.7 L194.1,100.5 L194.3,100.3 L194.5,100.1 L194.5,100.0 L194.6,100.1 L194.7,100.2 L194.7,100.1 L194.6,99.9 L194.6,99.7 L194.9,99.5 L195.1,99.0 L195.5,98.9 L195.6,98.8 L195.8,98.4 L195.9,98.5 L196.0,98.4 L196.1,98.4 L195.5,98.0 L193.8,97.8 L192.3,98.4 L191.8,97.4 L190.2,97.5 L190.1,97.4 L187.5,95.0 L184.1,93.5 L180.8,96.3 L177.3,97.8 L179.7,102.5 L180.0,106.5 L178.9,109.7 L180.4,111.4 L180.3,115.1 L185.2,117.9 L187.6,115.4 L189.5,115.6 L192.7,112.4 L194.7,109.1 L191.7,106.5 L193.2,102.3 L193.2,102.1 L193.4,102.0 L193.5,101.4 L193.6,101.0 L193.7,100.8 L193.7,100.7 Z M156.2,84.2 L152.8,84.5 L152.1,87.4 L154.9,89.5 L156.9,92.8 L159.8,91.3 L160.5,89.7 L155.2,87.0 L156.2,84.2 Z M150.8,78.3 L147.1,79.2 L145.8,82.3 L148.6,82.9 L155.0,81.9 L156.6,79.9 L150.8,78.3 Z M165.6,77.5 L161.6,77.6 L161.2,78.9 L158.1,80.3 L158.4,87.6 L161.0,88.2 L163.2,92.3 L160.3,93.7 L160.1,95.7 L162.7,97.3 L167.1,97.3 L174.6,95.1 L172.8,92.2 L171.9,86.9 L173.1,84.1 L171.1,80.9 L165.6,77.5 Z M15.3,64.1 L13.9,64.1 L10.0,66.4 L11.0,68.8 L15.6,69.6 L17.0,67.2 L19.0,66.4 L18.9,64.3 L15.3,64.1 Z", "광주": "M193.5,297.9 L193.2,297.7 L191.2,298.3 L190.6,299.0 L190.6,299.2 L190.6,299.3 L190.5,299.6 L190.4,299.6 L190.3,299.6 L190.2,299.8 L190.2,299.9 L190.1,300.0 L190.1,300.1 L190.0,300.1 L190.1,300.2 L190.0,300.3 L189.6,300.9 L189.8,301.1 L189.8,301.3 L189.8,301.4 L189.5,301.7 L188.2,302.1 L186.9,301.5 L186.1,303.3 L186.1,303.4 L186.1,303.5 L186.0,303.5 L186.0,303.6 L185.8,303.5 L185.6,303.3 L185.3,303.4 L184.0,303.4 L184.8,304.4 L185.6,305.1 L185.5,305.4 L185.0,305.5 L184.8,305.6 L184.4,305.6 L184.3,305.6 L184.1,305.8 L184.0,306.1 L184.1,306.2 L184.1,306.3 L184.0,306.8 L183.7,307.3 L183.4,307.3 L183.3,307.3 L183.3,307.4 L183.5,307.6 L183.6,307.6 L183.8,307.5 L184.0,307.6 L184.0,307.8 L184.1,308.2 L184.1,308.4 L184.1,308.5 L184.1,308.7 L184.0,309.1 L183.9,309.2 L183.9,309.6 L184.1,309.8 L184.2,309.9 L184.3,310.2 L186.0,310.9 L187.2,310.4 L187.7,310.7 L187.9,310.7 L188.0,310.6 L188.0,310.5 L188.1,310.5 L188.2,310.3 L188.3,310.3 L188.4,310.2 L188.5,310.2 L188.8,310.5 L189.1,310.5 L189.3,310.4 L189.7,310.6 L191.1,310.6 L193.3,312.1 L193.7,312.8 L193.7,313.0 L193.6,313.1 L193.6,313.2 L193.8,313.5 L194.1,313.9 L194.0,315.3 L196.2,314.7 L196.7,314.9 L196.9,315.4 L197.4,315.4 L197.6,315.4 L197.8,315.4 L197.9,315.4 L198.1,315.4 L198.2,315.4 L198.3,315.2 L198.4,315.0 L198.4,314.9 L198.5,314.8 L198.8,314.6 L198.9,314.6 L199.7,314.5 L199.8,314.3 L199.9,314.3 L200.4,314.3 L200.5,314.2 L200.5,314.1 L200.7,313.9 L200.7,313.8 L200.8,313.7 L201.4,313.2 L201.8,313.2 L202.2,313.5 L202.6,313.5 L202.8,313.6 L203.9,312.9 L204.8,313.0 L204.9,313.0 L205.0,313.0 L205.2,313.0 L205.7,312.9 L206.1,312.4 L206.3,312.3 L206.6,312.1 L207.0,312.1 L207.3,312.4 L207.3,312.6 L207.4,312.9 L208.3,313.5 L209.6,313.7 L210.2,312.8 L210.4,312.6 L210.5,312.5 L210.6,312.5 L210.6,312.4 L210.9,312.3 L211.1,312.2 L211.4,312.2 L212.0,312.0 L212.4,312.0 L212.7,311.9 L212.8,311.8 L212.8,311.6 L212.8,311.5 L212.7,311.3 L212.6,310.8 L212.8,310.5 L213.1,310.4 L213.3,310.3 L213.6,310.2 L213.8,310.1 L213.7,310.0 L214.2,309.5 L214.8,309.0 L214.4,304.0 L211.5,304.0 L209.3,300.1 L208.9,299.8 L208.2,299.4 L208.0,299.2 L207.7,298.3 L207.5,298.3 L207.1,298.2 L207.0,298.2 L206.9,298.1 L206.8,298.1 L206.8,298.0 L206.5,297.8 L206.4,297.8 L206.1,297.7 L205.7,297.8 L199.8,300.2 L196.2,301.1 L194.4,300.2 L193.2,299.9 L192.9,299.9 L192.8,299.8 L192.6,299.6 L192.7,299.5 L192.8,299.2 L192.9,299.0 L193.1,298.8 L193.2,298.7 L193.4,298.3 L193.4,298.2 L193.5,298.2 L193.5,297.9 Z", "대전": "M248.0,192.1 L247.8,191.9 L247.0,191.3 L246.7,191.2 L246.4,191.2 L245.4,192.2 L245.0,192.1 L244.7,192.2 L244.6,192.5 L244.6,192.7 L245.0,193.3 L244.5,195.0 L243.0,197.1 L243.0,197.2 L242.9,197.2 L242.7,197.3 L242.3,197.5 L241.8,197.9 L240.5,197.7 L239.8,197.7 L239.2,197.8 L239.0,197.9 L239.1,197.9 L239.1,198.0 L239.1,198.1 L238.8,198.4 L238.4,198.5 L238.2,198.5 L238.1,198.5 L238.0,198.5 L238.0,198.7 L238.0,198.8 L238.0,199.0 L237.9,199.4 L237.9,199.5 L237.7,199.9 L237.7,200.0 L237.7,200.1 L237.7,200.2 L237.7,200.3 L237.7,200.5 L237.6,200.9 L237.7,201.2 L237.7,201.3 L237.7,201.5 L237.8,201.6 L237.9,201.8 L237.9,201.9 L237.9,202.0 L237.7,202.2 L237.6,202.5 L237.6,202.7 L237.6,202.8 L237.1,203.0 L237.0,203.1 L237.0,203.3 L237.0,203.4 L237.1,203.5 L237.1,203.7 L237.6,204.2 L237.7,204.5 L237.4,204.6 L237.1,204.7 L236.6,205.1 L236.6,205.9 L236.3,206.0 L236.2,206.0 L236.1,206.0 L236.1,206.3 L235.9,206.8 L235.9,206.9 L235.9,207.1 L235.9,207.5 L236.0,207.6 L235.9,207.8 L235.9,208.0 L235.9,208.1 L236.0,208.1 L236.1,208.2 L236.0,208.6 L236.1,208.7 L235.9,208.7 L235.6,208.6 L235.3,208.7 L234.9,209.1 L235.5,209.9 L235.6,210.0 L236.0,210.4 L236.5,210.6 L236.9,210.8 L237.0,210.9 L237.3,211.0 L237.4,211.1 L237.8,211.3 L238.0,213.6 L238.9,214.4 L238.9,214.7 L239.0,215.0 L239.3,215.1 L239.6,215.1 L240.1,214.7 L240.2,214.8 L240.5,214.9 L240.6,215.0 L240.7,215.0 L240.8,215.1 L240.9,215.2 L243.0,217.9 L244.1,215.9 L244.2,215.8 L244.6,215.7 L245.0,215.3 L244.7,214.8 L246.9,212.6 L249.4,216.2 L251.8,217.4 L253.9,215.0 L254.8,214.4 L255.3,214.3 L255.4,214.2 L255.5,214.1 L255.6,214.1 L255.7,214.1 L255.8,214.1 L255.8,213.9 L255.8,213.8 L256.0,213.7 L256.0,213.1 L255.6,212.5 L255.5,211.7 L255.7,210.7 L255.8,210.7 L255.8,210.6 L255.9,210.6 L256.0,210.5 L256.4,210.1 L256.6,210.0 L256.6,209.8 L256.5,209.7 L256.5,209.6 L256.2,209.1 L256.2,209.0 L256.1,208.8 L256.0,208.4 L256.9,206.2 L256.9,206.0 L256.8,205.9 L256.8,205.6 L256.8,205.5 L256.8,204.9 L258.3,204.0 L258.8,201.2 L260.0,200.0 L261.3,200.2 L261.4,200.2 L261.8,200.0 L261.8,199.9 L261.8,199.8 L261.7,199.8 L261.6,199.8 L261.4,199.8 L261.2,199.7 L261.0,199.2 L260.4,198.7 L260.3,198.4 L260.3,198.1 L260.2,198.1 L260.1,198.0 L259.7,198.1 L259.5,198.1 L259.3,198.1 L259.2,198.1 L257.9,197.8 L255.8,197.0 L254.8,194.8 L252.5,195.5 L248.1,194.7 L248.0,192.1 Z", "울산": "M402.7,286.6 L403.0,286.9 L403.6,287.3 L404.2,287.4 L408.0,286.8 L409.2,288.0 L409.4,288.5 L409.5,288.6 L409.6,288.6 L409.7,288.7 L409.6,288.7 L409.6,288.9 L409.6,289.0 L409.5,289.1 L409.5,289.2 L409.5,289.4 L409.9,289.8 L409.8,290.2 L409.7,290.3 L409.6,290.4 L409.6,290.5 L409.5,290.5 L409.4,290.6 L409.5,290.7 L409.6,290.7 L409.9,290.8 L410.3,290.8 L410.5,291.0 L411.2,291.1 L411.4,291.3 L411.4,291.4 L411.5,291.6 L411.6,291.6 L411.7,291.5 L411.9,291.5 L412.2,291.7 L412.3,291.6 L414.1,289.5 L417.3,282.6 L416.6,280.4 L418.4,279.1 L423.2,278.1 L425.2,268.0 L423.3,264.6 L420.7,263.0 L418.2,262.3 L418.1,262.3 L417.6,262.4 L417.6,262.5 L417.4,262.5 L417.4,262.4 L417.3,262.3 L417.3,262.2 L417.2,262.2 L416.9,262.0 L416.8,261.9 L416.6,261.7 L415.8,261.6 L410.5,264.6 L410.4,264.5 L410.3,264.4 L410.3,264.3 L410.2,264.3 L409.7,264.0 L409.5,264.1 L409.3,264.0 L409.1,263.9 L409.0,263.9 L408.6,264.0 L408.2,263.8 L407.8,263.7 L407.7,263.7 L407.6,263.5 L407.5,263.4 L407.3,263.2 L407.3,262.9 L407.3,262.7 L407.4,262.5 L407.5,262.4 L407.6,262.4 L407.7,262.3 L407.7,262.2 L407.8,261.8 L407.8,261.6 L407.6,261.3 L407.7,261.3 L407.7,261.2 L407.8,261.2 L407.8,261.1 L407.9,261.1 L407.9,261.0 L408.0,260.6 L403.0,258.0 L402.3,258.5 L401.4,258.1 L401.4,258.0 L401.3,258.0 L401.0,257.8 L400.7,258.4 L399.2,258.6 L398.8,258.2 L398.7,258.1 L398.5,258.0 L398.3,257.9 L398.2,257.8 L398.1,257.7 L397.5,257.8 L397.3,258.0 L397.2,258.1 L397.4,258.3 L397.3,258.4 L397.2,258.5 L397.1,258.5 L396.9,258.8 L392.6,260.1 L392.4,260.1 L392.3,260.2 L392.0,260.5 L391.9,260.7 L391.8,260.8 L391.8,260.9 L391.8,261.0 L391.7,261.1 L391.6,261.1 L391.6,261.2 L391.4,261.3 L391.4,261.4 L391.4,261.6 L391.5,261.7 L391.7,261.8 L391.5,262.0 L391.3,262.1 L391.3,262.2 L391.2,262.3 L391.3,262.5 L391.2,263.4 L392.3,264.2 L392.4,264.6 L392.4,264.7 L391.9,265.0 L391.4,264.5 L390.4,264.3 L390.1,264.3 L390.0,264.2 L389.9,264.2 L389.8,264.2 L389.7,264.2 L389.6,264.1 L389.4,264.1 L389.4,264.2 L389.1,264.9 L388.5,265.7 L387.7,265.3 L385.7,266.7 L387.4,267.3 L387.0,269.8 L383.5,271.6 L385.3,273.4 L385.3,273.6 L385.3,273.7 L385.1,274.0 L385.1,274.1 L385.1,274.2 L385.1,274.3 L385.0,274.3 L385.0,274.4 L385.0,274.6 L385.8,274.5 L386.1,274.5 L386.2,274.6 L386.3,274.6 L386.2,275.0 L386.5,275.0 L386.8,275.0 L387.2,274.9 L387.5,274.8 L387.7,274.7 L387.8,274.7 L387.9,274.7 L388.0,274.8 L388.2,274.8 L390.2,274.2 L390.3,274.7 L389.9,274.9 L389.9,275.2 L389.8,275.3 L389.8,275.4 L389.9,275.6 L389.9,275.8 L394.6,277.4 L394.5,277.5 L394.5,277.7 L394.5,277.8 L394.6,277.9 L394.8,278.8 L395.8,279.6 L395.9,279.8 L395.8,279.9 L395.8,280.0 L395.8,280.1 L395.9,280.2 L397.7,281.7 L398.5,282.0 L398.5,282.1 L398.6,282.1 L398.6,282.2 L398.7,282.3 L399.0,282.5 L399.8,282.9 L401.8,282.6 L404.2,285.0 L404.0,285.2 L403.8,285.4 L403.5,285.6 L403.4,285.6 L403.3,285.9 L403.3,286.0 L402.8,286.2 L402.8,286.3 L402.8,286.4 L402.7,286.5 L402.7,286.6 Z", "세종": "M243.0,197.1 L243.0,197.0 L243.0,196.7 L243.4,196.0 L244.5,195.0 L244.6,192.7 L244.6,192.5 L244.7,192.2 L245.0,192.1 L245.4,192.2 L246.4,191.2 L246.7,191.2 L247.0,191.3 L247.8,191.9 L247.8,191.8 L248.1,191.8 L248.9,191.6 L249.0,191.5 L249.0,191.4 L249.0,191.3 L248.8,191.2 L248.8,190.9 L248.9,190.6 L248.9,190.4 L248.9,190.3 L248.7,190.2 L248.5,190.2 L248.5,189.7 L248.4,189.7 L248.1,189.6 L247.9,189.4 L248.2,189.2 L248.6,189.1 L248.8,189.2 L248.8,189.1 L248.8,189.0 L248.8,188.9 L248.6,188.5 L248.6,188.3 L248.5,188.1 L248.5,188.0 L248.3,187.7 L247.4,187.8 L247.2,187.7 L246.8,187.7 L246.7,187.6 L246.7,187.5 L246.7,187.4 L246.7,187.3 L246.7,187.1 L246.6,187.0 L246.5,187.0 L246.3,186.9 L246.2,185.4 L242.7,185.2 L240.1,182.4 L239.2,180.5 L238.8,180.5 L238.7,180.0 L238.8,179.5 L238.4,179.5 L238.3,179.6 L238.2,179.7 L238.0,179.6 L237.9,179.7 L237.8,179.7 L237.7,179.7 L237.6,179.5 L237.4,179.2 L237.5,179.1 L237.5,179.0 L237.8,179.1 L237.9,179.1 L238.0,179.0 L237.9,178.7 L238.2,178.3 L238.3,178.2 L238.5,177.6 L239.5,177.3 L239.7,177.0 L239.8,176.9 L239.9,176.8 L240.0,176.8 L240.0,176.6 L240.0,176.5 L240.1,176.1 L240.1,176.0 L240.2,175.9 L240.2,175.6 L239.9,175.3 L239.7,175.3 L239.5,175.2 L239.4,175.2 L239.3,175.2 L239.2,175.2 L238.8,175.1 L238.6,175.0 L238.6,174.9 L238.4,174.9 L238.4,174.8 L238.3,174.8 L238.2,174.8 L237.9,174.8 L237.5,174.7 L237.2,174.4 L236.5,174.7 L234.9,174.4 L231.2,171.8 L228.5,171.4 L227.9,171.1 L227.5,171.2 L227.4,171.3 L227.3,171.6 L227.3,171.7 L226.5,172.3 L226.2,172.5 L225.8,172.7 L225.5,172.9 L225.1,173.1 L225.0,173.2 L224.9,173.2 L224.9,173.1 L224.8,173.3 L225.1,173.5 L225.2,173.5 L225.3,173.4 L225.3,173.5 L225.4,173.5 L225.5,173.6 L226.1,175.0 L226.3,174.9 L226.5,174.9 L226.6,174.9 L226.7,174.9 L226.8,174.9 L227.2,174.8 L227.3,174.5 L227.5,174.7 L227.6,175.1 L227.7,175.3 L227.8,175.6 L227.8,175.8 L227.9,175.9 L227.8,176.1 L227.7,176.1 L227.4,176.3 L227.2,176.6 L227.2,176.7 L227.1,177.1 L227.1,182.0 L228.6,182.9 L229.4,183.0 L229.8,183.2 L229.9,183.1 L230.0,183.1 L230.1,183.1 L230.2,183.1 L230.2,183.2 L230.1,183.3 L230.0,183.7 L230.3,184.3 L231.0,184.1 L231.2,184.2 L231.4,184.2 L231.4,184.3 L231.5,184.3 L231.5,184.4 L231.6,184.5 L231.6,184.6 L231.5,184.7 L231.5,184.8 L231.4,184.8 L231.3,184.9 L231.3,185.0 L231.2,185.2 L231.2,185.4 L230.9,185.6 L230.4,185.6 L230.1,186.1 L230.1,186.2 L230.0,186.3 L229.8,186.6 L228.6,188.1 L228.4,190.4 L231.3,194.7 L231.0,196.4 L233.1,197.9 L234.6,198.2 L234.7,198.5 L234.9,198.7 L235.2,199.0 L235.2,199.1 L235.3,199.2 L235.6,199.1 L235.8,199.1 L235.9,199.1 L236.0,199.0 L236.0,198.9 L236.0,198.6 L236.1,198.4 L236.2,198.4 L236.3,198.3 L236.6,198.3 L237.4,198.6 L237.8,198.5 L238.0,198.5 L238.1,198.5 L238.2,198.5 L238.4,198.5 L238.8,198.4 L239.1,198.1 L239.1,198.0 L239.1,197.9 L239.0,197.9 L239.2,197.8 L239.8,197.7 L240.5,197.7 L241.8,197.9 L242.3,197.5 L242.7,197.3 L242.9,197.2 L243.0,197.2 L243.0,197.1 Z", "경기": "M222.0,89.1 L222.0,89.2 L222.0,89.4 L221.7,90.0 L221.7,90.1 L221.8,90.3 L222.0,90.8 L221.9,91.0 L221.9,91.1 L221.9,91.2 L222.0,91.3 L221.9,91.3 L221.8,91.3 L221.6,91.7 L221.9,93.0 L222.3,93.0 L222.7,92.9 L222.9,92.9 L223.0,92.9 L223.7,95.2 L223.8,95.2 L223.8,95.3 L223.8,95.4 L223.8,95.5 L223.8,95.6 L223.8,95.7 L223.8,95.8 L223.8,96.0 L223.9,96.3 L223.9,96.4 L222.4,98.8 L222.8,100.5 L224.8,99.7 L225.6,99.5 L226.3,99.5 L226.6,99.5 L226.7,99.4 L227.1,99.2 L227.2,99.1 L227.7,98.8 L227.9,98.7 L228.1,98.6 L228.2,98.6 L228.4,98.6 L228.8,98.5 L228.9,98.6 L228.8,98.6 L228.8,98.9 L229.0,99.2 L229.2,99.7 L229.2,99.8 L229.3,99.9 L229.3,100.0 L229.4,100.1 L229.4,100.4 L229.3,100.8 L229.4,100.9 L229.5,101.1 L229.5,101.4 L229.5,101.5 L229.4,101.4 L229.2,101.4 L228.9,101.4 L227.9,101.5 L227.8,101.5 L227.5,101.8 L227.2,102.1 L226.9,102.5 L226.9,102.9 L226.6,103.2 L226.5,103.4 L226.5,103.5 L226.2,103.7 L226.2,103.9 L226.2,104.0 L226.3,104.0 L226.2,104.0 L226.1,104.0 L226.0,104.1 L225.9,104.3 L225.8,104.5 L225.8,104.6 L225.8,104.7 L225.9,104.8 L225.9,104.9 L226.3,105.1 L226.4,105.1 L226.5,105.0 L226.6,105.0 L226.7,105.0 L227.2,105.2 L227.3,105.1 L227.4,105.2 L227.5,105.3 L227.6,105.3 L227.6,105.4 L227.5,105.7 L227.5,105.8 L227.5,105.9 L227.4,106.0 L227.3,106.2 L227.3,106.3 L226.5,106.7 L226.4,107.3 L226.3,107.3 L226.2,107.3 L226.1,107.6 L222.7,108.6 L222.3,109.1 L221.9,109.1 L221.8,109.1 L221.8,109.2 L221.5,109.5 L221.4,109.7 L221.4,109.8 L221.3,109.8 L221.3,110.1 L220.6,110.4 L220.3,110.3 L220.0,110.3 L220.1,110.7 L219.7,111.3 L219.4,111.4 L219.0,111.4 L218.9,111.4 L218.4,111.5 L218.3,111.4 L218.1,111.4 L218.0,111.3 L217.8,111.3 L217.0,110.1 L216.7,108.4 L216.6,108.4 L216.4,108.3 L216.3,108.3 L216.3,108.4 L216.2,108.7 L216.0,109.0 L214.7,109.2 L214.6,109.1 L214.6,109.0 L214.2,108.4 L214.0,108.2 L213.5,108.6 L210.2,110.6 L207.6,109.7 L206.0,111.0 L202.8,106.7 L200.5,107.6 L199.0,107.4 L198.3,107.4 L198.2,107.5 L198.1,107.7 L198.0,107.6 L197.9,107.5 L197.9,107.4 L198.0,107.4 L198.0,107.3 L198.1,107.2 L198.2,107.2 L198.3,107.1 L198.3,106.9 L198.4,106.6 L198.5,106.5 L198.6,106.4 L198.4,106.2 L198.3,106.2 L197.9,106.0 L197.9,105.9 L197.8,105.9 L197.7,105.7 L198.3,105.4 L198.4,105.3 L198.5,105.2 L198.5,104.7 L198.7,104.5 L198.7,104.2 L198.7,104.1 L198.7,103.8 L198.8,103.7 L198.8,103.5 L198.8,103.3 L199.0,103.1 L199.0,102.9 L198.5,101.9 L198.0,101.9 L197.8,101.9 L197.7,101.9 L197.2,101.6 L196.8,101.7 L196.7,101.7 L196.7,101.8 L196.6,101.8 L196.5,101.9 L196.5,102.0 L196.6,102.0 L196.6,102.1 L196.1,101.9 L196.0,101.8 L195.8,101.6 L195.6,101.5 L195.5,101.4 L195.4,101.4 L195.3,101.4 L195.2,101.4 L194.7,101.4 L194.2,101.2 L193.8,100.9 L193.8,100.8 L193.7,100.8 L193.7,100.7 L193.7,100.8 L193.6,101.0 L193.5,101.4 L193.4,102.0 L193.2,102.1 L193.2,102.3 L191.7,106.5 L194.7,109.1 L192.7,112.4 L186.8,119.6 L180.3,121.4 L177.7,123.0 L175.7,124.5 L176.1,127.5 L174.7,128.2 L176.1,131.3 L178.5,129.9 L184.1,129.0 L182.6,126.3 L183.1,125.6 L179.3,124.5 L177.6,123.1 L180.7,121.4 L185.6,120.0 L186.4,120.8 L193.8,123.2 L197.0,123.1 L195.7,127.3 L190.9,126.9 L187.8,125.9 L183.4,126.1 L184.6,129.6 L183.7,132.4 L186.7,138.7 L192.9,143.5 L191.7,145.0 L195.7,145.7 L197.4,148.6 L200.9,152.9 L205.4,154.7 L206.0,156.7 L212.5,154.1 L217.9,154.0 L222.6,152.3 L223.6,150.7 L227.4,150.9 L231.1,152.4 L232.7,154.3 L237.0,155.7 L238.5,157.4 L240.3,154.3 L247.0,151.3 L247.6,148.4 L250.6,148.1 L253.2,146.1 L253.0,144.5 L255.5,143.6 L259.2,143.5 L261.6,144.7 L263.4,141.8 L268.0,140.0 L268.5,136.2 L272.9,136.6 L275.3,132.5 L277.7,129.9 L279.0,124.9 L278.5,122.7 L279.0,116.8 L280.4,115.4 L282.0,111.8 L282.1,108.5 L280.3,104.8 L283.3,102.1 L282.8,98.6 L278.5,97.5 L273.9,97.1 L265.5,92.4 L261.8,94.3 L261.2,91.5 L262.0,86.5 L257.3,85.5 L260.3,83.5 L258.6,80.6 L259.9,78.7 L259.2,76.2 L264.0,73.1 L265.5,73.2 L266.7,70.5 L266.3,67.6 L264.0,65.8 L260.7,65.3 L260.2,62.5 L257.0,62.6 L253.0,61.0 L251.9,57.5 L251.6,53.1 L249.3,53.7 L246.3,52.3 L241.3,54.3 L238.3,52.6 L237.5,50.5 L238.6,47.9 L233.2,49.7 L230.0,48.6 L227.8,42.0 L223.5,42.1 L223.2,39.1 L221.9,38.3 L212.0,43.4 L210.8,47.7 L210.9,50.5 L207.3,51.4 L205.6,50.6 L201.6,54.1 L202.5,55.6 L200.1,59.6 L197.6,62.5 L195.8,62.5 L189.7,65.5 L188.2,64.7 L185.6,66.9 L185.6,72.0 L187.3,73.7 L184.6,76.3 L185.6,77.1 L184.8,81.3 L182.2,81.3 L177.3,82.8 L172.8,80.5 L173.5,83.9 L172.7,87.0 L174.3,90.8 L173.6,92.0 L175.5,96.0 L177.0,96.8 L180.8,96.3 L184.1,93.5 L187.5,95.0 L190.1,97.4 L190.2,97.5 L191.8,97.4 L192.3,98.4 L193.8,97.8 L195.5,98.0 L196.1,98.4 L196.1,98.2 L196.0,98.1 L196.7,97.8 L196.8,96.4 L198.3,97.4 L201.2,99.0 L201.3,99.0 L201.4,99.0 L201.7,98.9 L202.0,98.8 L202.7,98.7 L202.9,98.6 L203.1,98.6 L203.1,98.7 L203.3,98.5 L203.2,98.3 L203.2,98.1 L203.3,98.0 L203.5,97.7 L204.1,97.8 L204.5,97.8 L204.7,97.8 L204.9,97.7 L205.0,97.7 L205.1,97.7 L205.2,97.7 L206.2,93.0 L209.3,91.9 L210.9,94.1 L212.4,93.7 L212.5,93.5 L212.6,93.3 L212.5,92.8 L212.0,92.0 L213.1,91.2 L213.3,90.4 L213.2,90.1 L213.2,90.0 L213.5,89.7 L214.2,89.5 L214.5,89.5 L214.5,89.0 L214.6,88.8 L214.6,88.7 L214.6,88.5 L215.1,88.1 L216.3,88.3 L216.5,88.9 L218.2,89.3 L220.7,88.5 L222.0,89.1 Z M192.9,143.5 L186.8,138.7 L191.6,135.2 L192.3,133.9 L196.0,133.2 L197.6,136.3 L194.2,137.2 L192.9,143.5 Z", "강원": "M277.7,129.9 L279.4,134.5 L281.5,136.0 L288.6,134.2 L291.2,135.2 L294.1,132.1 L292.9,129.0 L294.3,127.6 L298.3,126.1 L301.2,127.3 L302.8,132.0 L309.2,130.5 L310.3,128.2 L312.9,129.8 L317.4,126.9 L319.2,128.7 L322.6,130.4 L326.5,129.2 L327.7,131.2 L323.7,133.4 L323.6,136.1 L328.4,134.8 L332.6,134.7 L333.6,137.2 L337.2,138.7 L343.7,139.4 L346.7,140.8 L353.5,141.8 L355.6,142.7 L359.7,144.8 L365.0,145.2 L364.2,143.7 L366.0,140.8 L370.8,141.5 L372.3,143.8 L374.7,144.4 L377.7,142.6 L378.8,140.4 L381.9,141.6 L384.1,141.0 L390.5,142.7 L391.5,140.7 L393.6,139.7 L399.3,142.4 L402.1,144.8 L405.4,144.5 L404.8,142.0 L408.7,138.3 L415.0,135.7 L416.6,135.7 L415.2,133.1 L414.7,129.3 L415.3,127.0 L413.7,124.2 L411.2,123.1 L408.7,120.7 L407.2,115.8 L402.4,112.6 L401.4,109.0 L399.1,107.4 L396.0,103.7 L395.3,98.6 L390.1,94.9 L389.2,93.5 L390.2,90.3 L386.9,87.9 L384.5,84.8 L375.3,77.3 L374.9,76.1 L370.9,72.4 L371.2,71.1 L368.0,68.7 L362.3,61.8 L361.9,60.4 L357.6,56.6 L357.5,55.5 L351.8,49.6 L352.3,47.0 L350.8,44.0 L347.7,40.3 L346.5,36.2 L343.6,32.6 L343.6,30.8 L338.6,24.9 L339.7,23.8 L335.5,18.5 L334.1,14.0 L330.4,10.0 L326.2,11.8 L326.5,18.5 L323.9,25.0 L320.7,26.9 L317.4,30.3 L313.3,32.6 L309.5,33.6 L306.5,35.6 L301.2,35.5 L300.1,38.6 L298.1,38.4 L294.6,36.2 L288.9,35.3 L284.1,36.0 L280.0,33.5 L276.7,33.4 L273.1,34.5 L266.9,34.6 L263.4,33.6 L256.5,36.7 L254.6,35.4 L246.5,33.5 L242.0,35.1 L234.4,33.9 L232.4,34.9 L224.7,36.7 L221.9,38.3 L223.2,39.1 L223.5,42.1 L227.8,42.0 L230.0,48.6 L233.2,49.7 L238.6,47.9 L237.5,50.5 L238.3,52.6 L241.3,54.3 L246.3,52.3 L249.3,53.7 L251.6,53.1 L251.9,57.5 L253.0,61.0 L257.0,62.6 L260.2,62.5 L260.7,65.3 L264.0,65.8 L266.3,67.6 L266.7,70.5 L265.5,73.2 L264.0,73.1 L259.2,76.2 L259.9,78.7 L258.6,80.6 L260.3,83.5 L257.3,85.5 L262.0,86.5 L261.2,91.5 L261.8,94.3 L265.5,92.4 L273.9,97.1 L278.5,97.5 L282.8,98.6 L283.3,102.1 L280.3,104.8 L282.1,108.5 L282.0,111.8 L280.4,115.4 L279.0,116.8 L278.5,122.7 L279.0,124.9 L277.7,129.9 Z", "충북": "M259.5,198.1 L259.7,198.1 L260.1,198.0 L260.2,198.1 L260.3,198.1 L260.3,198.4 L260.4,198.7 L261.0,199.2 L261.1,199.3 L261.2,199.7 L261.6,199.8 L261.7,199.8 L261.8,199.8 L261.8,199.9 L261.8,200.0 L261.4,200.2 L261.3,200.2 L260.0,200.0 L258.8,201.2 L258.3,204.0 L256.8,204.9 L256.8,205.5 L256.8,205.6 L256.8,205.9 L256.9,206.0 L256.9,206.2 L256.0,208.4 L256.1,208.8 L256.2,209.0 L256.2,209.1 L256.5,209.6 L256.5,209.7 L256.6,209.8 L256.6,210.0 L256.4,210.1 L256.0,210.5 L255.9,210.6 L255.8,210.6 L255.8,210.7 L255.7,210.7 L255.5,211.7 L255.6,212.5 L256.0,213.1 L256.0,213.7 L259.5,212.6 L265.1,215.4 L264.4,222.6 L268.5,228.2 L274.2,231.2 L277.9,231.6 L279.5,233.1 L287.0,230.7 L289.0,232.2 L292.4,229.4 L296.2,228.1 L296.6,224.4 L299.3,220.9 L297.5,218.0 L300.4,216.1 L304.4,216.8 L302.2,213.5 L303.7,212.1 L300.5,210.8 L295.2,212.0 L293.7,210.2 L290.3,209.0 L289.5,210.6 L286.9,210.6 L286.0,207.5 L289.5,204.4 L289.7,201.5 L288.6,196.3 L288.9,192.6 L291.4,190.8 L291.1,189.0 L288.5,187.5 L286.9,185.1 L284.5,185.1 L282.2,182.6 L287.2,181.1 L288.6,178.3 L292.0,181.3 L293.8,181.0 L294.4,178.1 L293.5,174.8 L295.3,173.3 L300.9,171.4 L303.9,173.4 L305.4,172.1 L302.4,169.9 L304.8,164.0 L305.2,164.0 L306.2,164.5 L306.3,164.6 L310.3,163.4 L310.7,163.3 L318.2,164.4 L320.2,159.3 L323.8,160.6 L326.7,163.5 L329.9,164.4 L335.7,164.5 L338.1,161.3 L336.0,158.9 L339.3,152.8 L346.3,148.9 L349.6,144.6 L353.9,144.7 L355.6,142.7 L353.5,141.8 L346.7,140.8 L343.7,139.4 L337.2,138.7 L333.6,137.2 L332.6,134.7 L328.4,134.8 L323.6,136.1 L323.7,133.4 L327.7,131.2 L326.5,129.2 L322.6,130.4 L319.2,128.7 L317.4,126.9 L312.9,129.8 L310.3,128.2 L309.2,130.5 L302.8,132.0 L301.2,127.3 L298.3,126.1 L294.3,127.6 L292.9,129.0 L294.1,132.1 L291.2,135.2 L288.6,134.2 L281.5,136.0 L279.4,134.5 L277.7,129.9 L275.3,132.5 L272.9,136.6 L268.5,136.2 L268.0,140.0 L263.4,141.8 L261.6,144.7 L259.2,143.5 L255.5,143.6 L253.0,144.5 L253.2,146.1 L250.6,148.1 L247.6,148.4 L247.0,151.3 L240.3,154.3 L238.5,157.4 L240.0,160.0 L242.6,160.8 L242.4,162.7 L246.5,164.2 L247.7,166.8 L249.8,168.7 L244.6,168.8 L242.6,169.5 L238.8,174.3 L238.6,174.4 L238.3,174.8 L238.4,174.8 L238.4,174.9 L238.6,174.9 L238.6,175.0 L238.8,175.1 L239.2,175.2 L239.3,175.2 L239.4,175.2 L239.5,175.2 L239.7,175.3 L239.9,175.3 L240.2,175.6 L240.2,175.9 L240.1,176.0 L240.1,176.1 L240.0,176.5 L240.0,176.6 L240.0,176.8 L239.9,176.8 L239.8,176.9 L239.7,177.0 L239.5,177.3 L238.5,177.6 L238.3,178.2 L238.2,178.3 L237.9,178.7 L238.0,179.0 L237.9,179.1 L237.8,179.1 L237.5,179.0 L237.5,179.1 L237.4,179.2 L237.6,179.5 L237.7,179.7 L237.8,179.7 L237.9,179.7 L238.0,179.6 L238.2,179.7 L238.3,179.6 L238.4,179.5 L238.7,179.4 L238.8,179.5 L240.1,182.4 L242.7,185.2 L246.2,185.4 L246.3,186.9 L246.5,187.0 L246.6,187.0 L246.7,187.1 L246.7,187.3 L246.7,187.4 L246.7,187.5 L246.7,187.6 L246.8,187.7 L247.2,187.7 L247.4,187.8 L248.3,187.7 L248.5,188.0 L248.5,188.1 L248.6,188.3 L248.6,188.5 L248.8,188.9 L248.8,189.0 L248.8,189.1 L248.8,189.2 L248.6,189.1 L248.2,189.2 L247.9,189.4 L248.1,189.6 L248.4,189.7 L248.5,189.7 L248.9,190.4 L248.9,190.6 L248.8,190.9 L248.8,191.2 L249.0,191.3 L249.0,191.4 L249.0,191.5 L248.9,191.6 L248.1,194.7 L252.5,195.5 L254.8,194.8 L257.0,195.5 L255.8,197.0 L257.9,197.8 L259.2,198.1 L259.3,198.1 L259.5,198.1 Z", "충남": "M255.7,214.1 L255.6,214.1 L255.5,214.1 L255.4,214.2 L255.3,214.3 L254.8,214.4 L253.9,215.0 L251.8,217.4 L249.4,216.2 L246.9,212.6 L244.7,214.8 L245.0,215.3 L244.6,215.7 L244.2,215.8 L244.1,215.9 L243.0,217.9 L240.9,215.2 L240.8,215.1 L240.7,215.0 L240.6,215.0 L240.5,214.9 L240.2,214.8 L240.1,214.7 L239.6,215.1 L239.3,215.1 L239.0,215.0 L238.9,214.7 L238.9,214.4 L238.0,213.6 L237.8,211.3 L237.4,211.1 L237.3,211.0 L237.0,210.9 L236.9,210.8 L236.5,210.6 L236.0,210.4 L235.6,210.0 L235.5,209.9 L234.9,209.1 L235.3,208.7 L235.6,208.6 L235.9,208.7 L236.0,208.6 L236.1,208.2 L236.0,208.1 L235.9,208.1 L235.9,208.0 L235.9,207.8 L236.0,207.6 L235.9,207.5 L235.9,207.1 L235.9,206.9 L235.9,206.8 L236.1,206.3 L236.1,206.0 L236.6,205.1 L237.1,204.7 L237.4,204.6 L237.7,204.5 L237.6,204.2 L237.1,203.7 L237.1,203.5 L237.0,203.4 L237.0,203.3 L237.0,203.1 L237.1,203.0 L237.6,202.8 L237.6,202.7 L237.6,202.5 L237.7,202.2 L237.9,202.0 L237.9,201.9 L237.9,201.8 L237.8,201.6 L237.7,201.5 L237.7,201.3 L237.7,201.2 L237.6,200.9 L237.7,200.5 L237.7,200.3 L237.7,200.2 L237.7,200.1 L237.7,200.0 L237.7,199.9 L237.9,199.5 L237.9,199.4 L238.0,199.0 L238.0,198.8 L238.0,198.7 L238.0,198.5 L237.8,198.5 L237.4,198.6 L236.6,198.3 L236.3,198.3 L236.2,198.4 L236.1,198.4 L236.0,198.9 L236.0,199.0 L235.9,199.1 L235.8,199.1 L235.6,199.1 L235.3,199.2 L235.2,199.1 L235.2,199.0 L234.9,198.7 L234.7,198.5 L234.6,198.2 L233.1,197.9 L231.0,196.4 L231.3,194.7 L228.4,190.4 L228.6,188.1 L229.8,186.6 L230.0,186.3 L230.1,186.2 L230.1,186.1 L230.4,185.6 L230.9,185.6 L231.2,185.4 L231.2,185.2 L231.3,185.0 L231.3,184.9 L231.4,184.8 L231.5,184.8 L231.5,184.7 L231.6,184.6 L231.6,184.5 L231.5,184.4 L231.5,184.3 L231.4,184.3 L231.4,184.2 L231.2,184.2 L231.0,184.1 L230.3,184.3 L230.0,183.7 L230.1,183.3 L230.2,183.2 L230.2,183.1 L230.1,183.1 L230.0,183.1 L229.9,183.1 L229.8,183.2 L229.4,183.0 L228.6,182.9 L227.1,182.0 L227.1,177.1 L227.2,176.7 L227.2,176.6 L227.4,176.3 L227.7,176.1 L227.8,176.1 L227.9,175.9 L227.8,175.8 L227.8,175.6 L227.7,175.3 L227.6,175.1 L227.5,174.7 L227.3,174.5 L227.2,174.8 L226.8,174.9 L226.7,174.9 L226.6,174.9 L226.5,174.9 L226.3,174.9 L226.1,175.0 L225.5,173.6 L225.4,173.5 L225.3,173.5 L225.3,173.4 L225.2,173.5 L225.1,173.5 L224.8,173.3 L224.9,173.1 L224.9,173.2 L225.0,173.2 L225.1,173.1 L225.5,172.9 L225.8,172.7 L226.2,172.5 L226.5,172.3 L227.3,171.7 L227.3,171.6 L227.4,171.3 L227.5,171.2 L227.9,171.1 L228.5,171.3 L231.2,171.8 L234.9,174.4 L236.5,174.7 L237.2,174.4 L238.3,174.8 L238.6,174.4 L238.8,174.3 L242.6,169.5 L244.6,168.8 L249.8,168.7 L247.7,166.8 L246.5,164.2 L242.4,162.7 L242.6,160.8 L240.0,160.0 L238.5,157.4 L237.0,155.7 L232.7,154.3 L231.1,152.4 L227.4,150.9 L223.6,150.7 L222.6,152.3 L217.9,154.0 L212.5,154.1 L206.0,156.7 L205.5,157.9 L201.9,158.6 L198.1,157.2 L197.7,154.9 L196.0,153.8 L195.1,150.4 L187.6,148.2 L182.4,148.2 L169.9,143.2 L166.7,147.7 L164.5,147.0 L158.2,147.9 L159.7,149.8 L160.8,153.7 L163.0,153.8 L164.1,156.9 L159.7,160.5 L154.7,159.1 L155.3,156.6 L153.7,155.2 L151.7,157.1 L148.8,155.9 L145.4,156.8 L144.1,159.4 L145.0,160.7 L143.7,164.3 L141.6,162.9 L139.6,167.5 L141.6,169.3 L143.8,169.5 L147.0,172.1 L144.6,173.5 L142.3,172.6 L141.3,175.9 L144.6,176.1 L147.9,174.3 L152.3,176.5 L153.8,179.3 L152.7,181.3 L153.0,183.9 L159.3,180.3 L163.5,181.3 L167.0,183.0 L169.3,189.8 L169.2,193.1 L170.9,195.9 L169.3,201.2 L171.7,201.4 L174.8,203.6 L174.5,205.0 L171.1,206.2 L175.0,211.2 L173.4,213.5 L174.0,216.8 L172.6,221.0 L178.7,223.1 L180.1,225.5 L182.1,225.5 L182.1,229.4 L185.3,231.4 L184.7,233.1 L191.2,234.1 L191.6,233.1 L192.1,231.9 L196.8,231.2 L198.4,229.8 L202.7,228.3 L203.7,222.8 L206.9,222.4 L208.5,221.2 L215.2,221.5 L219.2,223.4 L218.9,225.9 L221.5,227.9 L224.3,228.6 L227.4,226.9 L235.4,224.4 L237.2,224.9 L240.0,223.3 L243.0,223.0 L246.1,232.1 L248.2,233.4 L251.3,233.3 L253.0,235.5 L255.6,236.0 L259.8,234.4 L261.2,231.3 L266.9,233.4 L267.3,228.3 L268.5,228.2 L264.4,222.6 L265.1,215.4 L259.5,212.6 L256.0,213.7 L255.8,214.1 L255.7,214.1 Z M160.1,182.9 L158.8,181.5 L155.6,182.8 L154.9,185.1 L156.1,186.5 L156.5,195.8 L163.8,199.3 L165.2,198.2 L160.1,187.6 L160.1,182.9 Z", "전북": "M268.5,228.2 L267.3,228.3 L266.9,233.4 L261.2,231.3 L259.8,234.4 L255.6,236.0 L253.0,235.5 L251.3,233.3 L248.2,233.4 L246.1,232.1 L243.0,223.0 L240.0,223.3 L237.2,224.9 L235.4,224.4 L227.4,226.9 L224.3,228.6 L221.5,227.9 L218.9,225.9 L219.2,223.4 L215.2,221.5 L208.5,221.2 L206.9,222.4 L203.7,222.8 L202.7,228.3 L198.4,229.8 L196.8,231.2 L192.1,231.9 L191.6,233.1 L192.1,234.8 L190.5,235.4 L188.3,234.6 L183.0,235.9 L173.1,236.4 L173.8,239.8 L178.4,238.6 L180.8,239.0 L180.4,242.4 L181.4,243.8 L185.2,244.1 L188.6,251.6 L181.3,252.4 L181.9,255.6 L179.2,258.6 L175.8,260.0 L168.0,265.5 L167.9,268.2 L171.6,270.2 L177.3,269.3 L181.8,269.6 L179.0,273.5 L173.1,274.0 L169.4,275.4 L164.7,282.6 L166.6,283.2 L168.7,283.2 L168.7,283.1 L170.2,284.9 L168.9,286.8 L171.9,288.9 L172.1,291.9 L173.6,293.6 L177.1,293.3 L180.1,291.4 L183.2,292.4 L185.1,289.8 L188.0,289.9 L190.7,287.6 L190.6,286.1 L192.4,283.6 L192.1,281.3 L193.6,279.8 L200.9,280.0 L204.9,281.5 L205.3,283.6 L208.2,286.1 L211.7,285.5 L211.3,283.2 L216.7,279.9 L217.3,285.7 L219.8,288.6 L219.8,290.8 L217.5,292.3 L222.8,294.2 L226.4,293.3 L228.2,291.4 L232.0,292.7 L240.4,293.8 L244.2,292.3 L247.5,293.6 L251.3,288.8 L256.4,289.0 L263.3,293.4 L265.7,292.6 L267.3,290.6 L266.1,288.5 L268.4,285.7 L270.5,284.4 L271.6,281.8 L268.3,280.3 L269.8,278.1 L266.9,273.9 L264.2,272.1 L266.2,269.8 L267.0,264.8 L268.9,260.5 L270.5,259.0 L270.6,254.6 L275.5,251.5 L277.2,248.7 L287.0,244.3 L287.6,242.1 L289.7,241.9 L291.5,239.2 L289.0,232.2 L287.0,230.7 L279.5,233.1 L277.9,231.6 L274.2,231.2 L268.5,228.2 Z", "전남": "M166.6,283.2 L163.8,283.6 L162.9,287.1 L158.9,295.5 L156.9,295.4 L154.4,298.4 L154.2,301.7 L158.5,304.3 L164.1,310.7 L167.9,311.4 L166.1,314.9 L164.3,315.8 L161.9,313.4 L157.5,313.4 L157.4,312.1 L154.4,308.2 L150.6,307.4 L148.8,310.4 L145.9,311.1 L144.3,310.3 L141.6,311.5 L141.6,313.8 L143.6,315.0 L147.9,315.4 L147.9,318.5 L149.9,318.8 L152.4,314.6 L154.9,315.3 L157.5,313.9 L158.1,316.5 L160.7,315.8 L161.4,317.8 L157.8,319.7 L158.8,321.1 L156.0,322.8 L156.2,327.1 L159.5,326.8 L161.2,324.4 L162.6,328.1 L162.7,332.2 L159.1,336.6 L160.0,338.8 L165.8,337.2 L166.5,338.6 L160.7,339.8 L161.3,343.0 L159.6,345.8 L156.3,343.9 L156.5,342.2 L152.7,340.5 L150.2,345.6 L150.3,350.8 L152.4,352.3 L152.0,354.7 L156.6,356.6 L160.5,357.4 L161.4,360.1 L164.8,358.1 L167.1,360.3 L167.1,367.3 L168.8,368.9 L171.6,369.0 L168.7,373.2 L173.2,377.1 L179.3,379.0 L181.2,375.0 L181.3,372.0 L184.3,369.7 L187.9,367.9 L190.1,367.7 L193.0,363.6 L194.0,355.5 L195.8,355.8 L196.1,358.8 L195.5,361.7 L197.0,366.6 L201.4,367.8 L204.4,366.6 L207.4,366.9 L211.8,363.9 L211.8,361.7 L213.1,355.7 L213.4,352.5 L217.7,351.3 L219.5,348.8 L223.1,347.5 L223.6,346.2 L229.0,346.4 L231.5,344.0 L231.7,342.5 L234.5,340.5 L236.0,342.8 L239.0,342.9 L241.8,341.2 L242.5,344.9 L240.7,348.7 L237.6,347.6 L237.6,344.4 L234.3,345.8 L233.3,349.6 L230.1,350.5 L226.7,354.8 L223.6,357.7 L224.2,360.2 L226.0,360.8 L230.5,360.1 L235.7,361.1 L239.6,365.4 L245.6,364.5 L246.4,362.7 L248.5,362.3 L251.4,358.7 L247.8,357.8 L248.2,355.2 L252.0,356.2 L255.5,356.2 L257.2,354.7 L255.0,349.9 L248.3,345.6 L245.8,342.1 L248.1,340.5 L246.9,339.3 L247.8,334.9 L254.3,333.2 L257.8,330.8 L258.9,333.2 L258.7,336.2 L261.9,336.8 L263.5,340.4 L263.4,342.9 L261.4,344.1 L261.3,349.2 L268.1,351.2 L267.1,346.5 L267.5,344.7 L270.2,340.9 L272.3,342.9 L276.7,343.1 L278.5,340.2 L280.4,332.4 L279.2,331.6 L273.7,332.0 L271.3,333.9 L268.4,334.7 L264.4,330.5 L266.4,329.2 L268.6,329.9 L273.5,326.9 L274.1,325.7 L274.8,325.5 L276.5,323.8 L278.9,322.8 L280.8,320.7 L281.1,318.1 L279.7,315.6 L277.3,314.5 L273.4,310.8 L273.3,309.0 L267.4,304.3 L266.1,297.4 L264.9,296.9 L263.3,293.4 L256.4,289.0 L251.3,288.8 L247.5,293.6 L244.2,292.3 L240.4,293.8 L232.0,292.7 L228.2,291.4 L226.4,293.3 L222.8,294.2 L217.5,292.3 L219.8,290.8 L219.8,288.6 L217.3,285.7 L216.7,279.9 L211.3,283.2 L211.7,285.5 L208.2,286.1 L205.3,283.6 L204.9,281.5 L200.9,280.0 L193.6,279.8 L192.1,281.3 L192.4,283.6 L190.6,286.1 L190.7,287.6 L188.0,289.9 L185.1,289.8 L183.2,292.4 L180.1,291.4 L177.1,293.3 L173.6,293.6 L172.1,291.9 L171.9,288.9 L168.9,286.8 L170.2,284.9 L168.7,283.1 L168.7,283.2 L166.6,283.2 Z M204.8,313.0 L204.7,313.0 L204.7,313.1 L204.5,313.2 L203.9,312.9 L203.2,313.3 L203.2,313.4 L202.8,313.6 L202.6,313.5 L202.2,313.5 L201.8,313.2 L201.4,313.2 L200.8,313.7 L200.7,313.8 L200.7,313.9 L200.5,314.1 L200.5,314.2 L200.4,314.3 L199.9,314.3 L199.8,314.3 L199.7,314.5 L198.9,314.6 L198.8,314.6 L198.5,314.8 L198.4,314.9 L198.4,315.0 L198.3,315.2 L198.2,315.4 L198.1,315.4 L197.9,315.4 L197.8,315.4 L197.6,315.4 L197.4,315.4 L196.9,315.4 L196.7,314.9 L196.2,314.7 L194.0,315.3 L194.1,313.9 L193.8,313.5 L193.6,313.2 L193.3,312.1 L191.1,310.6 L189.7,310.6 L189.3,310.4 L189.1,310.5 L188.8,310.5 L188.5,310.2 L188.4,310.2 L188.3,310.3 L188.2,310.3 L188.1,310.5 L188.0,310.5 L188.0,310.6 L187.9,310.7 L187.7,310.7 L187.2,310.4 L186.0,310.9 L184.3,310.2 L184.2,309.9 L184.1,309.8 L183.9,309.6 L183.9,309.2 L184.0,309.1 L184.1,308.7 L184.1,308.5 L184.1,308.4 L184.1,308.2 L184.0,307.8 L184.0,307.6 L183.8,307.5 L183.6,307.6 L183.5,307.6 L183.3,307.4 L183.3,307.3 L183.4,307.3 L183.7,307.3 L184.0,306.8 L183.9,306.6 L184.1,306.3 L184.0,306.1 L184.1,305.8 L184.3,305.6 L184.4,305.6 L184.8,305.6 L185.0,305.5 L185.5,305.4 L185.6,305.1 L184.8,304.4 L184.0,303.4 L185.3,303.4 L185.6,303.3 L185.8,303.5 L186.0,303.6 L186.0,303.5 L186.1,303.5 L186.1,303.4 L186.1,303.3 L186.9,301.5 L188.2,302.1 L189.5,301.7 L189.8,301.4 L189.8,301.3 L189.8,301.1 L189.6,300.9 L190.0,300.3 L190.1,300.2 L190.0,300.1 L190.1,300.1 L190.1,300.0 L190.2,299.9 L190.2,299.8 L190.3,299.6 L190.4,299.6 L190.5,299.6 L190.6,299.3 L190.6,299.2 L190.6,299.0 L191.2,298.3 L193.2,297.7 L193.5,297.9 L193.5,298.2 L193.4,298.2 L193.4,298.3 L193.2,298.7 L193.1,298.8 L192.9,299.0 L192.8,299.2 L192.7,299.5 L192.6,299.6 L192.8,299.8 L192.9,299.9 L193.2,299.9 L194.4,300.2 L196.2,301.1 L199.8,300.2 L205.7,297.8 L206.1,297.7 L206.4,297.8 L206.5,297.8 L206.8,298.0 L206.8,298.1 L206.9,298.1 L207.0,298.2 L207.1,298.2 L207.5,298.3 L207.7,298.3 L208.0,299.2 L208.2,299.4 L208.9,299.8 L209.3,300.1 L211.5,304.0 L214.4,304.0 L214.8,309.0 L214.2,309.5 L213.7,310.0 L213.8,310.1 L213.6,310.2 L213.3,310.3 L213.1,310.4 L212.8,310.5 L212.6,310.8 L212.7,311.3 L212.8,311.5 L212.8,311.6 L212.8,311.8 L212.7,311.9 L212.4,312.0 L212.0,312.0 L211.4,312.2 L211.1,312.2 L210.9,312.3 L210.6,312.4 L210.6,312.5 L210.5,312.5 L210.4,312.6 L210.2,312.8 L209.6,313.7 L208.3,313.5 L207.4,312.9 L207.3,312.6 L207.3,312.4 L207.0,312.1 L206.6,312.1 L206.3,312.3 L206.1,312.4 L205.7,312.9 L205.2,313.0 L205.0,313.0 L204.9,313.0 L204.8,313.0 Z M175.2,390.6 L172.3,391.1 L171.9,395.3 L174.8,394.9 L179.0,391.9 L175.2,390.6 Z M184.1,388.7 L183.9,391.2 L182.3,393.5 L185.4,395.4 L185.3,391.9 L186.7,390.2 L184.1,388.7 Z M204.4,387.1 L201.1,389.8 L203.6,392.6 L206.5,392.6 L207.3,390.7 L204.4,387.1 Z M176.7,385.7 L175.5,389.2 L178.4,390.9 L181.5,388.0 L180.0,386.5 L176.7,385.7 Z M200.0,378.9 L202.6,378.2 L203.1,375.9 L199.5,375.0 L196.7,377.1 L200.0,378.9 Z M187.5,371.6 L183.6,371.9 L182.8,373.0 L183.7,377.1 L187.0,380.3 L190.7,381.1 L193.7,380.8 L191.1,376.3 L190.5,373.1 L187.5,371.6 Z M208.9,372.0 L204.5,371.7 L202.1,373.7 L205.7,375.4 L208.9,372.0 Z M199.5,368.2 L194.5,369.5 L192.8,372.9 L199.5,372.8 L202.1,371.7 L199.5,368.2 Z M254.8,365.9 L256.1,368.8 L260.0,368.6 L257.4,365.4 L254.8,365.9 Z M232.4,363.3 L230.0,363.4 L226.2,365.1 L222.1,365.6 L222.3,367.7 L226.1,369.0 L231.5,368.9 L233.9,364.9 L232.4,363.3 Z M253.8,359.1 L252.5,364.5 L256.4,364.1 L255.9,362.2 L253.4,362.0 L253.8,359.1 Z M279.8,360.2 L277.3,358.3 L274.8,360.2 L276.8,362.6 L281.5,364.0 L279.8,360.2 Z M149.6,355.6 L148.2,359.7 L145.4,361.7 L145.5,363.2 L137.9,366.4 L135.6,369.8 L137.8,373.0 L140.1,373.3 L141.4,375.1 L145.4,375.0 L150.3,372.1 L152.9,371.8 L156.7,370.2 L159.3,367.7 L160.7,362.7 L156.9,359.1 L151.8,355.6 L149.6,355.6 Z M132.9,351.8 L134.4,355.6 L132.8,360.2 L136.7,357.9 L137.5,355.2 L135.1,352.7 L132.9,351.8 Z M129.4,351.2 L128.9,353.6 L130.6,356.7 L133.5,355.7 L129.4,351.2 Z M141.7,348.3 L138.9,349.8 L139.8,352.7 L143.9,351.0 L141.7,348.3 Z M78.6,346.0 L76.2,347.9 L75.1,350.5 L76.7,352.1 L78.4,349.3 L80.8,346.9 L78.6,346.0 Z M281.3,344.6 L278.7,343.0 L279.1,347.0 L275.7,349.6 L275.0,352.4 L278.1,354.9 L281.2,355.5 L282.4,351.7 L282.0,348.5 L280.6,347.5 L281.3,344.6 Z M125.4,343.5 L120.7,344.7 L120.7,347.3 L122.6,348.4 L126.1,348.1 L128.9,346.5 L127.1,344.0 L125.4,343.5 Z M136.9,340.0 L134.5,340.2 L134.0,342.6 L135.1,344.3 L139.6,343.2 L142.9,345.6 L142.7,341.3 L136.9,340.0 Z M127.4,336.5 L122.6,339.1 L119.2,339.0 L118.2,342.2 L119.8,343.9 L122.8,343.7 L125.5,340.6 L127.8,340.4 L127.4,336.5 Z M137.9,330.1 L137.3,332.8 L135.0,332.0 L133.2,333.3 L135.7,335.8 L139.9,334.5 L141.4,331.4 L137.9,330.1 Z M153.2,332.8 L156.6,332.9 L158.4,335.8 L159.8,333.0 L158.6,331.6 L155.7,331.8 L155.9,329.3 L153.6,326.6 L152.0,327.7 L151.6,331.5 L153.2,332.8 Z M133.4,325.7 L132.6,327.5 L129.3,327.7 L126.4,331.3 L129.4,331.6 L131.3,332.8 L135.0,331.6 L136.1,328.0 L133.4,325.7 Z M277.1,325.1 L276.6,324.1 L274.2,326.0 L274.2,327.4 L281.1,329.7 L281.1,327.2 L277.1,325.1 Z M139.6,317.7 L139.7,322.3 L143.2,321.8 L142.2,318.6 L139.6,317.7 Z M132.7,313.5 L136.2,315.6 L138.2,313.1 L137.9,308.0 L135.8,310.1 L131.6,312.7 L132.7,313.5 Z", "경북": "M345.1,261.3 L345.7,266.4 L348.8,269.0 L351.3,270.1 L355.9,268.6 L358.6,268.9 L364.7,271.2 L367.6,271.0 L368.3,269.5 L372.7,268.9 L374.6,266.6 L378.1,264.9 L380.4,265.4 L383.9,267.7 L385.2,267.1 L385.4,267.0 L385.6,266.8 L385.7,266.7 L387.7,265.3 L388.5,265.7 L389.1,264.9 L389.4,264.2 L389.4,264.1 L389.6,264.1 L389.7,264.2 L389.8,264.2 L389.9,264.2 L390.0,264.2 L390.1,264.3 L390.4,264.3 L391.4,264.5 L391.9,265.0 L392.4,264.7 L392.4,264.6 L392.3,264.2 L391.2,263.4 L391.3,262.5 L391.2,262.3 L391.3,262.2 L391.3,262.1 L391.5,262.0 L391.7,261.8 L391.5,261.7 L391.4,261.6 L391.4,261.4 L391.4,261.3 L391.6,261.2 L391.6,261.1 L391.7,261.1 L391.8,261.0 L391.8,260.9 L391.8,260.8 L391.9,260.7 L392.0,260.5 L392.3,260.2 L392.4,260.1 L392.6,260.1 L396.9,258.8 L397.1,258.5 L397.2,258.5 L397.3,258.4 L397.4,258.3 L397.2,258.1 L397.3,258.0 L397.5,257.8 L398.1,257.7 L398.2,257.8 L398.3,257.9 L398.5,258.0 L398.7,258.1 L398.8,258.2 L399.2,258.6 L400.7,258.4 L401.0,257.8 L401.3,258.0 L401.4,258.0 L401.4,258.1 L402.3,258.5 L403.0,258.0 L408.0,260.6 L407.9,261.0 L407.9,261.1 L407.8,261.1 L407.8,261.2 L407.7,261.2 L407.7,261.3 L407.6,261.3 L407.8,261.6 L407.8,261.8 L407.7,262.2 L407.7,262.3 L407.6,262.4 L407.5,262.4 L407.4,262.5 L407.3,262.7 L407.3,262.9 L407.3,263.2 L407.5,263.4 L407.6,263.5 L407.7,263.7 L407.8,263.7 L408.2,263.8 L408.6,264.0 L409.0,263.9 L409.1,263.9 L409.3,264.0 L409.5,264.1 L409.7,264.0 L410.2,264.3 L410.3,264.3 L410.3,264.4 L410.4,264.5 L410.5,264.6 L415.8,261.6 L416.6,261.7 L416.8,261.9 L416.9,262.0 L417.2,262.2 L417.3,262.2 L417.3,262.3 L417.4,262.4 L417.4,262.5 L417.6,262.5 L417.6,262.4 L418.1,262.3 L418.2,262.3 L420.7,263.0 L422.2,263.7 L424.0,264.1 L426.3,260.5 L427.6,252.4 L430.7,245.8 L430.8,242.4 L429.9,240.9 L433.0,236.8 L432.8,235.3 L435.6,232.7 L434.8,228.8 L433.1,226.7 L428.6,231.8 L423.7,234.8 L419.4,232.6 L419.9,230.8 L418.3,228.7 L420.7,227.9 L423.1,225.8 L419.3,222.1 L419.8,220.0 L417.4,216.3 L418.5,215.1 L417.4,212.2 L418.2,206.5 L419.3,202.6 L422.9,197.5 L422.7,192.6 L423.8,190.8 L423.2,186.7 L420.6,182.9 L421.3,179.2 L423.2,176.3 L426.2,174.2 L426.4,171.6 L424.6,164.2 L422.1,161.1 L421.4,157.5 L421.4,152.5 L420.6,145.6 L422.0,142.8 L418.0,139.8 L416.6,135.7 L415.0,135.7 L408.7,138.3 L404.8,142.0 L405.4,144.5 L402.1,144.8 L399.3,142.4 L393.6,139.7 L391.5,140.7 L390.5,142.7 L384.1,141.0 L381.9,141.6 L378.8,140.4 L377.7,142.6 L374.7,144.4 L372.3,143.8 L370.8,141.5 L366.0,140.8 L364.2,143.7 L365.0,145.2 L359.7,144.8 L355.6,142.7 L353.9,144.7 L349.6,144.6 L346.3,148.9 L339.3,152.8 L336.0,158.9 L338.1,161.3 L335.7,164.5 L329.9,164.4 L326.7,163.5 L323.8,160.6 L320.2,159.3 L318.2,164.4 L310.7,163.3 L310.3,163.4 L306.3,164.6 L306.2,164.5 L305.2,164.0 L304.8,164.0 L302.4,169.9 L305.4,172.1 L303.9,173.4 L300.9,171.4 L295.3,173.3 L293.5,174.8 L294.4,178.1 L293.8,181.0 L292.0,181.3 L288.6,178.3 L287.2,181.1 L282.2,182.6 L284.5,185.1 L286.9,185.1 L288.5,187.5 L291.1,189.0 L291.4,190.8 L288.9,192.6 L288.6,196.3 L289.7,201.5 L289.5,204.4 L286.0,207.5 L286.9,210.6 L289.5,210.6 L290.3,209.0 L293.7,210.2 L295.2,212.0 L300.5,210.8 L303.7,212.1 L302.2,213.5 L304.4,216.8 L300.4,216.1 L297.5,218.0 L299.3,220.9 L296.6,224.4 L296.2,228.1 L292.4,229.4 L289.0,232.2 L291.5,239.2 L289.7,241.9 L292.6,243.5 L293.8,245.8 L297.4,246.8 L300.6,248.8 L304.0,248.7 L305.6,247.7 L310.3,249.6 L311.4,252.6 L315.8,255.4 L316.8,257.9 L316.7,261.2 L313.3,262.6 L316.9,264.7 L322.1,264.8 L325.9,263.7 L330.3,265.2 L331.5,267.5 L333.9,264.5 L330.3,261.4 L330.4,259.1 L335.0,260.2 L336.7,257.7 L332.5,254.7 L335.7,250.5 L340.0,250.8 L340.9,248.7 L338.2,247.3 L332.5,246.7 L333.9,243.0 L336.4,240.2 L340.5,239.7 L340.4,243.2 L343.0,242.5 L345.0,240.7 L346.5,237.0 L351.3,235.3 L352.7,233.6 L359.3,232.7 L361.2,233.4 L363.6,236.4 L362.9,240.3 L364.4,241.4 L364.8,245.6 L360.4,249.0 L361.2,250.7 L358.2,252.1 L359.3,255.1 L358.2,258.0 L352.8,259.6 L351.7,256.5 L349.4,256.5 L344.9,258.8 L345.1,261.3 Z M549.5,101.8 L543.8,102.3 L541.0,103.5 L540.8,107.5 L545.9,108.9 L549.1,107.3 L550.0,104.2 L549.5,101.8 Z", "경남": "M370.7,312.2 L370.0,311.6 L371.7,310.1 L371.6,310.1 L370.5,308.9 L370.4,308.7 L368.0,306.3 L368.1,306.4 L374.4,305.8 L375.6,301.5 L385.3,299.5 L386.9,296.3 L389.5,296.2 L395.1,293.3 L396.9,289.4 L400.7,289.7 L402.7,286.6 L402.8,286.4 L402.8,286.3 L402.8,286.2 L403.3,286.0 L403.3,285.9 L403.4,285.6 L403.8,285.4 L404.0,285.2 L404.2,285.0 L401.8,282.6 L399.8,282.9 L399.0,282.5 L398.7,282.3 L398.6,282.2 L398.6,282.1 L398.5,282.1 L398.5,282.0 L397.7,281.7 L395.9,280.2 L395.8,280.1 L395.8,280.0 L395.8,279.9 L395.9,279.8 L395.8,279.6 L394.8,278.8 L394.6,277.9 L394.5,277.8 L394.5,277.7 L394.5,277.5 L394.6,277.4 L389.9,275.8 L389.9,275.6 L389.8,275.4 L389.8,275.3 L389.9,275.2 L389.9,274.9 L390.3,274.7 L390.2,274.2 L388.2,274.8 L388.0,274.8 L387.9,274.7 L387.8,274.7 L387.7,274.7 L387.5,274.8 L387.2,274.9 L386.8,275.0 L386.5,275.0 L386.2,275.0 L386.3,274.6 L386.2,274.6 L386.1,274.5 L385.8,274.5 L385.0,274.6 L385.0,274.4 L385.0,274.3 L385.1,274.3 L385.1,274.2 L385.1,274.1 L385.1,274.0 L385.1,273.9 L385.3,273.8 L385.3,273.7 L385.3,273.6 L385.3,273.4 L383.5,271.6 L387.0,269.8 L387.4,267.3 L385.7,266.7 L385.6,266.8 L385.4,267.0 L385.2,267.1 L383.9,267.7 L380.4,265.4 L378.1,264.9 L374.6,266.6 L372.7,268.9 L368.3,269.5 L367.6,271.0 L364.7,271.2 L358.6,268.9 L355.9,268.6 L351.3,270.1 L348.8,269.0 L345.7,266.4 L345.1,261.3 L343.3,262.0 L343.0,265.0 L337.9,265.2 L336.7,266.4 L331.5,267.5 L330.3,265.2 L325.9,263.7 L322.1,264.8 L316.9,264.7 L313.3,262.6 L316.7,261.2 L316.8,257.9 L315.8,255.4 L311.4,252.6 L310.3,249.6 L305.6,247.7 L304.0,248.7 L300.6,248.8 L297.4,246.8 L293.8,245.8 L292.6,243.5 L289.7,241.9 L287.6,242.1 L287.0,244.3 L277.2,248.7 L275.5,251.5 L270.6,254.6 L270.5,259.0 L268.9,260.5 L267.0,264.8 L266.2,269.8 L264.2,272.1 L266.9,273.9 L269.8,278.1 L268.3,280.3 L271.6,281.8 L270.5,284.4 L268.4,285.7 L266.1,288.5 L267.3,290.6 L265.7,292.6 L263.3,293.4 L264.9,296.9 L266.1,297.4 L267.4,304.3 L273.3,309.0 L273.4,310.8 L277.3,314.5 L279.7,315.6 L281.1,318.1 L280.8,320.7 L278.9,322.8 L282.0,325.9 L284.3,324.6 L289.4,324.3 L290.5,323.5 L293.0,318.7 L298.2,322.0 L301.5,317.3 L304.0,322.5 L302.2,323.7 L305.2,326.3 L308.7,326.6 L311.2,329.4 L313.5,328.5 L316.9,329.0 L316.5,325.3 L318.7,324.5 L321.8,325.1 L323.6,327.7 L326.1,324.9 L328.0,324.0 L330.0,327.8 L326.0,327.8 L327.2,329.9 L333.0,331.7 L334.4,334.3 L338.4,333.1 L340.0,329.9 L337.3,329.1 L336.6,323.6 L342.5,318.8 L339.2,315.7 L339.2,312.2 L342.2,310.8 L346.0,310.5 L347.9,313.4 L351.7,315.0 L353.4,312.6 L351.2,311.0 L350.3,306.4 L356.1,308.2 L358.6,307.7 L359.7,310.0 L363.1,312.7 L369.2,313.3 L370.7,312.2 Z M330.1,333.8 L332.2,335.8 L333.7,340.0 L336.1,340.1 L337.5,336.9 L337.0,334.7 L333.2,334.9 L330.1,333.8 Z M302.4,326.8 L299.9,327.2 L296.3,331.1 L297.1,333.5 L301.2,333.8 L304.7,333.0 L305.3,331.2 L302.4,326.8 Z M291.3,331.9 L291.1,329.9 L293.4,327.9 L292.8,325.5 L290.5,324.5 L288.0,325.4 L283.4,331.8 L283.6,334.2 L286.3,338.2 L285.7,341.5 L290.2,343.8 L292.1,342.6 L291.2,340.3 L293.4,339.2 L296.1,344.9 L298.9,344.0 L303.4,345.5 L302.6,343.0 L304.4,341.8 L304.4,338.1 L305.2,336.0 L302.2,334.2 L298.7,334.3 L295.6,336.7 L291.3,331.9 Z M357.4,338.2 L361.5,335.9 L359.9,333.5 L359.4,330.2 L361.7,327.4 L362.0,324.6 L359.2,321.7 L360.7,317.2 L357.5,317.3 L357.2,320.0 L355.1,323.4 L353.2,323.0 L349.9,324.5 L352.1,326.6 L346.8,327.9 L344.6,326.7 L341.8,328.5 L340.2,330.9 L341.0,333.6 L342.6,334.2 L347.8,334.3 L350.1,333.1 L349.1,341.5 L349.3,344.4 L352.0,345.5 L355.6,342.0 L354.4,340.4 L357.4,338.2 Z", "제주": "M205.3,447.4 L203.6,446.1 L200.1,445.8 L198.7,443.6 L195.2,443.1 L190.6,443.5 L182.4,445.6 L179.2,445.4 L178.1,446.5 L172.1,447.3 L170.4,446.9 L166.8,448.9 L162.9,449.9 L161.0,449.6 L155.5,451.5 L151.9,453.6 L149.4,457.2 L147.1,458.1 L141.8,462.9 L141.8,466.5 L143.6,469.3 L148.0,471.4 L151.3,474.9 L155.5,471.1 L159.9,471.9 L163.0,470.6 L166.7,470.9 L168.5,472.4 L172.7,470.9 L179.3,471.5 L183.6,468.5 L188.0,468.3 L193.6,466.5 L194.6,465.3 L199.2,465.3 L202.5,461.2 L203.8,458.7 L205.7,458.0 L206.9,451.3 L205.5,450.4 L205.3,447.4 Z"}, "centroids": {"서울": [213.9, 101.3], "부산": [400.2, 296.1], "대구": [346.0, 250.8], "인천": [191.3, 101.9], "광주": [196.0, 307.4], "대전": [245.2, 205.0], "울산": [400.8, 271.1], "세종": [237.6, 184.6], "경기": [216.1, 101.5], "강원": [317.9, 87.9], "충북": [264.5, 182.0], "충남": [224.0, 193.3], "전북": [221.1, 260.2], "전남": [208.1, 328.2], "경북": [376.0, 234.7], "경남": [351.8, 286.4], "제주": [176.9, 457.9]}};
 
 /* ---------------- 공통 ---------------- */
 const $ = s => document.querySelector(s);
@@ -482,48 +590,62 @@ const METRICS = {
 };
 let metric = 'lossRatio', heatMode = 'share', sel = null;
 let sortKey = 'paid', sortDir = -1;
+const ORIGINAL_DATA = JSON.parse(JSON.stringify(DATA));
 
-const SIDO = DATA.sido.map(s => ({
-  ...s,
-  accidents: (DATA.causeBySido[s.name] || {total: null}).total,
-  sgg: DATA.sggCount[s.name] ?? null,
-}));
-const byName = Object.fromEntries(SIDO.map(s => [s.name, s]));
+function buildSido() {
+  SIDO = DATA.sido.map(s => ({
+    ...s,
+    accidents: (DATA.causeBySido[s.name] || {total: null}).total,
+    sgg: DATA.sggCount[s.name] ?? null,
+  }));
+  byName = Object.fromEntries(SIDO.map(s => [s.name, s]));
+}
+let SIDO, byName;
+buildSido();
 const val = (s, k) => s[k];
-
-/* 타일맵 배치 (4열 × 7행) */
-const TILEPOS = {
-  경기:[3,1], 강원:[4,1],
-  인천:[2,2], 서울:[3,2],
-  충남:[2,3], 충북:[3,3], 경북:[4,3],
-  세종:[2,4], 대전:[3,4], 대구:[4,4],
-  전북:[2,5], 울산:[4,5],
-  광주:[1,6], 전남:[2,6], 경남:[3,6], 부산:[4,6],
-  제주:[1,7],
-};
 
 /* ---------------- KPI ---------------- */
 function renderKpis() {
-  const n = DATA.national, y = DATA.yearPay.at(-1), j = DATA.yearJoin.at(-1);
-  const peak = DATA.yearPay.reduce((a, b) => b.paid > a.paid ? b : a);
   const s = sel ? byName[sel] : null;
-  const items = s ? [
-    ['선택 지역', s.name, `전국 17개 시도 중 법정 시군구 ${nf(s.sgg)}개`, false],
-    ['손해율', nf(s.lossRatio,1)+'<em>%</em>',
-      `전국 ${nf(n.lossRatio,1)}% 대비 ${s.lossRatio>=n.lossRatio?'높음':'낮음'}`, s.lossRatio>=100],
-    ['지급보험금', nf(Math.round(s.paid)), `전국의 ${nf(s.paid/n.paid*100,1)}%`, false],
-    ['지급건수', nf(s.claims)+'<em>건</em>', `전국의 ${nf(s.claims/n.claims*100,1)}%`, false],
-    ['가입면적', nf(Math.round(s.area))+'<em>ha</em>', `가입률 ${nf(s.joinRate,1)}%`, false],
-    ['가입농가', nf(s.farms)+'<em>호</em>', `계약 ${nf(s.contracts)}건`, false],
-  ] : [
-    ['기준연도', '2024', `2001년 이후 ${DATA.yearPay.length}년치 누적 관측`, false],
-    ['지급보험금', nf(Math.round(y.paid)), '단위 백만원 · 약 1조 208억원', false],
-    ['손해율', nf(y.lossRatio,1)+'<em>%</em>',
-      `최고치 ${nf(peak.lossRatio,1)}% (${peak.year}년)`, y.lossRatio>=100],
-    ['지급건수', nf(y.claims)+'<em>건</em>', `가입건수 ${nf(j.contracts)}건 대비`, false],
-    ['사고접수', nf(DATA.causeNational.total)+'<em>건</em>', '8개 재해원인 구분', false],
-    ['면적가입률', nf(j.joinRate,1)+'<em>%</em>',
-      `가입면적 ${nf(Math.round(j.area))}ha`, false],
+  if (s) {
+    if (!hasRegionData(s)) {
+      $('#kpis').innerHTML = `<div class="kpi-empty"><b>${esc(s.name)}에 아직 업로드된 데이터가 없습니다</b>
+        <span>파일 업로드에서 ${esc(s.name)} 행이 포함된 표준 양식 CSV를 올리면 이 지역이 활성화됩니다.</span></div>`;
+      return;
+    }
+    const n = hasNationalData() ? DATA.national : null;
+    const items = [
+      ['선택 지역', s.name, s.sgg != null ? `전국 17개 시도 중 법정 시군구 ${nf(s.sgg)}개` : '시군구수 데이터 없음', false],
+      ['손해율', nf(s.lossRatio,1)+'<em>%</em>',
+        n ? `전국 ${nf(n.lossRatio,1)}% 대비 ${s.lossRatio>=n.lossRatio?'높음':'낮음'}` : '전국 데이터 미업로드', s.lossRatio>=100],
+      ['지급보험금', nf(Math.round(s.paid)), (n && n.paid) ? `전국의 ${nf(s.paid/n.paid*100,1)}%` : '전국 데이터 미업로드', false],
+      ['지급건수', nf(s.claims)+'<em>건</em>', (n && n.claims) ? `전국의 ${nf(s.claims/n.claims*100,1)}%` : '전국 데이터 미업로드', false],
+      ['가입면적', nf(Math.round(s.area))+'<em>ha</em>', `가입률 ${nf(s.joinRate,1)}%`, false],
+      ['가입농가', nf(s.farms)+'<em>호</em>', `계약 ${nf(s.contracts)}건`, false],
+    ];
+    $('#kpis').innerHTML = items.map(([k,v,m,hot]) =>
+      `<div class="kpi${hot?' hot':''}"><div class="k">${k}</div>
+       <div class="v">${v}</div><div class="m">${m}</div></div>`).join('');
+    return;
+  }
+  if (!hasNationalData()) {
+    $('#kpis').innerHTML = `<div class="kpi-empty"><b>아직 업로드된 전국 데이터가 없습니다</b>
+      <span>기본 화면에는 전국 데이터가 들어있지 않습니다. 파일 업로드에서 표준 양식 CSV(전국 행 포함)를 올리면 이 화면과 연도별 추이·보험 목적물 탭이 채워집니다.
+      지역 데이터만 올려도 지도·순위표·재해원인은 바로 활성화됩니다.</span></div>`;
+    return;
+  }
+  const y = DATA.yearPay.length ? DATA.yearPay.at(-1) : null;
+  const j = DATA.yearJoin.length ? DATA.yearJoin.at(-1) : null;
+  const peak = DATA.yearPay.length ? DATA.yearPay.reduce((a, b) => b.paid > a.paid ? b : a) : null;
+  const items = [
+    ['기준연도', y ? String(y.year) : '2024', DATA.yearPay.length ? `2001년 이후 ${DATA.yearPay.length}년치 누적 관측` : '연도별 데이터 미업로드', false],
+    ['지급보험금', nf(Math.round(DATA.national.paid)), '단위 백만원', false],
+    ['손해율', nf(DATA.national.lossRatio,1)+'<em>%</em>',
+      peak ? `최고치 ${nf(peak.lossRatio,1)}% (${peak.year}년)` : '연도별 데이터 미업로드', DATA.national.lossRatio>=100],
+    ['지급건수', nf(DATA.national.claims)+'<em>건</em>', j ? `가입건수 ${nf(j.contracts)}건 대비` : '가입 데이터 미업로드', false],
+    ['사고접수', DATA.causeNational ? nf(DATA.causeNational.total)+'<em>건</em>' : '-', '8개 재해원인 구분', false],
+    ['면적가입률', nf(DATA.national.joinRate,1)+'<em>%</em>',
+      `가입면적 ${nf(Math.round(DATA.national.area))}ha`, false],
   ];
   $('#kpis').innerHTML = items.map(([k,v,m,hot]) =>
     `<div class="kpi${hot?' hot':''}"><div class="k">${k}</div>
@@ -532,6 +654,12 @@ function renderKpis() {
 
 /* ---------------- 연도별 콤보 ---------------- */
 function renderCombo() {
+  const el = $('#cCombo');
+  if (!DATA.yearPay.length) {
+    el.innerHTML = `<div class="emptybox"><b>연도별 지급 데이터가 없습니다</b>
+      <p>전국 행이 포함된 표준 양식 CSV를 업로드하면 2001~2024년 지급보험금·손해율 추이가 표시됩니다.</p></div>`;
+    return;
+  }
   const d = DATA.yearPay, W = 620, H = 300;
   const L = 54, R = 46, T = 14, B = 40;
   const iw = W - L - R, ih = H - T - B;
@@ -586,6 +714,12 @@ function renderCombo() {
 
 /* ---------------- 가입 추이 ---------------- */
 function renderJoin() {
+  const el = $('#cJoin');
+  if (!DATA.yearJoin.length) {
+    el.innerHTML = `<div class="emptybox"><b>연도별 가입 데이터가 없습니다</b>
+      <p>전국 행이 포함된 표준 양식 CSV를 업로드하면 2001~2024년 가입면적·면적가입률 추이가 표시됩니다.</p></div>`;
+    return;
+  }
   const d = DATA.yearJoin, W = 620, H = 300;
   const L = 54, R = 46, T = 14, B = 40;
   const iw = W - L - R, ih = H - T - B;
@@ -631,37 +765,89 @@ function renderJoin() {
   });
 }
 
-/* ---------------- 타일맵 ---------------- */
+/* ---------------- 실제 시도 지도 ---------------- */
 function renderMap() {
   const M = METRICS[metric];
-  const vals = SIDO.map(s => val(s, metric));
-  const br = quantiles(vals);
-  const scale = M.scale === 'p' ? P_SCALE : D_SCALE;
-  const ranked = SIDO.slice().sort((a, b) => val(b, metric) - val(a, metric));
-  const rankOf = Object.fromEntries(ranked.map((s, i) => [s.name, i + 1]));
+  const activeSido = SIDO.filter(hasRegionData);
   $('#mapTitle').textContent = `시도별 ${M.label}`;
-  $('#mapSub').textContent = M.desc;
-  $('#tilemap').innerHTML = SIDO.map(s => {
-    const [c, r] = TILEPOS[s.name] || [1, 1];
-    const k = classOf(val(s, metric), br);
-    return `<button type="button" class="tile ${k >= 3 ? 'dark' : 'lite'}"
-      data-n="${esc(s.name)}" aria-pressed="${sel === s.name}"
-      style="grid-column:${c};grid-row:${r};background:${scale[k]}">
-      <span class="rk">${rankOf[s.name]}</span>
-      <span class="nm">${esc(s.name)}</span>
-      <span class="vl">${nf(val(s, metric), M.d)}</span></button>`;
+  $('#mapSub').textContent = activeSido.length
+    ? M.desc
+    : `${M.desc} 아직 업로드된 지역이 없어 지도가 비활성화되어 있습니다.`;
+
+  const svg = $('#mapsvg');
+  svg.setAttribute('viewBox', KOREA_MAP.viewBox);
+
+  if (!activeSido.length) {
+    const paths = Object.entries(KOREA_MAP.paths).map(([name, d]) =>
+      `<path class="region disabled" data-n="${esc(name)}" d="${d}"
+        fill="var(--line2)" tabindex="0" role="button" aria-label="${esc(name)} 데이터 없음"></path>`).join('');
+    const labels = Object.entries(KOREA_MAP.centroids).map(([name, [cx, cy]]) =>
+      `<text class="mlabel" x="${cx}" y="${cy+4}" text-anchor="middle" font-size="12"
+        fill="var(--muted)">${esc(name)}</text>`).join('');
+    svg.innerHTML = paths + labels;
+    svg.querySelectorAll('path.region').forEach(el => {
+      bindTip(el, `<b>${esc(el.dataset.n)}</b><br>업로드된 데이터가 없습니다`);
+    });
+    $('#legend').innerHTML = `<span class="cap">업로드된 지역이 없습니다 · 표준 양식 CSV를 올리면 해당 지역에 색이 입혀집니다</span>`;
+    return;
+  }
+
+  const vals = activeSido.map(s => val(s, metric));
+  const useQuantile = vals.length >= 2;
+  const br = useQuantile ? quantiles(vals) : null;
+  const scale = M.scale === 'p' ? P_SCALE : D_SCALE;
+  const ranked = activeSido.slice().sort((a, b) => val(b, metric) - val(a, metric));
+  const rankOf = Object.fromEntries(ranked.map((s, i) => [s.name, i + 1]));
+
+  const paths = Object.entries(KOREA_MAP.paths).map(([name, d]) => {
+    const s = byName[name];
+    const active = hasRegionData(s);
+    const fill = active ? scale[useQuantile ? classOf(val(s, metric), br) : 2] : 'var(--line2)';
+    return `<path class="region${sel === name ? ' on' : ''}${active ? '' : ' disabled'}" data-n="${esc(name)}"
+      d="${d}" fill="${fill}" tabindex="0" role="button"
+      aria-label="${esc(name)} ${active ? M.label+' '+nf(val(s, metric), M.d)+M.unit : '데이터 없음'}"></path>`;
   }).join('');
-  $('#tilemap').querySelectorAll('.tile').forEach(el => {
+  const labels = Object.entries(KOREA_MAP.centroids).map(([name, [cx, cy]]) => {
+    const s = byName[name];
+    const active = hasRegionData(s);
+    const k = active ? (useQuantile ? classOf(val(s, metric), br) : 2) : 0;
+    const lite = active && k >= 3;
+    if (!active) {
+      return `<text class="mlabel" x="${cx}" y="${cy+4}" text-anchor="middle" font-size="12"
+        fill="var(--muted)">${esc(name)}</text>`;
+    }
+    return `<text class="mlabel" x="${cx}" y="${cy - 3}" text-anchor="middle"
+      font-size="12" fill="${lite ? '#fff' : 'var(--ink)'}">${esc(name)}</text>
+      <text class="mlabel" x="${cx}" y="${cy + 11}" text-anchor="middle"
+      font-size="10.5" font-weight="600" fill="${lite ? '#fff' : 'var(--ink2)'}"
+      opacity=".9">${nf(val(s, metric), M.d)}</text>`;
+  }).join('');
+  svg.innerHTML = paths + labels;
+
+  svg.querySelectorAll('path.region').forEach(el => {
     const s = byName[el.dataset.n];
-    bindTip(el, `<b>${s.name}</b> · ${M.label} ${nf(val(s, metric), M.d)}${M.unit}<br>
-      전국 ${rankOf[s.name]}위 / 17개 시도`);
-    el.onclick = () => select(sel === s.name ? null : s.name);
+    const active = hasRegionData(s);
+    if (active) {
+      bindTip(el, `<b>${s.name}</b> · ${M.label} ${nf(val(s, metric), M.d)}${M.unit}<br>
+        업로드된 ${activeSido.length}개 지역 중 ${rankOf[s.name]}위`);
+      el.onclick = () => select(sel === s.name ? null : s.name);
+      el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.onclick(); } };
+    } else {
+      bindTip(el, `<b>${s.name}</b><br>업로드된 데이터가 없습니다`);
+    }
   });
-  const edges = [Math.min(...vals), ...br, Math.max(...vals)];
-  $('#legend').innerHTML =
-    `<span class="cap">5분위 구간 · ${M.unit}</span>` +
-    scale.map((c, i) => `<span class="sw" style="background:${c}"></span>` +
-      (i < 4 ? `<span class="lb">${nf(edges[i+1], M.d)}</span>` : '')).join('');
+
+  if (useQuantile) {
+    const edges = [Math.min(...vals), ...br, Math.max(...vals)];
+    $('#legend').innerHTML =
+      `<span class="cap">업로드된 ${activeSido.length}개 지역 · 5분위 구간 · ${M.unit}</span>` +
+      scale.map((c, i) => `<span class="sw" style="background:${c}"></span>` +
+        (i < 4 ? `<span class="lb">${nf(edges[i+1], M.d)}</span>` : '')).join('');
+  } else {
+    $('#legend').innerHTML =
+      `<span class="cap">업로드된 지역 1개 · 2개 이상 올리면 값 구간별로 색이 나뉩니다</span>` +
+      `<span class="sw" style="background:${scale[2]}"></span><span class="lb">${esc(activeSido[0].name)}</span>`;
+  }
 }
 
 /* ---------------- 순위표 ---------------- */
@@ -672,14 +858,20 @@ const COLS = [
   ['lossRatio','손해율(%)',1], ['accidents','사고접수(건)',0],
 ];
 function renderRank() {
+  const activeSido = SIDO.filter(hasRegionData);
   $('#rankHead').innerHTML = COLS.map(([k, l]) =>
     `<th data-k="${k}" tabindex="0" scope="col">${l}${
       sortKey === k ? `<span class="ar">${sortDir < 0 ? '▼' : '▲'}</span>` : ''}</th>`).join('');
-  const rows = SIDO.slice().sort((a, b) => {
+  if (!activeSido.length) {
+    $('#rankBody').innerHTML = `<tr><td colspan="${COLS.length}" style="text-align:center;color:var(--muted);padding:22px 8px">
+      아직 업로드된 지역이 없습니다. 표준 양식 CSV를 올리면 여기 순위가 표시됩니다.</td></tr>`;
+    return;
+  }
+  const rows = activeSido.slice().sort((a, b) => {
     if (sortKey === 'name') return a.name.localeCompare(b.name, 'ko') * sortDir * -1;
     return (val(b, sortKey) - val(a, sortKey)) * (sortDir < 0 ? 1 : -1);
   });
-  const maxPaid = Math.max(...SIDO.map(s => s.paid));
+  const maxPaid = Math.max(...activeSido.map(s => s.paid));
   $('#rankBody').innerHTML = rows.map((s, i) => `
     <tr data-n="${esc(s.name)}" class="${sel === s.name ? 'on' : ''}">
       <td>${i + 1}</td><td>${esc(s.name)}</td>
@@ -689,8 +881,8 @@ function renderRank() {
         <span>${nf(Math.round(s.paid))}</span></td>
       <td style="font-weight:700;color:${s.lossRatio >= 100 ? 'var(--d5)' : 'inherit'}">
         ${nf(s.lossRatio, 1)}</td>
-      <td>${nf(s.accidents)}</td></tr>`).join('');
-  $('#rankBody').querySelectorAll('tr').forEach(tr =>
+      <td>${s.accidents != null ? nf(s.accidents) : '-'}</td></tr>`).join('');
+  $('#rankBody').querySelectorAll('tr[data-n]').forEach(tr =>
     tr.onclick = () => select(sel === tr.dataset.n ? null : tr.dataset.n));
   $('#rankHead').querySelectorAll('th').forEach(th => {
     const go = () => {
@@ -706,18 +898,25 @@ function renderRank() {
 /* ---------------- 히트맵 ---------------- */
 function renderHeat() {
   const cs = DATA.causes;
-  const rows = SIDO.map(s => {
-    const c = DATA.causeBySido[s.name];
-    return {name: s.name, total: c.total, v: c.values};
+  const activeNames = Object.keys(DATA.causeBySido);
+  const el = $('#heat');
+  if (!activeNames.length) {
+    $('#heatSub').textContent = '아직 업로드된 재해원인 데이터가 없습니다.';
+    el.innerHTML = `<div class="emptybox"><b>재해원인 데이터가 없습니다</b>
+      <p>지역별 표준 양식(사고원인 컬럼 포함)을 업로드하면 시도 × 재해원인 히트맵이 표시됩니다.</p></div>`;
+    return;
+  }
+  const rows = activeNames.map(name => {
+    const c = DATA.causeBySido[name];
+    return {name, total: c.total, v: c.values};
   }).sort((a, b) => b.total - a.total);
   const cells = [];
   rows.forEach(r => r.v.forEach((v, i) =>
     cells.push(heatMode === 'share' ? (r.total ? v / r.total * 100 : 0) : v)));
   const br = quantiles(cells);
   $('#heatSub').textContent = heatMode === 'share'
-    ? '각 시도 안에서 재해원인이 차지하는 비중(%)입니다. 지역 규모 차이를 걷어내고 재해 성격만 비교합니다. '
-      + '다만 합계가 작은 지역(서울 30건, 부산 743건)은 몇 건 차이로 비중이 크게 흔들리므로 오른쪽 합계를 함께 보십시오.'
-    : '사고접수 건수 원값입니다. 농업 규모가 큰 지역이 전반적으로 진하게 나타납니다.';
+    ? '각 시도 안에서 재해원인이 차지하는 비중(%)입니다. 지역 규모 차이를 걷어내고 재해 성격만 비교합니다.'
+    : '사고접수 건수 원값입니다. 업로드된 지역만 표시됩니다.';
   const HEAD = {
     '냉해·동해·동상해':'냉해·동해<br>동상해', '한해(가뭄)·폭염':'한해(가뭄)<br>폭염',
     '기타 자연재해':'기타<br>자연재해',
@@ -737,14 +936,14 @@ function renderHeat() {
       <th class="rh">${esc(r.name)}</th>${tds}
       <td style="background:var(--gov-l);color:var(--ink2)">${nf(r.total)}</td></tr>`;
   }).join('');
-  $('#heat').innerHTML = `<table class="heat">${head}${body}</table>`;
-  $('#heat').querySelectorAll('td[data-c]').forEach(td => {
+  el.innerHTML = `<table class="heat">${head}${body}</table>`;
+  el.querySelectorAll('td[data-c]').forEach(td => {
     const r = rows.find(x => x.name === td.dataset.n), i = +td.dataset.c;
     bindTip(td, `<b>${r.name} · ${cs[i]}</b><br>사고접수 ${nf(r.v[i])}건 ·
       지역 내 ${nf(r.total ? r.v[i] / r.total * 100 : 0, 1)}%`);
     td.onclick = () => select(sel === r.name ? null : r.name);
   });
-  $('#heat').querySelectorAll('tr[data-n]').forEach(tr =>
+  el.querySelectorAll('tr[data-n]').forEach(tr =>
     tr.querySelector('.rh').onclick = () => select(sel === tr.dataset.n ? null : tr.dataset.n));
 }
 
@@ -754,11 +953,18 @@ function renderCause() {
   const name = sel || '전국';
   const src = sel ? DATA.causeBySido[sel] : DATA.causeNational;
   $('#causeTitle').textContent = `${name} 재해원인 구성`;
+  const el = $('#causeBars');
+  if (!src) {
+    $('#causeSub').textContent = '업로드된 재해원인 데이터가 없습니다.';
+    el.innerHTML = `<div class="emptybox"><b>${esc(name)} 재해원인 데이터가 없습니다</b>
+      <p>사고원인 컬럼이 포함된 표준 양식을 업로드하면 구성비가 표시됩니다.</p></div>`;
+    return;
+  }
   $('#causeSub').textContent = `사고접수 ${nf(src.total)}건 기준. 막대는 전체 대비 비중(%)입니다.`;
   const pairs = DATA.causes.map((c, i) => ({c, v: src.values[i], i}))
     .sort((a, b) => b.v - a.v);
   const max = Math.max(...pairs.map(p => p.v)) || 1;
-  $('#causeBars').innerHTML = pairs.map(p => `
+  el.innerHTML = pairs.map(p => `
     <div class="hb"><div class="l">${esc(p.c)}</div>
       <div class="t"><i style="width:${p.v / max * 100}%;background:${CAUSE_COLOR[p.i]}"></i></div>
       <div class="v">${nf(src.total ? p.v / src.total * 100 : 0, 1)}<small>%</small></div></div>`).join('')
@@ -766,13 +972,71 @@ function renderCause() {
        ‘기타 자연재해’는 원자료에서 8개 구분 중 하나로 제공되는 항목이며, 하위 분류는 개방되어 있지 않습니다.</div>`;
 }
 
+/* ---------------- 재해원인 도넛 ---------------- */
+function renderCauseDonut() {
+  const name = sel || '전국';
+  const src = sel ? DATA.causeBySido[sel] : DATA.causeNational;
+  $('#causeDonutTitle').textContent = `${name} 재해원인 비중`;
+  const el = $('#causeDonut');
+  if (!src) {
+    el.innerHTML = `<div class="emptybox"><b>${esc(name)} 재해원인 데이터가 없습니다</b>
+      <p>표준 양식을 업로드하면 도넛 차트가 표시됩니다.</p></div>`;
+    return;
+  }
+  const items = DATA.causes.map((c, i) => ({name: c, v: src.values[i], i}));
+  const tot = src.total || 1;
+  const W = 230, cx = 108, cy = 100, rO = 78, rI = 47;
+  let a0 = -Math.PI / 2, arcs = '';
+  items.forEach(d => {
+    const frac = d.v / tot;
+    const a1 = a0 + frac * Math.PI * 2;
+    const big = a1 - a0 > Math.PI ? 1 : 0;
+    const p = (r, a) => `${(cx + r * Math.cos(a)).toFixed(2)},${(cy + r * Math.sin(a)).toFixed(2)}`;
+    if (frac > 0) {
+      arcs += `<path class="darc" data-i="${d.i}" d="M${p(rO,a0)} A${rO},${rO} 0 ${big} 1 ${p(rO,a1)}
+        L${p(rI,a1)} A${rI},${rI} 0 ${big} 0 ${p(rI,a0)} Z"
+        fill="${CAUSE_COLOR[d.i % CAUSE_COLOR.length]}" stroke="#fff" stroke-width="1.5"/>`;
+    }
+    a0 = a1;
+  });
+  el.innerHTML = `
+    <svg class="chart" viewBox="0 0 ${W} 200" role="img" aria-label="재해원인 비중 도넛">
+      ${arcs}
+      <text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="18" font-weight="800"
+        fill="var(--ink)" letter-spacing="-1">${nf(tot)}</text>
+      <text x="${cx}" y="${cy+13}" text-anchor="middle" font-size="10"
+        fill="var(--muted)">사고접수(건)</text>
+    </svg>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 10px;margin-top:6px">
+    ${items.slice().sort((a,b)=>b.v-a.v).map(d => `
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;letter-spacing:-.02em">
+        <span style="width:8px;height:8px;border-radius:2px;flex:none;
+          background:${CAUSE_COLOR[d.i % CAUSE_COLOR.length]}"></span>
+        <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)">${esc(d.name)}</span>
+        <span style="margin-left:auto;font-weight:700;color:var(--ink2)">${nf(tot?d.v/tot*100:0,1)}%</span>
+      </div>`).join('')}
+    </div>`;
+  el.querySelectorAll('.darc').forEach(elx => {
+    const d = items[+elx.dataset.i];
+    bindTip(elx, `<b>${esc(d.name)}</b> · ${nf(d.v)}건<br>${name} 사고접수 중 ${nf(tot?d.v/tot*100:0,1)}%`);
+  });
+}
+
 /* ---------------- 논작물 ---------------- */
 function renderCrop() {
+  if (!DATA.crop.rows) {
+    const msg = `<div class="emptybox"><b>논작물 세부현황 데이터가 없습니다</b>
+      <p>전국 행이 포함된 표준 양식 CSV를 업로드하면 품목·품종·이앙 시기 구성이 표시됩니다.</p></div>`;
+    $('#cDonut').innerHTML = msg;
+    $('#cVar').innerHTML = '';
+    $('#cMonth').innerHTML = '';
+    return;
+  }
   const it = DATA.crop.items, tot = it.reduce((a, b) => a + b.areaHa, 0);
   const W = 260, cx = 130, cy = 118, rO = 92, rI = 55;
   let a0 = -Math.PI / 2, arcs = '';
   it.forEach((d, i) => {
-    const a1 = a0 + d.areaHa / tot * Math.PI * 2;
+    const a1 = a0 + (tot ? d.areaHa / tot : 0) * Math.PI * 2;
     const big = a1 - a0 > Math.PI ? 1 : 0;
     const p = (r, a) => `${(cx + r * Math.cos(a)).toFixed(2)},${(cy + r * Math.sin(a)).toFixed(2)}`;
     arcs += `<path class="darc" data-i="${i}" d="M${p(rO,a0)} A${rO},${rO} 0 ${big} 1 ${p(rO,a1)}
@@ -791,22 +1055,27 @@ function renderCrop() {
     it.map((d, i) => `<div class="hb" style="grid-template-columns:14px 74px 1fr 74px">
       <span style="width:10px;height:10px;border-radius:2px;background:${CAUSE_COLOR[i % CAUSE_COLOR.length]}"></span>
       <div class="l" style="text-align:left">${esc(d.name)}</div>
-      <div class="t"><i style="width:${d.areaHa / it[0].areaHa * 100}%;
+      <div class="t"><i style="width:${it[0].areaHa ? d.areaHa / it[0].areaHa * 100 : 0}%;
         background:${CAUSE_COLOR[i % CAUSE_COLOR.length]};opacity:.55"></i></div>
       <div class="v">${nf(d.areaHa, 1)}<small>ha</small></div></div>`).join('');
   $('#cDonut').querySelectorAll('.darc').forEach(el => {
     const d = it[+el.dataset.i];
     bindTip(el, `<b>${d.name}</b> · ${nf(d.areaHa,1)}ha<br>
-      계약 ${nf(d.contracts)}건 · 전체의 ${nf(d.areaHa/tot*100,1)}%`);
+      계약 ${nf(d.contracts)}건 · 전체의 ${nf(tot?d.areaHa/tot*100:0,1)}%`);
   });
 
-  const vs = DATA.crop.varieties, mv = vs[0].contracts;
-  $('#cVar').innerHTML = vs.map(v => `<div class="hb">
-    <div class="l">${esc(v.name)}</div>
-    <div class="t"><i style="width:${v.contracts / mv * 100}%;background:var(--grain);opacity:.8"></i></div>
-    <div class="v">${nf(Math.round(v.contracts / 1000))}<small>천건</small></div></div>`).join('');
+  const vs = DATA.crop.varieties.filter(v => v.contracts > 0).sort((a,b)=>b.contracts-a.contracts);
+  if (!vs.length) {
+    $('#cVar').innerHTML = `<div class="emptybox"><b>품종별 데이터가 없습니다</b></div>`;
+  } else {
+    const mv = vs[0].contracts;
+    $('#cVar').innerHTML = vs.map(v => `<div class="hb">
+      <div class="l">${esc(v.name)}</div>
+      <div class="t"><i style="width:${v.contracts / mv * 100}%;background:var(--grain);opacity:.8"></i></div>
+      <div class="v">${nf(Math.round(v.contracts / 1000))}<small>천건</small></div></div>`).join('');
+  }
 
-  const ms = DATA.crop.months, mm = Math.max(...ms.map(m => m.contracts));
+  const ms = DATA.crop.months, mm = Math.max(...ms.map(m => m.contracts)) || 1;
   const W2 = 300, H2 = 200, L2 = 8, B2 = 26, T2 = 10;
   const bw = (W2 - L2 * 2) / 12;
   const bars = ms.map((m, i) => {
@@ -831,33 +1100,59 @@ function renderCrop() {
 /* ---------------- 출처 ---------------- */
 function renderSrcs() {
   const S = [
-    ['농작물재해보험 시도별 가입 및 지급현황', '농업정책보험금융원 · 2024-12-31 · CSV',
-      '시도 타일맵, 순위표, KPI'],
-    ['농작물재해보험 시도별 사고원인별 사고접수 현황', '농업정책보험금융원 · 2024-12-31 · CSV',
+    ['농작물재해보험 시도별 가입 및 지급현황', '농업정책보험금융원 · CSV',
+      '시도 지도, 순위표, KPI'],
+    ['농작물재해보험 시도별 사고원인별 사고접수 현황', '농업정책보험금융원 · CSV',
       '재해원인 히트맵, 원인 구성 막대'],
     ['농작물재해보험 연도별 지급현황', '농업정책보험금융원 · 2001–2024 · CSV',
       '연도별 지급보험금·손해율 추이'],
     ['농작물재해보험 연도별 가입 현황', '농업정책보험금융원 · 2001–2024 · CSV',
       '가입면적·면적가입률 추이'],
-    ['농작물재해보험 계약된 논작물 세부현황', '농업정책보험금융원 · 2024 · 1,843,012행',
+    ['농작물재해보험 계약된 논작물 세부현황', '농업정책보험금융원 · CSV',
       '품목·품종·이앙시기 집계'],
-    ['법정동 코드', '농업정책보험금융원 · 2023-09-19 · CSV',
+    ['법정동 코드', '농업정책보험금융원 · CSV',
       '시도명 표기 정규화, 시군구 수 산출'],
   ];
   $('#srcs').innerHTML = S.map(([n, m, u]) =>
     `<div class="src"><div class="n">${n}</div>
       <div class="m">${m}<br>활용 · ${u}</div></div>`).join('');
-  $('#checks').innerHTML = DATA.checks.map(c =>
-    `<div>${c.ok ? '검증 통과' : '불일치'} · ${c.label}</div>`).join('');
+  const checks = computeChecks();
+  $('#checks').innerHTML = checks.length
+    ? checks.map(c => `<div>${c.ok ? '검증 통과' : '불일치'} · ${c.label}</div>`).join('')
+    : `<div style="background:none;color:var(--muted);font-weight:500">전국 데이터와 17개 시도 데이터가 모두 업로드되면 합계 검증 결과가 여기 표시됩니다.</div>`;
+}
+
+/* 업로드된 시도 합계와 전국 값이 서로 맞는지 실시간으로 검증한다(정적 수치가 아니라 현재 DATA 기준). */
+function computeChecks() {
+  const activeSido = SIDO.filter(hasRegionData);
+  const checks = [];
+  if (hasNationalData() && activeSido.length === 17) {
+    const near = (a, b) => Math.abs(a - b) < Math.max(1, Math.abs(b) * 0.001);
+    const sumPaid = activeSido.reduce((a,s)=>a+s.paid, 0);
+    const sumClaims = activeSido.reduce((a,s)=>a+s.claims, 0);
+    const sumArea = activeSido.reduce((a,s)=>a+s.area, 0);
+    const sumFarms = activeSido.reduce((a,s)=>a+s.farms, 0);
+    checks.push({label:'시도 합계 보험금 = 전국 지급보험금', ok: near(sumPaid, DATA.national.paid)});
+    checks.push({label:'시도 합계 지급건수 = 전국 지급건수', ok: near(sumClaims, DATA.national.claims)});
+    checks.push({label:'시도 합계 가입면적 = 전국 가입면적', ok: near(sumArea, DATA.national.area)});
+    checks.push({label:'시도 합계 가입농가수 = 전국 가입농가수', ok: near(sumFarms, DATA.national.farms)});
+  }
+  if (DATA.causeNational && Object.keys(DATA.causeBySido).length === 17) {
+    const sumCause = Object.values(DATA.causeBySido).reduce((a,c)=>a+c.total, 0);
+    const sumItems = Object.values(DATA.causeBySido).reduce((a,c)=>a+c.values.reduce((x,y)=>x+y,0), 0);
+    checks.push({label:'사고원인 시도 합계 = 전국 총합계', ok: sumCause === DATA.causeNational.total});
+    checks.push({label:'사고원인 항목 합 = 전국 총합계', ok: sumItems === DATA.causeNational.total});
+  }
+  return checks;
 }
 
 /* ---------------- 선택 연동 ---------------- */
 function select(name) {
   sel = name;
   $('#fSido').value = name || '';
-  renderKpis(); renderMap(); renderRank(); renderHeat(); renderCause();
+  renderKpis(); renderMap(); renderRank(); renderHeat(); renderCause(); renderCauseDonut();
   if (name) {
-    const t = document.querySelector(`.tile[data-n="${CSS.escape(name)}"]`);
+    const t = document.querySelector(`.mapwrap path.region[data-n="${CSS.escape(name)}"]`);
     if (t) t.focus({preventScroll: true});
   }
 }
@@ -871,7 +1166,187 @@ $('#fMetric').onchange = e => { metric = e.target.value; renderMap(); };
 $('#fHeat').onchange = e => { heatMode = e.target.value; renderHeat(); };
 
 renderKpis(); renderCombo(); renderJoin(); renderMap();
-renderRank(); renderHeat(); renderCause(); renderCrop(); renderSrcs();
+renderRank(); renderHeat(); renderCause(); renderCauseDonut(); renderCrop(); renderSrcs();
+
+/* ---------------- 페이지 탭 전환 ---------------- */
+function showTab(name) {
+  document.querySelectorAll('.tabpanel').forEach(p => { p.hidden = p.dataset.panel !== name; });
+  document.querySelectorAll('.ptab').forEach(b => {
+    const on = b.dataset.tab === name;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
+}
+document.querySelectorAll('.ptab').forEach(b => {
+  b.addEventListener('click', () => { showTab(b.dataset.tab); window.scrollTo({top:0, behavior:'smooth'}); });
+});
+
+/* ==================================================================
+   CASE26_API — 데이터 업로드 반영 인터페이스
+   업로드/파싱은 카탈로그(부모 페이지)가 담당하고, 이 iframe은
+   "표준 종합 CSV"(1행 헤더 + 1열 지역명 + 나머지 숫자) 형식의
+   rows 배열을 받아 DATA에 반영하는 API만 노출한다.
+   ================================================================== */
+const CAUSE_KEYS = ['사고원인_냉해동해동상해_건','사고원인_호우_건','사고원인_태풍강풍_건','사고원인_우박_건',
+  '사고원인_한해가뭄폭염_건','사고원인_폭설설해_건','사고원인_조수해_건','사고원인_기타자연재해_건'];
+const FIELD_MAP_A = {
+  '대상면적_ha':'targetArea','가입농가수_호':'farms','가입건수_건':'contracts','가입농지수_필지':'parcels',
+  '가입금액_백만원':'sumInsured','가입면적_ha':'area','가입률_퍼센트':'joinRate','순보험료_백만원':'netPremium',
+  '위험보험료_백만원':'riskPremium','보험료율_퍼센트':'premiumRate','지급건수_건':'claims',
+  '지급보험금_백만원':'paid','손해율_퍼센트':'lossRatio',
+};
+const FIELD_MAP_YEARJOIN = {
+  '가입농가수_호':'farms','가입건수_건':'contracts','가입금액_백만원':'sumInsured','가입면적_ha':'area',
+  '면적가입률_퍼센트':'joinRate','순보험료_백만원':'netPremium','국가보조보험료_백만원':'subsidyState',
+  '시도보조보험료_백만원':'subsidySido','시군구보조보험료_백만원':'subsidySigungu','농가부담금_백만원':'farmerShare',
+};
+const FIELD_MAP_YEARPAY = { '지급건수_건':'claims','지급보험금_백만원':'paid','손해율_퍼센트':'lossRatio' };
+const CROP_ITEM_KEY = {'벼':'벼','벼조사료용':'벼[조사료용]','보리':'보리','밀':'밀','귀리':'귀리','농업수입안정보리':'(농업수입안정)보리'};
+
+function toN(v){ if (v==null) return null; const s=String(v).trim(); if(!s) return null; const n=Number(s); return Number.isFinite(n)?n:null; }
+
+function ingestRow(header, row) {
+  const get = (colName) => { const i = header.indexOf(colName); return i===-1 ? undefined : row[i]; };
+  const regionRaw = String(row[0] || '').trim();
+  if (!regionRaw) return { ok:false, reason:'지역명이 비어 있습니다.' };
+  const isNational = regionRaw === '전국';
+  const target = isNational ? DATA.national : DATA.sido.find(s => s.name === regionRaw);
+  if (!target) return { ok:false, reason:`알 수 없는 지역명입니다: ${regionRaw}` };
+
+  // Group A: 시도별 가입/지급현황
+  Object.entries(FIELD_MAP_A).forEach(([col, field]) => {
+    const v = toN(get(col));
+    if (v !== null) target[field] = v;
+  });
+
+  // Group B: 사고원인
+  const causeTotal = toN(get('사고접수_총합계_건'));
+  const causeVals = CAUSE_KEYS.map(k => toN(get(k)));
+  if (causeTotal !== null || causeVals.some(v => v !== null)) {
+    const bucket = isNational
+      ? (DATA.causeNational || (DATA.causeNational = {total:0, values:[0,0,0,0,0,0,0,0]}))
+      : (DATA.causeBySido[regionRaw] || (DATA.causeBySido[regionRaw] = {total:0, values:[0,0,0,0,0,0,0,0]}));
+    if (causeTotal !== null) bucket.total = causeTotal;
+    causeVals.forEach((v,i) => { if (v !== null) bucket.values[i] = v; });
+  }
+
+  // Group F: 시군구수
+  const sgg = toN(get('시군구수_개'));
+  if (sgg !== null) DATA.sggCount[regionRaw] = sgg;
+
+  // Group C/D: 연도별 (전국 행에서만 의미 있음)
+  header.forEach((col, i) => {
+    let m = col.match(/^연도별가입_(.+)_(\d{4})$/);
+    if (m) {
+      const [, std, yStr] = m; const year = +yStr; const field = FIELD_MAP_YEARJOIN[std];
+      const v = toN(row[i]);
+      if (field && v !== null) {
+        let rec = DATA.yearJoin.find(r => r.year === year);
+        if (!rec) { rec = {year}; DATA.yearJoin.push(rec); DATA.yearJoin.sort((a,b)=>a.year-b.year); }
+        rec[field] = v;
+      }
+      return;
+    }
+    m = col.match(/^연도별지급_(.+)_(\d{4})$/);
+    if (m) {
+      const [, std, yStr] = m; const year = +yStr; const field = FIELD_MAP_YEARPAY[std];
+      const v = toN(row[i]);
+      if (field && v !== null) {
+        let rec = DATA.yearPay.find(r => r.year === year);
+        if (!rec) { rec = {year}; DATA.yearPay.push(rec); DATA.yearPay.sort((a,b)=>a.year-b.year); }
+        rec[field] = v;
+      }
+      return;
+    }
+  });
+
+  // Group E: 논작물 (전국 행에서만 의미 있음)
+  if (isNational) {
+    const totalContracts = toN(get('논작물_총계약건수_건'));
+    if (totalContracts !== null) DATA.crop.rows = totalContracts;
+    Object.entries(CROP_ITEM_KEY).forEach(([key, origName]) => {
+      const c = toN(get(`논작물_품목별_계약건수_${key}_건`));
+      const a = toN(get(`논작물_품목별_가입면적_${key}_ha`));
+      let it = DATA.crop.items.find(x => x.name === origName);
+      if (!it && (c !== null || a !== null)) { it = {name: origName, contracts:0, areaHa:0}; DATA.crop.items.push(it); }
+      if (it) { if (c !== null) it.contracts = c; if (a !== null) it.areaHa = a; }
+    });
+    ['기계이앙','산파','직파','담수직파','미상'].forEach(styleName => {
+      const c = toN(get(`논작물_재배양식별_계약건수_${styleName}_건`));
+      if (c !== null) {
+        let st = DATA.crop.styles.find(x => x.name === styleName);
+        if (!st) { st = {name:styleName, contracts:0}; DATA.crop.styles.push(st); }
+        st.contracts = c;
+      }
+    });
+    DATA.crop.varieties.forEach(v => {
+      const c = toN(get(`논작물_품종별_계약건수_${v.name}_건`));
+      if (c !== null) v.contracts = c;
+    });
+    for (let m = 1; m <= 12; m++) {
+      const c = toN(get(`논작물_월별_계약건수_${m}월_건`));
+      if (c !== null) {
+        let mo = DATA.crop.months.find(x => x.m === m);
+        if (!mo) { mo = {m, contracts:0}; DATA.crop.months.push(mo); }
+        mo.contracts = c;
+      }
+    }
+    ['정상','소멸'].forEach(stateName => {
+      const c = toN(get(`논작물_목적물상태별_계약건수_${stateName}_건`));
+      if (c !== null) {
+        let s2 = DATA.crop.states.find(x => x.name === stateName);
+        if (!s2) { s2 = {name:stateName, contracts:0}; DATA.crop.states.push(s2); }
+        s2.contracts = c;
+      }
+    });
+  }
+
+  return { ok:true, region: regionRaw };
+}
+
+function refreshAll() {
+  buildSido();
+  renderKpis(); renderCombo(); renderJoin(); renderMap();
+  renderRank(); renderHeat(); renderCause(); renderCauseDonut(); renderCrop(); renderSrcs();
+}
+
+window.CASE26_API = {
+  REGIONS: ['전국', ...DATA.sido.map(s => s.name)],
+  getActiveRegion: () => sel || '전국',
+  getActiveRegions: () => {
+    const list = [];
+    if (hasNationalData()) list.push('전국');
+    DATA.sido.forEach(s => { if (hasRegionData(s)) list.push(s.name); });
+    return list;
+  },
+  ingestAndActivate(rows, fileName) {
+    if (!rows || rows.length < 2) return { ok:false, reason:'파일에 데이터 행이 없습니다.' };
+    const header = rows[0].map(v => String(v || '').trim());
+    if (header[0] !== '지역명') {
+      return { ok:false, reason:'표준 양식과 일치하지 않습니다 — 1열이 "지역명"이 아닙니다. 표준 양식을 다시 내려받아 값만 채워 업로드해 주세요.' };
+    }
+    const body = rows.slice(1).filter(r => r && r.some(v => String(v||'').trim() !== ''));
+    if (!body.length) return { ok:false, reason:'파일에서 유효한 데이터 행을 찾지 못했습니다.' };
+    let lastRegion = null, count = 0;
+    for (const row of body) {
+      const res = ingestRow(header, row);
+      if (!res.ok) return res;
+      lastRegion = res.region; count++;
+    }
+    refreshAll();
+    select(lastRegion === '전국' ? null : lastRegion);
+    return { ok:true, rowCount: count, region: lastRegion, fileName: fileName || '' };
+  },
+  reset() {
+    Object.keys(DATA).forEach(k => delete DATA[k]);
+    Object.assign(DATA, JSON.parse(JSON.stringify(ORIGINAL_DATA)));
+    sel = null;
+    refreshAll();
+    return { ok:true };
+  },
+};
+
+
 </script>
 </body>
 </html>
