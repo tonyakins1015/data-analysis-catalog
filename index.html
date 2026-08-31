@@ -9972,11 +9972,11 @@ const CASE_CARD_IMG_MAP = {
 
         <div class="case-prototype-layout">
           <aside class="case-prototype-sidebar" aria-label="서비스 활용 및 필요 데이터">
-            <div class="case-file-action-row${(id === '34' || id === '23' || id === '26' || id === '27') ? ' has-reset' : ''}">
+            <div class="case-file-action-row${(id === '34' || id === '23' || id === '26' || id === '27' || id === '28' || id === '30') ? ' has-reset' : ''}">
               <button class="case-file-upload-button" type="button" data-case-upload-open>
                 <span>FILE</span><b>파일 업로드</b><i aria-hidden="true">＋</i>
               </button>
-              ${id === '34' ? '<button type="button" class="case-file-reset-button" id="uploadReset35">초기화</button>' : id === '23' ? '<button type="button" class="case-file-reset-button" id="uploadReset23">초기화</button>' : id === '26' ? '<button type="button" class="case-file-reset-button" id="uploadReset26">초기화</button>' : id === '27' ? '<button type="button" class="case-file-reset-button" id="uploadReset27">초기화</button>' : ''}
+              ${id === '34' ? '<button type="button" class="case-file-reset-button" id="uploadReset35">초기화</button>' : id === '23' ? '<button type="button" class="case-file-reset-button" id="uploadReset23">초기화</button>' : id === '26' ? '<button type="button" class="case-file-reset-button" id="uploadReset26">초기화</button>' : id === '27' ? '<button type="button" class="case-file-reset-button" id="uploadReset27">초기화</button>' : id === '28' ? '<button type="button" class="case-file-reset-button" id="uploadReset28">초기화</button>' : id === '30' ? '<button type="button" class="case-file-reset-button" id="uploadReset30">초기화</button>' : ''}
             </div>
             <div class="case-prototype-overview" style="--top-data-rows:${topDataRows}">
               <section class="case-top-usage">
@@ -10039,6 +10039,25 @@ const CASE_CARD_IMG_MAP = {
                   <button type="button" class="case-upload-select" id="uploadAddBtn26" style="margin-top:10px">업로드하여 반영</button>
                   <p class="case-upload-status35" id="uploadStatus26" aria-live="polite"></p>
                   <ul class="case-upload-list35" id="uploadList26"></ul>
+                  ` : id === '28' ? `
+                  <b>반려동물 데이터를 시도별로 올려주세요.</b>
+                  <p>등록현황·동물병원·생활인프라·동반관광을 하나로 합친 통합 표준 양식(첫 컬럼 "데이터구분", 다섯째 컬럼 "시도")만 인식합니다. 파일을 여러 개 동시에 선택할 수 있습니다. 파일의 시도 값을 읽어 해당 지역만 활성화하며, 값을 임의로 채우지 않습니다.</p>
+                  <input type="file" id="uploadFile28" accept=".csv,.xlsx,.xls" multiple>
+                  <button type="button" class="case-upload-select" id="uploadAddBtn28">업로드하여 반영</button>
+                  <p class="case-upload-status35" id="uploadStatus28" aria-live="polite"></p>
+                  <ul class="case-upload-list35" id="uploadList28"></ul>
+                  <p style="font-size:11px;color:#8a949a;margin:2px 0 10px">활성화(초록) 지역을 클릭하면 그 지역만 뺍니다.</p>
+                  <button type="button" class="case-upload-template35" id="dlTemplate28">통합 표준 양식 CSV 다운로드 ↓</button>
+                  ` : id === '30' ? `
+                  <b>인구현황·유동인구 통합 표준 데이터를 올려주세요.</b>
+                  <p>CSV와 Excel(xlsx) 파일 모두 지원합니다. <b>구분</b> 컬럼 값이 "인구현황"인 행과 "유동인구"인 행을 한 파일 안에 함께 담은 통합 표준 양식 1종만 사용합니다. 여러 파일을 한 번에 선택할 수도 있습니다.</p>
+                  <input type="file" id="uploadFile30" accept=".csv,.xlsx,.xls" multiple style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+                  <button type="button" class="case-upload-select" id="uploadPick30">파일 선택 (여러 개 가능)</button>
+                  <span id="uploadFileName30" style="display:block;font-size:12px;color:#5b676d;margin:6px 0 14px">선택된 파일 없음</span>
+                  <button type="button" class="case-upload-template35" id="dlTemplate30">통합 표준 양식 CSV ↓</button>
+                  <button type="button" class="case-upload-select" id="uploadAddBtn30" style="margin-top:10px">업로드하여 반영</button>
+                  <p class="case-upload-status35" id="uploadStatus30" aria-live="polite"></p>
+                  <ul class="case-upload-list35" id="uploadList30"></ul>
                   ` : `
                   <b>분석에 사용할 데이터 파일을 추가하세요.</b>
                   <p>현재는 화면 구성 확인용이며 실제 파일은 전송되지 않습니다.</p>
@@ -10978,6 +10997,8 @@ const CASE_CARD_IMG_MAP = {
           renderList26([]);
         });
 
+
+
         if (dlBtn26) dlBtn26.onclick = () => {
           // 표준 종합 CSV(지역명 1열 + 나머지 숫자, 423개 컬럼)를 원본 그대로 다운로드.
           // 전국 행 외 시도 행은 시도 단위로 개방되지 않는 항목이 비어 있으며 임의로 채우지 않았다.
@@ -10990,6 +11011,531 @@ const CASE_CARD_IMG_MAP = {
 
         renderList26([]);
       }
+
+      if (id === '28') {
+        const FULL_HEADER_28 = ["데이터구분","출처파일명","제공기관","데이터기준일","시도","시군구","읍면동","리명","지역명_원자료","명칭","대분류","중분류","소분류","도로명주소","지번주소","위도","경도","좌표계","전화번호","홈페이지_웹사이트","반려동물동반가능정보","반려동물전용정보","입장가능동물크기","반려동물제한사항","실내가능여부","실외가능여부","반려동물용메뉴서비스시설","반려동물용메뉴서비스시설내용","이용료","이용시간","운영시간","휴무일","주차가능여부","기타특이사항","개방자치단체코드","관리번호","인허가일자","영업상태명","상세영업상태명","폐업일자","휴업시작일자","휴업종료일자","재개업일자","소재지면적","최종수정시점","등록동물수_마리","시군구등록수","대행업체등록수","기타등록수","RFID내장치형수","RFID외장치형수","RFID인지형수","동물품종수","동물소유자수","소유자등록동물수값","등록대행업체수","개등록누계","고양이등록누계","총등록누계","애견동반추가요금","최종작성일","원본_비고"];
+        const FULL_SAMPLE_ROWS_28 = [
+          ["등록현황","반려동물등록현황.csv","경기도","20260520","경기도","가평군","가평읍","","","가평군 가평읍 등록현황(2026)","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","2082","","2048","","1393","624","65","81","1337","1.560","3","","","","","","기준년도:2026"],
+          ["등록현황","반려동물등록현황.csv","경기도","20260520","경기도","가평군","북면","","","가평군 북면 등록현황(2026)","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","564","","545","","387","145","32","53","324","1.740","0","","","","","","기준년도:2026"],
+          ["동물병원","동물_동물병원.csv","행정안전부(지방행정 인허가데이터, 소관:농림축산식품부)","2025-12-15 16:15:28","서울특별시","","","","","효자동물병원","","","","서울특별시 종로구 자하문로 66-2 (효자동)","서울특별시 종로구 효자동 31 ","453303.293915738","197364.614476836","EPSG:5174 (Bessel 중부원점TM, 미보정) - WGS84 아님, 변환 필요","","","","","","","","","","","","","","","","","3000000","300000001020130001","2013-03-04","휴업","휴업","","","","","0","2014-12-31 09:42:36","","","","","","","","","","","","","","","","",""],
+          ["동물병원","동물_동물병원.csv","행정안전부(지방행정 인허가데이터, 소관:농림축산식품부)","2025-12-15 16:15:28","서울특별시","","","","","월드펫동물병원","","","","서울특별시 종로구 진흥로 473 (신영동)","서울특별시 종로구 신영동 249-6 ","455996.128787691","196444.558512343","EPSG:5174 (Bessel 중부원점TM, 미보정) - WGS84 아님, 변환 필요","","","","","","","","","","","","","","","","","3000000","300000001020130007","2013-05-14","취소/말소/만료/정지/중지","말소","","","","","0","2018-06-14 10:56:04","","","","","","","","","","","","","","","","",""],
+          ["생활인프라","한국문화정보원_전국_반려동물_동반_가능_문화시설_위치_데이터_20250324.csv","한국문화정보원","2022-11-30","경기도","고양시 덕양구","동산동","","","1004 약국","반려동물업","반려의료","동물약국","경기도 고양시 덕양구 동세로 19","경기도 고양시 덕양구 동산동 352-1","37.64454276","126.886336","WGS84","02-381-5052","정보없음","Y","해당없음","모두 가능","제한사항 없음","Y","N","","","변동","","월~금 09:00~18:00","매주 토, 일, 법정공휴일","Y","동물약국","","","","","","","","","","","","","","","","","","","","","","","","","","없음","2022-11-30",""],
+          ["생활인프라","한국문화정보원_전국_반려동물_동반_가능_문화시설_위치_데이터_20250324.csv","한국문화정보원","2025-03-24","전라남도","신안군","자은면","백산리","","1004섬수석미술관","반려동물업","반려동반여행","미술관","전라남도 신안군 자은면 자은서부2길 508-68","전라남도 신안군 자은면 백산리 633-54","34.8800925","125.996874","WGS84","061-240-8359","http://tour.shinan.go.kr/home/tour/theme_tour/theme_tour_17/theme_tour_17_01/page.wscms","N","해당없음","해당없음","해당없음","N","N","","","없음","","화~일 09:00~18:00","매주 월요일","Y","미술관","","","","","","","","","","","","","","","","","","","","","","","","","","없음","2025-03-24",""],
+          ["동반관광","인천광역시_반려동물_동반_관광지_정보_리스트_20260119.csv","인천광역시","","인천광역시","","","","강화군","전등사","관광지","종교시설","","","강화군 길상면 전등사로 37-41","","","","032-937-0125","http://www.jeondeungsa.org","","","","반려동물 입장 가능, 목줄 착용","","","X","","성인 3,000원, 청소년 2,000원, 어린이 1,000원","하절기 08:00~18:30 동절기 08:30~18:00","","연중무휴","가능(유료)","동반서약서 작성, 문화재이므로 배변에 각별한 주의 필요","","","","","","","","","","","","","","","","","","","","","","","","","","","","이용가능공간(원자료):실외"],
+          ["동반관광","인천광역시_반려동물_동반_관광지_정보_리스트_20260119.csv","인천광역시","","인천광역시","","","","강화군","보문사","관광지","종교시설","","","강화군 삼산면 삼산남로828번길 44","","","","032-933-8271","http://www.bomunsa.me/","","","","반려동물 입장 가능","","","X","","성인 2,000원, 중고생 1,500원, 초등학생 1,000원","09:00~18:00","","연중무휴","가능(유료)","마애불 입장 불가","","","","","","","","","","","","","","","","","","","","","","","","","","","","이용가능공간(원자료):실외"],
+        ];
+        const fileInput28 = article.querySelector('#uploadFile28');
+        const addBtn28 = article.querySelector('#uploadAddBtn28');
+        const statusEl28 = article.querySelector('#uploadStatus28');
+        const listEl28 = article.querySelector('#uploadList28');
+        const dlBtn28 = article.querySelector('#dlTemplate28');
+        const resetBtn28 = article.querySelector('#uploadReset28');
+        const REGIONS28 = ['서울특별시','경기도','인천광역시','강원특별자치도','대전광역시','세종특별자치시','충청북도','충청남도','광주광역시','전북특별자치도','전라남도','대구광역시','부산광역시','울산광역시','경상북도','경상남도','제주특별자치도'];
+
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); renderList28((frame && frame.contentWindow && frame.contentWindow.CASE28_API && frame.contentWindow.CASE28_API.getActiveRegions()) || []); });
+
+        const setStatus28 = (msg, level) => {
+          if (!statusEl28) return;
+          statusEl28.textContent = msg;
+          statusEl28.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
+          statusEl28.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+
+        function renderList28(activeRegions){
+          if (!listEl28) return;
+          const activeSet = new Set(Array.isArray(activeRegions) ? activeRegions : []);
+          listEl28.innerHTML = REGIONS28.map(g => {
+            const on = activeSet.has(g);
+            return `<li${on ? ` data-region28="${g}" title="클릭하면 ${g} 데이터만 뺍니다"` : ''} style="${on ? 'font-weight:750;color:#1a7a4c;background:#e7f5ee;cursor:pointer' : 'color:#8a949a'}">${on ? '✓ ' : '· '}${g}${on ? ' · 활성' : ''}</li>`;
+          }).join('');
+          listEl28.querySelectorAll('li[data-region28]').forEach(node => {
+            node.onclick = async () => {
+              const region = node.dataset.region28;
+              setStatus28(`${region} 데이터를 빼는 중…`, 'info');
+              const win = await waitForCase28Api();
+              if (!win || !win.CASE28_API) { setStatus28('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+              const rr = win.CASE28_API.removeRegion(region);
+              if (rr && rr.ok) {
+                setStatus28(`${region} 데이터를 뺐습니다. 다른 지역 데이터는 그대로 유지됩니다.`, 'ok');
+                renderList28(win.CASE28_API.getActiveRegions());
+              } else {
+                setStatus28((rr && rr.reason) || '삭제하지 못했습니다.', 'error');
+              }
+            };
+          });
+        }
+
+        const parseFile28 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. 잠시 후 다시 시도하거나 CSV로 업로드해 주세요.' }); return; }
+            const reader = new FileReader();
+            reader.onload = e => {
+              try {
+                const wb = XLSX.read(e.target.result, { type:'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                const rows = XLSX.utils.sheet_to_json(ws, { header:1, raw:true });
+                resolve({ ok:true, rows });
+              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다. 파일이 손상되지 않았는지 확인해 주세요.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = e => {
+              const buf = new Uint8Array(e.target.result);
+              let text;
+              try {
+                text = new TextDecoder('utf-8', { fatal: true }).decode(buf);
+              } catch (utf8Err) {
+                try {
+                  text = new TextDecoder('euc-kr').decode(buf);
+                } catch (crkErr) {
+                  resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 형식의 CSV만 지원합니다.' });
+                  return;
+                }
+              }
+              if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+              const rows = text.split(/\r?\n/).filter(Boolean).map(line => {
+                const out = []; let cur = ''; let q = false;
+                for (let i=0;i<line.length;i++){
+                  const ch = line[i];
+                  if (q){ if (ch === '"'){ if (line[i+1]==='"'){ cur+='"'; i++; } else q=false; } else cur += ch; }
+                  else { if (ch === '"') q = true; else if (ch === ',') { out.push(cur); cur=''; } else cur += ch; }
+                }
+                out.push(cur);
+                return out;
+              });
+              resolve({ ok:true, rows });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+          }
+        });
+
+        const SIDO_NORM_28 = {
+          '서울':'서울특별시','서울특별시':'서울특별시','부산':'부산광역시','부산광역시':'부산광역시',
+          '대구':'대구광역시','대구광역시':'대구광역시','인천':'인천광역시','인천광역시':'인천광역시',
+          '광주':'광주광역시','광주광역시':'광주광역시','대전':'대전광역시','대전광역시':'대전광역시',
+          '울산':'울산광역시','울산광역시':'울산광역시','세종':'세종특별자치시','세종특별자치시':'세종특별자치시',
+          '경기':'경기도','경기도':'경기도','강원':'강원특별자치도','강원도':'강원특별자치도','강원특별자치도':'강원특별자치도',
+          '충북':'충청북도','충청북도':'충청북도','충남':'충청남도','충청남도':'충청남도',
+          '전북':'전북특별자치도','전라북도':'전북특별자치도','전북특별자치도':'전북특별자치도',
+          '전남':'전라남도','전라남도':'전라남도','경북':'경상북도','경상북도':'경상북도',
+          '경남':'경상남도','경상남도':'경상남도','제주':'제주특별자치도','제주특별자치도':'제주특별자치도'
+        };
+        function sidoFromAddress28(addr){
+          if(!addr) return "";
+          const first = String(addr).trim().split(/\s+/)[0] || "";
+          return SIDO_NORM_28[first] || "";
+        }
+        function emptyStdRow28(){ return FULL_HEADER_28.map(()=>""); }
+        function setCol28(row, col, val){ const i = FULL_HEADER_28.indexOf(col); if(i>=0) row[i] = (val==null?"":val); }
+        function findCol(h, pred){ return h.find(pred); }
+
+        // 원본 6개 공공데이터 형식을 헤더만 보고 자동판별해 표준 양식(62컬럼) 행 배열로 변환한다.
+        // 표준 양식이 아니면서 아래 6종 중 하나에도 안 맞으면 null을 돌려주고, 그러면 호출부에서
+        // "인식 못함" 오류로 처리한다 — 값을 임의로 채우거나 추측하지 않는다.
+        function detectAndNormalizeRaw28(rawHeader, body, fileName){
+          const h = rawHeader.map(x=>String(x||"").trim());
+          const has = name => h.includes(name);
+          const idx = name => h.indexOf(name);
+          const nonEmpty = r => r && r.some(v=>String(v||"").trim()!=="");
+
+          // 1) 강원특별자치도 반려동물 동반관광: 번호,장소,지역,주소,구분,위도,경도,전화번호
+          if(has("장소") && has("지역") && has("구분") && has("위도") && has("경도") && !has("소구분") && !has("상호")){
+            return body.filter(nonEmpty).map(r=>{
+              const row = emptyStdRow28();
+              setCol28(row,"데이터구분","동반관광"); setCol28(row,"출처파일명",fileName);
+              setCol28(row,"제공기관","강원특별자치도"); setCol28(row,"시도","강원특별자치도");
+              setCol28(row,"지역명_원자료", r[idx("지역")]);
+              setCol28(row,"명칭", r[idx("장소")]);
+              setCol28(row,"대분류", r[idx("구분")]);
+              if(has("주소")) setCol28(row,"도로명주소", r[idx("주소")]);
+              setCol28(row,"위도", r[idx("위도")]);
+              setCol28(row,"경도", r[idx("경도")]);
+              setCol28(row,"좌표계","WGS84");
+              if(has("전화번호")) setCol28(row,"전화번호", r[idx("전화번호")]);
+              return row;
+            });
+          }
+
+          // 2) 농림축산식품부 전국 시도/시군구 등록현황: 시도,시군구,개등록 누계,고양이등록 누계,총 등록 누계
+          if(has("시도") && has("시군구") && has("개등록 누계") && has("고양이등록 누계")){
+            return body.filter(nonEmpty).map(r=>{
+              const row = emptyStdRow28();
+              const sidoRaw = String(r[idx("시도")]).trim();
+              const sido = SIDO_NORM_28[sidoRaw] || sidoRaw;
+              const sgg = r[idx("시군구")];
+              setCol28(row,"데이터구분","등록현황"); setCol28(row,"출처파일명",fileName);
+              setCol28(row,"제공기관","농림축산식품부 농림축산검역본부"); setCol28(row,"데이터기준일","2022-12-31");
+              setCol28(row,"시도", sido); setCol28(row,"시군구", sgg);
+              setCol28(row,"개등록누계", r[idx("개등록 누계")]);
+              setCol28(row,"고양이등록누계", r[idx("고양이등록 누계")]);
+              if(has("총 등록 누계")) setCol28(row,"총등록누계", r[idx("총 등록 누계")]);
+              setCol28(row,"명칭", `${sido} ${sgg} 등록현황(2022)`);
+              return row;
+            });
+          }
+
+          // 3) 동물병원(행정안전부 지방행정 인허가데이터): 사업장명,도로명주소,지번주소,좌표정보(X),좌표정보(Y)...
+          if(has("사업장명") && has("좌표정보(X)") && has("좌표정보(Y)")){
+            return body.filter(nonEmpty).map(r=>{
+              const row = emptyStdRow28();
+              const addr = (has("도로명주소") ? r[idx("도로명주소")] : "") || (has("지번주소") ? r[idx("지번주소")] : "");
+              const sido = sidoFromAddress28(addr);
+              setCol28(row,"데이터구분","동물병원"); setCol28(row,"출처파일명",fileName);
+              setCol28(row,"제공기관","행정안전부(지방행정 인허가데이터, 소관:농림축산식품부)");
+              setCol28(row,"시도", sido);
+              setCol28(row,"명칭", r[idx("사업장명")]);
+              if(has("도로명주소")) setCol28(row,"도로명주소", r[idx("도로명주소")]);
+              if(has("지번주소")) setCol28(row,"지번주소", r[idx("지번주소")]);
+              setCol28(row,"위도", r[idx("좌표정보(Y)")]);
+              setCol28(row,"경도", r[idx("좌표정보(X)")]);
+              setCol28(row,"좌표계","EPSG:5174 (Bessel 중부원점TM, 미보정) - WGS84 아님, 변환 필요");
+              if(has("전화번호")) setCol28(row,"전화번호", r[idx("전화번호")]);
+              if(has("개방자치단체코드")) setCol28(row,"개방자치단체코드", r[idx("개방자치단체코드")]);
+              if(has("관리번호")) setCol28(row,"관리번호", r[idx("관리번호")]);
+              if(has("인허가일자")) setCol28(row,"인허가일자", r[idx("인허가일자")]);
+              if(has("영업상태명")) setCol28(row,"영업상태명", r[idx("영업상태명")]);
+              if(has("상세영업상태명")) setCol28(row,"상세영업상태명", r[idx("상세영업상태명")]);
+              if(has("폐업일자")) setCol28(row,"폐업일자", r[idx("폐업일자")]);
+              if(has("휴업시작일자")) setCol28(row,"휴업시작일자", r[idx("휴업시작일자")]);
+              if(has("휴업종료일자")) setCol28(row,"휴업종료일자", r[idx("휴업종료일자")]);
+              if(has("재개업일자")) setCol28(row,"재개업일자", r[idx("재개업일자")]);
+              if(has("소재지면적")) setCol28(row,"소재지면적", r[idx("소재지면적")]);
+              if(has("최종수정시점")) setCol28(row,"최종수정시점", r[idx("최종수정시점")]);
+              return row;
+            }).filter(row => row[FULL_HEADER_28.indexOf("시도")]); // 주소로 시도 판별 안 되면 값 임의로 채우지 않고 제외
+          }
+
+          // 4) 경기도 반려동물등록현황(읍면동 상세): 기준년도,시군명,읍면동명,등록동물수(마리)...
+          if(has("기준년도") && has("시군명") && has("읍면동명") && has("등록동물수(마리)")){
+            return body.filter(nonEmpty).map(r=>{
+              const row = emptyStdRow28();
+              const yy = r[idx("기준년도")];
+              setCol28(row,"데이터구분","등록현황"); setCol28(row,"출처파일명",fileName);
+              setCol28(row,"제공기관","경기도"); setCol28(row,"시도","경기도");
+              setCol28(row,"데이터기준일", has("데이터기준일자") ? (r[idx("데이터기준일자")] || yy) : yy);
+              setCol28(row,"시군구", r[idx("시군명")]);
+              setCol28(row,"읍면동", r[idx("읍면동명")]);
+              setCol28(row,"등록동물수_마리", r[idx("등록동물수(마리)")]);
+              if(has("시군구등록수")) setCol28(row,"시군구등록수", r[idx("시군구등록수")]);
+              if(has("대행업체등록수")) setCol28(row,"대행업체등록수", r[idx("대행업체등록수")]);
+              if(has("기타등록수")) setCol28(row,"기타등록수", r[idx("기타등록수")]);
+              if(has("RFID내장치형수")) setCol28(row,"RFID내장치형수", r[idx("RFID내장치형수")]);
+              if(has("RFID외부장치형수")) setCol28(row,"RFID외장치형수", r[idx("RFID외부장치형수")]);
+              if(has("RFID인지형수")) setCol28(row,"RFID인지형수", r[idx("RFID인지형수")]);
+              if(has("동물품종수")) setCol28(row,"동물품종수", r[idx("동물품종수")]);
+              if(has("동물소유자수")) setCol28(row,"동물소유자수", r[idx("동물소유자수")]);
+              if(has("소유자등록동물수값")) setCol28(row,"소유자등록동물수값", r[idx("소유자등록동물수값")]);
+              if(has("등록대행업체수")) setCol28(row,"등록대행업체수", r[idx("등록대행업체수")]);
+              setCol28(row,"명칭", `${r[idx("시군명")]} ${r[idx("읍면동명")]} 등록현황(${yy})`);
+              return row;
+            });
+          }
+
+          // 5) 인천광역시 반려동물 동반 관광지: 지역,구분,소구분,상호,주소,전화번호,웹사이트...
+          if(has("상호") && has("소구분") && has("지역") && has("구분")){
+            return body.filter(nonEmpty).map(r=>{
+              const row = emptyStdRow28();
+              setCol28(row,"데이터구분","동반관광"); setCol28(row,"출처파일명",fileName);
+              setCol28(row,"제공기관","인천광역시"); setCol28(row,"시도","인천광역시");
+              setCol28(row,"지역명_원자료", r[idx("지역")]);
+              setCol28(row,"명칭", r[idx("상호")]);
+              setCol28(row,"대분류", r[idx("구분")]);
+              setCol28(row,"중분류", r[idx("소구분")]);
+              if(has("주소")) setCol28(row,"지번주소", r[idx("주소")]);
+              if(has("전화번호")) setCol28(row,"전화번호", r[idx("전화번호")]);
+              if(has("웹사이트")) setCol28(row,"홈페이지_웹사이트", r[idx("웹사이트")]);
+              const menuKey = findCol(h, x=>x.indexOf("반려동물용 메뉴 및 서비스 시설")===0 && x.indexOf("내용")===-1);
+              const menuContentKey = findCol(h, x=>x.indexOf("반려동물용 메뉴 및 서비스 시설")===0 && x.indexOf("내용")>=0);
+              if(menuKey) setCol28(row,"반려동물용메뉴서비스시설", r[idx(menuKey)]);
+              if(menuContentKey) setCol28(row,"반려동물용메뉴서비스시설내용", r[idx(menuContentKey)]);
+              const spaceKey = findCol(h, x=>x.indexOf("이용 가능 공간")>=0);
+              const space = spaceKey ? String(r[idx(spaceKey)]||"") : "";
+              setCol28(row,"실내가능여부", space.indexOf("실내")>=0 ? "Y" : (space?"N":""));
+              setCol28(row,"실외가능여부", space.indexOf("실외")>=0 ? "Y" : (space?"N":""));
+              const limitKey = findCol(h, x=>x.indexOf("제한사항")>=0);
+              if(limitKey) setCol28(row,"반려동물제한사항", r[idx(limitKey)]);
+              if(has("이용료")) setCol28(row,"이용료", r[idx("이용료")]);
+              const noteKey = findCol(h, x=>x.indexOf("기타")>=0 && x.indexOf("특이사항")>=0);
+              if(noteKey) setCol28(row,"기타특이사항", r[idx(noteKey)]);
+              if(has("이용시간")) setCol28(row,"이용시간", r[idx("이용시간")]);
+              if(has("휴무")) setCol28(row,"휴무일", r[idx("휴무")]);
+              if(has("주차")) setCol28(row,"주차가능여부", r[idx("주차")]);
+              setCol28(row,"원본_비고", `이용가능공간(원자료):${space}`);
+              return row;
+            });
+          }
+
+          // 6) 한국문화정보원 전국 반려동물 동반 가능 문화시설: 시설명,카테고리1,카테고리2,카테고리3,시도 명칭...
+          if(has("시설명") && has("카테고리1") && has("시도 명칭")){
+            return body.filter(nonEmpty).map(r=>{
+              const row = emptyStdRow28();
+              const sidoRaw = String(r[idx("시도 명칭")]).trim();
+              const sido = SIDO_NORM_28[sidoRaw] || sidoRaw;
+              setCol28(row,"데이터구분","생활인프라"); setCol28(row,"출처파일명",fileName);
+              setCol28(row,"제공기관","한국문화정보원"); setCol28(row,"데이터기준일","2025-03-24");
+              setCol28(row,"시도", sido);
+              if(has("시군구 명칭")) setCol28(row,"시군구", r[idx("시군구 명칭")]);
+              if(has("법정읍면동명칭")) setCol28(row,"읍면동", r[idx("법정읍면동명칭")]);
+              if(has("리 명칭")) setCol28(row,"리명", r[idx("리 명칭")]);
+              setCol28(row,"명칭", r[idx("시설명")]);
+              setCol28(row,"대분류", r[idx("카테고리1")]);
+              if(has("카테고리2")) setCol28(row,"중분류", r[idx("카테고리2")]);
+              if(has("카테고리3")) setCol28(row,"소분류", r[idx("카테고리3")]);
+              if(has("도로명주소")) setCol28(row,"도로명주소", r[idx("도로명주소")]);
+              if(has("지번주소")) setCol28(row,"지번주소", r[idx("지번주소")]);
+              if(has("위도")) setCol28(row,"위도", r[idx("위도")]);
+              if(has("경도")) setCol28(row,"경도", r[idx("경도")]);
+              setCol28(row,"좌표계","WGS84");
+              if(has("전화번호")) setCol28(row,"전화번호", r[idx("전화번호")]);
+              if(has("홈페이지")) setCol28(row,"홈페이지_웹사이트", r[idx("홈페이지")]);
+              const k1 = findCol(h, x=>x.indexOf("반려동물 동반 가능정보")>=0); if(k1) setCol28(row,"반려동물동반가능정보", r[idx(k1)]);
+              const k2 = findCol(h, x=>x.indexOf("반려동물 전용 정보")>=0); if(k2) setCol28(row,"반려동물전용정보", r[idx(k2)]);
+              const k3 = findCol(h, x=>x.indexOf("입장 가능 동물 크기")>=0); if(k3) setCol28(row,"입장가능동물크기", r[idx(k3)]);
+              const k4 = findCol(h, x=>x.indexOf("반려동물 제한사항")>=0); if(k4) setCol28(row,"반려동물제한사항", r[idx(k4)]);
+              const k5 = findCol(h, x=>x.indexOf("장소(실내)")>=0); if(k5) setCol28(row,"실내가능여부", r[idx(k5)]);
+              const k6 = findCol(h, x=>x.indexOf("장소(실외)")>=0); if(k6) setCol28(row,"실외가능여부", r[idx(k6)]);
+              const k7 = findCol(h, x=>x.indexOf("가격 정보")>=0 || (x.indexOf("이용료")>=0 && x!=="이용료")); if(k7) setCol28(row,"이용료", r[idx(k7)]);
+              if(has("운영시간")) setCol28(row,"운영시간", r[idx("운영시간")]);
+              if(has("휴무일")) setCol28(row,"휴무일", r[idx("휴무일")]);
+              const k8 = findCol(h, x=>x.indexOf("주차")>=0); if(k8) setCol28(row,"주차가능여부", r[idx(k8)]);
+              const k9 = findCol(h, x=>x.indexOf("장소설명")>=0); if(k9) setCol28(row,"기타특이사항", r[idx(k9)]);
+              const k10 = findCol(h, x=>x.indexOf("추가 요금")>=0); if(k10) setCol28(row,"애견동반추가요금", r[idx(k10)]);
+              if(has("최종작성일")) setCol28(row,"최종작성일", r[idx("최종작성일")]);
+              return row;
+            }).filter(row => row[FULL_HEADER_28.indexOf("시도")]);
+          }
+
+          return null;
+        }
+
+        const waitForCase28Api = async () => {
+          for (let i = 0; i < 40; i++) {
+            const win = frame && frame.contentWindow;
+            if (win && win.CASE28_API) return win;
+            await new Promise(r => setTimeout(r, 150));
+          }
+          return null;
+        };
+
+        if (addBtn28) addBtn28.onclick = async () => {
+          const files = fileInput28 && fileInput28.files ? Array.from(fileInput28.files) : [];
+          if (!files.length) { setStatus28('파일을 선택해주세요. 여러 개를 동시에 선택할 수 있습니다.', 'warn'); return; }
+          setStatus28(`파일 ${files.length}개 확인 중…`, 'info');
+          hydrateExample();
+          const win = await waitForCase28Api();
+          if (!win) { setStatus28('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+          const okRegions = []; const failed = []; let totalRows = 0;
+          for (const file of files) {
+            const parsed = await parseFile28(file);
+            if (!parsed.ok) { failed.push(`${file.name}: ${parsed.reason}`); continue; }
+            let rows = parsed.rows;
+            if (!rows || rows.length < 2) { failed.push(`${file.name}: 데이터를 읽지 못했습니다.`); continue; }
+            const rawHeader = rows[0].map(v=>String(v||'').trim());
+            const isStandard = rawHeader[0] === '데이터구분' && rawHeader.includes('시도');
+            if (!isStandard) {
+              // 표준 양식이 아니면 6종 원본 공공데이터 형식인지 자동판별해 표준 양식으로 변환한다.
+              const converted = detectAndNormalizeRaw28(rawHeader, rows.slice(1), file.name);
+              if (converted && converted.length) {
+                rows = [FULL_HEADER_28, ...converted];
+              } else {
+                failed.push(`${file.name}: 표준 양식도 아니고, 인식 가능한 원본 형식(강원·인천 동반관광, 농식품부·경기도 등록현황, 동물병원, 문화정보원 생활인프라)도 아닙니다.`);
+                continue;
+              }
+            }
+            const result = win.CASE28_API.ingestAndActivate(rows, file.name);
+            if (!result.ok) { failed.push(`${file.name}: ${result.reason}`); continue; }
+            okRegions.push(result.region); totalRows += result.rowCount;
+          }
+          if (okRegions.length) {
+            const uniqueRegions = [...new Set(okRegions)];
+            setStatus28(
+              `${uniqueRegions.join(', ')} 등 ${totalRows}건이 반영되었습니다.` +
+              (failed.length ? ` (실패 ${failed.length}건: ${failed.join(' / ')})` : ''),
+              failed.length ? 'warn' : 'ok'
+            );
+            renderList28(win.CASE28_API.getActiveRegions());
+          } else {
+            setStatus28(`반영된 파일이 없습니다. ${failed.join(' / ')}`, 'error');
+          }
+          fileInput28.value = '';
+        };
+
+        if (resetBtn28) resetBtn28.addEventListener('click', async () => {
+          hydrateExample();
+          const win = await waitForCase28Api();
+          if (win && win.CASE28_API) win.CASE28_API.reset();
+          if (fileInput28) fileInput28.value = '';
+          setStatus28('업로드한 데이터를 모두 초기화했습니다.', 'ok');
+          renderList28([]);
+        });
+
+        if (dlBtn28) dlBtn28.onclick = () => {
+          const csv = '\uFEFF' + [FULL_HEADER_28, ...FULL_SAMPLE_ROWS_28].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+          const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '표준양식_반려동물통합데이터.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+
+        renderList28([]);
+      }
+
+      if (id === '30') {
+        const fileInput30 = article.querySelector('#uploadFile30');
+        const addBtn30 = article.querySelector('#uploadAddBtn30');
+        const statusEl30 = article.querySelector('#uploadStatus30');
+        const listEl30 = article.querySelector('#uploadList30');
+        const dlBtn30 = article.querySelector('#dlTemplate30');
+        const pickBtn30 = article.querySelector('#uploadPick30');
+        const fileNameEl30 = article.querySelector('#uploadFileName30');
+        const resetBtn30 = article.querySelector('#uploadReset30');
+
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); renderList30((frame && frame.contentWindow && frame.contentWindow.CASE30_API && frame.contentWindow.CASE30_API.getActiveRegions()) || ['미업로드']); });
+
+        const setStatus30 = (msg, level) => {
+          if (!statusEl30) return;
+          statusEl30.textContent = msg;
+          statusEl30.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
+          statusEl30.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+        function renderList30(activeStatus){
+          if (!listEl30) return;
+          const items = Array.isArray(activeStatus) ? activeStatus : (activeStatus ? [activeStatus] : ['미업로드']);
+          listEl30.innerHTML = items.map(s => `<li style="grid-column:1/-1;color:#1a7a4c;background:#e7f5ee;font-weight:750">✓ ${s}</li>`).join('');
+        }
+        const parseFile30 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. 잠시 후 다시 시도하거나 CSV로 업로드해 주세요.' }); return; }
+            const reader = new FileReader();
+            reader.onload = e => {
+              try {
+                const wb = XLSX.read(e.target.result, { type:'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                const rows = XLSX.utils.sheet_to_json(ws, { header:1, raw:true });
+                resolve({ ok:true, rows });
+              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다. 파일이 손상되지 않았는지 확인해 주세요.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = e => {
+              const buf = new Uint8Array(e.target.result);
+              let text;
+              try {
+                text = new TextDecoder('utf-8', { fatal: true }).decode(buf);
+              } catch (utf8Err) {
+                try {
+                  text = new TextDecoder('euc-kr').decode(buf);
+                } catch (crkErr) {
+                  resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 형식의 CSV만 지원합니다.' });
+                  return;
+                }
+              }
+              if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+              const rows = text.split(/\r?\n/).filter(Boolean).map(line => {
+                const out = []; let cur = ''; let q = false;
+                for (let i=0;i<line.length;i++){
+                  const ch = line[i];
+                  if (q){ if (ch === '"'){ if (line[i+1]==='"'){ cur+='"'; i++; } else q=false; } else cur += ch; }
+                  else { if (ch === '"') q = true; else if (ch === ',') { out.push(cur); cur=''; } else cur += ch; }
+                }
+                out.push(cur);
+                return out;
+              });
+              resolve({ ok:true, rows });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+          }
+        });
+        const waitForCase30Api = async () => {
+          for (let i = 0; i < 40; i++) {
+            const win = frame && frame.contentWindow;
+            if (win && win.CASE30_API) return win;
+            await new Promise(r => setTimeout(r, 150));
+          }
+          return null;
+        };
+
+        if (pickBtn30 && fileInput30) pickBtn30.onclick = () => fileInput30.click();
+        if (fileInput30 && fileNameEl30) fileInput30.addEventListener('change', () => {
+          const n = fileInput30.files ? fileInput30.files.length : 0;
+          fileNameEl30.textContent = n === 0 ? '선택된 파일 없음'
+            : n === 1 ? fileInput30.files[0].name
+            : `${n}개 파일 선택됨 (${Array.from(fileInput30.files).map(f=>f.name).join(', ')})`;
+        });
+
+        if (addBtn30) addBtn30.onclick = async () => {
+          const files = fileInput30 && fileInput30.files ? Array.from(fileInput30.files) : [];
+          if (!files.length) { setStatus30('파일을 선택해주세요.', 'warn'); return; }
+          setStatus30(`파일 ${files.length}개 확인 중…`, 'info');
+          hydrateExample();
+          const win = await waitForCase30Api();
+          if (!win) { setStatus30('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+          const okKinds = [];
+          const failed = [];
+          let totalRows = 0;
+          for (const file of files) {
+            const result = await parseFile30(file);
+            if (!result.ok) { failed.push(`${file.name}: ${result.reason}`); continue; }
+            const rows = result.rows;
+            if (!rows || rows.length < 2) { failed.push(`${file.name}: 데이터를 읽지 못했습니다.`); continue; }
+            const ingestResult = win.CASE30_API.ingestAndActivate(rows, file.name);
+            if (!ingestResult.ok) { failed.push(`${file.name}: ${ingestResult.reason}`); continue; }
+            okKinds.push(...ingestResult.kind.split('+').map(k=>k==='population'?'인구현황':'유동인구'));
+            totalRows += ingestResult.rowCount;
+          }
+          if (okKinds.length) {
+            const uniqueKinds = [...new Set(okKinds)];
+            setStatus30(
+              `${uniqueKinds.join(', ')} 등 총 ${totalRows}개 행이 반영되었습니다.` +
+              (failed.length ? ` (실패 ${failed.length}건: ${failed.join(' / ')})` : ''),
+              failed.length ? 'warn' : 'ok'
+            );
+            renderList30(win.CASE30_API.getActiveRegions());
+          } else {
+            setStatus30(`반영된 파일이 없습니다. ${failed.join(' / ')}`, 'error');
+          }
+          fileInput30.value = '';
+          fileNameEl30.textContent = '선택된 파일 없음';
+        };
+
+        if (resetBtn30) resetBtn30.addEventListener('click', async () => {
+          hydrateExample();
+          const win = await waitForCase30Api();
+          if (win && win.CASE30_API) win.CASE30_API.reset();
+          if (fileInput30) fileInput30.value = '';
+          fileNameEl30.textContent = '선택된 파일 없음';
+          setStatus30('업로드한 데이터를 초기화했습니다.', 'ok');
+          renderList30(['미업로드']);
+        });
+
+        if (dlBtn30) dlBtn30.onclick = () => {
+          const csv = '\uFEFF' + [
+            '구분,기준일자,구,동,세대수,인구_합계,내국인_남,내국인_여,전월말인구수,전월대비증감,외국인_계,외국인_남,외국인_여,그리드아이디,일평균 유동인구,남성 유동인구,여성 유동인구,0세_20세 미만 유동인구,20세 이상_40세 미만 유동인구,40세 이상_65세 미만 유동인구,65세 이상 유동인구',
+            '인구현황,2021-05-31,장안구,파장동,10686,23833,11835,11651,23801,32,347,160,187,,,,,,,,',
+            '인구현황,2025-01-31,장안구,송죽동,8844,18479,9038,9165,18510,-31,276,126,150,,,,,,,,',
+            '유동인구,,,,,,,,,,,,,다사620212,212.8999604,100.9007878,111.9991726,23.64425641,86.40101767,89.06174273,13.79294357',
+            '유동인구,,,,,,,,,,,,,다사582181,582.9557893,296.840385,286.1154042,12.55796793,307.086955,228.2540972,35.05676911'
+          ].join('\r\n');
+          const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '인구현황_유동인구_통합_표준양식.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+
+        renderList30(['미업로드']);
+      }
+
+
       article.addEventListener('keydown', e => {
         if (e.key === 'Escape' && !detailPanel.hidden) closeDetail();
         if (e.key === 'Escape' && uploadModal && !uploadModal.hidden) closeUpload();
