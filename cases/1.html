@@ -6,7 +6,7 @@
   <title>경기 지수 대시보드</title>
   <style>
     :root{--ink:#10232b;--muted:#68777e;--teal:#008f7a;--bg:#eef4f6;--line:#dce5e8;--orange:#f58220}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:#fff;font-family:Pretendard,"Malgun Gothic",Arial,sans-serif}button,select,input{font:inherit}button{color:inherit;cursor:pointer}button:focus-visible,select:focus-visible,circle:focus-visible,rect:focus-visible{outline:3px solid #00a98f44;outline-offset:2px}.header{height:88px;border-top:1px solid #f1c8c4;border-bottom:1px solid #e7ecee;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 32px;background:#fff;position:relative;z-index:30}.brand{border:0;background:none;display:flex;align-items:center;gap:10px;text-align:left}.brand-logo{width:44px;height:44px;border-radius:14px 14px 14px 5px;background:linear-gradient(145deg,#f7a21b,#ff6847);color:#fff;font-weight:900;font-size:25px;display:grid;place-items:center;box-shadow:0 7px 17px #f5822040}.brand b{display:block;font-size:18px}.brand small{display:block;color:#849298;font-size:9px;letter-spacing:1px}.topnav{align-self:stretch;display:flex;align-items:end;gap:48px}.topnav button,.member button,.subnav button{border:0;background:none}.topnav button{height:62px;font-weight:800;position:relative}.topnav .active:after,.subnav .active:after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--teal)}.member{justify-self:end;display:flex;align-items:center;gap:13px;font-size:11px}.member .icon{font-size:20px;width:30px;height:30px}.subnav{height:52px;background:#f6f7f8;border-bottom:1px solid #e6ecee;display:flex;justify-content:center;align-items:center;gap:58px}.subnav button{height:100%;position:relative;font-size:12px;font-weight:750;color:#5b676d}.home-hero{min-height:490px;padding:64px max(5vw,calc((100vw - 1120px)/2)) 95px;display:grid;grid-template-columns:430px 1fr;align-items:center;gap:70px;background:radial-gradient(circle at 72% 28%,#d3f1df,transparent 32%),linear-gradient(110deg,#eff9df 0 53%,#f8fbf7 53%)}.eyebrow{font-size:11px;color:var(--teal);font-weight:900;letter-spacing:2px}.hero-copy h1{font-size:43px;line-height:1.25;letter-spacing:-2px;margin:13px 0 24px}.hero-copy em{font-style:normal;color:var(--teal)}.hero-copy p{color:#52656d;font-size:14px;line-height:1.8}.primary{border:0;border-radius:999px;background:var(--ink);color:#fff;font-weight:800;padding:13px 22px;margin-top:18px}.hero-visual{position:relative;min-height:315px;border-radius:24px;background:#fffffff0;border:1px solid #c9e4db;box-shadow:0 25px 55px #3b786126;padding:24px;overflow:hidden}.hero-visual:before{content:"";position:absolute;right:-75px;top:-80px;width:225px;height:225px;border-radius:50%;background:#c2eed8}.visual-head{position:relative;display:flex;justify-content:space-between;font-weight:850}.hero-visual svg{position:absolute;left:22px;right:22px;bottom:15px;width:calc(100% - 44px);height:225px}.score{position:absolute;right:30px;top:76px;background:#122a31;color:#fff;border-radius:14px;padding:14px 17px;display:grid}.score small{color:#acc8c2}.score strong{font-size:29px}.score span{font-size:10px;color:#79dfc8}.home-main{max-width:1180px;margin:-60px auto 0;position:relative;z-index:3;padding:0 22px 75px}.section-title{text-align:center;margin-bottom:28px}.section-title span{color:var(--teal);font-weight:850}.section-title h2{font-size:29px;margin:8px 0}.section-title p{color:var(--muted);font-size:12px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.metric{--accent:#008f7a;border:1px solid #e0e8ea;border-radius:18px;background:#fff;padding:19px;text-align:left;box-shadow:0 10px 26px #182d3812;transition:.2s;position:relative;overflow:hidden}.metric:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent);transform:scaleY(0);transition:.2s}.metric:hover{transform:translateY(-5px);box-shadow:0 18px 36px #1b303c20}.metric:hover:before{transform:scaleY(1)}.metric-head{display:flex;justify-content:space-between}.metric-icon{width:42px;height:42px;border-radius:13px;background:color-mix(in srgb,var(--accent) 12%,white);color:var(--accent);display:grid;place-items:center;font-size:22px;font-weight:900}.delta{font-size:10px;border-radius:99px;padding:4px 7px;height:max-content;font-weight:800}.up{color:#d32c31;background:#fff0f0}.down{color:#1779c8;background:#eef7ff}.metric b{display:block;color:var(--teal);font-size:16px;margin-top:13px}.metric small{color:#879399}.metric strong{display:block;font-size:28px;margin:7px 0}.metric p{height:38px;font-size:11px;line-height:1.6;color:#68777e}.metric .go{font-size:11px;font-weight:800}.metric .go i{float:right;color:var(--accent);font-size:18px;font-style:normal}.guide{background:#11282f;color:#fff;padding:55px max(5vw,calc((100vw - 1120px)/2));display:grid;grid-template-columns:330px 1fr;gap:65px}.guide h2{font-size:30px}.guide-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.guide article{border-left:1px solid #3f5d65;padding:8px 18px}.guide article b{color:#66d2bb;font-size:12px}.guide article h3{margin:14px 0 6px}.guide article p{color:#a9bbc0;font-size:11px;line-height:1.6}
-    .dashboard-bg{display:none;background:var(--bg);min-height:760px;padding:14px}.dashboard{max-width:1420px;margin:auto;display:grid;grid-template-columns:205px 1fr;gap:13px}.sidebar{background:#fff;border-radius:14px;padding:14px 12px;align-self:start;min-height:790px}.side-label{font-size:11px;color:#79878e;padding:2px 8px 12px}.sidebar button{border:0;background:#fff;width:100%;text-align:left}.side-home,.side-group{display:flex;gap:8px;align-items:center;padding:10px 8px;border-radius:7px;font-size:12px;font-weight:800}.side-home{background:#edf8f5!important;color:var(--teal)}.side-group i{font-style:normal;margin-left:auto}.side-sub{border-left:1px solid #d5dfe2;margin:2px 0 7px 15px}.side-sub button{font-size:11px;padding:9px 8px 9px 17px;line-height:1.35}.side-sub button.active{background:#d8e8ff;color:#145ca8;font-weight:850}.detail{min-width:0}.detail-head{min-height:48px;background:#fff;border-radius:14px 14px 0 0;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:8px 17px;gap:12px}.title-filter{display:flex;align-items:center;gap:18px;min-width:0}.title-filter h1{font-size:18px;margin:0;white-space:nowrap;text-decoration:underline;text-underline-offset:3px}.help{border:1px solid #9aa5aa;background:#fff;border-radius:50%;width:17px;height:17px;padding:0;font-size:10px;margin-left:4px}.filters{display:flex;gap:5px;align-items:center}.filters select{height:29px;border:1px solid #ced8db;border-radius:4px;background:#fff;font-size:10px;padding:0 7px}.actions{display:flex;gap:5px}.actions>button,.popwrap>button{height:29px;border:1px solid #ced8db;border-radius:4px;background:#fff;font-size:10px;padding:0 9px}.popwrap{position:relative}.popover{position:absolute;right:0;top:35px;background:#fff;border:1px solid #d6e0e3;border-radius:8px;box-shadow:0 12px 30px #1428322a;padding:6px;z-index:50;width:130px}.popover.origin{width:235px}.popover button{border:0;background:#fff;width:100%;padding:8px;text-align:left;font-size:10px;border-radius:5px}.popover button:hover{background:#edf8f5;color:var(--teal)}.meta{min-height:42px;background:#fff;border-radius:0 0 14px 14px;padding:8px 17px;display:flex;align-items:center;gap:13px;font-size:10px;margin-bottom:12px}.meta b{color:#008a80}.meta em{margin-left:auto;color:#8a989e;font-style:normal}.chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.chart-grid.one,.chart-grid.two{grid-template-columns:1fr}.chart-grid.three .chart-card:last-child{grid-column:1/-1}.chart-card{position:relative;background:#fff;border-radius:14px;padding:15px 15px 10px;min-width:0}.chart-card h3{text-align:center;font-size:14px;margin:0 40px 6px}.chart-stage{position:relative}.chart-stage svg{display:block;width:100%;height:auto}.axis{font-size:9px;fill:#5f6b70}.bar-value{font-size:8px;fill:#1c2c33;font-weight:800}.legend{display:flex;justify-content:center;align-items:center;gap:7px 12px;flex-wrap:wrap;min-height:32px}.legend button{border:0;background:#fff;font-size:8px;padding:2px}.legend button.off{opacity:.3;text-decoration:line-through}.legend i,.tip i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}.chart-menu-btn{position:absolute;right:12px;top:10px;border:0;background:#fff;font-size:20px;z-index:7}.chart-menu{position:absolute;right:12px;top:40px;width:140px;background:#fff;border:1px solid #d5dfe2;border-radius:8px;box-shadow:0 10px 25px #14283325;padding:5px;z-index:20}.chart-menu button{width:100%;border:0;background:#fff;text-align:left;font-size:10px;padding:7px;border-radius:4px}.chart-menu button:hover{background:#edf8f5}.tip{position:absolute;transform:translate(-50%,calc(-100% - 10px));background:#182c34;color:#fff;border-radius:7px;padding:7px 9px;pointer-events:none;min-width:145px;font-size:9px;display:grid;gap:4px;z-index:9}.tip:after{content:"";position:absolute;left:50%;bottom:-6px;border:6px solid transparent;border-top-color:#182c34;border-bottom:0}.modal-bg{display:none;position:fixed;inset:0;background:#10242a66;z-index:100;place-items:center;padding:20px}.modal-bg.open{display:grid}.modal{width:min(600px,94vw);background:#fff;border-radius:17px;padding:25px;position:relative}.modal h2{margin:0 0 20px}.modal-close{position:absolute;right:15px;top:12px;border:0;background:#fff;font-size:26px}.term{display:grid;grid-template-columns:150px 1fr;border-top:2px solid var(--ink);border-bottom:1px solid var(--line)}.term b,.term p{margin:0;padding:17px;font-size:12px;line-height:1.7}.term b{background:#f3f7f8}.note{margin-top:15px;background:#fff8ed;border:1px solid #f2dec0;border-radius:8px;padding:12px;font-size:11px}.confirm{display:block;margin:20px auto 0;border:0;border-radius:7px;background:var(--teal);color:#fff;font-weight:800;padding:9px 28px}.toast{display:none;position:fixed;left:50%;bottom:25px;transform:translateX(-50%);background:#132a31;color:#fff;border-radius:99px;padding:11px 17px;font-size:11px;z-index:200;box-shadow:0 12px 30px #132a3140}.toast.show{display:block}footer{min-height:78px;background:#f7f9fa;border-top:1px solid #e2eaec;display:flex;align-items:center;gap:20px;padding:18px max(25px,calc((100vw - 1120px)/2));font-size:11px;color:#68777e}footer small{margin-left:auto}
+    .dashboard-bg{display:none;background:var(--bg);min-height:760px;padding:14px}.dashboard{max-width:1420px;margin:auto;display:grid;grid-template-columns:205px 1fr;gap:13px}.sidebar{background:#fff;border-radius:14px;padding:14px 12px;align-self:start;min-height:790px}.side-label{font-size:11px;color:#79878e;padding:2px 8px 12px}.sidebar button{border:0;background:#fff;width:100%;text-align:left}.side-home,.side-group{display:flex;gap:8px;align-items:center;padding:10px 8px;border-radius:7px;font-size:12px;font-weight:800}.side-home{background:#edf8f5!important;color:var(--teal)}.side-group i{font-style:normal;margin-left:auto}.side-sub{border-left:1px solid #d5dfe2;margin:2px 0 7px 15px}.side-sub button{font-size:11px;padding:9px 8px 9px 17px;line-height:1.35}.side-sub button.active{background:#d8e8ff;color:#145ca8;font-weight:850}.detail{min-width:0}.detail-head{min-height:48px;background:#fff;border-radius:14px 14px 0 0;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:8px 17px;gap:12px}.title-filter{display:flex;align-items:center;gap:18px;min-width:0}.title-filter h1{font-size:18px;margin:0;white-space:nowrap;text-decoration:underline;text-underline-offset:3px}.help{border:1px solid #9aa5aa;background:#fff;border-radius:50%;width:17px;height:17px;padding:0;font-size:10px;margin-left:4px}.filters{display:flex;gap:5px;align-items:center}.filters select{height:29px;border:1px solid #ced8db;border-radius:4px;background:#fff;font-size:10px;padding:0 7px}.actions{display:flex;gap:5px}.actions>button,.popwrap>button{height:29px;border:1px solid #ced8db;border-radius:4px;background:#fff;font-size:10px;padding:0 9px}.popwrap{position:relative}.popover{position:absolute;right:0;top:35px;background:#fff;border:1px solid #d6e0e3;border-radius:8px;box-shadow:0 12px 30px #1428322a;padding:6px;z-index:50;width:130px}.popover.origin{width:235px}.popover button{border:0;background:#fff;width:100%;padding:8px;text-align:left;font-size:10px;border-radius:5px}.popover button:hover{background:#edf8f5;color:var(--teal)}.meta{min-height:42px;background:#fff;border-radius:0 0 14px 14px;padding:8px 17px;display:flex;align-items:center;gap:13px;font-size:10px;margin-bottom:12px}.meta b{color:#008a80}.meta em{margin-left:auto;color:#8a989e;font-style:normal}.chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.chart-grid.one,.chart-grid.two{grid-template-columns:1fr}.chart-grid.three .chart-card:last-child{grid-column:1/-1}.chart-card{position:relative;background:#fff;border-radius:14px;padding:15px 15px 10px;min-width:0}.chart-card h3{text-align:center;font-size:14px;margin:0 40px 6px}.chart-stage{position:relative}.chart-stage svg{display:block;width:100%;height:auto}.axis{font-size:9px;fill:#5f6b70}.bar-value{font-size:8px;fill:#1c2c33;font-weight:800}.legend{display:flex;justify-content:center;align-items:center;gap:7px 12px;flex-wrap:wrap;min-height:32px}.legend button{border:0;background:#fff;font-size:8px;padding:2px}.legend button.off{opacity:.3;text-decoration:line-through}.legend i,.tip i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}.chart-menu-btn{position:absolute;right:12px;top:10px;border:0;background:#fff;font-size:20px;z-index:7}.chart-menu{position:absolute;right:12px;top:40px;width:140px;background:#fff;border:1px solid #d5dfe2;border-radius:8px;box-shadow:0 10px 25px #14283325;padding:5px;z-index:20}.chart-menu button{width:100%;border:0;background:#fff;text-align:left;font-size:10px;padding:7px;border-radius:4px}.chart-menu button:hover{background:#edf8f5}.tip{position:absolute;transform:translate(-50%,calc(-100% - 10px));background:#182c34;color:#fff;border-radius:7px;padding:7px 9px;pointer-events:none;min-width:145px;font-size:9px;display:grid;gap:4px;z-index:9}.tip:after{content:"";position:absolute;left:50%;bottom:-6px;border:6px solid transparent;border-top-color:#182c34;border-bottom:0}.modal-bg{display:none;position:fixed;inset:0;background:#10242a66;z-index:100;place-items:center;padding:20px}.modal-bg.open{display:grid}.modal{width:min(720px,94vw);background:#fff;border-radius:17px;padding:25px;position:relative}.modal h2{margin:0 0 20px}.modal-close{position:absolute;right:15px;top:12px;border:0;background:#fff;font-size:26px}.term{display:grid;grid-template-columns:minmax(150px,max-content) 1fr;border-top:2px solid var(--ink);border-bottom:1px solid var(--line)}.term b,.term p{margin:0;padding:17px;font-size:12px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word}.term p{text-align:justify;text-justify:inter-character}.term b{background:#f3f7f8;white-space:nowrap}.note{margin-top:15px;background:#fff8ed;border:1px solid #f2dec0;border-radius:8px;padding:12px;font-size:11px}.confirm{display:block;margin:20px auto 0;border:0;border-radius:7px;background:var(--teal);color:#fff;font-weight:800;padding:9px 28px}.toast{display:none;position:fixed;left:50%;bottom:25px;transform:translateX(-50%);background:#132a31;color:#fff;border-radius:99px;padding:11px 17px;font-size:11px;z-index:200;box-shadow:0 12px 30px #132a3140}.toast.show{display:block}footer{min-height:78px;background:#f7f9fa;border-top:1px solid #e2eaec;display:flex;align-items:center;gap:20px;padding:18px max(25px,calc((100vw - 1120px)/2));font-size:11px;color:#68777e}footer small{margin-left:auto}
     @media(max-width:1050px){.topnav{display:none}.header{grid-template-columns:auto 1fr auto}.home-hero{grid-template-columns:1fr 1fr;gap:28px}.dashboard{grid-template-columns:180px 1fr}.chart-grid{grid-template-columns:1fr}.detail-head{align-items:flex-start}.title-filter{flex-wrap:wrap}.chart-grid.three,.chart-grid.four{grid-template-columns:1fr}}
     @media(max-width:720px){.header{height:70px;padding:0 15px}.brand b{font-size:14px}.brand small,.member .text{display:none}.subnav{height:44px;gap:24px}.home-hero{grid-template-columns:1fr;padding:52px 22px 85px}.hero-copy h1{font-size:35px}.hero-visual{min-height:280px}.home-main{padding:0 14px 50px}.cards{grid-template-columns:1fr}.guide{grid-template-columns:1fr;padding:45px 22px}.guide-grid{grid-template-columns:1fr}.dashboard-bg{padding:8px}.dashboard{display:block}.sidebar{min-height:auto;margin-bottom:8px}.side-label,.side-group.muted{display:none}.side-sub{border:0;margin-left:0;display:grid;grid-template-columns:repeat(2,1fr);gap:5px}.side-sub button{border:1px solid #e1e8ea;border-radius:5px;padding:8px}.detail-head{display:block}.title-filter{display:block}.title-filter h1{white-space:normal;margin-bottom:9px}.filters{overflow:auto}.actions{margin-top:8px}.meta{flex-wrap:wrap}.meta em{width:100%;margin-left:0}.term{grid-template-columns:1fr}footer{display:grid;gap:5px}footer small{margin-left:0}}
   
@@ -252,8 +252,663 @@
     function downloadImage(svg,title,type){const copy=svg.cloneNode(true);copy.setAttribute('xmlns','http://www.w3.org/2000/svg');const url=URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(copy)],{type:'image/svg+xml'}));const img=new Image();img.onload=()=>{const canvas=document.createElement('canvas');canvas.width=1800;canvas.height=700;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(img,0,0,1800,700);canvas.toBlob(b=>saveBlob(b,`${filename(title)}.${type==='jpeg'?'jpg':'png'}`),`image/${type}`,.94);URL.revokeObjectURL(url)};img.src=url}
     function saveBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
     function openTerm(){$('#termModal').classList.add('open')}function closeTerm(){$('#termModal').classList.remove('open')}
+
+    // ================= 사례 1: 업로드 데이터 인식/활성화/초기화 (자동 생성 v2) =================
+    const SIDO_FULL=["서울특별시","부산광역시","대구광역시","인천광역시","광주광역시","대전광역시","울산광역시","세종특별자치시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주특별자치도"];
+    const SIDO_SHORT={"서울":"서울특별시","부산":"부산광역시","대구":"대구광역시","인천":"인천광역시","광주":"광주광역시","대전":"대전광역시","울산":"울산광역시","세종":"세종특별자치시","경기":"경기도","강원":"강원도","충북":"충청북도","충남":"충청남도","전북":"전라북도","전남":"전라남도","경북":"경상북도","경남":"경상남도","제주":"제주특별자치도"};
+    const SHORT_OF={};Object.entries(SIDO_SHORT).forEach(([short,full])=>{SHORT_OF[full]=short});
+    function canonicalSido(raw){const s=String(raw||"").trim();if(!s)return null;if(SIDO_FULL.includes(s))return s;if(SIDO_SHORT[s])return SIDO_SHORT[s];if(s==="세종시")return"세종특별자치시";if(s==="제주도")return"제주특별자치도";return null}
+    const BOK_ZONE_TO_SIDO={"부산":["부산광역시"],"대구경북":["대구광역시","경상북도"],"인천":["인천광역시"],"광주전남":["광주광역시","전라남도"],"대전세종충남":["대전광역시","세종특별자치시","충청남도"],"울산":["울산광역시"],"경기":["경기도"],"강원":["강원도"],"충북":["충청북도"],"전북":["전라북도"],"경남":["경상남도"],"제주":["제주특별자치도"]};
+    const ZONE_OF_SIDO={};Object.entries(BOK_ZONE_TO_SIDO).forEach(([zone,list])=>list.forEach(s=>{ZONE_OF_SIDO[s]=zone}));
+    function normS(s){return String(s==null?"":s).replace(/[　\s]+/g," ").trim()}
+    function stripIndent(s){return String(s==null?"":s).replace(/^[　]+/,"").trim()}
+    function forwardFill(rows,cols){const last={};return rows.map(r=>{const out=r.slice();cols.forEach(c=>{const v=out[c];if(v!==undefined&&v!==null&&String(v).trim()!=="")last[c]=v;else out[c]=last[c]!==undefined?last[c]:""});return out})}
+    function isBlankRow(r){return !r||r.every(v=>v===""||v===null||v===undefined)}
+    function periodToMonth(label){const m=String(label).trim().match(/^(\d{4})[./](\d{1,2})/);return m?`${m[1]}.${m[2].padStart(2,"0")}`:null}
+    function periodToQuarter(label){const m=String(label).trim().match(/^(\d{4})[.](\d)\/4/);return m?`${m[1]} ${m[2]}Q`:null}
+    function normMonthTemplate(v){const s=String(v==null?"":v).trim();const m=s.match(/^(\d{4})[-.\/](\d{1,2})$/);return m?`${m[1]}.${m[2].padStart(2,"0")}`:null}
+    function normQuarterTemplate(v){const s=String(v==null?"":v).trim();let m=s.match(/^(\d{4})[-\s]?[Qq](\d)$/);if(m)return `${m[1]} ${m[2]}Q`;m=s.match(/^(\d{4})[\s.](\d)[Qq]$/);return m?`${m[1]} ${m[2]}Q`:null}
+    function buildSeriesMap(pairs){const map=new Map();(pairs||[]).forEach(({period,value})=>{if(period!=null)map.set(period,value)});const periods=[...map.keys()].sort();return{periods,values:periods.map(p=>map.get(p))}}
+
+    // ---- 파일 유형 인식 ----
+    const TEMPLATE_HEADER=["지표군","지표명","지역","기준시점","값"];
+    function findTemplateHeaderRow(rows){
+      for(let i=0;i<Math.min(rows.length,8);i++){
+        const h=(rows[i]||[]).map(v=>normS(v));
+        if(TEMPLATE_HEADER.every((x,j)=>h[j]===x))return i;
+      }
+      return -1;
+    }
+    function detectCase1FileType(rows){
+      if(!rows||!rows.length||!rows[0])return null;
+      const templateHeaderIdx=findTemplateHeaderRow(rows);
+      if(templateHeaderIdx>=0)return{type:"template",headerRow:templateHeaderIdx};
+      const h0=rows[0].map(v=>normS(v));
+      if(h0[0]==="계정코드별")return{type:"esi",variant:"light"};
+      if(h0[0]==="연도"&&h0[1]==="월")return{type:"small",variant:"csv"};
+      if(h0[0]==="시도별"&&h0[1]==="산업별")return{type:"manufacturing",variant:"light"};
+      if(h0[0]==="행정구역별"&&h0[1]==="업종별")return{type:"service",variant:"light"};
+      if(h0[0]==="CSI코드별"&&h0[1]==="CSI분류코드별")return{type:"consumer_national",variant:"light"};
+      if(h0[0]==="CSI코드별"&&h0[1]==="담당부서별")return{type:"consumer_regional",variant:"light"};
+      if((h0[0]==="업종코드별"&&h0[1]==="BSI코드별")||(h0[0]==="BSI코드별"&&h0[1]==="업종코드별")){
+        const kindCol=h0[0]==="BSI코드별"?0:1;
+        const hasForecast=rows.slice(1,60).some(r=>/전망/.test(normS(r[kindCol])));
+        return{type:"enterprise",variant:"light",kind:hasForecast?"forecast":"actual"};
+      }
+      if(h0[0]==="통계표"){
+        const idx=h0.indexOf("변환");if(idx<0)return null;
+        if(/CSI코드/.test(h0[1]))return{type:"consumer_national",variant:"heavy",periodStart:idx+1};
+        if(/업종코드/.test(h0[1]))return{type:"enterprise",variant:"heavy",periodStart:idx+1,kind:/전망/.test(rows.slice(1,80).map(r=>normS(r[4])).join(" "))?"forecast":"actual"};
+      }
+      return null;
+    }
+    function parseLabelTreePeriods(rows,opt){
+      const{labelCol,classCol,periodStart}=opt;
+      const periodsRaw=rows[0].slice(periodStart).map(v=>normS(v));
+      const filled=forwardFill(rows.slice(1),[labelCol,classCol]);
+      const out=[];
+      filled.forEach(r=>{
+        if(isBlankRow(r))return;
+        const label=stripIndent(r[labelCol]).replace(/\s*\d+\)\s*$/,"");
+        const cls=stripIndent(r[classCol]);
+        if(!label)return;
+        const values=periodsRaw.map((_,i)=>{const v=r[periodStart+i];return(v===""||v===null||v===undefined)?null:Number(v)});
+        out.push({label,cls,values});
+      });
+      return{periods:periodsRaw,rows:out};
+    }
+    function normalizeHeavyToLight(rows,periodStart){
+      const header=["A","B",...rows[0].slice(periodStart)];
+      const body=rows.slice(1).map(r=>[r[2],r[4],...r.slice(periodStart)]);
+      return[header,...body];
+    }
+    function parseEsi(rows){
+      const periods=rows[0].slice(1).map(v=>periodToMonth(v)).filter(Boolean);
+      const pick=name=>{const row=rows.slice(1).find(r=>normS(r[0]).startsWith(name));if(!row)return null;return periods.map((_,i)=>{const v=row[1+i];return(v===""||v==null)?null:Number(v)})};
+      const raw=pick("경제심리지수(원계열)"),sa=pick("경제심리지수(순환변동치)");
+      if(!raw&&!sa)return null;
+      return{periods,원계열:raw,순환변동치:sa};
+    }
+    const ENT_GROUPS=["전산업","제조업","대기업","중소기업","내수기업","수출기업","비제조업","서비스업"];
+    function parseEnterprise(rows,det){
+      let table=rows,periodStart=2;
+      if(det.variant==="heavy")table=normalizeHeavyToLight(rows,det.periodStart);
+      const h0=table[0].map(v=>normS(v));
+      const bsiIsCol0=/BSI코드/.test(h0[0])||table.slice(1,30).some(r=>/BSI|기업심리지수/.test(normS(r[0])));
+      const labelCol=bsiIsCol0?0:1,industryCol=bsiIsCol0?1:0;
+      const{periods,rows:parsed}=parseLabelTreePeriods(table,{labelCol,classCol:industryCol,periodStart});
+      const months=periods.map(periodToMonth).filter(Boolean);
+      const kind=det.kind==="forecast"?"전망":"실적";
+      const cbsiName=`기업심리지수${kind}`;
+      const cbsi=ENT_GROUPS.map(name=>{const row=parsed.find(r=>r.label===cbsiName&&stripIndent(r.cls).replace(/\s+/g,"")===name);return row?{name,data:row.values}:null}).filter(Boolean);
+      const bsi=parsed.filter(r=>stripIndent(r.cls).replace(/\s+/g,"")==="전산업"&&r.label!==cbsiName&&r.label!==`${cbsiName}(S.A)`).map(r=>({name:r.label,data:r.values}));
+      if(!cbsi.length&&!bsi.length)return null;
+      return{months,cbsi,bsi};
+    }
+    const CONSUMER_SERIES=["소비자심리지수","생활형편전망CSI","취업기회전망CSI","향후경기전망CSI","금리수준전망CSI"];
+    function parseConsumerNational(rows,det){
+      let table=rows,periodStart=2;
+      if(det.variant==="heavy")table=normalizeHeavyToLight(rows,det.periodStart);
+      const{periods,rows:parsed}=parseLabelTreePeriods(table,{labelCol:0,classCol:1,periodStart});
+      const months=periods.map(periodToMonth).filter(Boolean);
+      const series={};
+      CONSUMER_SERIES.forEach(name=>{const row=parsed.find(r=>r.label===name&&stripIndent(r.cls)==="전체");if(row)series[name]=row.values});
+      if(!Object.keys(series).length)return null;
+      return{months,series};
+    }
+    function parseConsumerRegional(rows){
+      const{periods,rows:parsed}=parseLabelTreePeriods(rows,{labelCol:0,classCol:1,periodStart:2});
+      const months=periods.map(periodToMonth).filter(Boolean);
+      const byZone={};
+      parsed.forEach(r=>{if(!CONSUMER_SERIES.includes(r.label))return;if(!BOK_ZONE_TO_SIDO[r.cls])return;byZone[r.cls]=byZone[r.cls]||{};byZone[r.cls][r.label]=r.values});
+      if(!Object.keys(byZone).length)return null;
+      return{months,byZone};
+    }
+    const SMALL_REGION_COL={"서울특별시":"서울","부산광역시":"부산","대구광역시":"대구","인천광역시":"인천","광주광역시":"광주","대전광역시":"대전","울산광역시":"울산","세종특별자치시":"세종","경기도":"경기","강원도":"강원","충청북도":"충북","충청남도":"충남","전라북도":"전북","전라남도":"전남","경상북도":"경북","경상남도":"경남","제주특별자치도":"제주"};
+    const SMALL_SECTORS=["제조업","소매업","음식점업","전문기술사업","교육서비스업","스포츠및오락관련","수리업","개인서비스업"];
+    function parseSmallCsv(rows){
+      const header=rows[0].map(v=>normS(v));
+      const idx=name=>header.indexOf(name);
+      const yIdx=idx("연도"),mIdx=idx("월");
+      if(yIdx<0||mIdx<0)return null;
+      const body=rows.slice(1).filter(r=>r[yIdx]&&r[mIdx]);
+      const months=body.map(r=>`${String(r[yIdx]).trim()}.${String(r[mIdx]).trim().padStart(2,"0")}`);
+      const num=v=>(v===""||v==null)?null:Number(v);
+      const seriesOf=colName=>{const i=idx(colName);return i<0?null:body.map(r=>num(r[i]))};
+      const region={};
+      Object.entries(SMALL_REGION_COL).forEach(([full,short])=>{const actual=seriesOf(`${short}체감`),forecast=seriesOf(`${short}전망`);if(actual||forecast)region[full]={actual,forecast}});
+      const sector={};
+      SMALL_SECTORS.forEach(name=>{const actual=seriesOf(`${name}체감`),forecast=seriesOf(`${name}전망`);if(actual||forecast)sector[name]={actual,forecast}});
+      if(!Object.keys(region).length)return null;
+      return{months,region,sector};
+    }
+    function parseManufacturing(rows){
+      const h0=rows[0],h1=rows[1],cols=[];
+      for(let c=2;c<h0.length;c++){const period=periodToMonth(h0[c]),metric=normS(h1[c]);if(period&&metric)cols.push({c,period,metric})}
+      const monthsSet=[...new Set(cols.map(c=>c.period))];
+      const filled=forwardFill(rows.slice(2),[0]);
+      const region={};
+      filled.forEach(r=>{
+        if(isBlankRow(r))return;
+        const sido=canonicalSido(r[0]),industry=stripIndent(r[1]);
+        if(!sido||industry!=="총지수")return;
+        const targetCols=cols.filter(c=>c.metric==="생산지수(원지수)");
+        const data=monthsSet.map(month=>{const col=targetCols.find(c=>c.period===month);if(!col)return null;const v=r[col.c];return(v===""||v==null||v==="-")?null:Number(v)});
+        region[sido]={months:monthsSet,data};
+      });
+      if(!Object.keys(region).length)return null;
+      return{months:monthsSet,region};
+    }
+    function parseService(rows){
+      const h0=rows[0],h1=rows[1],cols=[];
+      for(let c=2;c<h0.length;c++){const q=periodToQuarter(h0[c]),metric=normS(h1[c]);if(q&&metric)cols.push({c,q,metric})}
+      const quarters=[...new Set(cols.map(c=>c.q))];
+      const lastQ=quarters[quarters.length-1];
+      const filled=forwardFill(rows.slice(2),[0]);
+      const region={};
+      filled.forEach(r=>{
+        if(isBlankRow(r))return;
+        const sido=canonicalSido(r[0]);if(!sido)return;
+        const industry=stripIndent(r[1]);
+        const val=(metric,q)=>{const col=cols.find(c=>c.metric===metric&&c.q===q);if(!col)return null;const v=r[col.c];return(v===""||v==null||v==="-")?null:Number(v)};
+        region[sido]=region[sido]||{total:{경상지수:[],불변지수:[]},bars:{cats:[],경상지수:[],불변지수:[]}};
+        if(industry==="총지수"){region[sido].total.경상지수=quarters.map(q=>val("경상지수",q));region[sido].total.불변지수=quarters.map(q=>val("불변지수",q))}
+        else if(industry){region[sido].bars.cats.push(industry);region[sido].bars.경상지수.push(val("경상지수",lastQ));region[sido].bars.불변지수.push(val("불변지수",lastQ))}
+      });
+      if(!Object.keys(region).length)return null;
+      return{quarters,region};
+    }
+    // ---- 표준 양식(빈칸형) 파서: 지표군,지표명,지역,기준시점,값 ----
+    function parseTemplateFile(rows,headerRowIdx){
+      const body=rows.slice((headerRowIdx==null?0:headerRowIdx)+1).filter(r=>r&&r.some(v=>String(v).trim()!==""));
+      const buckets={
+        esi:{원계열:[],순환변동치:[]},
+        entActual:{cbsi:{},bsi:{}}, entForecast:{cbsi:{},bsi:{}},
+        consumerNat:{}, consumerZone:{},
+        small:{region:{},sector:{}},
+        manufacturing:{},
+        service:{total:{},bars:{}}
+      };
+      const touched=new Set();
+      body.forEach(r=>{
+        const group=normS(r[0]),name=normS(r[1]),region=normS(r[2]),period=normS(r[3]);
+        const raw=r[4]; if(raw===""||raw==null)return;
+        const value=Number(raw); if(!Number.isFinite(value))return;
+        if(group==="경제심리지수"){
+          const month=normMonthTemplate(period)||periodToMonth(period); if(!month)return;
+          if(/원계열/.test(name))buckets.esi.원계열.push({period:month,value});
+          else if(/순환변동치/.test(name))buckets.esi.순환변동치.push({period:month,value});
+          touched.add("esi");
+        } else if(group==="기업경기실사지수(실적)"||group==="기업경기실사지수(전망)"){
+          const month=normMonthTemplate(period)||periodToMonth(period); if(!month)return;
+          const slot=group.includes("실적")?buckets.entActual:buckets.entForecast;
+          if(/BSI/i.test(name)){ slot.bsi[name]=slot.bsi[name]||[]; slot.bsi[name].push({period:month,value}); }
+          else if(ENT_GROUPS.includes(name)){ slot.cbsi[name]=slot.cbsi[name]||[]; slot.cbsi[name].push({period:month,value}); }
+          touched.add("enterprise");
+        } else if(group==="소비자동향지수"){
+          const month=normMonthTemplate(period)||periodToMonth(period); if(!month)return;
+          if(!CONSUMER_SERIES.includes(name))return;
+          if(!region||region==="전국"){ buckets.consumerNat[name]=buckets.consumerNat[name]||[]; buckets.consumerNat[name].push({period:month,value}); }
+          else{
+            const sido=canonicalSido(region);
+            const zoneRaw = sido ? ZONE_OF_SIDO[sido] : (BOK_ZONE_TO_SIDO[region] ? region : null);
+            if(!zoneRaw)return;
+            buckets.consumerZone[zoneRaw]=buckets.consumerZone[zoneRaw]||{};
+            buckets.consumerZone[zoneRaw][name]=buckets.consumerZone[zoneRaw][name]||[];
+            buckets.consumerZone[zoneRaw][name].push({period:month,value});
+          }
+          touched.add("consumer");
+        } else if(group==="소상공인경기동향지수"){
+          const month=normMonthTemplate(period)||periodToMonth(period); if(!month)return;
+          const m=name.match(/^(.+)_(체감|전망)$/); if(!m)return;
+          const base=m[1], kind=m[2]==="체감"?"actual":"forecast";
+          const sido=canonicalSido(base);
+          if(sido){ buckets.small.region[sido]=buckets.small.region[sido]||{actual:[],forecast:[]}; buckets.small.region[sido][kind].push({period:month,value}); }
+          else if(SMALL_SECTORS.includes(base)){ buckets.small.sector[base]=buckets.small.sector[base]||{actual:[],forecast:[]}; buckets.small.sector[base][kind].push({period:month,value}); }
+          touched.add("small");
+        } else if(group==="광공업생산지수"){
+          const month=normMonthTemplate(period)||periodToMonth(period); if(!month)return;
+          const sido=canonicalSido(region)||canonicalSido(name); if(!sido)return;
+          buckets.manufacturing[sido]=buckets.manufacturing[sido]||[];
+          buckets.manufacturing[sido].push({period:month,value});
+          touched.add("manufacturing");
+        } else if(group==="서비스업생산지수"){
+          const q=normQuarterTemplate(period)||periodToQuarter(period); if(!q)return;
+          const sido=canonicalSido(region); if(!sido)return;
+          const m=name.match(/^(.+)_(경상|불변)$/); if(!m)return;
+          const base=m[1], metric=m[2]==="경상"?"경상지수":"불변지수";
+          if(base==="총지수"){ buckets.service.total[sido]=buckets.service.total[sido]||{경상지수:[],불변지수:[]}; buckets.service.total[sido][metric].push({period:q,value}); }
+          else{ buckets.service.bars[sido]=buckets.service.bars[sido]||{}; buckets.service.bars[sido][base]=buckets.service.bars[sido][base]||{경상지수:[],불변지수:[]}; buckets.service.bars[sido][base][metric].push({period:q,value}); }
+          touched.add("service");
+        }
+      });
+      return{buckets,touched};
+    }
+
+    // ---- 업로드 데이터 저장소 / 활성화 상태 ----
+    const DASHBOARD_GROUP_KEYS=["enterprise","small","consumer","esi","manufacturing","service"];
+    const GROUP_TITLE={enterprise:"기업경기실사지수(BSI)",small:"소상공인경기실사지수(BSI)",consumer:"소비자체감경기지수(CSI)",esi:"경제심리지수(ESI)",manufacturing:"광공업생산지수",service:"서비스업생산지수"};
+    function emptyUpload(){return{esi:null,enterprise:{actual:null,forecast:null},consumer:{national:null,zones:{},zoneMonths:null},small:null,manufacturing:null,service:null}}
+    function naChart(title,reason){return[{na:true,title,reason}]}
+    let UPLOADED=emptyUpload();
+    let UPLOADED_FILES=[];
+    let ACTIVE_GROUPS=new Set();
+
+    function mergeEnterpriseSlot(kind, cbsiNamed, bsiNamed){
+      const slot=UPLOADED.enterprise[kind]=UPLOADED.enterprise[kind]||{cbsi:null,bsi:null,months:null};
+      if(cbsiNamed && Object.keys(cbsiNamed).length){
+        const all=Object.entries(cbsiNamed).map(([name,pairs])=>({name,...buildSeriesMap(pairs)}));
+        const months=[...new Set(all.flatMap(x=>x.periods))].sort();
+        slot.cbsi=all.map(x=>({name:x.name,data:months.map(m=>{const i=x.periods.indexOf(m);return i<0?null:x.values[i]})}));
+        slot.months=months;
+      }
+      if(bsiNamed && Object.keys(bsiNamed).length){
+        const all=Object.entries(bsiNamed).map(([name,pairs])=>({name,...buildSeriesMap(pairs)}));
+        const months=slot.months && slot.months.length ? slot.months : [...new Set(all.flatMap(x=>x.periods))].sort();
+        slot.bsi=all.map(x=>({name:x.name,data:months.map(m=>{const i=x.periods.indexOf(m);return i<0?null:x.values[i]})}));
+        slot.months=slot.months&&slot.months.length?slot.months:months;
+      }
+    }
+    function ingestTemplateRows(rows,headerRowIdx){
+      const{buckets,touched}=parseTemplateFile(rows,headerRowIdx);
+      if(!touched.size)return{ok:false,reason:"표준 양식에서 인식 가능한 값을 찾지 못했습니다. 지표군·지표명·기준시점 표기를 안내에 맞게 입력했는지 확인해주세요."};
+      if(buckets.esi.원계열.length||buckets.esi.순환변동치.length){
+        const s1=buildSeriesMap(buckets.esi.원계열), s2=buildSeriesMap(buckets.esi.순환변동치);
+        const periods=[...new Set([...s1.periods,...s2.periods])].sort();
+        const m1=new Map(s1.periods.map((p,i)=>[p,s1.values[i]])), m2=new Map(s2.periods.map((p,i)=>[p,s2.values[i]]));
+        UPLOADED.esi={periods,원계열:periods.map(p=>m1.has(p)?m1.get(p):null),순환변동치:periods.map(p=>m2.has(p)?m2.get(p):null)};
+      }
+      if(Object.keys(buckets.entActual.cbsi).length||Object.keys(buckets.entActual.bsi).length) mergeEnterpriseSlot("actual",buckets.entActual.cbsi,buckets.entActual.bsi);
+      if(Object.keys(buckets.entForecast.cbsi).length||Object.keys(buckets.entForecast.bsi).length) mergeEnterpriseSlot("forecast",buckets.entForecast.cbsi,buckets.entForecast.bsi);
+      if(Object.keys(buckets.consumerNat).length){
+        const all=Object.entries(buckets.consumerNat).map(([name,pairs])=>({name,...buildSeriesMap(pairs)}));
+        const months=[...new Set(all.flatMap(x=>x.periods))].sort();
+        const series={}; all.forEach(x=>{series[x.name]=months.map(m=>{const i=x.periods.indexOf(m);return i<0?null:x.values[i]})});
+        UPLOADED.consumer.national={months,series};
+      }
+      Object.entries(buckets.consumerZone).forEach(([zone,named])=>{
+        const all=Object.entries(named).map(([name,pairs])=>({name,...buildSeriesMap(pairs)}));
+        const months=[...new Set(all.flatMap(x=>x.periods))].sort();
+        const series={}; all.forEach(x=>{series[x.name]=months.map(m=>{const i=x.periods.indexOf(m);return i<0?null:x.values[i]})});
+        UPLOADED.consumer.zones[zone]=series;
+        UPLOADED.consumer.zoneMonths=months;
+      });
+      if(Object.keys(buckets.small.region).length||Object.keys(buckets.small.sector).length){
+        const S=UPLOADED.small=UPLOADED.small||{months:[],region:{},sector:{}};
+        const allPairs=[...Object.values(buckets.small.region).flatMap(x=>[...x.actual,...x.forecast]),...Object.values(buckets.small.sector).flatMap(x=>[...x.actual,...x.forecast])];
+        const months=[...new Set([...(S.months||[]),...allPairs.map(p=>p.period)])].sort();
+        S.months=months;
+        Object.entries(buckets.small.region).forEach(([sido,x])=>{
+          const a=buildSeriesMap(x.actual), f=buildSeriesMap(x.forecast);
+          const am=new Map(a.periods.map((p,i)=>[p,a.values[i]])), fm=new Map(f.periods.map((p,i)=>[p,f.values[i]]));
+          S.region[sido]={actual:months.map(m=>am.has(m)?am.get(m):null),forecast:months.map(m=>fm.has(m)?fm.get(m):null)};
+        });
+        Object.entries(buckets.small.sector).forEach(([name,x])=>{
+          const a=buildSeriesMap(x.actual), f=buildSeriesMap(x.forecast);
+          const am=new Map(a.periods.map((p,i)=>[p,a.values[i]])), fm=new Map(f.periods.map((p,i)=>[p,f.values[i]]));
+          S.sector[name]={actual:months.map(m=>am.has(m)?am.get(m):null),forecast:months.map(m=>fm.has(m)?fm.get(m):null)};
+        });
+      }
+      if(Object.keys(buckets.manufacturing).length){
+        const M=UPLOADED.manufacturing=UPLOADED.manufacturing||{months:[],region:{}};
+        const allPairs=Object.values(buckets.manufacturing).flat();
+        const months=[...new Set([...(M.months||[]),...allPairs.map(p=>p.period)])].sort();
+        M.months=months;
+        Object.entries(buckets.manufacturing).forEach(([sido,pairs])=>{
+          const s=buildSeriesMap(pairs); const mp=new Map(s.periods.map((p,i)=>[p,s.values[i]]));
+          M.region[sido]={months,data:months.map(m=>mp.has(m)?mp.get(m):null)};
+        });
+      }
+      if(Object.keys(buckets.service.total).length||Object.keys(buckets.service.bars).length){
+        const V=UPLOADED.service=UPLOADED.service||{quarters:[],region:{}};
+        const allQ=[...Object.values(buckets.service.total).flatMap(x=>[...x.경상지수,...x.불변지수]),
+                    ...Object.values(buckets.service.bars).flatMap(byInd=>Object.values(byInd).flatMap(x=>[...x.경상지수,...x.불변지수]))];
+        const quarters=[...new Set([...(V.quarters||[]),...allQ.map(p=>p.period)])].sort();
+        V.quarters=quarters;
+        Object.entries(buckets.service.total).forEach(([sido,x])=>{
+          const g=buildSeriesMap(x.경상지수), b=buildSeriesMap(x.불변지수);
+          const gm=new Map(g.periods.map((p,i)=>[p,g.values[i]])), bm=new Map(b.periods.map((p,i)=>[p,b.values[i]]));
+          V.region[sido]=V.region[sido]||{total:{경상지수:[],불변지수:[]},bars:{cats:[],경상지수:[],불변지수:[]}};
+          V.region[sido].total={경상지수:quarters.map(q=>gm.has(q)?gm.get(q):null),불변지수:quarters.map(q=>bm.has(q)?bm.get(q):null)};
+        });
+        Object.entries(buckets.service.bars).forEach(([sido,byInd])=>{
+          V.region[sido]=V.region[sido]||{total:{경상지수:[],불변지수:[]},bars:{cats:[],경상지수:[],불변지수:[]}};
+          const lastQ=quarters[quarters.length-1];
+          const cats=[],g=[],b=[];
+          Object.entries(byInd).forEach(([ind,x])=>{
+            const gm=new Map(x.경상지수.map(p=>[p.period,p.value])), bm=new Map(x.불변지수.map(p=>[p.period,p.value]));
+            cats.push(ind); g.push(gm.has(lastQ)?gm.get(lastQ):null); b.push(bm.has(lastQ)?bm.get(lastQ):null);
+          });
+          V.region[sido].bars={cats,경상지수:g,불변지수:b};
+        });
+      }
+      touched.forEach(k=>ACTIVE_GROUPS.add(k));
+      return{ok:true,label:"표준 양식",touched:[...touched]};
+    }
+
+    function applyOneFile(rows,fileName){
+      const det=detectCase1FileType(rows);
+      if(!det)return{ok:false,reason:`인식할 수 없는 파일 형식입니다: ${fileName}`};
+      let label="",touchedKeys=[];
+      try{
+        if(det.type==="template"){
+          const r=ingestTemplateRows(rows,det.headerRow);
+          if(!r.ok)return r;
+          label="표준 양식"; touchedKeys=r.touched;
+        }
+        else if(det.type==="esi"){const r=parseEsi(rows);if(!r)return{ok:false,reason:'경제심리지수(ESI) 값을 찾지 못했습니다.'};UPLOADED.esi=r;label="경제심리지수(ESI)";touchedKeys=["esi"];ACTIVE_GROUPS.add("esi")}
+        else if(det.type==="enterprise"){
+          const r=parseEnterprise(rows,det);if(!r)return{ok:false,reason:'기업경기조사 값을 찾지 못했습니다.'};
+          const slot=UPLOADED.enterprise[det.kind]=UPLOADED.enterprise[det.kind]||{cbsi:null,bsi:null,months:null};
+          if(r.cbsi.length){slot.cbsi=r.cbsi;slot.months=r.months}
+          if(r.bsi.length){slot.bsi=r.bsi;slot.months=slot.months||r.months}
+          label=`기업경기조사(${det.kind==='forecast'?'전망':'실적'})`;touchedKeys=["enterprise"];ACTIVE_GROUPS.add("enterprise");
+        }
+        else if(det.type==="consumer_national"){const r=parseConsumerNational(rows,det);if(!r)return{ok:false,reason:'소비자동향조사(전국) 값을 찾지 못했습니다.'};UPLOADED.consumer.national=r;label="소비자동향조사(전국)";touchedKeys=["consumer"];ACTIVE_GROUPS.add("consumer")}
+        else if(det.type==="consumer_regional"){const r=parseConsumerRegional(rows);if(!r)return{ok:false,reason:'소비자동향조사(지역) 값을 찾지 못했습니다.'};Object.assign(UPLOADED.consumer.zones,r.byZone);UPLOADED.consumer.zoneMonths=r.months;label="소비자동향조사(지역)";touchedKeys=["consumer"];ACTIVE_GROUPS.add("consumer")}
+        else if(det.type==="small"){const r=parseSmallCsv(rows);if(!r)return{ok:false,reason:'소상공인 경기동향(BSI) 값을 찾지 못했습니다.'};UPLOADED.small=r;label="소상공인 경기동향(BSI)";touchedKeys=["small"];ACTIVE_GROUPS.add("small")}
+        else if(det.type==="manufacturing"){const r=parseManufacturing(rows);if(!r)return{ok:false,reason:'광공업생산지수 값을 찾지 못했습니다.'};UPLOADED.manufacturing=r;label="광공업생산지수";touchedKeys=["manufacturing"];ACTIVE_GROUPS.add("manufacturing")}
+        else if(det.type==="service"){const r=parseService(rows);if(!r)return{ok:false,reason:'서비스업생산지수 값을 찾지 못했습니다.'};UPLOADED.service=r;label="서비스업생산지수";touchedKeys=["service"];ACTIVE_GROUPS.add("service")}
+      }catch(err){return{ok:false,reason:`파일을 처리하지 못했습니다: ${fileName}`}}
+      UPLOADED_FILES.push({fileName,label});
+      return{ok:true,label,touched:touchedKeys};
+    }
+    function ingestCase1File(rows,fileName){
+      const r=applyOneFile(rows,fileName);
+      if(!r.ok)return r;
+      indicators=buildUploadedIndicators(REGION);
+      buildNav();route();
+      return{...r,status:case1UploadStatus()};
+    }
+    function setCase1Files(fileList){
+      UPLOADED=emptyUpload();
+      UPLOADED_FILES=[];
+      ACTIVE_GROUPS=new Set();
+      const perFile=(fileList||[]).map(f=>{
+        const r=applyOneFile(f.rows,f.fileName);
+        return{fileName:f.fileName,ok:r.ok,label:r.ok?r.label:null,reason:r.ok?null:r.reason};
+      });
+      indicators=buildUploadedIndicators(REGION);
+      buildNav();route();
+      return{ok:true,perFile,status:case1UploadStatus()};
+    }
+    function setActiveGroups(keys){
+      ACTIVE_GROUPS=new Set((keys||[]).filter(k=>DASHBOARD_GROUP_KEYS.includes(k)));
+      indicators=buildUploadedIndicators(REGION);
+      buildNav();route();
+      return case1UploadStatus();
+    }
+    function toggleCase1Group(key){
+      if(!DASHBOARD_GROUP_KEYS.includes(key))return case1UploadStatus();
+      if(ACTIVE_GROUPS.has(key))ACTIVE_GROUPS.delete(key); else ACTIVE_GROUPS.add(key);
+      indicators=buildUploadedIndicators(REGION);
+      buildNav();route();
+      return case1UploadStatus();
+    }
+    function case1HasData(key){
+      const U=UPLOADED;
+      if(key==="esi")return!!U.esi;
+      if(key==="enterprise")return!!(U.enterprise.actual||U.enterprise.forecast);
+      if(key==="consumer")return!!(U.consumer.national||Object.keys(U.consumer.zones).length);
+      if(key==="small")return!!U.small;
+      if(key==="manufacturing")return!!U.manufacturing;
+      if(key==="service")return!!U.service;
+      return false;
+    }
+    function case1UploadStatus(){
+      return{
+        groups:DASHBOARD_GROUP_KEYS.map(key=>({key,title:GROUP_TITLE[key],hasData:case1HasData(key),active:ACTIVE_GROUPS.has(key)})),
+        files:UPLOADED_FILES.slice()
+      };
+    }
+    function resetCase1Upload(){
+      UPLOADED=emptyUpload();
+      UPLOADED_FILES=[];
+      ACTIVE_GROUPS=new Set();
+      indicators=buildUploadedIndicators(REGION);
+      buildNav();route();
+    }
+
+    function buildUploadedIndicators(region){
+      const short=SHORT_OF[region]||region;
+      const out={};
+      const U=UPLOADED;
+
+      const onKey=key=>ACTIVE_GROUPS.has(key);
+      const offReason=(key,hasData,noDataMsg)=>hasData&&!onKey(key)?'지표가 꺼져 있습니다. 위 목록에서 다시 켜면 표시됩니다.':noDataMsg;
+      {
+        const A=U.enterprise.actual,F=U.enterprise.forecast;
+        const hasEnt=!!(A||F);
+        const a=A&&A.cbsi?paint(A.cbsi):[],f=F&&F.cbsi?paint(F.cbsi):[];
+        const ba=A&&A.bsi?paint(A.bsi):[],bf=F&&F.bsi?paint(F.bsi):[];
+        const cb=bounds([...a,...f].map(s=>s.data)),bb=bounds([...ba,...bf].map(s=>s.data));
+        const head=(A&&A.cbsi&&(A.cbsi.find(x=>x.name==='전산업')||A.cbsi[0]).data)||(F&&F.cbsi&&(F.cbsi.find(x=>x.name==='전산업')||F.cbsi[0]).data)||[];
+        const monthsA=(A&&A.months)||[],monthsF=(F&&F.months)||[];
+        let charts=[];
+        if(!onKey('enterprise')){charts=naChart('기업경기실사지수(BSI)',offReason('enterprise',hasEnt,'기업경기조사(실적)·(전망) 데이터가 아직 없습니다.'))}
+        else{
+          if(a.length)charts.push({title:'기업심리지수 실적',type:'line',cats:monthsA,series:a,...cb});
+          if(f.length)charts.push({title:'기업심리지수 전망',type:'line',cats:monthsF,series:f,...cb});
+          if(ba.length)charts.push({title:'전 산업 기업경기실사지수 실적',type:'line',cats:monthsA,series:ba,...bb});
+          if(bf.length)charts.push({title:'전 산업 기업경기실사지수 전망',type:'line',cats:monthsF,series:bf,...bb});
+          if(!charts.length)charts=naChart('기업경기실사지수(BSI)','기업경기조사(실적)·(전망) 데이터가 아직 없습니다.');
+        }
+        const showValue=onKey('enterprise')&&charts.every(c=>!c.na);
+        out.enterprise={short:'기업 BSI',title:'기업경기실사지수(BSI)',icon:'▥',color:C[0],
+          metric:showValue?String(lastOf(head)??'—'):'—',delta:showValue?dstr(deltaOf(head)):'– 0.0p',dir:showValue?ddir(deltaOf(head)):'flat',
+          period:showValue&&head.length?periodOf(head,monthsA.length?monthsA:monthsF):'—',scope:'전국',
+          summary:'기업의 현재 경영상황과 향후 전망을 산업·규모별로 비교합니다.',
+          source:'한국은행 기업경기조사 (업로드 원자료)',cycle:'월별',
+          note:'※ 전국 단위 통계입니다. 업로드한 원자료를 그대로 반영하며, 값을 임의로 채우지 않습니다.',
+          term:'기업가의 현재 경영상황에 대한 판단과 향후 전망을 조사하여 수치화한 지표입니다. 기업심리지수(CBSI)는 BSI 주요지수를 합성해 장기평균을 100으로 표준화한 별도 지수입니다.',
+          origins:UPLOADED_FILES.filter(x=>/기업경기조사|표준 양식/.test(x.label)).map(x=>x.fileName),charts};
+      }
+      {
+        const S=U.small;
+        const R=S&&S.region[region];
+        let charts=[],metric='—',period='—',deltaSeries=null;
+        if(!onKey('small')){charts=naChart('소상공인경기실사지수(BSI)',offReason('small',!!(S&&R),`${short} 지역의 소상공인 경기동향 데이터가 없습니다.`))}
+        else if(!S||!R){charts=naChart('소상공인경기실사지수(BSI)',`${short} 지역의 소상공인 경기동향 데이터가 없습니다.`)}
+        else{
+          const reg=[{name:`${short} 체감 BSI`,data:R.actual},{name:`${short} 전망 BSI`,data:R.forecast}];
+          const rb=bounds(reg.map(s=>s.data));
+          const sectorNames=Object.keys(S.sector);
+          const sec=[{name:'경기동향 체감 BSI',data:sectorNames.map(n=>lastOf(S.sector[n].actual))},{name:'경기동향 전망 BSI',data:sectorNames.map(n=>lastOf(S.sector[n].forecast))}];
+          const sb=bounds(sec.map(s=>s.data));
+          const compareRegions=Object.keys(S.region);
+          charts=[
+            {title:`${short} 소상공인경기실사지수 추이`,type:'line',cats:S.months,series:paint(reg),...rb},
+            {title:'업종별 소상공인경기실사지수 (최근월)',type:'bar',cats:sectorNames,series:paint(sec),min:0,max:Math.max(100,sb.max)},
+            {title:'시도별 소상공인경기실사지수 비교 (최근월)',type:'bar',cats:compareRegions.map(r=>SHORT_OF[r]||r),
+              series:paint([{name:'체감 BSI',data:compareRegions.map(r=>lastOf(S.region[r].actual))},{name:'전망 BSI',data:compareRegions.map(r=>lastOf(S.region[r].forecast))}]),min:0,max:120}
+          ];
+          metric=String(lastOf(R.actual)??'—');period=periodOf(R.actual,S.months);deltaSeries=R.actual;
+        }
+        out.small={short:'소상공인 BSI',title:'소상공인경기실사지수(BSI)',icon:'▦',color:C[1],
+          metric,delta:dstr(deltaOf(deltaSeries||[])),dir:ddir(deltaOf(deltaSeries||[])),period,scope:region,
+          summary:'소상공인의 경기 체감을 지역과 업종 단위로 비교합니다.',
+          source:'소상공인시장진흥공단 소상공인 경기동향(BSI) 현황 (업로드 원자료)',cycle:'월별',
+          note:'※ 자치구 단위 소상공인 BSI는 공표되지 않아 시도 간 비교로 대체합니다. 업로드 파일에 없는 지역은 임의로 채우지 않습니다.',
+          term:'소상공인의 현재 경영상황에 대한 주관적 판단과 향후 경기 전망을 조사하여 수치화한 지표입니다.',
+          origins:UPLOADED_FILES.filter(x=>/소상공인|표준 양식/.test(x.label)).map(x=>x.fileName),charts};
+      }
+      {
+        const zoneRaw=ZONE_OF_SIDO[region]||null;
+        let series=null,zoneLabel='전국',months=null;
+        if(region==='서울특별시'||!zoneRaw){
+          if(U.consumer.national){series=U.consumer.national.series;months=U.consumer.national.months;zoneLabel='전국'}
+        }else if(U.consumer.zones[zoneRaw]){series=U.consumer.zones[zoneRaw];months=U.consumer.zoneMonths;zoneLabel=`${zoneRaw} 권역`}
+        let charts=[],metric='—',period='—',deltaSeries=null;
+        if(!onKey('consumer')){charts=naChart('소비자체감경기지수(CSI)',offReason('consumer',!!(series&&series['소비자심리지수']),'소비자동향조사 데이터가 없습니다.'))}
+        else if(!series||!series['소비자심리지수']){charts=naChart('소비자체감경기지수(CSI)','소비자동향조사 데이터가 없습니다.')}
+        else{
+          const ccsi=series['소비자심리지수'];
+          const subNames=['금리수준전망CSI','생활형편전망CSI','취업기회전망CSI','향후경기전망CSI'].filter(k=>series[k]);
+          const sub=subNames.map(k=>({name:k,data:series[k]}));
+          charts=[{title:`소비자심리지수 (${zoneLabel})`,type:'line',cats:months,series:paint([{name:'소비자심리지수',data:ccsi}]),...bounds([ccsi])}];
+          if(sub.length)charts.push({title:'소비자동향지수 (경제전망조사)',type:'line',cats:months,series:paint(sub),...bounds(sub.map(s=>s.data))});
+          metric=String(lastOf(ccsi)??'—');period=periodOf(ccsi,months);deltaSeries=ccsi;
+        }
+        out.consumer={short:'소비자 CSI',title:'소비자체감경기지수(CSI)',icon:'◉',color:C[2],
+          metric,delta:dstr(deltaOf(deltaSeries||[])),dir:ddir(deltaOf(deltaSeries||[])),period,scope:zoneLabel,
+          summary:'현재 생활형편과 향후 경기·소비 전망의 변화를 파악합니다.',
+          source:'한국은행 소비자동향조사 (업로드 원자료)',cycle:'월별',
+          note:zoneLabel==='전국'?'※ 서울은 한국은행 지역지수 공표 대상이 아니어서 전국 지수를 표시합니다.':`※ 한국은행 지역본부 기준 '${zoneRaw}' 값입니다. 시도 단위와 범위가 다를 수 있습니다.`,
+          term:'가계의 생활형편, 경제상황, 소비지출 전망 등을 설문으로 조사하여 종합한 지수입니다.',
+          origins:UPLOADED_FILES.filter(x=>/소비자동향|표준 양식/.test(x.label)).map(x=>x.fileName),charts};
+      }
+      {
+        const E=U.esi;
+        let charts=[],metric='—',period='—',deltaSeries=null;
+        if(!onKey('esi')){charts=naChart('경제심리지수(ESI)',offReason('esi',!!E,'경제심리지수 데이터가 없습니다.'))}
+        else if(!E){charts=naChart('경제심리지수(ESI)','경제심리지수 데이터가 없습니다.')}
+        else{
+          const s=[{name:'경제심리지수(원계열)',data:E.원계열},{name:'경제심리지수(순환변동치)',data:E.순환변동치}].filter(x=>x.data);
+          charts=[{title:'경제심리지수(ESI)',type:'line',cats:E.periods,series:paint(s),...bounds(s.map(x=>x.data))}];
+          metric=String(lastOf(E.원계열)??'—');period=periodOf(E.원계열,E.periods);deltaSeries=E.원계열;
+        }
+        out.esi={short:'경제심리 ESI',title:'경제심리지수(ESI)',icon:'⌁',color:C[3],
+          metric,delta:dstr(deltaOf(deltaSeries||[])),dir:ddir(deltaOf(deltaSeries||[])),period,scope:'전국',
+          summary:'기업과 소비자 심리를 결합해 경제 상황을 종합적으로 보여줍니다.',
+          source:'한국은행 경제심리지수 (업로드 원자료)',cycle:'월별',
+          note:'※ 전국 단위 통계입니다.',
+          term:'기업경기실사지수와 소비자동향지수 중 경기 대응성이 높은 항목을 합성한 종합 심리지표입니다.',
+          origins:UPLOADED_FILES.filter(x=>/경제심리|표준 양식/.test(x.label)).map(x=>x.fileName),charts};
+      }
+      {
+        const M=U.manufacturing,R=M&&M.region[region];
+        let charts=[],metric='—',period='—',deltaSeries=null;
+        if(!onKey('manufacturing')){charts=naChart('광공업생산지수',offReason('manufacturing',!!R,`${short} 지역의 광공업생산지수 데이터가 없습니다.`))}
+        else if(!R){charts=naChart('광공업생산지수',`${short} 지역의 광공업생산지수 데이터가 없습니다.`)}
+        else{
+          const compareRegions=Object.keys(M.region);
+          charts=[
+            {title:`${short} 광공업생산지수 (총지수)`,type:'line',cats:R.months,series:paint([{name:'생산지수(원지수)',data:R.data}]),...bounds([R.data])},
+            {title:'시도별 광공업생산지수 비교 (최근월, 원지수)',type:'bar',cats:compareRegions.map(r=>SHORT_OF[r]||r),
+              series:paint([{name:'생산지수(원지수)',data:compareRegions.map(r=>lastOf(M.region[r].data))}]),...bounds([compareRegions.map(r=>lastOf(M.region[r].data))],10)}
+          ];
+          metric=String(lastOf(R.data)??'—');period=periodOf(R.data,R.months);deltaSeries=R.data;
+        }
+        out.manufacturing={short:'광공업생산',title:'광공업생산지수',icon:'▰',color:C[4],
+          metric,delta:dstr(deltaOf(deltaSeries||[])),dir:ddir(deltaOf(deltaSeries||[])),period,scope:region,
+          summary:'광업·제조업 생산 활동을 지수화해 산업 경기 방향을 살펴봅니다.',
+          source:'국가데이터처 광업제조업동향조사 (업로드 원자료)',cycle:'월별',
+          note:'※ 2020년 = 100 기준 지수입니다.',
+          term:'광업·제조업 생산량의 변화를 기준연도와 비교해 나타낸 지수입니다.',
+          origins:UPLOADED_FILES.filter(x=>/광공업|표준 양식/.test(x.label)).map(x=>x.fileName),charts};
+      }
+      {
+        const V=U.service,R=V&&V.region[region];
+        let charts=[],metric='—',period='—',deltaSeries=null;
+        if(!onKey('service')){charts=naChart('서비스업생산지수',offReason('service',!!R,`${short} 지역의 서비스업생산지수 데이터가 없습니다.`))}
+        else if(!R){charts=naChart('서비스업생산지수',`${short} 지역의 서비스업생산지수 데이터가 없습니다.`)}
+        else{
+          const lastQ=V.quarters[V.quarters.length-1];
+          const tot=[{name:'경상지수',data:R.total.경상지수},{name:'불변지수',data:R.total.불변지수}];
+          charts=[
+            {title:`${lastQ} 업종별 서비스업생산지수 (경상지수)`,type:'bar',cats:R.bars.cats,series:paint([{name:'경상지수',data:R.bars.경상지수}]),min:0,max:bounds([R.bars.경상지수],20).max},
+            {title:`${lastQ} 업종별 서비스업생산지수 (불변지수)`,type:'bar',cats:R.bars.cats,series:paint([{name:'불변지수',data:R.bars.불변지수}]),min:0,max:bounds([R.bars.불변지수],20).max},
+            {title:`${short} 서비스업생산지수 (총지수)`,type:'line',cats:V.quarters,series:paint(tot),...bounds(tot.map(x=>x.data))}
+          ];
+          metric=String(lastOf(R.total.경상지수)??'—');period=`${lastQ} 기준`;deltaSeries=R.total.경상지수;
+        }
+        out.service={short:'서비스업생산',title:'서비스업생산지수',icon:'▤',color:C[5],
+          metric,delta:dstr(deltaOf(deltaSeries||[])),dir:ddir(deltaOf(deltaSeries||[])),period,scope:region,
+          summary:'서비스업 생산 활동을 업종별·분기별로 비교합니다.',
+          source:'국가데이터처 서비스업동향조사 (업로드 원자료)',cycle:'분기별',
+          note:'※ 2020년 = 100 기준 지수입니다. 경상지수와 불변지수를 함께 제공합니다.',
+          term:'서비스업 전체와 세부 업종의 생산 활동을 부가가치 기준으로 지수화한 통계입니다.',
+          origins:UPLOADED_FILES.filter(x=>/서비스업|표준 양식/.test(x.label)).map(x=>x.fileName),charts};
+      }
+      return out;
+    }
+    function case1TemplateRows(){
+      const title="파일 업로드 안내";
+      const instructions=[
+        "1. 지표군은 예시로 적힌 값 중 하나를 그대로 사용하세요.",
+        "2. 기준시점은 예시로 채워둔 월/분기를 그대로 쓰거나 실제 조사한 시점으로 바꿔 입력하세요(월별 YYYY-MM, 분기별 YYYY-Q#).",
+        "2-1. 지역이 필요 없는 전국 지표는 지역을 '전국'으로 둡니다.",
+        "3. 값(마지막 열)만 채우면 되며, 모르는 항목은 빈 칸으로 두면 그 항목만 제외되고 나머지는 정상 반영됩니다.",
+        "4. 여러 달(또는 분기)의 값을 넣으려면 같은 지표군·지표명·지역의 행을 복사한 뒤 기준시점과 값만 바꿔 아래에 추가하세요.",
+        "5. 서비스업생산지수의 업종별 그래프를 채우려면 지표명을 '업종명_경상' 또는 '업종명_불변' 형식으로 행을 추가하세요."
+      ].join("\n");
+      const rows=[[title],[instructions],["데이터 입력"],TEMPLATE_HEADER];
+      const push=(g,n,r,p)=>rows.push([g,n,r,p,""]);
+      const M="2026-07", Q="2026-Q2";
+      const BSI_TYPES=["업황BSI","매출BSI","채산성BSI","자금사정BSI","인력사정BSI"];
+      push("경제심리지수","원계열","전국",M);
+      push("경제심리지수","순환변동치","전국",M);
+      ENT_GROUPS.forEach(name=>push("기업경기실사지수(실적)",name,"전국",M));
+      BSI_TYPES.forEach(name=>push("기업경기실사지수(실적)",name,"전국",M));
+      ENT_GROUPS.forEach(name=>push("기업경기실사지수(전망)",name,"전국",M));
+      BSI_TYPES.forEach(name=>push("기업경기실사지수(전망)",name,"전국",M));
+      push("소비자동향지수","소비자심리지수","전국",M);
+      CONSUMER_SERIES.filter(x=>x!=="소비자심리지수").forEach(name=>push("소비자동향지수",name,"전국",M));
+      SIDO_FULL.forEach(sido=>{ CONSUMER_SERIES.forEach(name=>push("소비자동향지수",name,sido,M)); });
+      SIDO_FULL.forEach(sido=>{ push("소상공인경기동향지수",`${sido}_체감`,"전국",M); push("소상공인경기동향지수",`${sido}_전망`,"전국",M); });
+      SMALL_SECTORS.forEach(name=>{ push("소상공인경기동향지수",`${name}_체감`,"전국",M); push("소상공인경기동향지수",`${name}_전망`,"전국",M); });
+      SIDO_FULL.forEach(sido=>push("광공업생산지수","생산지수",sido,M));
+      SIDO_FULL.forEach(sido=>{ push("서비스업생산지수","총지수_경상",sido,Q); push("서비스업생산지수","총지수_불변",sido,Q); });
+      return rows;
+    }
+    function buildTemplateCsv(){
+      const rows=case1TemplateRows();
+      return '﻿'+rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+    }
+    function case1ExampleRows(){
+      const rows=[TEMPLATE_HEADER];
+      const push=(g,n,r,p,v)=>rows.push([g,n,r,p,v]);
+      push("경제심리지수","원계열","전국","2026-07","97.9");
+      push("경제심리지수","순환변동치","전국","2026-07","95.9");
+      push("기업경기실사지수(실적)","전산업","전국","2026-07","98.5");
+      push("기업경기실사지수(실적)","업황BSI","전국","2026-07","77");
+      push("기업경기실사지수(실적)","매출BSI","전국","2026-07","88");
+      push("기업경기실사지수(실적)","채산성BSI","전국","2026-07","80");
+      push("기업경기실사지수(실적)","자금사정BSI","전국","2026-07","81");
+      push("기업경기실사지수(실적)","인력사정BSI","전국","2026-07","87");
+      push("기업경기실사지수(전망)","전산업","전국","2026-07","96.5");
+      push("소비자동향지수","소비자심리지수","전국","2026-07","107");
+      push("소비자동향지수","소비자심리지수","부산광역시","2026-07","111.4");
+      push("소비자동향지수","소비자심리지수","세종특별자치시","2026-07","105.3");
+      push("소상공인경기동향지수","서울특별시_체감","전국","2026-05","60.8");
+      push("소상공인경기동향지수","부산광역시_체감","전국","2026-05","64.5");
+      push("소상공인경기동향지수","세종특별자치시_체감","전국","2026-05","61.7");
+      push("소상공인경기동향지수","제조업_체감","전국","2026-05","70.9");
+      push("광공업생산지수","생산지수","서울특별시","2026-05","74.9");
+      push("광공업생산지수","생산지수","서울특별시","2026-06","79.9");
+      push("광공업생산지수","생산지수","부산광역시","2026-06","116.6");
+      push("광공업생산지수","생산지수","세종특별자치시","2026-06","107.4");
+      push("서비스업생산지수","총지수_경상","서울특별시","2026-Q2","159.7");
+      push("서비스업생산지수","총지수_경상","부산광역시","2026-Q2","139.6");
+      push("서비스업생산지수","총지수_경상","세종특별자치시","2026-Q2","141.7");
+      return rows;
+    }
+    const PREVIEW_LABEL={esi:"경제심리지수(ESI)",small:"소상공인 경기동향(BSI)",manufacturing:"광공업생산지수",service:"서비스업생산지수",consumer_national:"소비자동향조사(전국)",consumer_regional:"소비자동향조사(지역)",template:"표준 양식"};
+    function previewCase1File(rows){
+      const det=detectCase1FileType(rows);
+      if(!det)return{ok:false,reason:'인식할 수 없는 파일 형식입니다.'};
+      if(det.type==="enterprise")return{ok:true,label:`기업경기조사(${det.kind==='forecast'?'전망':'실적'})`};
+      return{ok:true,label:PREVIEW_LABEL[det.type]||det.type};
+    }
+    window.CASE1_API={
+      ingestFile:ingestCase1File,
+      setFiles:setCase1Files,
+      previewFile:previewCase1File,
+      toggleGroup:toggleCase1Group,
+      setActiveGroups,
+      reset:resetCase1Upload,
+      getStatus:case1UploadStatus,
+      getActiveRegion:()=>REGION,
+      isUploaded:()=>UPLOADED_FILES.length>0,
+      buildTemplateCsv,
+      buildTemplateRows:case1TemplateRows,
+      buildExampleRows:case1ExampleRows
+    };
+    indicators=buildUploadedIndicators(REGION);
+    // =============================================================================
+
     function route(){const key=location.hash.slice(1);indicators[key]?showDetail(key):showHome()}
-    function switchRegion(r){REGION=r;indicators=buildIndicators(REGION);buildNav();route();
+    function switchRegion(r){REGION=r;indicators=buildUploadedIndicators(REGION);buildNav();route();
       const t=$('#regionTitle');if(t)t.textContent=REGION;
       document.title=`${REGION} · 경기 지수 대시보드`;
       toast(`${REGION} 데이터로 전환했습니다.`)}

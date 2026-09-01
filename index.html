@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
 <style id="catalog-boot-guard">
 html:not(.catalog-ready){background:#f1ece1;}
 html:not(.catalog-ready) body{visibility:hidden!important;}
@@ -4819,8 +4820,38 @@ body.cover-active .topbar{ display:none!important; }
 .case-upload-region35{display:grid;grid-template-columns:max-content minmax(180px,1fr);align-items:center;justify-content:center;gap:10px 14px;margin:0 auto 4px;max-width:420px;}
 .case-upload-region35 label{font-size:13px;font-weight:750;white-space:nowrap;}
 .case-upload-region35 select{min-width:190px;padding:8px 32px 8px 10px;border:1px solid #b8bec2;border-radius:2px;background:#fff;font-family:inherit;font-size:12px;}
-#uploadFile35,#uploadFile23{display:block;width:100%;max-width:520px;margin:0 auto 14px;padding:10px;border:1px solid #d4d8da;background:#fff;font-family:inherit;font-size:11px;}
-#uploadAddBtn35,#uploadAddBtn23{display:block;margin:0 auto;}
+#uploadFile35,#uploadFile23,#uploadFile1{display:block;width:100%;max-width:520px;margin:0 auto 14px;padding:10px;border:1px solid #d4d8da;background:#fff;font-family:inherit;font-size:11px;}
+.case1-toggle-list{display:flex;flex-direction:column;gap:6px;margin:0;}
+.case1-toggle-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;border:1px solid #d4d8da;border-radius:4px;background:#fff;font-family:inherit;font-size:12px;font-weight:750;cursor:pointer;text-align:left;color:#5b676d;}
+.case1-toggle-item.is-active{border-color:#1a7a4c;background:#e7f5ee;color:#1a7a4c;}
+.case1-toggle-item.is-disabled{cursor:default;opacity:.5;background:#f3f4f5;}
+.case1-toggle-item span{font-size:10px;font-weight:800;white-space:nowrap;}
+.case1-filter-wrap{position:relative;margin-top:8px;}
+.case1-filter-btn{width:100%;height:38px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;border:1px solid #d4d8da;border-radius:3px;background:#fff;font-family:inherit;font-size:12px;font-weight:750;color:#3d4649;cursor:pointer;}
+.case1-filter-btn i{font-style:normal;color:#8a949a;}
+.case1-filter-btn.is-open{border-color:#1e2022;color:#1e2022;}
+.case1-filter-panel{position:absolute;left:0;top:calc(100% + 6px);z-index:60;width:100%;min-width:230px;background:#fff;border:1px solid #d6e0e3;border-radius:8px;box-shadow:0 14px 34px rgba(20,40,50,.18);padding:10px;}
+.case1-filter-panel[hidden]{display:none;}
+.case1-filter-actions{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid #eceff1;}
+.case1-filter-actions button{flex:1;height:32px;border-radius:4px;font-family:inherit;font-size:11px;font-weight:750;cursor:pointer;}
+.case1-filter-cancel{border:1px solid #d4d8da;background:#fff;color:#5b676d;}
+.case1-filter-apply{border:1px solid #1e2022;background:#1e2022;color:#fff;}
+.case1-file-log{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:5px;}
+.case1-file-log li{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border-radius:3px;background:#eceff1;font-size:10.5px;color:#3d4649;}
+.case1-file-log li.is-staged{background:#fff6e6;color:#8a5a00;}
+.case1-file-log li.is-marked{background:#fdecec;color:#c0392b;text-decoration:line-through;}
+.case1-file-log li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.case1-file-x{flex:0 0 auto;width:18px;height:18px;border:0;border-radius:50%;background:#fff;color:#8a949a;font-size:10px;line-height:1;cursor:pointer;}
+.case1-file-x:hover{background:#1e2022;color:#fff;}
+.case-upload-modal-card.case1-upload-modal{width:fit-content!important;max-width:calc(100vw - 48px)!important;}
+.case-upload-modal-card.case1-upload-modal .case-upload-dropzone{width:fit-content!important;max-width:calc(100vw - 88px)!important;margin:26px!important;padding:30px 40px!important;}
+.case-upload-dropzone p.case1-template-hint{margin:8px 0 0!important;max-width:none!important;font-size:12px!important;color:#8a949a!important;line-height:1.5!important;text-align:center!important;white-space:nowrap!important;}
+.case1-file-pick-row{position:relative;max-width:520px;margin:0 auto 14px;}
+.case1-file-pick-row #uploadFile1{display:block;width:100%;margin:0;max-width:none;padding:10px 34px 10px 10px;box-sizing:border-box;}
+.case1-file-pick-row .case1-file-x{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:22px;height:22px;border:0;border-radius:50%;background:#eceff1;color:#8a949a;font-size:11px;line-height:1;cursor:pointer;}
+.case1-file-pick-row .case1-file-x:hover{background:#1e2022;color:#fff;}
+.case-upload-modal-card{max-height:calc(100vh - 48px)!important;overflow-y:auto!important;}
+#uploadAddBtn35,#uploadAddBtn23,#uploadAddBtn1{display:block;margin:0 auto;}
 .case-upload-status35{min-height:20px!important;margin:14px auto 8px!important;text-align:center!important;}
 .case-upload-list35{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0 12px;padding:0;list-style:none;}
 .case-upload-list35 li{padding:7px 6px;border-radius:2px;background:#eceff1;text-align:center;font-size:10px;white-space:nowrap;}
@@ -9972,12 +10003,24 @@ const CASE_CARD_IMG_MAP = {
 
         <div class="case-prototype-layout">
           <aside class="case-prototype-sidebar" aria-label="서비스 활용 및 필요 데이터">
-            <div class="case-file-action-row${(id === '34' || id === '23' || id === '26' || id === '27' || id === '28' || id === '30') ? ' has-reset' : ''}">
+            <div class="case-file-action-row${(id === '1' || id === '34' || id === '23' || id === '26' || id === '27' || id === '28' || id === '30' || id === '37') ? ' has-reset' : ''}">
               <button class="case-file-upload-button" type="button" data-case-upload-open>
                 <span>FILE</span><b>파일 업로드</b><i aria-hidden="true">＋</i>
               </button>
-              ${id === '34' ? '<button type="button" class="case-file-reset-button" id="uploadReset35">초기화</button>' : id === '23' ? '<button type="button" class="case-file-reset-button" id="uploadReset23">초기화</button>' : id === '26' ? '<button type="button" class="case-file-reset-button" id="uploadReset26">초기화</button>' : id === '27' ? '<button type="button" class="case-file-reset-button" id="uploadReset27">초기화</button>' : id === '28' ? '<button type="button" class="case-file-reset-button" id="uploadReset28">초기화</button>' : id === '30' ? '<button type="button" class="case-file-reset-button" id="uploadReset30">초기화</button>' : ''}
+              ${id === '1' ? '<button type="button" class="case-file-reset-button" id="uploadReset1">초기화</button>' : id === '34' ? '<button type="button" class="case-file-reset-button" id="uploadReset35">초기화</button>' : id === '23' ? '<button type="button" class="case-file-reset-button" id="uploadReset23">초기화</button>' : id === '26' ? '<button type="button" class="case-file-reset-button" id="uploadReset26">초기화</button>' : id === '27' ? '<button type="button" class="case-file-reset-button" id="uploadReset27">초기화</button>' : id === '28' ? '<button type="button" class="case-file-reset-button" id="uploadReset28">초기화</button>' : id === '30' ? '<button type="button" class="case-file-reset-button" id="uploadReset30">초기화</button>' : id === '37' ? '<button type="button" class="case-file-reset-button" id="uploadReset37">초기화</button>' : ''}
             </div>
+            ${id === '1' ? `
+            <div class="case1-filter-wrap">
+              <button type="button" class="case1-filter-btn" id="case1FilterBtn" aria-haspopup="true" aria-expanded="false">지표 선택<i aria-hidden="true">▾</i></button>
+              <div class="case1-filter-panel" id="case1FilterPanel" hidden>
+                <div class="case1-toggle-list" id="case1FilterList"></div>
+                <div class="case1-filter-actions">
+                  <button type="button" class="case1-filter-cancel" id="case1FilterCancel">취소</button>
+                  <button type="button" class="case1-filter-apply" id="case1FilterApply">적용</button>
+                </div>
+              </div>
+            </div>
+            ` : ''}
             <div class="case-prototype-overview" style="--top-data-rows:${topDataRows}">
               <section class="case-top-usage">
                 <div class="case-top-usage-head">
@@ -9999,13 +10042,25 @@ const CASE_CARD_IMG_MAP = {
               </section>
             </div>
             <div class="case-upload-modal" hidden role="dialog" aria-modal="true" aria-label="파일 업로드">
-              <div class="case-upload-modal-card">
+              <div class="case-upload-modal-card${id === '1' ? ' case1-upload-modal' : ''}">
                 <div class="case-upload-modal-head">
                   <div class="case-upload-head-copy"><small>DATA INPUT</small><div class="case-upload-title-row"><h3>파일 업로드</h3></div></div>
                   <button type="button" data-case-upload-close aria-label="파일 업로드 창 닫기">닫기 ✕</button>
                 </div>
                 <div class="case-upload-dropzone">
-                  ${id === '34' ? `
+                  ${id === '1' ? `
+                  <b>파일을 업로드 하세요.(CSV, XLSX)</b>
+                  <div class="case1-file-pick-row"><input type="file" id="uploadFile1" accept=".csv,.xlsx,.xls" multiple><button type="button" class="case1-file-x" id="uploadFileClear1" aria-label="선택 취소">✕</button></div>
+                  <button type="button" class="case-upload-select" id="uploadAddBtn1">업로드</button>
+                  <p class="case-upload-status35" id="uploadStatus1" aria-live="polite" style="white-space:pre-line"></p>
+                  <ul class="case1-file-log" id="uploadFileLog1"></ul>
+                  <div class="case1-filter-actions" id="uploadPendingActions1">
+                    <button type="button" class="case1-filter-cancel" id="uploadCancel1">취소</button>
+                    <button type="button" class="case1-filter-apply" id="uploadApply1">적용</button>
+                  </div>
+                  <button type="button" class="case-upload-template35" id="dlTemplate1">표준 양식 다운로드 ↓</button>
+                  <p class="case1-template-hint">※ 여러 시점(달·분기) 값은 같은 항목 행을 복사해 기준시점과 값만 바꿔 추가하면 추이 그래프로 표시됩니다.</p>
+                  ` : id === '34' ? `
                   <b>법정동 상세 원자료(CSV·Excel)를 올려주세요.</b>
                   <p>법정동코드·기준연월·시도명·시군구명·읍면동명·리명·계·남자·여자 순서로 시작하는 표준 형식만 인식합니다. 행정안전부 원본 CSV(CP949)와 가공본(UTF-8)을 자동으로 구분하며, 형식이 다르면 업로드하지 않고 수치도 임의로 채우지 않습니다.</p>
                   <input type="file" id="uploadFile35" accept=".csv,.xlsx,.xls">
@@ -10058,6 +10113,16 @@ const CASE_CARD_IMG_MAP = {
                   <button type="button" class="case-upload-select" id="uploadAddBtn30" style="margin-top:10px">업로드하여 반영</button>
                   <p class="case-upload-status35" id="uploadStatus30" aria-live="polite"></p>
                   <ul class="case-upload-list35" id="uploadList30"></ul>
+                  ` : id === '37' ? `
+                  <b>e-지방지표 표준 데이터를 올려주세요.</b>
+                  <p><b>CSV, Excel(xlsx) 파일을 모두 업로드할 수 있습니다.</b> KOSIS e-지방지표에서 내려받은 파일을 그대로 여러 개 선택하면 파일마다 지표 1개를 자동 인식해 반영합니다. 월간 자료는 12월(연말) 값을 기준으로 연도별 스냅샷을 만들며, 값을 임의로 채우거나 보간하지 않습니다. 업로드한 지표만 3D 시각화에 표시됩니다.</p>
+                  <input type="file" id="uploadFile37" accept=".csv,.xlsx,.xls" multiple style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+                  <button type="button" class="case-upload-select" id="uploadPick37">파일 선택 (여러 개 가능)</button>
+                  <span id="uploadFileName37" style="display:block;font-size:12px;color:#5b676d;margin:6px 0 14px">선택된 파일 없음</span>
+                  <button type="button" class="case-upload-template35" id="dlTemplate37">표준 양식 CSV 다운로드 ↓</button>
+                  <button type="button" class="case-upload-select" id="uploadAddBtn37" style="margin-top:10px">업로드하여 반영</button>
+                  <p class="case-upload-status35" id="uploadStatus37" aria-live="polite"></p>
+                  <ul class="case-upload-list35" id="uploadList37"></ul>
                   ` : `
                   <b>분석에 사용할 데이터 파일을 추가하세요.</b>
                   <p>현재는 화면 구성 확인용이며 실제 파일은 전송되지 않습니다.</p>
@@ -11533,6 +11598,344 @@ const CASE_CARD_IMG_MAP = {
         };
 
         renderList30(['미업로드']);
+      }
+
+      if (id === '1') {
+        const modalScope1 = uploadModal || article;
+        const fileInput1 = modalScope1.querySelector('#uploadFile1');
+        const addBtn1 = modalScope1.querySelector('#uploadAddBtn1');
+        const clearBtn1 = modalScope1.querySelector('#uploadFileClear1');
+        const statusEl1 = modalScope1.querySelector('#uploadStatus1');
+        const logEl1 = modalScope1.querySelector('#uploadFileLog1');
+        const applyBtn1 = modalScope1.querySelector('#uploadApply1');
+        const cancelBtn1 = modalScope1.querySelector('#uploadCancel1');
+        const resetBtn1 = article.querySelector('#uploadReset1');
+        const dlBtn1 = modalScope1.querySelector('#dlTemplate1');
+        const filterBtn1 = article.querySelector('#case1FilterBtn');
+        const filterPanel1 = article.querySelector('#case1FilterPanel');
+        const filterList1 = article.querySelector('#case1FilterList');
+        const filterApply1 = article.querySelector('#case1FilterApply');
+        const filterCancel1 = article.querySelector('#case1FilterCancel');
+        const GROUP_TITLE_FALLBACK_1 = { enterprise:'기업경기실사지수(BSI)', small:'소상공인경기실사지수(BSI)', consumer:'소비자체감경기지수(CSI)', esi:'경제심리지수(ESI)', manufacturing:'광공업생산지수', service:'서비스업생산지수' };
+        const GROUP_ORDER_1 = ['enterprise','small','consumer','esi','manufacturing','service'];
+        const escHtml1 = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        let appliedList1 = [];
+        let pendingRemovals1 = new Set();
+        let stagedList1 = [];
+        let stagedActiveGroups1 = null;
+        const setStatus1 = (msg, level) => {
+          if (!statusEl1) return;
+          statusEl1.textContent = msg;
+          statusEl1.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
+          statusEl1.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+        const waitForCase1 = async () => {
+          for (let i = 0; i < 50; i++) {
+            try { const w = frame && frame.contentWindow; if (w && w.CASE1_API) return w; } catch (_) {}
+            await new Promise(r => setTimeout(r, 120));
+          }
+          return null;
+        };
+        const currentStatus1 = () => {
+          try { const w = frame && frame.contentWindow; if (w && w.CASE1_API) return w.CASE1_API.getStatus(); } catch (_) {}
+          return null;
+        };
+        const byKoreanName1 = (a, b) => String(a.fileName || '').localeCompare(String(b.fileName || ''), 'ko-KR', {numeric:true, sensitivity:'base'});
+        const renderFileLog1 = () => {
+          if (!logEl1) return;
+          const appliedHtml = appliedList1.slice().sort(byKoreanName1).map(f => {
+            const marked = pendingRemovals1.has(f.fileName);
+            return `<li class="${marked ? 'is-marked' : ''}"><span>${escHtml1(f.fileName)}${f.label ? ' → ' + escHtml1(f.label) : ''}</span><button type="button" class="case1-file-x" data-remove-applied="${escHtml1(f.fileName)}" aria-label="제거">✕</button></li>`;
+          }).join('');
+          const stagedHtml = stagedList1.map((f, i) => ({ f, i })).sort((a, b) => byKoreanName1(a.f, b.f)).map(({ f, i }) => {
+            const label = f.rows ? (f.label ? '인식됨 → ' + f.label : '') : (f.reason || '인식 실패');
+            return `<li class="is-staged"><span>${escHtml1(f.fileName)}${label ? ' : ' + escHtml1(label) : ''}</span><button type="button" class="case1-file-x" data-remove-staged="${i}" aria-label="제거">✕</button></li>`;
+          }).join('');
+          logEl1.innerHTML = (appliedHtml + stagedHtml) || '<li style="background:none;color:#8a949a">· 아직 반영된 파일이 없습니다</li>';
+          logEl1.querySelectorAll('[data-remove-applied]').forEach(btn => {
+            btn.onclick = () => { const fn = btn.dataset.removeApplied; if (pendingRemovals1.has(fn)) pendingRemovals1.delete(fn); else pendingRemovals1.add(fn); renderFileLog1(); };
+          });
+          logEl1.querySelectorAll('[data-remove-staged]').forEach(btn => {
+            btn.onclick = () => { stagedList1.splice(Number(btn.dataset.removeStaged), 1); renderFileLog1(); };
+          });
+        };
+        const renderFilterList1 = () => {
+          if (!filterList1) return;
+          const status = currentStatus1();
+          const groups = status ? status.groups : GROUP_ORDER_1.map(key => ({ key, title: GROUP_TITLE_FALLBACK_1[key], hasData:false, active:false }));
+          if (!stagedActiveGroups1) stagedActiveGroups1 = new Set(groups.filter(g => g.active).map(g => g.key));
+          filterList1.innerHTML = groups.map(g => {
+            const checked = stagedActiveGroups1.has(g.key);
+            const cls = !g.hasData ? 'case1-toggle-item is-disabled' : (checked ? 'case1-toggle-item is-active' : 'case1-toggle-item');
+            const state = !g.hasData ? '데이터 없음' : (checked ? '✓ 선택' : '선택 안 함');
+            return `<button type="button" class="${cls}" data-filter-key="${g.key}" ${g.hasData ? '' : 'disabled'}>${escHtml1(g.title)}<span>${state}</span></button>`;
+          }).join('');
+          filterList1.querySelectorAll('[data-filter-key]').forEach(btn => {
+            btn.onclick = () => {
+              const k = btn.dataset.filterKey;
+              if (stagedActiveGroups1.has(k)) stagedActiveGroups1.delete(k); else stagedActiveGroups1.add(k);
+              renderFilterList1();
+            };
+          });
+        };
+        const closeFilter1 = () => { if (filterPanel1) filterPanel1.hidden = true; filterBtn1?.classList.remove('is-open'); };
+        filterBtn1?.addEventListener('click', async () => {
+          if (!filterPanel1.hidden) { closeFilter1(); return; }
+          hydrateExample();
+          stagedActiveGroups1 = null;
+          await waitForCase1();
+          renderFilterList1();
+          filterPanel1.hidden = false; filterBtn1.classList.add('is-open');
+        });
+        document.addEventListener('click', e => {
+          if (!filterPanel1 || filterPanel1.hidden) return;
+          const path = e.composedPath ? e.composedPath() : [e.target];
+          if (path.includes(filterPanel1) || (filterBtn1 && path.includes(filterBtn1))) return;
+          closeFilter1();
+        });
+        filterApply1?.addEventListener('click', async () => {
+          const win = await waitForCase1();
+          if (win && stagedActiveGroups1) win.CASE1_API.setActiveGroups([...stagedActiveGroups1]);
+          closeFilter1();
+        });
+        filterCancel1?.addEventListener('click', () => { stagedActiveGroups1 = null; closeFilter1(); });
+        const parseAnyFile1 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (/\.(xlsx|xls)$/.test(name)) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다.' }); return; }
+            const reader = new FileReader();
+            reader.onload = e => {
+              try {
+                const wb = XLSX.read(new Uint8Array(e.target.result), { type:'array' });
+                const sheets = wb.SheetNames.map(n => XLSX.utils.sheet_to_json(wb.Sheets[n], { header:1, raw:true, defval:'' }));
+                resolve({ ok:true, sheets });
+              } catch (_) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = e => {
+              const buf = new Uint8Array(e.target.result);
+              let decoded; try { decoded = new TextDecoder('utf-8', { fatal:true }).decode(buf); } catch (_) { decoded = new TextDecoder('euc-kr').decode(buf); }
+              if (decoded.charCodeAt(0) === 0xFEFF) decoded = decoded.slice(1);
+              const rows = decoded.split(/\r?\n/).filter(Boolean).map(line => {
+                const out = []; let cur = ''; let q = false;
+                for (let i=0;i<line.length;i++){
+                  const ch=line[i];
+                  if(q){ if(ch==='"'){ if(line[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=ch; }
+                  else { if(ch==='"') q=true; else if(ch===','){out.push(cur);cur='';} else cur+=ch; }
+                }
+                out.push(cur); return out;
+              });
+              resolve({ ok:true, sheets:[rows] });
+            };
+            reader.readAsArrayBuffer(file);
+          } else resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+        });
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); renderFileLog1(); });
+        if (clearBtn1) clearBtn1.onclick = () => { if (fileInput1) fileInput1.value = ''; };
+        if (addBtn1) addBtn1.onclick = async () => {
+          const files = fileInput1 && fileInput1.files ? Array.from(fileInput1.files) : [];
+          if (!files.length) { setStatus1('파일을 선택해주세요.', 'warn'); return; }
+          hydrateExample();
+          const win = await waitForCase1();
+          if (!win) { setStatus1('실행 화면을 불러오지 못했습니다.', 'error'); return; }
+          for (const file of files) {
+            const parsed = await parseAnyFile1(file);
+            if (!parsed.ok) { stagedList1.push({ fileName:file.name, rows:null, label:null, reason:parsed.reason }); continue; }
+            let chosen = null;
+            for (const rows of parsed.sheets) {
+              const pv = win.CASE1_API.previewFile(rows);
+              if (pv.ok) { chosen = { rows, label:pv.label }; break; }
+            }
+            if (chosen) stagedList1.push({ fileName:file.name, rows:chosen.rows, label:chosen.label, reason:null });
+            else stagedList1.push({ fileName:file.name, rows:null, label:null, reason:'인식할 수 없는 파일 형식입니다.' });
+          }
+          renderFileLog1();
+          setStatus1('적용을 누르면 대시보드에 반영됩니다.', 'info');
+          fileInput1.value = '';
+        };
+        if (applyBtn1) applyBtn1.onclick = async () => {
+          const win = await waitForCase1();
+          if (!win) { setStatus1('실행 화면을 불러오지 못했습니다.', 'error'); return; }
+          const keep = appliedList1.filter(f => !pendingRemovals1.has(f.fileName));
+          const next = keep.map(f => ({ fileName:f.fileName, rows:f.rows })).concat(stagedList1.filter(f => f.rows).map(f => ({ fileName:f.fileName, rows:f.rows })));
+          const result = win.CASE1_API.setFiles(next);
+          appliedList1 = next.map((f, i) => ({ fileName:f.fileName, rows:f.rows, label: result.perFile[i] && result.perFile[i].ok ? result.perFile[i].label : null, ok: result.perFile[i] ? result.perFile[i].ok : false })).filter(f => f.ok);
+          stagedList1 = [];
+          pendingRemovals1 = new Set();
+          renderFileLog1();
+          const okCount = result.perFile.filter(p => p.ok).length;
+          setStatus1(`${okCount}/${result.perFile.length}개 파일 반영`, okCount === result.perFile.length ? 'ok' : (okCount > 0 ? 'warn' : 'error'));
+        };
+        if (cancelBtn1) cancelBtn1.onclick = () => {
+          stagedList1 = [];
+          pendingRemovals1 = new Set();
+          renderFileLog1();
+          setStatus1('대기 중이던 변경을 취소했습니다.', 'ok');
+        };
+        if (resetBtn1) resetBtn1.onclick = async () => {
+          hydrateExample();
+          const win = await waitForCase1();
+          win?.CASE1_API?.reset();
+          appliedList1 = []; stagedList1 = []; pendingRemovals1 = new Set(); stagedActiveGroups1 = null;
+          if (fileInput1) fileInput1.value = '';
+          setStatus1('업로드한 데이터를 모두 초기화했습니다.', 'ok');
+          renderFileLog1(); renderFilterList1();
+        };
+        const CASE1_TEMPLATE_XLSX_B64 = 'UEsDBAoAAAAIAAAAIQASGN7dZAEAABgFAAATAAAAW0NvbnRlbnRfVHlwZXNdLnhtbMSUz27CMAzG75P2DlWuUxvgME0ThcP+HDeksQfIGkMj0iSKDYO3nxtgmqYOhEDapVEb+/t+cWMPx+vGZiuIaLwrRb/oiQxc5bVx81K8T5/zO5EhKaeV9Q5KsQEU49H11XC6CYAZZzssRU0U7qXEqoZGYeEDON6Z+dgo4tc4l0FVCzUHOej1bmXlHYGjnFoNMRo+wkwtLWVPa/68JYlgUWQP28DWqxQqBGsqRUwqV07/csl3DgVnphisTcAbxhCy06Hd+dtgl/fKpYlGQzZRkV5UwxhybeWnj4sP7xfFYZEOSj+bmQq0r5YNV6DAEEFprAGosUVai0YZt+c+4J+CUaalf2GQ9nxJ+ESOwT9xEN87kOl5fimSzJGDI20s4KV/fxI95lyrCPqNInfoxQF+ah/i4Ps7iT4gd3KE06uwb9U2Ow8sBJEMfDdr16X/duQpcHbZoZ0zGnSHt0xzbfQFAAD//wMAUEsDBAoAAAAIAAAAIQC1VTAj9AAAAEwCAAALAAAAX3JlbHMvLnJlbHOskk1PwzAMhu9I/IfI99XdkBBCS3dBSLshVH6ASdwPtY2jJBvdvyccEFQagwNHf71+/Mrb3TyN6sgh9uI0rIsSFDsjtnethpf6cXUHKiZylkZxrOHEEXbV9dX2mUdKeSh2vY8qq7iooUvJ3yNG0/FEsRDPLlcaCROlHIYWPZmBWsZNWd5i+K4B1UJT7a2GsLc3oOqTz5t/15am6Q0/iDlM7NKZFchzYmfZrnzIbCH1+RpVU2g5abBinnI6InlfZGzA80SbvxP9fC1OnMhSIjQS+DLPR8cloPV/WrQ08cudecQ3CcOryPDJgosfqN4BAAD//wMAUEsDBAoAAAAIAAAAIQDILdB3zAIAAEcGAAAPAAAAeGwvd29ya2Jvb2sueG1spFVNb5swGL5P2n+wfE8xJCEpKqnSZmiR1qna+nGJVDngBK9gM9s0iapKO+wwqadeph26nfYH9r+y/7AXSNKkuXQtAoN58ePned/HZm9/miboiinNpfCxvUMwYiKUERdjH5+eBLU2RtpQEdFECubjGdN4v/P61d5EqsuhlJcIAIT2cWxM5lmWDmOWUr0jMyYgMpIqpQa6amzpTDEa6ZgxkyaWQ4hrpZQLXCF46ikYcjTiIevJME+ZMBWIYgk1QF/HPNNLtDR8ClxK1WWe1UKZZgAx5Ak3sxIUozT0+mMhFR0mIHtqN9FUwenCZRNonOVMENqaKuWhklqOzA5AWxXpLf02sWx7IwXT7Rw8DalhKXbFixquWCn3mazcFZb7AGaTF6PZYK3SKx4k75lozRU3B3f2RjxhZ5V1Ec2y9zQtKpVglFBt3kTcsMjHLejKCdt4ofLsIOcJROuk7rjY6qzsfKwQuJ9VWCcx1+cLnxcfgSe6iWFKUMMOpTBgwYWkl9qtxD6MJZgbfWCfc64YrCmwFsiEloYeHepjamKUq8THh97gVIPyARUz9mnQkxORSFhbgzVT0u0V8B+2pGEh2ALFFavq+bF6IKe8pfWOjULw3O+9g/R/pFdQDCh5tFirfci2Xb8QofLsi+vdVt1xDkirRkirXWsE9Xqt2+zVa0HQ7jZct9sOGuQGxCjXCyXNTbyocwHt4wYUdSt0RKfLiE28nEcPNK7J4oDpCHnULGM3heBiRzvjbKIfHFF00fSci0hOfFyzHRA12+xOyuA5j0zsY2eXNOCT6t1bxscxMLabrWIcOL9g5uMNRr2KUQAHJCAINhhZa5TKvROolXckSr//vbuf//6C5t/v5rc/Ya8uttcy1xgpr5hK9SO7kLY+aP7rbv71D5r/+Da/vV8bBJvaapBTGmA5ZUiTsFgbcCvQSRlc/gM6/wAAAP//AwBQSwMECgAAAAgAAAAhAEqppmH6AAAARwMAABoAAAB4bC9fcmVscy93b3JrYm9vay54bWwucmVsc7ySzWrEMAyE74W+g9G9cZL+UMo6eymFvbbbBzCxEodNbGOpP3n7mpTuNrCkl9CjJDTzMcxm+zn04h0jdd4pKLIcBLram861Cl73T1f3IIi1M7r3DhWMSLCtLi82z9hrTk9ku0AiqThSYJnDg5RUWxw0ZT6gS5fGx0FzGmMrg64PukVZ5vmdjL81oJppip1REHfmGsR+DMn5b23fNF2Nj75+G9DxGQvJiQuToI4tsoJp/F4WWQIFeZ6hXJPhw8cDWUQ+cRxXJKdLuQRT/DPMYjK3a8KQ1RHNC8dUPjqlM1svJXOzKgyPfer6sSs0zT/2clb/6gsAAP//AwBQSwMECgAAAAgAlUAfXe6h9HaKFAAANNAAABgAAAB4bC93b3Jrc2hlZXRzL3NoZWV0MS54bWyt3VFvG1eWBOD3BfY/EHqPxbr39u1uwfbAayWzeVhgsDM7M6+0RNtCJFFD0k6Cxf73bVK2wtOnVV2JT5BEsspsdpEy9YGSiy//9Mvd7eLzeru72dy/OsOL5dlifX+1ub65//Dq7H/+9sN33dlit1/dX69uN/frV2e/rndnf3r97//28ufN9qfdx/V6vxiOcL97dfZxv3+4OD/fXX1c3612LzYP6/sheb/Z3q32wy+3H853D9v16vp4obvb87Rc1vO71c392eMRLrbKMTbv399crS83V5/u1vf7x4Ns17er/XD+u483D7uvR7u7Ug53t9r+9Onhu6vN3cNwiHc3tzf7X48HPVvcXV38+OF+s129ux16/4Kyulr8sh3+TcN/+evVHD/urunu5mq72W3e718MR/5yzr5+f96fr66ejuT7S4dBGW6AzzeHO/C3Q6U/eKzm6Vjpt4PlP3iw+nSww821vfh0c/3q7H+XX/75bvgP33197/F/X//5v7PXL69vhnv4cOHFdv3+1dkbXPw5pXx2/vrl8Sr+frP+eXfy/mK/evfX9e36ar8ergVni8Mn6LvN5qdD+OPwoeVwzN3xNxyOuRrefF6/Xd/eDoceuu7+9Xgt6eKfP1ymw7WcPx369P2vV/nD8ZPoL9vF9fr96tPt/r83P//n+ubDx/1w3e2L1AyFD58ZF9e/Xq53V8On6nACL45nf7W53R3/v7i7uT+e6d3ql8czvrnef3x1lsrZ4urTbr+5+8fjB/DlYo8XSF8ukH67QKYXyF8ukJ8ugEovUL5coPntAsupC5w/VjneHper/er1y+3m58X22GX3sDo8KOCiHd4/HvLx8o+32/G3HG6r/HTgp1vvmVtuOL/Dod/g6/GGj++Gj35+vXx5/vlwMsN/w/U/nURyJ5GfOwn87rNIXw/4dBbIefo8snxjpPoCv/dEsrs5MH0axZ0GJk6DXtfptaSnazlm/3GaZZu9Pc2KzS5Ps8Zm359mdbpV8+2tmpNraUetTrNu1Oo060etmuOpnP4OLEflmuOfoNMu9du7VNLlNMPo7ntbSZk6X6a6Mu23l2nNn65RGxOOPqnetqRNO9+mPT4aHt798+PvTq5e9+31OlbPhKM/F287Uq+br9e5Nv23t+lZGxPWUZuetOnn2/SuzeHR/FvrHI7xfB+bjv6gvTXpuNHx5GYqDb/HdfJfUn9/J9BOJh0/2JnUdYLQCb6T/wr9+zsl2smk/bhTYp2S0Mk/LsB/tf/9nTLtdJqm5bhTZp2y0Cn7TgF0QKGdjCww7lRYpyJ0Kr5TABzQ0E6naRp/vQXTAwQ+wPsBAYBApZ1O0zRmHhgiICgCnhE4dUTzBztRSJg0jSUBRgkIlrBX/ozN0QW0pJ4waRqDAkwUEEhhr/y5ln1AS+oMk6YxNMCkAYEa9sqfaZmW394ynQoijSFvUmffxPSRBH3Ywz/XEgEtQVsaj4w/YxPzSBI8Yg//XMsU0DLRlkYo48/YxISSBKHYwz/XMge0zLSlEc3Yy4mZJQlmsYd/rmUJaFloS2OcsaATU0wSFGMP/1zLJqBlQ1uakxybOjHXJME19vDPtawBLSttadKxshOTThKkYw7wbMsA+6SWtjTp2N2J2ScJ9kmKfVKAfVJHW5p0LPHE7JME+yTFPinAPqmnLU06tnli9kmCfZJinxxgn0ztY9OxfTKzTxbskxX75AD7ZGofm47tk5l9smCfrNgnB9gnU/vYdGyfzOyTBftkxT45wD7Z2KcbtzTp+OtlZvbJgn2yYp8cYJ9caEvz/Z/x18vM7JMF+2TFPjnAPrmhLU/TPP56mZl9smCfrNgnB9gnV9ryNM3jr5eZ2ScL9smKfXKAfXJLW56mefz1MjP7ZME+WbFPDrBP7mjLjj76nKZ5/K3ZLOAnK/jJAfjJPa3Z04efntYU9JMV/ZQA/ZQlq2lS9/hjU/eNdoE/ReFPCeBPAa0J9gBkU1dT8E9R/FMC/FMSrZnYI5BNXU0BQEUBUAkAUKEAKhRAJs3NuKYgoKIIqAQIqFABFSogm7qaAoGKQqASQKBCCVQogWzqagoGKoqBSoCBCjVQoQayqaspIKgoCCoBCCoUQYUiyKaupqCgoiioBCioUAUVqiCT5jquKSioKAoqAQoqVEGFKsimrqagoKIoqAlQUEMV1FAF2XRcsxEU1CgKagIU1FAFNVRBNnU1BQU1ioKaAAU1VEENVZBNXU1BQY2ioCZAQQ1VUEMVZNLcjmsKCmoUBTUBCmqoghqqIJu6moKCGkVBTYCCGqqghirIpq6m8sPBioKaAAU1VEENVZBNXU1BQY2ioCZAQQ1VUEMVZFNXU1BQoyioCVBQQxXUUAWZNHfjmoKCGkVBTYCCGqqghirIpq6moKBGUVANUFClCqpUQTYd16yCgqqioBqgoEoVVKmCbOpqCgqqioJqgIIqVVClCrKpqykoqCoKqgEKqlRBlSrIpNn9NRRBQVVRUA1QUKUKqlRBNnU1BQVVRUE1QEGVKqhSBdnU1RQUVBUF1QAFVaqgShVkU1dT+ctTioJqgIIqVVClCrKpqykoqCoKqgEKqlRBlSrIpGU5rikoqCoKqgEKqlRBlSrIpL6moKCqKKgNUFBLFdRSBZnU1WwFBbWKgtoABbVUQS1VkEl9TUFBraKgNkBBLVVQSxVkUl9TUFCrKKgNUFBLFdRSBZm0YFxTUFCrKKgNUFBLFdRSBZnU1xQU1CoKagMU1FIFtVRBJvU1BQW1ioLaAAW1VEEtVZBJfU1BQa2ioDZAQS1VUEsVZFJfU/m75YqC2gAFtVRBLVWQSUsa1xQU1CoKagMU1FIFtVRBJvU1BQW1ioK6AAV1VEEdVZBJXc1OUFCnKKgLUFBHFdRRBZnU1xQU1CkK6gIU1FEFdVRBJvU1BQV1ioK6AAV1VEEdVZBJSx7XFBTUKQrqAhTUUQV1VEEm9TUFBXWKgroABXVUQR1VkEl9TUFBnaKgLkBBHVVQRxVkUl9TUFCnKKgLUFBHFdRRBZnU1xQU1CkK6gIU1FEFdVRBJi3jn8DslKUdRUFdgII6qqCOKsikvqagoE5RUB+goJ4qqKcKMqmr2QsK6hUF9QEK6qmCeqogk/qagoJ6RUF9gIJ6qqCeKsikvqagoF5RUB+goJ4qqKcKMmkZ/wRmLyioVxTUByiopwrqqYJM6msKCuoVBfUBCuqpgnqqIJP6moKCekVBfYCCeqqgnirIpL6moKBeUVAfoKCeKqinCjKprykoqFcU1AcoqKcK6qmCTFrGP4HZCwrqFQX1AQrqqYJ6qiCT+prKEKGiICwDGHQ8yPNFbewehWzsqj6e4exCoWIhLAMwdDwIK0s5ZOOJsgKI7DGeLxtAouNBWFmKIhtPlFU2DZeKi7AMgNHxIKwspZGNy/jnMh/PcLasoiMsA3h0PAgrS4Fk44myygriUjESlgFIOh6ElaVMsvFEWQFK9hjPlw2g0vEgrCzFko0nyiq7iUvFS1hGbCkuqZhsPPEA1fKyyqDiUlETlhGTikvqplHsH6CMnMY/tfl4hrNlpWHFZcSy4pLqycYTD1A9L6vMKy4lQSFCUOCCAheUiX1ZaeMZkqAQIShwQYELysQTZRVBQRIUIgQFLihwQZl4oqwiKEiCQoSgwAUFLigTF7/qrQgKkqAQIShwQYELysQTZRVBQRIUIgQFLihwQZl4oqwiKEiCQoSgwAUFLigTT5RVBAVJUCFr1OCCAheUiSfKKoLSNqlDRqnBBQUuKBM345/4hLRMrU1Th2xTgwsKXFAmniirCEpaqEbERDUSF1TigjKxL6vsVEMaqkbEUjUSF1TigjLxRFlFUNJeNSIGq5G4oBIXlIknykqvqyEJKmK3GmY7uoEra2J/z9KX21C2qyGNVyNivRpmQXqiq4n9HUtfhkNZsIY0YY2IDWuYHemJriZ2r/pAZ6yh7FhDGrJGxJI1zJr0RFcTu9d+oGPWUNasIc1ZI2LPGmZTeqKrid0rQNBJayib1pBGrRGxag2zLD3R1cTuVajosDWUZWtI09aI2LaG2Zee6Gpi9+pUdN4ayr41pIFrRCxcw6xM+642diimI9dQVq4hzVwjYucaZmt6outpXJ2J6dQ1lK1rSGPXiFi7hlmcnuh6GldHYjp4DWXxGtLkNSI2r5G5m0xcnZvo7DWU3WtIw9eIWL5G5m4ycXVuouPXUNavIc1fI2L/Gpm7ycTVuYlOYEPZwIY0go2IFWxk7iYTV+cmOoQNZQkb0hQ2IrawkbmbTFydm+gcNpQ9bEiD2IhYxEbmbjJxdW7K1E3KKDakVWxEzGIjczeZuDo3ZeomZRkb0jQ2IraxUbibTFydmwp1kzKPDWkfGxED2SjcTSZunZsKdZOykQ1pJBsRK9ko3E0mbp2bCnWTMpQNaSkbEVPZKNxNJm6dmwp1k7KWDWkuGxF72SjcTSZunZsKdZMymQ1pMxsRo9ko3E0mbp2bCnWTspsNaTgbEcvZKNxNJm6dmwp1kzKeDWk9GxHz2SjcTSZunZsKdZOyoA1pQhsRG9oo3E0mbp2bCnWTMqMNaUcbEUPaKNxNJm6dmwp1k7KlDWlMGxFr2mi4m0zcOjc11E3KoDakRW1ETGqj4W4ycefc1FA3KavakGa1EbGrjYa7ycSdc1ND3aRMa0Pa1kbEuDYa7iYTd/7V1qmblH1tSAPbiFjYRsPdZOLOuamhblJGtiGtbCNiZhsNd5OJO+emhrpJWdqGNLWNiK1tNNxNJu6cmxrqJmVuG9LeNiIGt9FwN5m4c25qqJuUzW1Io9uIWN1Gw91k4s65qaFuUoa3IS1vI2J6Gw13k4k756aGuklZ34Y0v42I/W1U7iYTd85NlbpJmeCGtMGNiBFuVO4mE/fOTZW6SdnhhjTEjYglblTuJhP3zk2VukkZ44a0xo2IOW5U7iYT985NlbpJWeSGNMmNiE1uVO4mE/fOTZW6SZnlhrTLjYhhblTuJhP3zk2VuknZ5oY0zo2IdW5U7iYT985NlbpJGeiGtNCNiIluVO4mE/fOTZW6SVnphjTTjYidblTuJhP3zk2VukmZ6oa01Y2IsW5U7iYT985NlbpJ2euGNNiNiMVutNxNJu6dm1rqJmW0G9JqNyJmu9FyN9lh7aWDU0vhpEx3Q9ruRsR4N1oOJzuvvXRyaqmclAFvSAveiJjwhl3RXibX1ubOEyZ3L+ALZcgb0pI3Iqa8Yde0J+qWmbr0FW6hDHpDWvRGxKQ37Kr2RN1mpu5p7l6YEMqwN6Rlb0RMe8Oua0/UrTN16Wu9QRn4hrTwjYiJb9iV7Ym67Uxd85fw3F8DVoa+IS19I2LqG3Zte6JuN1PXvPabf2RWLCUtfiNi8ht2dXuibj9Tl776CZThb0jL34iY/oZd3/Z1R7mra/e/Ma6rDIBDWgBHxAQ47Ar3RF3M1D3N3UA2lCFwSEvgiJgCh13jnqibZuqaxYLxGC+UQXBIi+CImARHN6OqbkZVdhfcqUoZBoe0DI6IaXB0M6rqZlRl98GdqpSBcEgL4YiYCEc3o6puRlV2J9ypShkKh7QUjoipcHQzqupmVGX3wp2qlMFwSIvhiJgMRzejqm5GVXY33KlKGQ6HtByOiOlwdDOq6mZUZffDnaqUAXFIC+KImBBHN6OqbkZVJvd/8VsZEoe0JI6IKXHYNe9lGdcd5e5pZbs27r4QTQ6K13FfaVIcEZvisLPeE31t7p5utbPjvu8Uq3xfyVUR4+Kw+94TfdPM/WtmDtxX3smJcd9XglXEyjjs0PdE3zxz/2bedwpWvq8kq4i5cdjF74m+Zeb+Nc9XOWpMjo77vhKtInbHYae/J/o2M/cvf8Jqcn3c95VsFTFADrsBPtG3zty//BmryRly31fCVcQSOewY+ETfdub+bXnfKVz5vpKuIibJYVfBJ/p2M/evec7KYXJymNz3lXgVsU0OOw8+0befuX973neKV76v4qsUsVGeltxX43x8/9rcPSeZJlfKx32TNFOeImbK05L7apyP71+bT/RVfJWkpfIUsVSeltxX49zfv/TVfNPkVrnvq/gqRYyVpyX31Tj392/mfRVfJWmvPEXslacl99U49/cvfX3fNLlY7vsqvkoRk+VpyX01zv392/C+iq+StFqeIlbL05L7apz7+9c8dzV+mj1N7pb7voqvUsRweVpyX41zf/+2vK/iqyRtl6eI7fK05L4a5/7+Nc9ejb+vkCbXy31fxVcpYr48Lbmvxrm/f3veV/FVkhbMU8SCecKMrzDjK7thPn4+J01umLu+0oh5ihgxT5jxFWZ8ZWfMfV/JV9KOeYrYMU+Y8RVmfGWXzMfP56TJJXPfV/JVxJR5woyvMOMrO2bu+0q+ktbMU8SaecKMrzDjK7tnPn4+J03umfu+kq8iBs0TZnyFGV/ZSXPfV/KVtGmeIjbNE2Z8hRlfgX5vME2umvu+kq8iZs0TZnyFGV/ZYXPfV/KVtGyeIpbNE2Z8hRlfmdx9MzRNbpv7vpKvIsbNE2Z8hRlfmXyir+Qrad88ReybpzTjqzTjK5O77/6myYVz11eaOE8RE+cpzfgqzfjK5BN9JV9JK+cpYuU8pRlfpRlf8Z3zNLlz7vtKvhoPnc8Um4FUmoGUnTz3xSRI8VXz893H9Xp/udqvXr+8W28/rN+ub293i6vNp0ObQ5enjy626/eHVhf//OEynZ37BIcEU0k+JPmQnP92Ja9fPnzc3K/3N1d/2S7eb+73P14Pt/Bwsr8+rF+d3W/ebu4/r7e7m8394YIPqw/r/1ptP9zc7xa36/fHm3r4ErO9+fDx6/v7zcPxveEGebfZD5+BX3/1cb26Xm8f75zhmjb7r78Yjnvz4X6zXV9/v91utjv7y8XuX1+KLd6gvTjclIs39eKyLt60F5ft4k13cdkt3vQXl/3wG5YXl1gObzG8PVwgDW/T8DYPb4fLoQxvy/C2Gd42w9vhQBiOVC6+Hz46nNf9p7t36+1f94erf7P72/qX4x+dw002OsXznzfbn4532+v/B1BLAwQKAAAACACVQB9dSi2y27EEAAB8GgAAGAAAAHhsL3dvcmtzaGVldHMvc2hlZXQyLnhtbK2ZXW+jOBSG71fa/4C4b+GYj4QoyajTdrRzsdJod3b3mhInQQ2YtUk/tJr/vgaS1McGJ5oQNSnwcs7xYxz84sw/vRU754VykbNy4cKt7zq0zNgqLzcL96/vX26mriPqtFylO1bShftOhftp+esv81fGn8WW0tqRGUqxcLd1Xc08T2RbWqTillW0lMqa8SKt5S7feKLiNF21QcXOI74fe0Wal26XYcYvycHW6zyjDyzbF7SsuySc7tJatl9s80ocsxXZJemKlD/vq5uMFZVM8ZTv8vq9Teo6RTb7uikZT592kvsNwjRz3rj8I/IdHMu0x41KRZ5xJti6vpWZD2028RMv8dLslMnkvygNhLIDXvLmAn6kIj+ZKzrlIh/Jgp9MFp+SNd3FZ/t8tXD/8w+vG/mGm24Lut3T64e7nK9yeYWbYIfT9cK9g9kjCV1vOW8r/J3TV6FsO814fGLsudn5Kuv4zamece6X9uJ/486KrtP9rv6Dvf5G8822loN/cksi2dDmis5W7w9UZHKIyUy3QZMrYzvRfjpF3nxV5AhJ39r/r/mq3i5c2Ton24uaFf90B+AQ1gWQQwD5CABrQHAICE4BEFsDwkNA9BHg9wV4HUrbHw9pnS7nnL06vGURVdp8mWEmk4j2SBff9Vt7oLeDZDOaDHdSl0eE3H9Zkrn30lQ7aJ9VLcDavaqFWHtQtQhrj6oWnzRPAp2oyPVURKky0ahUbapRqVqiUZG2KZFyBvgaHEHitB8vuB4vsOCpGmhX9D6w8AXn+VBuP+nnC6/nC9U62sj7jERt6N2HFsDwPCDKragIMLoeMLIBqiLRr2BkAYzOAyIRoB8wvh4wtgGqItFvLLEFMD4PiAor4x8BTq4HnNgAVZHoQ3RiAZycB0SFlcoIcHo94NQGqIpEu8XfTy2A0/OAqLDyBUeAyfWAiQ1QFUmsASYWwOQ8ICoMUT9g4wSuntt9lUKfKJBq3EiRqkO2jTtDidPDwFwPY1gY5GGmOiZSEx0TbJhwASYgzMkA5gieBogVk1gxVTWIdM4LrA3KADDgbWAEcwOBlTOwcqpqCDrnBRYHZQAY8DgwgskB1WxEoHMiVXcBYPM50GN0iMGJrA4ZcAIwgteByMqJVOMuZLM70ON3TE4sDxgCGMHyQGzlVNVYn1HA5nqgx/aYnMj4kAFfACM4H5hYOVV1anDazA/0uB+TE/kfMmAPYAQDBMiI+MbDMZaN52NVDown5B4fZKKiCmTIKIxghSCxoyZ21MSK2uOIdEf1iCuQgVmUjOCJiG9F1WQdFcnGPEp6bJGBiiuQgYmUjOCLCNhRwY6KVnj0qZT0WCMTFVUgA3MpGWO9B6+8hDoqlvUHFiQbA5j0uSMDFVUIBlYOyAj2iAR21MCOGlgHcJ9BMlBRhWDAOZARHBIJ7aihHTW0DuC+1SADFS9E6ebBU1Zkqy0raZ1n37izZmXdrGg3Q+K9ogu3ZPesPPxm06znVumG/p7yTV4KZ0fXLbWc1ni3rN1u16xqt2T7nlgt++y4t6XpivKun2QlVh93ZN68+fmDrh45Z1zgXUf8q67KO+W+eKL8z7o54U58p2/1ca1ZS+Kdfjda/g9QSwMECgAAAAgAAAAhADAPiGvtBgAA3h0AABMAAAB4bC90aGVtZS90aGVtZTEueG1s7FlLbxs3EL4X6H8g9p5YsiXHNiIHliwlbeLEsJUUOVK71C5j7nJBUrZ1K5JjgQJF06KXAr31ULQNkAC9pL/GbYo2BfIXOiRXq6VF+ZUEfUUHex/fDOfNGe7Va4cpQ/tESMqzVlC/XAsQyUIe0SxuBXf7vUsrAZIKZxFmPCOtYExkcG39/feu4jWVkJQgoM/kGm4FiVL52sKCDOExlpd5TjJ4N+QixQpuRbwQCXwAfFO2sFirLS+kmGYBynAKbO8MhzQkqK9ZBusT5l0Gt5mS+kHIxK5mTRwKg4326hohx7LDBNrHrBXAOhE/6JNDFSCGpYIXraBmfsHC+tUFvFYQMTWHtkLXM7+CriCI9hbNmiIelIvWe43VK5slfwNgahbX7XY73XrJzwBwGIKmVpYqz0Zvpd6e8KyA7OUs706tWWu4+Ar/pRmZV9vtdnO1kMUyNSB72ZjBr9SWGxuLDt6ALL45g2+0NzqdZQdvQBa/PIPvXVldbrh4A0oYzfZm0NqhvV7BvYQMObvhha8AfKVWwKcoiIYyuvQSQ56pebGW4gdc9ACggQwrmiE1zskQhxDFHZwOBMV6AbxGcOWNfRTKmUd6LSRDQXPVCj7MMWTElN+r59+/ev4UvXr+5Ojhs6OHPx09enT08EfLyyG8gbO4Svjy28/+/Ppj9MfTb14+/sKPl1X8rz988svPn/uBkEFTiV58+eS3Z09efPXp79899sA3BB5U4X2aEolukwO0w1PQzRjGlZwMxPko+gmmDgVOgLeHdVclDvD2GDMfrk1c490TUDx8wOujB46su4kYKepZ+WaSOsAtzlmbC68Bbuq1Khbuj7LYv7gYVXE7GO/71u7gzHFtd5RD1ZwEpWP7TkIcMbcZzhSOSUYU0u/4HiEe7e5T6th1i4aCSz5U6D5FbUy9JunTgRNIU6IbNAW/jH06g6sd22zdQ23OfFpvkn0XCQmBmUf4PmGOGa/jkcKpj2Ufp6xq8FtYJT4hd8cirOK6UoGnY8I46kZESh/NHQH6Vpx+E0O98rp9i41TFykU3fPxvIU5ryI3+V4nwWnulZlmSRX7gdyDEMVomysffIu7GaLvwQ84m+vue5Q47j69ENylsSPSNED0m5Hw+PI64W4+jtkQE1NloKQ7lTql2Ullm1Go2+/K9mQf24BNzJc8N44V63m4f2GJ3sSjbJtAVsxuUe8q9LsKHfznK/S8XH7zdXlaiqFKT3tt03mncxvvIWVsV40ZuSVN7y1hA4p68NAMBWYyLAexPIHLos13cLHAhgYJrj6iKtlNcA59e92MkbEsWMcS5VzCvGgem4GWHONtRlQKrbuZNpt6DrGVQ2K1xSP7eKk6b5ZszPQZm5l2stCSZnDWxZauvN5idSvVXLO5qtWNaKYoOqqVKoMPZ1WDh6U1obNB0A+BlZdh7Neyw7yDGYm03e0sPnGLXvotuajQ2iqS4IhYFzmPK66rG99NQmgSXR7Xnc+a1UA5XQgTFpNx9cJGnjCYGlmn3bFsYlk1t1iGDlrBanOxGaAQ561gCJMuXKY5OE3qXhCzGI6LQiVs1J6aiybaphqv+qOqDocXNpFmospJ41xItYllYn1oXhWuYpmZy438i82GDrY3o4AN1AtIsbQCIfK3SQF2dF1LhkMSqqqzK0/MsYUBFJWQjxQRu0l0gAZsJHYwuB9sqvWJqIQDC5PQ+gZO17S1zSu3thZ1rXqmZXD2OWZ5gotqqU9nJhln4SbfShnMnZXWiAe6eWU3yp1fFZ3xb0qVahj/z1TR2wGcICxF2gMhHO4KjHS+tgIuVMKhCuUJDXsCzr1M7YBogRNaeA3GhyNm81+Qff3f5pzlYdIaBkG1Q2MkKGwnKhGEbENZMtF3CrN6sfVYlqxgZCKqIq7MrdgDsk9YX9fAZV2DA5RAqJtqUpQBgzsef+59kUGDWPco/9TGxSbzeXd3vbnbDsnSn7GVaFSKfmUrWPW3Myc3GFMRzrIBy+lytmLNaLzYnLvz6Fat2s/kcA6E9B/Y/6gImf1eoTfUPt+B2org84MVHkFUX9JVDSJIF0h7NYC+xz60waRZ2RWK5vQtdkHlupClF2lUz2nssolyl3Ny8eS+5nzGLizs2LoaRx5Tg2ePp6hujyZziHGM+dBV/RbFBw/A0Ztw6j9i9uuUzOHO5EG+LUx0DXg0Li6ZtBuujTo9w9gmZYcMEY0OJ/PHsUGj+NhTNjaANiMSBFpJuOQbGlxCHZgFqd0tS+LF04lLCrMylOyS2Byo+RjA97FCZD3amZV1M2e11lcTS7HsdUx2BuFZ5jOZd846q8nsoHiioy5gMnV4sskKS4HxZgMPvnAKDMOp/V4Fm44tKiZk1/8CAAD//wMAUEsDBAoAAAAIAJVAH115QtlMLgMAALAJAAANAAAAeGwvc3R5bGVzLnhtbL1Wy67bNhDdF+g/ENzrUpIlxzYsB3F8BQRIiwLXBbKlJcomwodA0TdyigL5hQDtLgG6KNAP6F81yT90qIct9wZ5+LbdmJwHz5zRzJCeP6ylQLfMVFyrBAdXPkZMZTrnapvgH9epN8GoslTlVGjFEnxgFX64+PabeWUPgt3sGLMIIFSV4J215YyQKtsxSasrXTIFlkIbSS2IZkuq0jCaV+6QFCT0/TGRlCvcIsxk9iUgkprn+9LLtCyp5RsuuD00WBjJbPZkq7ShGwFU6yCiGaqDsQlRbfogjfZOHMkzoytd2CvAJbooeMbu0p2SKaHZCQmQL0MKYuKHZ7nX5kKkiBh2y1358GJeaGUrlOm9sgkeAbZLdvZc6RcqdSaocOe1mFcv0S0VoAkxWcwzLbRBFiIz5wQaRSVrPd798fr921forz9/e/fLr85UUMnFoTU2pxvKnbfkUAGnJG2c9ndD/u+IfbTJV0CPGmI7aipo647r9HPhmqUCIC7E8eOHuFUs5tCllhmVgoC6/fpQQs4KBqqFafw+47019BCE8eBAs0DcjTY5DHAf2VW4VS3mghUWDhi+3bnV6pI4o7XQUIt5zulWKyocZH+i2wBsxoS4cUP+rDjDrguk9jKV9kmeYLguXPb9Fgh12xamFRz+EK3FHsCOL4JFdXHEv8dpRMtSHB4JvlWS9UnSXnR3o+WZq3sGImsLXxf/CBk8uCDm93u5YSZt7rZuBP67PHba8JeA5jJxbYHvZoZeGFquWd2TuZvmgFHwpYzcxdO435vfRylF03/hy1/aA6Rr5MG0nM3KUYvcBZTgD6/fvP/91YDNZs+F5eojcwKYeX0akcZq3cN2HgUwclbQvbDrozHBp/13LOd7OT16/cBvte28TvvWK3IxoPxPK9usaG94gn+6Xj6Yrq7T0Jv4y4kXjVjsTePlyoujx8vVKp36of/458Hzeo/HtXkRocBBNKsEeJku2Y78zUmX4IHw1N1vbcsC7SH3aTj2H8WB76UjP/CiMZ14k/Eo9tI4CFfjaHkdp/GAe3zhI+yTIDiRj2eWSya4Yuf010MtFAnETyRB+kqQ01+txd9QSwMECgAAAAgAAAAhAPzpOjYVBgAAHBQAABQAAAB4bC9zaGFyZWRTdHJpbmdzLnhtbIRYT08bRxS/R8p3GG0PgFRsrwEDFThSI1XKIVKitoeeIgROQAprip2quRlYIwe7xSY4XmDXNYkpGDnSBoyzSESV+nF2Zr9D3+yunfXOzDaXmHlvfu/3/u7MLDz4ff0l+i2zmVvLKouSHEtIKKMsZ1fWlBeL0s8//TA5J6FcfklZWXqZVTKL0utMTnqQvn9vIZfLI9ir5Bal1Xx+47t4PLe8mllfysWyGxkFJM+zm+tLefhz80U8t7GZWVrJrWYy+fWX8WQikYqvL60pElrOvlLyYDcpyxJ6paz9+irz0F+ampbSC7m19EI+7VQqxLhDpFHEpzp+qyNSL+Ht3kI8n16IUxVPDf9hEqPnqCYizSJunYXl5Lzg1HT7xuQL8GWRIyCNj+FV2zJJu0DKOmlVGZl5wCxdfSEtnZS7+O8uUCAljTFzUrWvVdJgPCIt1b5h7CcTydRkYjaEEh+JBSnpzpGGrwt4/4jcMhapC42iffWF/ii3ybbPbJz+0dqaYBi2VLJNt7ACnZzyBLhS8IwwO9o1slvhyyCpEB7BvpJG+rpg361KQ8wlQlQdg3ivzWPfKDpHne9/fMSU0nkbjHEE5JMbCPUTT9as2laJxrJV54kNC4pSKBanpKXic4NNyW6F+tWsQoadd2eCyhooRZbfjuEc6Y5Wd/60oOLA2EM2IuTzBa0Yy3SOK0Il4OGcqH5ZiZAgRrQTIJ3QREJzqk6OLWfvFkNjlHUmP/0C1KPdq0F78sRQfDddoZgYFrnShWIq+HAXBU77UmQbaEdRI6pF3hd9x5pV6E0Ofy+CeF9lx0udnEDGGQHpd8jVR9zfEsu2L3gySIBxJ9jnybj7gCHZ2eLv82UCezrENug+j9RuBcDt6xtI1CAUETU+WirPyFXPNpnBDGMgWFDPvMr7n7oSYOHR6hNhjRahCCus5XYEMzRHK1bkY1iLixUqbwEWo8XFgikf7AWxj6NafB9HG0fkY1iLj8XrMmFlcDpSkNNhY4qi5n5RoaRF+02/f0X7v8r5fgXaXOTOiEoUitug0Si+Ch8lMDpEKCMqUSiRXAJzSJyX4TgSpyagwu8Mb6hFcQnONgEXehJhRpwwQFxdQaT8E04ElnsCEvGCswAcaxpF0f6vcsEMqpCyAWfeCAgjqCLMd9eih51Si56FxHRge1iRn7WbKtFPg8c8UQVwFPkc99rOfpdYLWzuE62NjS92r4BbF6LACdX56CWNnn/Ejn+V8/01dXqACRxrhcOEVeQj9mr0Y9sokh2DHvP5l5QoWYBMJEbP8MCfeX0U/sy5N5unSebrN9yG+yW404Tl87OxeWZthrM2F5sJ682G71HpubmwzlyCWZGZFQZnPsVak5lrW1qW5dh0GE1OzMSmuNFJMB6kEjGGcWqatZ2SYwzH2QQbpdlpds27cqaY4M2zqrKcijGK4DfHyZl5lpE8Nc/ZPs3hLsfQ8EZPjAIiWgmO0vBCgOAG6zQryDYPEGnXkFPX8LaGz+6Q/dmCE4urAqPnuAMSeh4/Pozdv5eMoeDFPoQI176TCq4dInJyGMd9FVRDgG9N+5MJdpB7hQYSMIu3u04dfrkvBUS/o4axeWj/AzDuC8XQ/jjAwk0H/QL/Jh8//hb5JgZLT7+ZoBQnPZ/ppcfogV8qUIdnkV28B/+5bwV+SNwFaGOqqKIxTzY2oFA7xeUSLrcBcgq8Ng/G8XkJYonP3wBabwKfVxC96B6buNNDuKrhjgmULi/wWY8iO/WP+LJDI4RvS4jcWkPgKt0AUfZVXCD4HB5ZAGJftxDNw4VFTbmM6/BFhohoRNvC1c6Q1DRkttHFf3URLnfHsVal2l5EJoihUcbULax+oIZbbdeoeeSmbPDG8+9nrzjgVcf96YZCQ867N+5WGHdecvBBeyTv9jWUiXlAmQ9SVVdxUyONKiL9Q9ssBItmBpgKZh8lSkfq+yJNLK28puYcqrRq/Nh6xIc0vUx5Oy6L/oQcQ777Yz4WSLwhOIbgxk4/yF5d+Y6FKbodu7EKb3f5teUnm+h5Vsk/WlmUkhLKv96ABz0l+zCr+A+A0uANKQ6ve+n/AAAA//8DAFBLAwQKAAAACAAAACEA0sLSZUcBAAAHAgAAEQAAAGRvY1Byb3BzL2NvcmUueG1sbJFLTsMwFEXnSOzB8ggGiZNUlCpKUvFRB4hKSBTxmVn2a2qIHct2SbsDpgyQWADL6yJw0xLKZ2jd+47vfS8bLmSFnsFYUascx2GEEShWc6HKHN9MRsEAI+uo4rSqFeR4CRYPi/29jOmU1QauTK3BOAEWeZKyKdM5njmnU0Ism4GkNvQO5cVpbSR1/mlKoil7oiWQJIr6RIKjnDpK1sBAd0S8RXLWIfXcVC2AMwIVSFDOkjiMybfXgZH234FW2XFK4Zbad9rG3WVzthE798KKztg0Tdj02hg+f0zuxpfXbdVAqPWuGOBivZ+KWjf2q5wK4KfL4sJ3trVCB6u3l9X7y+rjFRF0otA9BI9zVR5m5O9MxlmbOpVbDvJB0k3sL+m2d3Y+GeEiiZJ+EA2CXjyJjtOknx7FDxn5DSjab36ervgEAAD//wMAUEsDBAoAAAAIAAAAIQBLfdVEsAEAACkDAAAQAAAAZG9jUHJvcHMvYXBwLnhtbJySu24TQRSGeyTeYTR9PBuDImTNThQlQSlAWLKTfpg9a49Yz6xmTlY2FUgUiNC4iZAIVJQ0dDzU+h04u6s466RASncuv3595yIPl4uCVRCi9S7l+4OEM3DGZ9bNUn4+fbn3grOI2mW68A5SvoLID9XTJ3IcfAkBLURGFi6mfI5YjoSIZg4LHQfUdtTJfVhopDTMhM9za+DEm8sFOBTDJDkQsERwGWR75daQd46jCh9rmnnT8MWL6aokYCWPyrKwRiNNqV5bE3z0ObLTpYFCin5TEt0EzGWwuFKJFP1UTowu4JiMVa6LCFLcFeQZ6GZpY21DVLLCUQUGfWDRvqe1DTl7qyM0OCmvdLDaIWE1si5p46KMGFT9/evm4+/66mbz5a8UJOnKbdhX92P7XA1bAQW7wsagQ6HGLuTUYgHxTT7WAf/H3DJ0xB3OZn1T//rA6ut1ffWjj7kFrn+u609/WP3tM83yYJB2O4R0D+KVde/ieTn1Jxrhds27RTmZ6wAZXWZ7hm1BntGGQ9GYHM+1m0F2q3nYaJ7iovt8tX8wSJ4ldO9eTYq7H1f/AAAA//8DAFBLAwQKAAAAAAAsPR9dAAAAAAAAAAAAAAAAAwAAAHhsL1BLAwQKAAAAAAAsPR9dAAAAAAAAAAAAAAAADgAAAHhsL3dvcmtzaGVldHMvUEsBAhQACgAAAAgAAAAhABIY3t1kAQAAGAUAABMAAAAAAAAAAAAAAAAAAAAAAFtDb250ZW50X1R5cGVzXS54bWxQSwECFAAKAAAACAAAACEAtVUwI/QAAABMAgAACwAAAAAAAAAAAAAAAACVAQAAX3JlbHMvLnJlbHNQSwECFAAKAAAACAAAACEAyC3Qd8wCAABHBgAADwAAAAAAAAAAAAAAAACyAgAAeGwvd29ya2Jvb2sueG1sUEsBAhQACgAAAAgAAAAhAEqppmH6AAAARwMAABoAAAAAAAAAAAAAAAAAqwUAAHhsL19yZWxzL3dvcmtib29rLnhtbC5yZWxzUEsBAhQACgAAAAgAlUAfXe6h9HaKFAAANNAAABgAAAAAAAAAAAAAAAAA3QYAAHhsL3dvcmtzaGVldHMvc2hlZXQxLnhtbFBLAQIUAAoAAAAIAJVAH11KLbLbsQQAAHwaAAAYAAAAAAAAAAAAAAAAAJ0bAAB4bC93b3Jrc2hlZXRzL3NoZWV0Mi54bWxQSwECFAAKAAAACAAAACEAMA+Ia+0GAADeHQAAEwAAAAAAAAAAAAAAAACEIAAAeGwvdGhlbWUvdGhlbWUxLnhtbFBLAQIUAAoAAAAIAJVAH115QtlMLgMAALAJAAANAAAAAAAAAAAAAAAAAKInAAB4bC9zdHlsZXMueG1sUEsBAhQACgAAAAgAAAAhAPzpOjYVBgAAHBQAABQAAAAAAAAAAAAAAAAA+yoAAHhsL3NoYXJlZFN0cmluZ3MueG1sUEsBAhQACgAAAAgAAAAhANLC0mVHAQAABwIAABEAAAAAAAAAAAAAAAAAQjEAAGRvY1Byb3BzL2NvcmUueG1sUEsBAhQACgAAAAgAAAAhAEt91USwAQAAKQMAABAAAAAAAAAAAAAAAAAAuDIAAGRvY1Byb3BzL2FwcC54bWxQSwECFAAKAAAAAAAsPR9dAAAAAAAAAAAAAAAAAwAAAAAAAAAAABAAAACWNAAAeGwvUEsBAhQACgAAAAAALD0fXQAAAAAAAAAAAAAAAA4AAAAAAAAAAAAQAAAAtzQAAHhsL3dvcmtzaGVldHMvUEsFBgAAAAANAA0AMwMAAOM0AAAAAA==';
+        if (dlBtn1) dlBtn1.onclick = () => {
+          const bytes = Uint8Array.from(atob(CASE1_TEMPLATE_XLSX_B64), ch => ch.charCodeAt(0));
+          const blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '사례1_표준양식.xlsx';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+        renderFileLog1();
+      }
+
+      if (id === '37') {
+        const fileInput37 = article.querySelector('#uploadFile37');
+        const addBtn37 = article.querySelector('#uploadAddBtn37');
+        const statusEl37 = article.querySelector('#uploadStatus37');
+        const listEl37 = article.querySelector('#uploadList37');
+        const dlBtn37 = article.querySelector('#dlTemplate37');
+        const pickBtn37 = article.querySelector('#uploadPick37');
+        const fileNameEl37 = article.querySelector('#uploadFileName37');
+        const resetBtn37 = article.querySelector('#uploadReset37');
+
+        const setStatus37 = (msg, level) => {
+          if (!statusEl37) return;
+          statusEl37.textContent = msg;
+          statusEl37.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
+          statusEl37.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+        function renderList37(activeKeys){
+          if (!listEl37) return;
+          if (!activeKeys || !activeKeys.length) { listEl37.innerHTML = '<li style="color:#8a949a">· 업로드된 지표 없음</li>'; return; }
+          listEl37.innerHTML = activeKeys.map(k => `<li style="font-weight:750;color:#1a7a4c;background:#e7f5ee">✓ ${k}</li>`).join('');
+        }
+        const parseFile37 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. 잠시 후 다시 시도하거나 CSV로 업로드해 주세요.' }); return; }
+            const reader = new FileReader();
+            reader.onload = e => {
+              try {
+                const wb = XLSX.read(e.target.result, { type:'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                const rows = XLSX.utils.sheet_to_json(ws, { header:1, raw:true });
+                resolve({ ok:true, rows });
+              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다. 파일이 손상되지 않았는지 확인해 주세요.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = e => {
+              const buf = new Uint8Array(e.target.result);
+              let text;
+              try {
+                text = new TextDecoder('utf-8', { fatal: true }).decode(buf);
+              } catch (utf8Err) {
+                try {
+                  text = new TextDecoder('euc-kr').decode(buf);
+                } catch (crkErr) {
+                  resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 형식의 CSV만 지원합니다.' });
+                  return;
+                }
+              }
+              if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+              const rows = text.split(/\r?\n/).filter(Boolean).map(line => {
+                const out = []; let cur = ''; let q = false;
+                for (let i=0;i<line.length;i++){
+                  const ch = line[i];
+                  if (q){ if (ch === '"'){ if (line[i+1]==='"'){ cur+='"'; i++; } else q=false; } else cur += ch; }
+                  else { if (ch === '"') q = true; else if (ch === ',') { out.push(cur); cur=''; } else cur += ch; }
+                }
+                out.push(cur);
+                return out;
+              });
+              resolve({ ok:true, rows });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+          }
+        });
+        const waitForCase37Api = async () => {
+          for (let i = 0; i < 40; i++) {
+            const win = frame && frame.contentWindow;
+            if (win && win.CASE37_API) return win;
+            await new Promise(r => setTimeout(r, 150));
+          }
+          return null;
+        };
+
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); (async () => { const win = await waitForCase37Api(); renderList37(win && win.CASE37_API ? win.CASE37_API.getActiveIndicators() : []); })(); });
+
+        if (pickBtn37 && fileInput37) pickBtn37.onclick = () => fileInput37.click();
+        if (fileInput37 && fileNameEl37) fileInput37.addEventListener('change', () => {
+          const n = fileInput37.files ? fileInput37.files.length : 0;
+          fileNameEl37.textContent = n === 0 ? '선택된 파일 없음'
+            : n === 1 ? fileInput37.files[0].name
+            : `${n}개 파일 선택됨 (${Array.from(fileInput37.files).map(f=>f.name).join(', ')})`;
+        });
+
+        if (addBtn37) addBtn37.onclick = async () => {
+          const files = fileInput37 && fileInput37.files ? Array.from(fileInput37.files) : [];
+          if (!files.length) { setStatus37('파일을 선택해주세요.', 'warn'); return; }
+          setStatus37(`파일 ${files.length}개 확인 중…`, 'info');
+          hydrateExample();
+          const win = await waitForCase37Api();
+          if (!win) { setStatus37('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+          const okNames = [];
+          const failed = [];
+          for (const file of files) {
+            const result = await parseFile37(file);
+            if (!result.ok) { failed.push(`${file.name}: ${result.reason}`); continue; }
+            const rows = result.rows;
+            if (!rows || rows.length < 3) { failed.push(`${file.name}: 데이터를 읽지 못했습니다.`); continue; }
+            const ingestResult = win.CASE37_API.ingestAndActivate(rows, file.name);
+            if (!ingestResult.ok) { failed.push(`${file.name}: ${ingestResult.reason}`); continue; }
+            if (Array.isArray(ingestResult.indicators)) { okNames.push(...ingestResult.indicators); }
+            else if (ingestResult.indicatorKey) { okNames.push(ingestResult.indicatorKey); }
+          }
+          if (okNames.length) {
+            const uniqueNames = [...new Set(okNames)];
+            setStatus37(
+              `${uniqueNames.join(', ')} 지표가 반영되었습니다.` +
+              (failed.length ? ` (실패 ${failed.length}건: ${failed.join(' / ')})` : ''),
+              failed.length ? 'warn' : 'ok'
+            );
+            renderList37(win.CASE37_API.getActiveIndicators());
+          } else {
+            setStatus37(`반영된 파일이 없습니다. ${failed.join(' / ')}`, 'error');
+          }
+          fileInput37.value = '';
+          if (fileNameEl37) fileNameEl37.textContent = '선택된 파일 없음';
+        };
+
+        if (resetBtn37) resetBtn37.addEventListener('click', async () => {
+          hydrateExample();
+          const win = await waitForCase37Api();
+          if (win && win.CASE37_API) win.CASE37_API.reset();
+          if (fileInput37) fileInput37.value = '';
+          setStatus37('업로드한 데이터를 초기화했습니다.', 'ok');
+          renderList37([]);
+        });
+
+        if (dlBtn37) dlBtn37.onclick = () => {
+          // e-지방지표 표준 wide-format 예시(1인가구비율, 3개 연도) — 실제 KOSIS 값 일부를 발췌.
+          const sample = '\uFEFF1인가구비율 (단위: %)\n,2022,2023,2024\n전국,34.5,35.5,36.1\n서울,38.2,39.3,39.9\n부산,35.3,36.4,37.2\n대구,33.8,34.7,35.5\n';
+          const blob = new Blob([sample], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '표준양식_e지방지표_예시.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+
+        renderList37([]);
       }
 
 
