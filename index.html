@@ -4853,7 +4853,7 @@ body.cover-active .topbar{ display:none!important; }
 .case-upload-modal-card{max-height:calc(100vh - 48px)!important;overflow-y:auto!important;}
 #uploadAddBtn35,#uploadAddBtn23,#uploadAddBtn1{display:block;margin:0 auto;}
 .case-upload-status35{min-height:20px!important;margin:14px auto 8px!important;text-align:center!important;}
-.case-upload-list35{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0 12px;padding:0;list-style:none;}
+.case-upload-list40,.case-upload-list35{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0 12px;padding:0;list-style:none;}
 .case-upload-list35 li{padding:7px 6px;border-radius:2px;background:#eceff1;text-align:center;font-size:10px;white-space:nowrap;}
 .case-upload-template35{display:block;margin:8px auto 0;padding:8px 12px;border:1px solid #aeb4b8;background:#fff;color:#4e595f;font-family:inherit;font-size:10px;cursor:pointer;}
 @media(max-width:680px){
@@ -10003,11 +10003,11 @@ const CASE_CARD_IMG_MAP = {
 
         <div class="case-prototype-layout">
           <aside class="case-prototype-sidebar" aria-label="서비스 활용 및 필요 데이터">
-            <div class="case-file-action-row${(id === '1' || id === '34' || id === '23' || id === '26' || id === '27' || id === '28' || id === '30' || id === '37') ? ' has-reset' : ''}">
+            <div class="case-file-action-row${(id === '1' || id === '34' || id === '23' || id === '26' || id === '27' || id === '28' || id === '30' || id === '37' || id === '39' || id === '40' || id === '44' || id === '43') ? ' has-reset' : ''}">
               <button class="case-file-upload-button" type="button" data-case-upload-open>
                 <span>FILE</span><b>파일 업로드</b><i aria-hidden="true">＋</i>
               </button>
-              ${id === '1' ? '<button type="button" class="case-file-reset-button" id="uploadReset1">초기화</button>' : id === '34' ? '<button type="button" class="case-file-reset-button" id="uploadReset35">초기화</button>' : id === '23' ? '<button type="button" class="case-file-reset-button" id="uploadReset23">초기화</button>' : id === '26' ? '<button type="button" class="case-file-reset-button" id="uploadReset26">초기화</button>' : id === '27' ? '<button type="button" class="case-file-reset-button" id="uploadReset27">초기화</button>' : id === '28' ? '<button type="button" class="case-file-reset-button" id="uploadReset28">초기화</button>' : id === '30' ? '<button type="button" class="case-file-reset-button" id="uploadReset30">초기화</button>' : id === '37' ? '<button type="button" class="case-file-reset-button" id="uploadReset37">초기화</button>' : ''}
+              ${id === '1' ? '<button type="button" class="case-file-reset-button" id="uploadReset1">초기화</button>' : id === '34' ? '<button type="button" class="case-file-reset-button" id="uploadReset35">초기화</button>' : id === '23' ? '<button type="button" class="case-file-reset-button" id="uploadReset23">초기화</button>' : id === '26' ? '<button type="button" class="case-file-reset-button" id="uploadReset26">초기화</button>' : id === '27' ? '<button type="button" class="case-file-reset-button" id="uploadReset27">초기화</button>' : id === '28' ? '<button type="button" class="case-file-reset-button" id="uploadReset28">초기화</button>' : id === '30' ? '<button type="button" class="case-file-reset-button" id="uploadReset30">초기화</button>' : id === '37' ? '<button type="button" class="case-file-reset-button" id="uploadReset37">초기화</button>' : id === '39' ? '<button type="button" class="case-file-reset-button" id="uploadReset39">초기화</button>' : id === '40' ? '<button type="button" class="case-file-reset-button" id="uploadReset40">초기화</button>' : id === '44' ? '<button type="button" class="case-file-reset-button" id="uploadReset44">초기화</button>' : id === '43' ? '<button type="button" class="case-file-reset-button" id="uploadReset43">초기화</button>' : ''}
             </div>
             ${id === '1' ? `
             <div class="case1-filter-wrap">
@@ -10123,6 +10123,44 @@ const CASE_CARD_IMG_MAP = {
                   <button type="button" class="case-upload-select" id="uploadAddBtn37" style="margin-top:10px">업로드하여 반영</button>
                   <p class="case-upload-status35" id="uploadStatus37" aria-live="polite"></p>
                   <ul class="case-upload-list35" id="uploadList37"></ul>
+                  ` : id === '39' ? `
+                  <b>전국 종합지표 표준 데이터를 올려주세요.</b>
+                  <p><b>이 대시보드에는 내장 수치가 없습니다.</b> 인구지표·지역내총생산·경제활동인구·자동차등록·대중교통접근시간·작업환경 6종을 하나로 표준화한 통합 양식(<b>지역, 데이터구분, 항목, 세부항목, 기준시점, 값, 단위</b>) 1종만 인식합니다. 도별로 나눈 파일을 여러 개 동시에 선택할 수 있으며, 업로드한 지역만 지도·비교차트에서 활성화되고 나머지 시도는 값을 채우지 않고 '데이터 없음'으로 남깁니다. 인구 중위추계·산업별 작업환경은 원자료가 전국 단위로만 존재하므로 통합 CSV에만 포함됩니다.</p>
+                  <input type="file" id="uploadFile39" accept=".csv,.xlsx,.xls" multiple>
+                  <button type="button" class="case-upload-select" id="uploadAddBtn39">업로드하여 반영</button>
+                  <p class="case-upload-status35" id="uploadStatus39" aria-live="polite"></p>
+                  <ul class="case-upload-list35" id="uploadList39"></ul>
+                  <p style="font-size:11px;color:#8a949a;margin:2px 0 10px">활성화(초록) 지역을 클릭하면 그 지역만 뺍니다.</p>
+                  <button type="button" class="case-upload-template35" id="dlTemplate39">표준 양식 CSV 다운로드 ↓</button>
+                  ` : id === '40' ? `
+                  <b>주제분석 통합 표준 데이터를 시·도별로 올려주세요.</b>
+                  <p>버스정류장·학교·전통시장·주차장·기계식주차장·국립공원 6종 공공데이터를 하나로 합친 통합 표준 양식(12컬럼: 시도, 시군구, 주제, 구분, 항목, 값, 단위, 위도, 경도, 비고, 기준일자, 출처)만 인식합니다. 파일을 여러 개 동시에 선택할 수 있고, 올릴 때마다 지역이 누적됩니다. 파일의 시도 값을 읽어 그 시·도만 화면에 값이 채워지며, 값을 임의로 채우지 않습니다. 업로드 전에는 데이터 없이 KPI·차트·지도의 빈 화면 틀만 표시됩니다.</p>
+                  <input type="file" id="uploadFile40" accept=".csv,.xlsx,.xls" multiple>
+                  <button type="button" class="case-upload-select" id="uploadAddBtn40">업로드하여 반영</button>
+                  <p class="case-upload-status35" id="uploadStatus40" aria-live="polite"></p>
+                  <ul class="case-upload-list40" id="uploadList40"></ul>
+                  <p style="font-size:11px;color:#8a949a;margin:2px 0 10px">활성화(초록) 지역을 클릭하면 그 지역만 뺍니다. 상권·관광100선 주제는 표준 양식에 포함되지 않아 업로드와 무관하게 내장 전국 데이터로 표시됩니다.</p>
+                  <button type="button" class="case-upload-template35" id="dlTemplate40">통합 표준 양식 CSV 다운로드 ↓</button>
+                  <button type="button" class="case-upload-template35" id="demoBtn40" style="margin-top:8px">내장 전국 데이터로 시연 ▶</button>
+                  <p style="font-size:11px;color:#8a949a;margin:6px 0 0">시연 버튼은 화면 확인용입니다. 파일을 업로드하면 시연 모드는 자동으로 꺼집니다.</p>
+                  ` : id === '44' ? `
+                  <b>여론동향 통합 표준 데이터를 시·도별로 올려주세요.</b>
+                  <p><b>이 대시보드에는 내장 수치가 없습니다.</b> 한국언론진흥재단 뉴스빅데이터 메타데이터 7개 주제(부동산·인공지능·ESG·언론·공정·민주주의·올림픽)를 시·도 언급 기준으로 표준화한 통합 양식(<b>13컬럼: 기사ID, 시도, 시도약칭, 주제, 일자, 연도, 언론사, 제목, 통합분류, 지역매칭어, 지역판정근거, 키워드, 원문링크</b>)을 인식합니다. <b>빅카인즈에서 내려받은 원본 CSV(예: 한국언론진흥재단_뉴스빅데이터_메타데이터_인공지능_20240630.csv)를 변환 없이 그대로 올려도 됩니다</b> — 머리글(일자·언론사·제목·통합 분류1·키워드·특성추출·개체명(지역))을 읽어 표준 13컬럼으로 자동 변환한 뒤 반영하며, 주제는 파일 이름에서 읽습니다. UTF-8·CP949 인코딩과 본문에 줄바꿈이 들어간 수백 MB 파일도 나눠 읽어 처리합니다. 통합 CSV에서 도별로 나눈 파일을 여러 개 동시에 선택할 수 있고, 올릴 때마다 시·도가 누적됩니다. 업로드한 시·도만 키워드·워드클라우드·연관어·매체분포·기사목록에 채워지며, 나머지 지역은 값을 채우지 않고 비워 둡니다.</p>
+                  <input type="file" id="uploadFile44" accept=".csv,.xlsx,.xls" multiple>
+                  <button type="button" class="case-upload-select" id="uploadAddBtn44">업로드하여 반영</button>
+                  <p class="case-upload-status35" id="uploadStatus44" aria-live="polite"></p>
+                  <ul class="case-upload-list35" id="uploadList44"></ul>
+                  <p style="font-size:11px;color:#8a949a;margin:2px 0 10px">활성(초록) 시·도를 클릭하면 그 지역만 빼고, 제외(주황) 상태를 다시 클릭하면 재반영합니다. 여러 시·도를 함께 올린 경우 같은 기사는 기사ID로 중복 제거해 집계합니다. 원본 CSV를 직접 올릴 때는 개체명(지역)이 있으면 그 값을, 없으면 키워드·특성추출 토큰을 시·도명·시·군 지명 사전과 <b>토큰 단위로 정확히 일치</b>할 때만 그 시·도로 집계합니다. ‘경기·달성·진주·강화’처럼 일반명사와 겹치는 지명은 오탐이 많아 정식 시·군명(예: 진주시) 형태로만 인정하며, 판정 근거는 기사 목록에 그대로 표시됩니다.</p>
+                  <button type="button" class="case-upload-template35" id="dlTemplate44">표준 양식 CSV 다운로드 ↓</button>
+                  <button type="button" class="case-upload-template35" id="dlTemplateXlsx44" style="margin-top:8px">표준 양식 XLSX 다운로드 ↓</button>
+                  ` : id === '43' ? `
+                  <b>민원 데이터를 올려주세요.</b>
+                  <p>국민권익위원회 공개 원본 8종(고충민원 분야별·연도별·처리기간, 국민신문고 접수경로·외국어·제안, 민원빅데이터 API 목록, 정부민원 처리기간 준수현황)을 파일 이름 그대로 올리면 머리글을 보고 자동으로 인식합니다. 8종을 전부 올릴 필요는 없습니다 — 한두 개만 올려도 그 자료로 채울 수 있는 영역은 바로 시각화되고, 나머지 영역은 빈 틀로 남아 있다가 해당 자료가 들어오면 채워집니다. 여러 개를 한 번에 선택하거나, 하나씩 여러 번 나눠 올려도 이전에 올린 내용이 유지된 채 새 파일이 더해집니다. 이미 하나로 정리한 통합 표준 양식(13열: 데이터셋, 출처파일, 연도, 기준일, 시도, 시군구, 기관분류, 기관명, 분류1, 분류2, 지표, 값, 단위) 파일도 함께 올릴 수 있습니다. 인식하지 못한 파일만 사유와 함께 알리고 값을 임의로 채우지 않습니다. 옆의 초기화 버튼을 누르면 처음 상태(빈 화면 틀)로 되돌립니다. 아래에서 통합 표준 양식(머리글 1행 + 값 1행)을 내려받아 참고할 수 있습니다.</p>
+                  <input type="file" id="uploadFile43" accept=".csv,.xlsx,.xls" multiple>
+                  <button type="button" class="case-upload-select" id="uploadAddBtn43">업로드하여 반영</button>
+                  <p class="case-upload-status35" id="uploadStatus43" aria-live="polite" style="white-space:pre-line"></p>
+                  <ul class="case-upload-list35" id="uploadList43"></ul>
+                  <button type="button" class="case-upload-template35" id="dlTemplate43">표준 양식 CSV 다운로드 ↓</button>
                   ` : `
                   <b>분석에 사용할 데이터 파일을 추가하세요.</b>
                   <p>현재는 화면 구성 확인용이며 실제 파일은 전송되지 않습니다.</p>
@@ -10485,6 +10523,200 @@ const CASE_CARD_IMG_MAP = {
         }).join('');
       };
 
+      if (id === '1') {
+        const modalScope1 = uploadModal || article;
+        const fileInput1 = modalScope1.querySelector('#uploadFile1');
+        const addBtn1 = modalScope1.querySelector('#uploadAddBtn1');
+        const clearBtn1 = modalScope1.querySelector('#uploadFileClear1');
+        const statusEl1 = modalScope1.querySelector('#uploadStatus1');
+        const logEl1 = modalScope1.querySelector('#uploadFileLog1');
+        const applyBtn1 = modalScope1.querySelector('#uploadApply1');
+        const cancelBtn1 = modalScope1.querySelector('#uploadCancel1');
+        const resetBtn1 = article.querySelector('#uploadReset1');
+        const dlBtn1 = modalScope1.querySelector('#dlTemplate1');
+        const filterBtn1 = article.querySelector('#case1FilterBtn');
+        const filterPanel1 = article.querySelector('#case1FilterPanel');
+        const filterList1 = article.querySelector('#case1FilterList');
+        const filterApply1 = article.querySelector('#case1FilterApply');
+        const filterCancel1 = article.querySelector('#case1FilterCancel');
+        const GROUP_TITLE_FALLBACK_1 = { enterprise:'기업경기실사지수(BSI)', small:'소상공인경기실사지수(BSI)', consumer:'소비자체감경기지수(CSI)', esi:'경제심리지수(ESI)', manufacturing:'광공업생산지수', service:'서비스업생산지수' };
+        const GROUP_ORDER_1 = ['enterprise','small','consumer','esi','manufacturing','service'];
+        const escHtml1 = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        let appliedList1 = [];
+        let pendingRemovals1 = new Set();
+        let stagedList1 = [];
+        let stagedActiveGroups1 = null;
+        const setStatus1 = (msg, level) => {
+          if (!statusEl1) return;
+          statusEl1.textContent = msg;
+          statusEl1.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
+          statusEl1.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+        const waitForCase1 = async () => {
+          for (let i = 0; i < 50; i++) {
+            try { const w = frame && frame.contentWindow; if (w && w.CASE1_API) return w; } catch (_) {}
+            await new Promise(r => setTimeout(r, 120));
+          }
+          return null;
+        };
+        const currentStatus1 = () => {
+          try { const w = frame && frame.contentWindow; if (w && w.CASE1_API) return w.CASE1_API.getStatus(); } catch (_) {}
+          return null;
+        };
+        const byKoreanName1 = (a, b) => String(a.fileName || '').localeCompare(String(b.fileName || ''), 'ko-KR', {numeric:true, sensitivity:'base'});
+        const renderFileLog1 = () => {
+          if (!logEl1) return;
+          const appliedHtml = appliedList1.slice().sort(byKoreanName1).map(f => {
+            const marked = pendingRemovals1.has(f.fileName);
+            return `<li class="${marked ? 'is-marked' : ''}"><span>${escHtml1(f.fileName)}${f.label ? ' → ' + escHtml1(f.label) : ''}</span><button type="button" class="case1-file-x" data-remove-applied="${escHtml1(f.fileName)}" aria-label="제거">✕</button></li>`;
+          }).join('');
+          const stagedHtml = stagedList1.map((f, i) => ({ f, i })).sort((a, b) => byKoreanName1(a.f, b.f)).map(({ f, i }) => {
+            const label = f.rows ? (f.label ? '인식됨 → ' + f.label : '') : (f.reason || '인식 실패');
+            return `<li class="is-staged"><span>${escHtml1(f.fileName)}${label ? ' : ' + escHtml1(label) : ''}</span><button type="button" class="case1-file-x" data-remove-staged="${i}" aria-label="제거">✕</button></li>`;
+          }).join('');
+          logEl1.innerHTML = (appliedHtml + stagedHtml) || '<li style="background:none;color:#8a949a">· 아직 반영된 파일이 없습니다</li>';
+          logEl1.querySelectorAll('[data-remove-applied]').forEach(btn => {
+            btn.onclick = () => { const fn = btn.dataset.removeApplied; if (pendingRemovals1.has(fn)) pendingRemovals1.delete(fn); else pendingRemovals1.add(fn); renderFileLog1(); };
+          });
+          logEl1.querySelectorAll('[data-remove-staged]').forEach(btn => {
+            btn.onclick = () => { stagedList1.splice(Number(btn.dataset.removeStaged), 1); renderFileLog1(); };
+          });
+        };
+        const renderFilterList1 = () => {
+          if (!filterList1) return;
+          const status = currentStatus1();
+          const groups = status ? status.groups : GROUP_ORDER_1.map(key => ({ key, title: GROUP_TITLE_FALLBACK_1[key], hasData:false, active:false }));
+          if (!stagedActiveGroups1) stagedActiveGroups1 = new Set(groups.filter(g => g.active).map(g => g.key));
+          filterList1.innerHTML = groups.map(g => {
+            const checked = stagedActiveGroups1.has(g.key);
+            const cls = !g.hasData ? 'case1-toggle-item is-disabled' : (checked ? 'case1-toggle-item is-active' : 'case1-toggle-item');
+            const state = !g.hasData ? '데이터 없음' : (checked ? '✓ 선택' : '선택 안 함');
+            return `<button type="button" class="${cls}" data-filter-key="${g.key}" ${g.hasData ? '' : 'disabled'}>${escHtml1(g.title)}<span>${state}</span></button>`;
+          }).join('');
+          filterList1.querySelectorAll('[data-filter-key]').forEach(btn => {
+            btn.onclick = () => {
+              const k = btn.dataset.filterKey;
+              if (stagedActiveGroups1.has(k)) stagedActiveGroups1.delete(k); else stagedActiveGroups1.add(k);
+              renderFilterList1();
+            };
+          });
+        };
+        const closeFilter1 = () => { if (filterPanel1) filterPanel1.hidden = true; filterBtn1?.classList.remove('is-open'); };
+        filterBtn1?.addEventListener('click', async () => {
+          if (!filterPanel1.hidden) { closeFilter1(); return; }
+          hydrateExample();
+          stagedActiveGroups1 = null;
+          await waitForCase1();
+          renderFilterList1();
+          filterPanel1.hidden = false; filterBtn1.classList.add('is-open');
+        });
+        document.addEventListener('click', e => {
+          if (!filterPanel1 || filterPanel1.hidden) return;
+          const path = e.composedPath ? e.composedPath() : [e.target];
+          if (path.includes(filterPanel1) || (filterBtn1 && path.includes(filterBtn1))) return;
+          closeFilter1();
+        });
+        filterApply1?.addEventListener('click', async () => {
+          const win = await waitForCase1();
+          if (win && stagedActiveGroups1) win.CASE1_API.setActiveGroups([...stagedActiveGroups1]);
+          closeFilter1();
+        });
+        filterCancel1?.addEventListener('click', () => { stagedActiveGroups1 = null; closeFilter1(); });
+        const parseAnyFile1 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (/\.(xlsx|xls)$/.test(name)) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다.' }); return; }
+            const reader = new FileReader();
+            reader.onload = e => {
+              try {
+                const wb = XLSX.read(new Uint8Array(e.target.result), { type:'array' });
+                const sheets = wb.SheetNames.map(n => XLSX.utils.sheet_to_json(wb.Sheets[n], { header:1, raw:true, defval:'' }));
+                resolve({ ok:true, sheets });
+              } catch (_) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = e => {
+              const buf = new Uint8Array(e.target.result);
+              let decoded; try { decoded = new TextDecoder('utf-8', { fatal:true }).decode(buf); } catch (_) { decoded = new TextDecoder('euc-kr').decode(buf); }
+              if (decoded.charCodeAt(0) === 0xFEFF) decoded = decoded.slice(1);
+              const rows = decoded.split(/\r?\n/).filter(Boolean).map(line => {
+                const out = []; let cur = ''; let q = false;
+                for (let i=0;i<line.length;i++){
+                  const ch=line[i];
+                  if(q){ if(ch==='"'){ if(line[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=ch; }
+                  else { if(ch==='"') q=true; else if(ch===','){out.push(cur);cur='';} else cur+=ch; }
+                }
+                out.push(cur); return out;
+              });
+              resolve({ ok:true, sheets:[rows] });
+            };
+            reader.readAsArrayBuffer(file);
+          } else resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+        });
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); renderFileLog1(); });
+        if (clearBtn1) clearBtn1.onclick = () => { if (fileInput1) fileInput1.value = ''; };
+        if (addBtn1) addBtn1.onclick = async () => {
+          const files = fileInput1 && fileInput1.files ? Array.from(fileInput1.files) : [];
+          if (!files.length) { setStatus1('파일을 선택해주세요.', 'warn'); return; }
+          hydrateExample();
+          const win = await waitForCase1();
+          if (!win) { setStatus1('실행 화면을 불러오지 못했습니다.', 'error'); return; }
+          for (const file of files) {
+            const parsed = await parseAnyFile1(file);
+            if (!parsed.ok) { stagedList1.push({ fileName:file.name, rows:null, label:null, reason:parsed.reason }); continue; }
+            let chosen = null;
+            for (const rows of parsed.sheets) {
+              const pv = win.CASE1_API.previewFile(rows);
+              if (pv.ok) { chosen = { rows, label:pv.label }; break; }
+            }
+            if (chosen) stagedList1.push({ fileName:file.name, rows:chosen.rows, label:chosen.label, reason:null });
+            else stagedList1.push({ fileName:file.name, rows:null, label:null, reason:'인식할 수 없는 파일 형식입니다.' });
+          }
+          renderFileLog1();
+          setStatus1('적용을 누르면 대시보드에 반영됩니다.', 'info');
+          fileInput1.value = '';
+        };
+        if (applyBtn1) applyBtn1.onclick = async () => {
+          const win = await waitForCase1();
+          if (!win) { setStatus1('실행 화면을 불러오지 못했습니다.', 'error'); return; }
+          const keep = appliedList1.filter(f => !pendingRemovals1.has(f.fileName));
+          const next = keep.map(f => ({ fileName:f.fileName, rows:f.rows })).concat(stagedList1.filter(f => f.rows).map(f => ({ fileName:f.fileName, rows:f.rows })));
+          const result = win.CASE1_API.setFiles(next);
+          appliedList1 = next.map((f, i) => ({ fileName:f.fileName, rows:f.rows, label: result.perFile[i] && result.perFile[i].ok ? result.perFile[i].label : null, ok: result.perFile[i] ? result.perFile[i].ok : false })).filter(f => f.ok);
+          stagedList1 = [];
+          pendingRemovals1 = new Set();
+          renderFileLog1();
+          const okCount = result.perFile.filter(p => p.ok).length;
+          setStatus1(`${okCount}/${result.perFile.length}개 파일 반영`, okCount === result.perFile.length ? 'ok' : (okCount > 0 ? 'warn' : 'error'));
+        };
+        if (cancelBtn1) cancelBtn1.onclick = () => {
+          stagedList1 = [];
+          pendingRemovals1 = new Set();
+          renderFileLog1();
+          setStatus1('대기 중이던 변경을 취소했습니다.', 'ok');
+        };
+        if (resetBtn1) resetBtn1.onclick = async () => {
+          hydrateExample();
+          const win = await waitForCase1();
+          win?.CASE1_API?.reset();
+          appliedList1 = []; stagedList1 = []; pendingRemovals1 = new Set(); stagedActiveGroups1 = null;
+          if (fileInput1) fileInput1.value = '';
+          setStatus1('업로드한 데이터를 모두 초기화했습니다.', 'ok');
+          renderFileLog1(); renderFilterList1();
+        };
+        const CASE1_TEMPLATE_XLSX_B64 = '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';
+        if (dlBtn1) dlBtn1.onclick = () => {
+          const bytes = Uint8Array.from(atob(CASE1_TEMPLATE_XLSX_B64), ch => ch.charCodeAt(0));
+          const blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '사례1_표준양식.xlsx';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+        renderFileLog1();
+      }
       if (id === '23') {
         const fileInput23 = article.querySelector('#uploadFile23');
         const addBtn23 = article.querySelector('#uploadAddBtn23');
@@ -10762,6 +10994,944 @@ const CASE_CARD_IMG_MAP = {
           const csv='\uFEFF'+[UNIFIED_HEADER_27,...rowsSample].map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
           const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),a=document.createElement('a');
           a.href=URL.createObjectURL(blob);a.download='표준양식_안전시설통합.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),0);
+        };
+      }
+      if (id === '39') {
+        const fileInput39 = article.querySelector('#uploadFile39');
+        const addBtn39 = article.querySelector('#uploadAddBtn39');
+        const statusEl39 = article.querySelector('#uploadStatus39');
+        const listEl39 = article.querySelector('#uploadList39');
+        const dlBtn39 = article.querySelector('#dlTemplate39');
+        const resetBtn39 = article.querySelector('#uploadReset39');
+        const HEADER_39 = ['지역','데이터구분','항목','세부항목','기준시점','값','단위'];
+        const REGIONS_39 = ['서울특별시','부산광역시','대구광역시','인천광역시','광주광역시','대전광역시','울산광역시','세종특별자치시','경기도','강원특별자치도','충청북도','충청남도','전북특별자치도','전라남도','경상북도','경상남도','제주특별자치도','전남광주통합특별시'];
+        // 표준 양식 예시 행은 원자료(KOSIS·통계청 공표값)를 그대로 사용하며 임의로 만든 값이 아니다.
+        const SAMPLE_39 = [["전국","인구지표","총인구(명)","","2026","51609121","명"],["전국","인구지표","노령화지수","","2026","222.7","지수"],["전국","지역내총생산","지역내총생산(시장가격)","명목","2024(잠정)","2560811495","백만원"],["경기도","지역내총생산","지역내총생산(시장가격)","명목","2024(잠정)","651417234","백만원"],["경기도","지역내총생산","지역내총생산(시장가격)","실질","2024(잠정)","597825993","백만원"],["전국","경제활동인구","고용률","","2026.07","63.3","%"],["경기도","경제활동인구","고용률","","2026.07","63.7","%"],["경기도","경제활동인구","실업률","","2026.07","3","%"],["경기도","경제활동인구","취업자","","2026.07","7854","천명"],["서울특별시","자동차등록","총계","계","2026.07","3151939","대"],["서울특별시","자동차등록","승용","계","2026.07","2768487","대"],["전국","대중교통접근시간","5분미만","","2024","13","%"],["경기도","대중교통접근시간","5분미만","","2024","13.2","%"],["경기도","대중교통접근시간","5분~10분","","2024","44.2","%"],["전국","작업환경","전체","전체 사업장","2024","321580","개소"],["전국","작업환경","전체","소음","2024","135243","개소"]];
+
+        const setStatus39 = (msg, level) => {
+          if (!statusEl39) return;
+          statusEl39.textContent = msg;
+          statusEl39.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
+          statusEl39.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+        const api39 = () => { const w = frame && frame.contentWindow; return (w && w.CASE39_API) || null; };
+        function renderList39(){
+          if (!listEl39) return;
+          const api = api39();
+          const active = api ? api.getActiveRegions() : [];
+          const nat = api ? api.hasNational() : true;
+          const set = new Set(active);
+          const head = active.length
+            ? `<li style="font-weight:750;color:#1a7a4c;background:#e7f5ee">✓ 전국 단위 데이터 ${nat ? '포함' : '없음 — 인구·작업환경 패널 비활성'}</li>`
+            : `<li style="color:#8a949a">· 업로드 전 — 내장 수치 없음, 화면 틀만 표시</li>`;
+          listEl39.innerHTML = head + REGIONS_39.map(r => {
+            const on = set.has(r);
+            return `<li data-region39="${r}" style="${on ? 'font-weight:750;color:#1a7a4c;background:#e7f5ee;cursor:pointer' : 'color:#8a949a'}">${on ? '✓ ' : '· '}${r}${on ? ' · 활성 (클릭하면 제외)' : ''}</li>`;
+          }).join('');
+        }
+        if (listEl39) listEl39.addEventListener('click', async e => {
+          const li = e.target.closest('[data-region39]');
+          if (!li) return;
+          const api = api39();
+          if (!api) return;
+          if (!api.getActiveRegions().includes(li.dataset.region39)) return;
+          api.removeRegion(li.dataset.region39);
+          renderList39();
+          const left = api.getActiveRegions();
+          setStatus39(left.length ? `${li.dataset.region39} 제외됨 · 활성 ${left.length}개 지역` : '모든 지역을 제외했습니다. 표시할 데이터가 없는 상태로 되돌아갑니다.', 'ok');
+        });
+        const parseFile39 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. CSV로 업로드해 주세요.' }); return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+              try {
+                const wb = XLSX.read(ev.target.result, { type:'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                resolve({ ok:true, rows: XLSX.utils.sheet_to_json(ws, { header:1, raw:false }) });
+              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = ev => {
+              const buf = new Uint8Array(ev.target.result);
+              let text;
+              try { text = new TextDecoder('utf-8', { fatal:true }).decode(buf); }
+              catch (e1) {
+                try { text = new TextDecoder('euc-kr').decode(buf); }
+                catch (e2) { resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 CSV만 지원합니다.' }); return; }
+              }
+              if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+              const rows = text.split(/\r?\n/).filter(l => l.length).map(line => {
+                const out = []; let cur = ''; let q = false;
+                for (let i=0;i<line.length;i++){
+                  const ch = line[i];
+                  if (q){ if (ch === '"'){ if (line[i+1]==='"'){ cur+='"'; i++; } else q=false; } else cur += ch; }
+                  else { if (ch === '"') q = true; else if (ch === ',') { out.push(cur); cur=''; } else cur += ch; }
+                }
+                out.push(cur);
+                return out;
+              });
+              resolve({ ok:true, rows });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+          }
+        });
+        const validHeader39 = row => Array.isArray(row) && HEADER_39.every((h,i) => String(row[i]||'').replace(/^\uFEFF/,'').trim() === h);
+        const waitForCase39 = async () => {
+          for (let i = 0; i < 40; i++) {
+            const api = api39();
+            if (api) return api;
+            await new Promise(r => setTimeout(r, 150));
+          }
+          return null;
+        };
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); renderList39(); });
+
+        if (addBtn39) addBtn39.onclick = async () => {
+          const files = fileInput39 && fileInput39.files ? Array.from(fileInput39.files) : [];
+          if (!files.length) { setStatus39('파일을 선택해주세요. 여러 개를 동시에 선택할 수 있습니다.', 'warn'); return; }
+          setStatus39(`파일 ${files.length}개 확인 중…`, 'info');
+          const body = []; const okNames = []; const failures = [];
+          for (const file of files) {
+            const parsed = await parseFile39(file);
+            if (!parsed.ok) { failures.push(`${file.name}: ${parsed.reason}`); continue; }
+            const rows = parsed.rows || [];
+            if (!rows.length) { failures.push(`${file.name}: 빈 파일입니다.`); continue; }
+            if (!validHeader39(rows[0])) { failures.push(`${file.name}: 첫 행이 표준 양식 머리글(지역, 데이터구분, 항목, 세부항목, 기준시점, 값, 단위)과 다릅니다.`); continue; }
+            const rest = rows.slice(1).filter(r => r && String(r[0]||'').trim());
+            if (!rest.length) { failures.push(`${file.name}: 데이터 행이 없습니다.`); continue; }
+            body.push(...rest); okNames.push(`${file.name}(${rest.length}행)`);
+          }
+          if (!body.length) { setStatus39(failures[0] || '인식 가능한 파일이 없습니다.', 'error'); return; }
+          hydrateExample();
+          setStatus39('대시보드에 데이터를 반영하는 중…', 'info');
+          const api = await waitForCase39();
+          if (!api) { setStatus39('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+          const res = api.ingestAndActivate(body, okNames.join(', '));
+          if (!res || !res.ok) { setStatus39((res && res.reason) || '데이터를 반영하지 못했습니다.', 'error'); return; }
+          renderList39();
+          const scope = `활성 ${res.regions.length}개 지역${res.national ? ' + 전국' : ''}`;
+          setStatus39(failures.length
+            ? `${okNames.join(', ')} 반영 · ${scope} / ${failures.length}개 파일 실패: ${failures[0]}`
+            : `${okNames.join(', ')} 반영 · ${scope}`, failures.length ? 'warn' : 'ok');
+          fileInput39.value = '';
+        };
+
+        if (resetBtn39) resetBtn39.onclick = async () => {
+          hydrateExample();
+          const api = await waitForCase39();
+          if (api) api.reset();
+          if (fileInput39) fileInput39.value = '';
+          renderList39();
+          setStatus39('업로드한 데이터를 초기화했습니다. 내장 수치가 없으므로 빈 화면 틀로 되돌아갑니다.', 'ok');
+        };
+
+        if (dlBtn39) dlBtn39.onclick = () => {
+          const csv = '\uFEFF' + [HEADER_39, ...SAMPLE_39].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+          const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '표준양식_전국종합지표.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+
+        renderList39();
+      }
+      if (id === '44') {
+        const fileInput44 = article.querySelector('#uploadFile44');
+        const addBtn44 = article.querySelector('#uploadAddBtn44');
+        const statusEl44 = article.querySelector('#uploadStatus44');
+        const listEl44 = article.querySelector('#uploadList44');
+        const dlBtn44 = article.querySelector('#dlTemplate44');
+        const dlXlsx44 = article.querySelector('#dlTemplateXlsx44');
+        const resetBtn44 = article.querySelector('#uploadReset44');
+        const HEADER_44 = ['기사ID','시도','시도약칭','주제','일자','연도','언론사','제목','통합분류','지역매칭어','지역판정근거','키워드','원문링크'];
+        const REGIONS_44 = ['서울특별시','부산광역시','대구광역시','인천광역시','광주광역시','대전광역시','울산광역시','세종특별자치시','경기도','강원특별자치도','충청북도','충청남도','전북특별자치도','전라남도','경상북도','경상남도','제주특별자치도'];
+        // 표준 양식 예시 행은 통합 CSV에서 그대로 가져온 실제 기사 메타데이터이며 임의로 만든 값이 아니다.
+        const SAMPLE_44 = [["RE-000005","경상남도","경남","부동산","2021-04-01","2021","서울신문","진보당 경남도당 ‘도지사,도의원 부동산 투기 조사’ 촉구","정치-행정_자치","창원","키워드/특성추출","부동산,공직자,경남도당,경남도,진보당,도지사,경남도의원,선출직,경남도청,선거구,상임위,기자회견,요식행위,도의회,의원직",""],["AI-000007","경상남도","경남","인공지능","2024-01-01","2024","아시아투데이","[2024 산업전망] AI發 메모리 훈풍 채비 반도체업계…AI 심은 新가전 전쟁","경제>반도체","양산","키워드/특성추출","ai,반도체,삼성전자,차세대,냉장고,가트너,반도체산업,lg전자,가전제품,사용자,가전업계,세탁기,스마트폰,상표권","http://www.bigkinds.or.kr/news/newsDetailView.do?newsId=01100751.20240101000041001"],["ES-000006","서울특별시","서울","ESG","2022-01-01","2022","매일경제","우리 회장님도 …요즘 승진하는 리더들 이곳 찾는다는데 (인사이드 아웃)","경제-산업_기업","서울","키워드/특성추출","esg,부회장,한화솔루션,부사장,포스코,원우,코오롱글로벌,환경재단,김준,지속가능",""],["RE-000004","경기도","경기","부동산","2021-04-01","2021","동아일보","가짜 농업법인 세우고, 지분 쪼개고…3기 신도시에 판치는 탈세 ‘꼼수’","경제-부동산","고양;과천시;남양주;부천;하남시","키워드/특성추출","대토보상권,국세청,세무조사,예정지,신도시,교산,세무당국,소득세,농업회사법인,남양주,과천시,lh,하남시,양도세,토보상",""],["OL-000056","부산광역시","부산","올림픽","2021-07-23","2021","YTN","[YTN 실시간뉴스] 인류의 거대한 실험...코로나 속 도쿄올림픽 오늘 밤 개막","정치>국회_정당","부산","개체명(지역)","도쿄,감염병,추경안,찜통더위,장례식,결혼식,휴가철,부산,강원,비수도,서울,확진자,비수도권,지도부,최고기온","http://www.bigkinds.or.kr/news/newsDetailView.do?newsId=08100401.20210723180202001"],["FA-000008","충청북도","충북","공정","1997-01-01","1997","한국경제","튼실한 지자체 밑거름 지역개발 열기 뜨겁다(’97 지역경제)","지역-충남","보은군;영동군;옥천군;청주;청주시;충북;충주","키워드/특성추출","1백,부산,사업비,중소기업,본격화,대구,농어촌,천안,1천,경쟁력,광주,청주,서북부,경북,포항",""],["PR-000007","전라남도","전남","언론","1997-01-01","1997","전남일보","서울은 없다… 광주,전남이 곧 중앙","IT_과학-콘텐츠","전남","키워드/특성추출","미래넷,21세기,발행인,변호사,정보화,光州,인터넷상,청년들,광주,전문역랑,공무원,역랑,언론인,나래,예술인",""],["DE-000015","강원특별자치도","강원","민주주의","1997-01-01","1997","동아일보","(社) 21세기를 향한 선택의 해","정치-청와대","강릉","키워드/특성추출","선거전,김대통령,구성원,부정부패,기업인,도덕심,대통령선거,노사관계,공동체,갈림길,강릉,제도화,만큼,21세기,모범적",""],["AI-000068","제주특별자치도","제주","인공지능","2024-01-01","2024","세계일보","제주, 무주택 청년 이사비·난임 부부 시술비 지원","지역>경기","제주;제주도","개체명(지역)","제주,제주도,난임부부,난임,시술비,지원사업,지원금,지원대상,정신건강,1세,0세,의약품,농산물,예술인,원스톱","http://www.bigkinds.or.kr/news/newsDetailView.do?newsId=01100701.20240101195540001"],["ES-000029","대전광역시","대전","ESG","2022-01-02","2022","중부매일","코레일 나눔 실은 열차가 전국으로 달려갑니다","지역-대전","대전","키워드/특성추출","코레일,복지관,소외이웃,5천만,공기업,4천만,중부매일,모석봉,김상고,50여,전사적,봉사단,전통시장,모금회,취약계층",""],["OL-000161","경상북도","경북","올림픽","2021-07-23","2021","아시아경제","배구여제 김연경·수영희망 황선우…MZ세대 도쿄서 일낸다","스포츠>올림픽_아시안게임","경북;김천","개체명(지역)","김연경,황선우,박태환,자유형,한국,일본,도쿄올림픽,영법,도쿄,마이클,조던,개막식,피터,호주,임근혁","http://www.bigkinds.or.kr/news/newsDetailView.do?newsId=02100801.20210723105615001"],["AI-000146","세종특별자치시","세종","인공지능","2024-01-01","2024","아주경제","[전문] 尹대통령 ''문제 해결 정부'' 될 것...바로 지금 제가 하겠다","정치>청와대","세종시","개체명(지역)","한미,저출산,대한민국,윤석열,일자리,신년사,부동산,경쟁력","http://www.bigkinds.or.kr/news/newsDetailView.do?newsId=02100851.20240101113100001"]];
+
+        
+        /* ===== CASE 44 · 빅카인즈 원본(배포본) 직접 업로드 지원 ===== */
+        const SHORT_44 = {'서울특별시':'서울','부산광역시':'부산','대구광역시':'대구','인천광역시':'인천','광주광역시':'광주','대전광역시':'대전','울산광역시':'울산','세종특별자치시':'세종','경기도':'경기','강원특별자치도':'강원','충청북도':'충북','충청남도':'충남','전북특별자치도':'전북','전라남도':'전남','경상북도':'경북','경상남도':'경남','제주특별자치도':'제주'};
+        const RAW_DICT_44 = (() => {
+          const d = Object.create(null);
+          const alias = {
+            '서울특별시':'서울|서울시|서울특별시','부산광역시':'부산|부산시|부산광역시','대구광역시':'대구|대구시|대구광역시',
+            '인천광역시':'인천|인천시|인천광역시','광주광역시':'광주|광주광역시','대전광역시':'대전|대전시|대전광역시',
+            '울산광역시':'울산|울산시|울산광역시','세종특별자치시':'세종|세종시|세종특별자치시','경기도':'경기|경기도',
+            '강원특별자치도':'강원|강원도|강원특별자치도','충청북도':'충북|충청북도','충청남도':'충남|충청남도',
+            '전북특별자치도':'전북|전라북도|전북특별자치도','전라남도':'전남|전라남도','경상북도':'경북|경상북도',
+            '경상남도':'경남|경상남도','제주특별자치도':'제주|제주도|제주특별자치도'
+          };
+          const city = {
+            '부산광역시':'기장','대구광역시':'달성|군위','인천광역시':'강화|옹진','울산광역시':'울주',
+            '경기도':'수원|성남|의정부|안양|부천|광명|평택|동두천|안산|고양|과천|구리|남양주|오산|시흥|군포|의왕|하남|용인|파주|이천|안성|김포|화성|양주|포천|여주|연천|가평|양평',
+            '강원특별자치도':'춘천|원주|강릉|동해|태백|속초|삼척|홍천|횡성|영월|평창|정선|철원|화천|양구|인제|양양',
+            '충청북도':'청주|충주|제천|보은|옥천|영동|증평|진천|괴산|음성|단양',
+            '충청남도':'천안|공주|보령|아산|서산|논산|계룡|당진|금산|부여|서천|청양|홍성|예산|태안',
+            '전북특별자치도':'전주|군산|익산|정읍|남원|김제|완주|진안|무주|장수|임실|순창|고창|부안',
+            '전라남도':'목포|여수|순천|나주|광양|담양|곡성|구례|고흥|보성|화순|장흥|강진|해남|영암|무안|함평|영광|장성|완도|진도|신안',
+            '경상북도':'포항|경주|김천|안동|구미|영주|영천|상주|문경|경산|의성|청송|영양|영덕|청도|고령|성주|칠곡|예천|봉화|울진|울릉',
+            '경상남도':'창원|진주|통영|사천|김해|밀양|거제|양산|의령|함안|창녕|남해|하동|산청|함양|거창|합천',
+            '제주특별자치도':'제주시|서귀포'
+          };
+          for (const s in alias) alias[s].split('|').forEach(t => { if (!(t in d)) d[t] = s; });
+          for (const s in city) city[s].split('|').forEach(c => {
+            [c, c + '시', c + '군'].forEach(t => { if (!(t in d)) d[t] = s; });
+          });
+          return d;
+        })();
+        // 일반명사와 겹치는 지명은 오탐이 많아 개체명(지역)·키워드 어느 쪽에서도 채택하지 않는다(정식 시·군명 형태는 그대로 인정).
+        const RAW_AMBIG_44 = new Set(['경기','달성','광명','화성','예산','고령','완주','장수','진도','강진','영광','구리','남해','동해','영동','청도','성주','함양','부여','영주','고성','의성','보성','강화','양산','음성','진주','거창','구미','상주']);
+        const RAW_TOPIC_44 = ['부동산','인공지능','ESG','언론','공정','민주주의','올림픽'];
+        const RAW_PREFIX_44 = {'부동산':'RE','인공지능':'AI','ESG':'ES','언론':'PR','공정':'FA','민주주의':'DE','올림픽':'OL','기타':'GN'};
+        const topicOf44 = fname => {
+          const n = String(fname || '').replace(/한국언론진흥재단|언론진흥재단|뉴스빅데이터|메타데이터/g, '');
+          return RAW_TOPIC_44.find(t => n.indexOf(t) !== -1) || '기타';
+        };
+        const rawTokens44 = s => String(s == null ? '' : s).split(/[,;|]/).map(t => t.trim()).filter(Boolean);
+        function rawMatch44(toks, allowAmbig){
+          const out = new Map();
+          for (const t of toks){
+            if (!allowAmbig && RAW_AMBIG_44.has(t)) continue;
+            const s = RAW_DICT_44[t];
+            if (!s) continue;
+            if (!out.has(s)) out.set(s, new Set());
+            out.get(s).add(t);
+          }
+          return out;
+        }
+        function hash44(str){
+          let h1 = 0x811c9dc5, h2 = 0x01000193;
+          for (let i = 0; i < str.length; i++){
+            const c = str.charCodeAt(i);
+            h1 = Math.imul(h1 ^ c, 16777619) >>> 0;
+            h2 = Math.imul(h2 + c + i, 2246822519) >>> 0;
+          }
+          return (h1.toString(36) + h2.toString(36)).toUpperCase();
+        }
+        function rawIdx44(row){
+          const h = (row || []).map(v => String(v == null ? '' : v).replace(/^\uFEFF/, '').trim());
+          const at = (...names) => { for (const n of names){ const i = h.indexOf(n); if (i !== -1) return i; } return -1; };
+          const i = {
+            date: at('일자','날짜'), media: at('언론사','매체','매체명'), title: at('제목'),
+            cat: at('통합 분류1','통합분류1','통합 분류','통합분류'),
+            ent: at('개체명(지역)','개체명(지역명)'), kw: at('키워드'), feat: at('특성추출'), url: at('주소','원본주소','URL','url')
+          };
+          if (i.date < 0 || i.title < 0 || i.media < 0) return null;
+          if (i.kw < 0 && i.feat < 0 && i.ent < 0) return null;
+          return i;
+        }
+        function convertRawRow44(vals, idx, topic, prefix){
+          const g = k => (idx[k] >= 0 && idx[k] < vals.length) ? String(vals[idx[k]] == null ? '' : vals[idx[k]]).trim() : '';
+          const title = g('title'), date = g('date');
+          if (!title || !date) return [];
+          let basis = '개체명(지역)';
+          let m = idx.ent >= 0 ? rawMatch44(rawTokens44(g('ent')), false) : new Map();
+          if (!m.size){ basis = '키워드/특성추출'; m = rawMatch44(rawTokens44(g('kw')).concat(rawTokens44(g('feat'))), false); }
+          if (!m.size) return [];
+          const src = rawTokens44(g('kw'));
+          const pool = src.length ? src : rawTokens44(g('feat'));
+          const kws = [], seenK = new Set();
+          for (const t of pool){ if (seenK.has(t)) continue; seenK.add(t); kws.push(t); if (kws.length >= 15) break; }
+          const url = g('url');
+          const mm = url.match(/newsId=([0-9A-Za-z._-]+)/);
+          const id = prefix + '-' + (mm ? mm[1] : hash44(date + '|' + g('media') + '|' + title));
+          const d8 = date.replace(/[^0-9]/g, '').slice(0, 8);
+          const iso = d8.length === 8 ? d8.slice(0,4) + '-' + d8.slice(4,6) + '-' + d8.slice(6,8) : date;
+          const kwStr = kws.join(',');
+          const out = [];
+          for (const [sido, set] of m){
+            out.push([id, sido, SHORT_44[sido], topic, iso, iso.slice(0,4), g('media'), title, g('cat'), [...set].sort().join(';'), basis, kwStr, url]);
+          }
+          return out;
+        }
+        async function streamRawCsv44(file, onHeader, onRow, onProgress){
+          const size = file.size;
+          const probeBuf = new Uint8Array(await file.slice(0, Math.min(size, 65536)).arrayBuffer());
+          let enc = 'utf-8';
+          try {
+            let probe = new TextDecoder('utf-8').decode(probeBuf);
+            const cut = probe.lastIndexOf('\n');   // 조각 끝에서 잘린 멀티바이트 문자는 판정에서 제외
+            probe = cut > 0 ? probe.slice(0, cut) : probe.slice(0, Math.max(0, probe.length - 4));
+            let bad = 0;
+            for (let i = 0; i < probe.length; i++) if (probe.charCodeAt(i) === 0xFFFD) bad++;
+            // CP949 파일을 UTF-8로 읽으면 한글 대부분이 깨지므로 비율로 판정한다(단발 오류 바이트는 무시).
+            if (probe.length && bad / probe.length > 0.005) enc = 'euc-kr';
+          } catch (e) { enc = 'euc-kr'; }
+          let dec;
+          try { dec = new TextDecoder(enc); } catch (e) { dec = new TextDecoder('utf-8'); }
+          const CH = 4 * 1024 * 1024;
+          let field = '', row = [], inQ = false, qPend = false, first = true, started = false;
+          const pushField = () => { row.push(field); field = ''; };
+          const endRow = () => { pushField(); if (row.length > 1 || row[0] !== ''){ if (first){ first = false; onHeader(row); } else onRow(row); } row = []; };
+          for (let off = 0; off < size; off += CH){
+            const buf = new Uint8Array(await file.slice(off, Math.min(size, off + CH)).arrayBuffer());
+            let text = dec.decode(buf, { stream: (off + CH) < size });
+            if (!started){ started = true; if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1); }
+            let i = 0; const L = text.length;
+            while (i < L){
+              if (qPend){
+                if (text[i] === '"'){ field += '"'; i++; qPend = false; continue; }
+                qPend = false; inQ = false; continue;
+              }
+              if (inQ){
+                const j = text.indexOf('"', i);
+                if (j === -1){ field += text.slice(i); i = L; break; }
+                field += text.slice(i, j); i = j + 1; qPend = true; continue;
+              }
+              if (text[i] === '"'){ inQ = true; i++; continue; }
+              let j = i;
+              while (j < L){ const c = text.charCodeAt(j); if (c === 34 || c === 44 || c === 10 || c === 13) break; j++; }
+              if (j > i) field += text.slice(i, j);
+              i = j;
+              if (i >= L) break;
+              const c2 = text[i];
+              if (c2 === ','){ pushField(); i++; }
+              else if (c2 === '\n'){ endRow(); i++; }
+              else if (c2 === '\r'){ i++; }
+            }
+            if (onProgress) onProgress(Math.min(size, off + CH), size);
+            await new Promise(r => setTimeout(r, 0));
+          }
+          if (qPend){ qPend = false; inQ = false; }
+          if (field !== '' || row.length) endRow();
+        }
+
+        const setStatus44 = (msg, level) => {
+          if (!statusEl44) return;
+          statusEl44.textContent = msg;
+          statusEl44.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
+          statusEl44.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+        const api44 = () => { const w = frame && frame.contentWindow; return (w && w.CASE44_API) || null; };
+        function renderList44(){
+          if (!listEl44) return;
+          const api = api44();
+          const uploaded = api ? api.getUploadedRegions() : [];
+          const active = new Set(api ? api.getActiveRegions() : []);
+          const up = new Set(uploaded);
+          const head = uploaded.length
+            ? `<li style="font-weight:750;color:#1a7a4c;background:#e7f5ee">✓ 업로드 ${uploaded.length}개 시·도 · 활성 ${active.size}개 (클릭하면 넣고 뺍니다)</li>`
+            : `<li style="color:#8a949a">· 업로드 전 — 내장 수치 없음, 화면 틀만 표시</li>`;
+          listEl44.innerHTML = head + REGIONS_44.map(r => {
+            if (!up.has(r)) return `<li style="color:#c3c9cd">· ${r} · 미업로드</li>`;
+            const n = api ? api.getRegionCount(r) : 0;
+            const on = active.has(r);
+            return on
+              ? `<li data-region44="${r}" style="font-weight:750;color:#1a7a4c;background:#e7f5ee;cursor:pointer">✓ ${r} · ${n.toLocaleString()}행 · 활성 (클릭하면 제외)</li>`
+              : `<li data-region44="${r}" style="color:#a8710a;background:#fdf5e7;cursor:pointer">＋ ${r} · ${n.toLocaleString()}행 · 제외됨 (클릭하면 다시 반영)</li>`;
+          }).join('');
+        }
+        if (listEl44) listEl44.addEventListener('click', e => {
+          const li = e.target.closest('[data-region44]');
+          if (!li) return;
+          const api = api44();
+          if (!api) return;
+          const region = li.dataset.region44;
+          const on = api.getActiveRegions().includes(region);
+          if (on) api.removeRegion(region); else api.addRegion(region);
+          renderList44();
+          const left = api.getActiveRegions();
+          setStatus44(on
+            ? (left.length ? `${region} 제외됨 · 활성 ${left.length}개 시·도` : '모든 시·도를 제외했습니다. 데이터가 없는 빈 화면 틀로 되돌아갑니다.')
+            : `${region} 다시 반영됨 · 활성 ${left.length}개 시·도`, 'ok');
+        });
+        const parseFile44 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. CSV로 업로드해 주세요.' }); return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+              try {
+                const wb = XLSX.read(ev.target.result, { type:'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                resolve({ ok:true, rows: XLSX.utils.sheet_to_json(ws, { header:1, raw:false, defval:'' }) });
+              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = ev => {
+              const buf = new Uint8Array(ev.target.result);
+              let text;
+              try { text = new TextDecoder('utf-8', { fatal:true }).decode(buf); }
+              catch (e1) {
+                try { text = new TextDecoder('euc-kr').decode(buf); }
+                catch (e2) { resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 CSV만 지원합니다.' }); return; }
+              }
+              if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+              const rows = text.split(/\r?\n/).filter(l => l.length).map(line => {
+                const out = []; let cur = ''; let q = false;
+                for (let i=0;i<line.length;i++){
+                  const ch = line[i];
+                  if (q){ if (ch === '"'){ if (line[i+1]==='"'){ cur+='"'; i++; } else q=false; } else cur += ch; }
+                  else { if (ch === '"') q = true; else if (ch === ',') { out.push(cur); cur=''; } else cur += ch; }
+                }
+                out.push(cur);
+                return out;
+              });
+              resolve({ ok:true, rows });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+          }
+        });
+        const validHeader44 = row => Array.isArray(row) && HEADER_44.every((h,i) => String(row[i]||'').replace(/^\uFEFF/,'').trim() === h);
+        const waitForCase44 = async () => {
+          for (let i = 0; i < 40; i++) {
+            const api = api44();
+            if (api) return api;
+            await new Promise(r => setTimeout(r, 150));
+          }
+          return null;
+        };
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); setTimeout(renderList44, 200); });
+
+        const readCsvHeader44 = async file => {
+          try {
+            const buf = new Uint8Array(await file.slice(0, Math.min(file.size, 131072)).arrayBuffer());
+            let enc = 'utf-8';
+            let probe = new TextDecoder('utf-8').decode(buf);
+            const cut = probe.lastIndexOf('\n');
+            probe = cut > 0 ? probe.slice(0, cut) : probe.slice(0, Math.max(0, probe.length - 4));
+            let bad = 0;
+            for (let i = 0; i < probe.length; i++) if (probe.charCodeAt(i) === 0xFFFD) bad++;
+            if (probe.length && bad / probe.length > 0.005) enc = 'euc-kr';
+            let text = new TextDecoder(enc).decode(buf);
+            if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+            const nl = text.indexOf('\n');
+            const line = (nl === -1 ? text : text.slice(0, nl)).replace(/\r$/, '');
+            const out = []; let cur = ''; let q = false;
+            for (let i = 0; i < line.length; i++){
+              const ch = line[i];
+              if (q){ if (ch === '"'){ if (line[i+1] === '"'){ cur += '"'; i++; } else q = false; } else cur += ch; }
+              else { if (ch === '"') q = true; else if (ch === ',') { out.push(cur); cur = ''; } else cur += ch; }
+            }
+            out.push(cur);
+            return out;
+          } catch (e) { return null; }
+        };
+        const convertRawAoa44 = (aoa, idx, topic, prefix) => {
+          const out = [];
+          for (let i = 1; i < aoa.length; i++){
+            const conv = convertRawRow44(aoa[i] || [], idx, topic, prefix);
+            for (const c of conv) out.push(c);
+          }
+          return out;
+        };
+
+        if (addBtn44) addBtn44.onclick = async () => {
+          const files = fileInput44 && fileInput44.files ? Array.from(fileInput44.files) : [];
+          if (!files.length) { setStatus44('파일을 선택해주세요. 시·도별 표준 양식 파일과 빅카인즈 원본 파일을 함께 선택할 수 있습니다.', 'warn'); return; }
+          setStatus44(`파일 ${files.length}개 확인 중…`, 'info');
+          hydrateExample();
+          const api = await waitForCase44();
+          if (!api) { setStatus44('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+          const okNames = []; const failures = [];
+          for (const file of files) {
+            const nm = file.name.toLowerCase();
+            let rest = null; let viaRaw = false; let scanned = 0;
+            if (nm.endsWith('.csv')) {
+              const header = await readCsvHeader44(file);
+              if (!header) { failures.push(`${file.name}: 파일을 읽지 못했습니다.`); continue; }
+              if (validHeader44(header)) {
+                const parsed = await parseFile44(file);
+                if (!parsed.ok) { failures.push(`${file.name}: ${parsed.reason}`); continue; }
+                const rows = parsed.rows || [];
+                rest = rows.slice(1).filter(r => r && String(r[1]||'').trim());
+              } else {
+                const idx = rawIdx44(header);
+                if (!idx) { failures.push(`${file.name}: 표준 양식 13컬럼도, 빅카인즈 원본 머리글(일자·언론사·제목·키워드/특성추출/개체명(지역))도 아닙니다.`); continue; }
+                const topic = topicOf44(file.name); const prefix = RAW_PREFIX_44[topic] || 'GN';
+                const out = [];
+                try {
+                  await streamRawCsv44(file, () => {}, vals => {
+                    scanned++;
+                    const conv = convertRawRow44(vals, idx, topic, prefix);
+                    for (const c of conv) out.push(c);
+                  }, (done, total) => {
+                    setStatus44(`${file.name} 원본 자동 변환 중… ${Math.round(done / total * 100)}% · 기사 ${scanned.toLocaleString()}건 스캔 / 지역 매칭 ${out.length.toLocaleString()}행`, 'info');
+                  });
+                } catch (err) { failures.push(`${file.name}: 원본 파일을 읽는 중 오류가 발생했습니다.`); continue; }
+                rest = out; viaRaw = true;
+              }
+            } else if (nm.endsWith('.xlsx') || nm.endsWith('.xls')) {
+              const parsed = await parseFile44(file);
+              if (!parsed.ok) { failures.push(`${file.name}: ${parsed.reason}`); continue; }
+              const rows = parsed.rows || [];
+              if (!rows.length) { failures.push(`${file.name}: 빈 파일입니다.`); continue; }
+              if (validHeader44(rows[0])) {
+                rest = rows.slice(1).filter(r => r && String(r[1]||'').trim());
+              } else {
+                const idx = rawIdx44(rows[0]);
+                if (!idx) { failures.push(`${file.name}: 첫 행이 표준 양식 머리글 13컬럼(기사ID, 시도, 시도약칭, 주제, 일자, 연도, 언론사, 제목, 통합분류, 지역매칭어, 지역판정근거, 키워드, 원문링크)과 다르고, 빅카인즈 원본 머리글도 아닙니다.`); continue; }
+                const topic = topicOf44(file.name); const prefix = RAW_PREFIX_44[topic] || 'GN';
+                scanned = Math.max(0, rows.length - 1);
+                rest = convertRawAoa44(rows, idx, topic, prefix); viaRaw = true;
+              }
+            } else { failures.push(`${file.name}: .csv, .xlsx, .xls 파일만 업로드할 수 있습니다.`); continue; }
+
+            if (!rest || !rest.length) {
+              failures.push(viaRaw
+                ? `${file.name}: 기사 ${scanned.toLocaleString()}건 중 시·도 지명이 확인되는 기사가 없어 반영할 행이 없습니다.`
+                : `${file.name}: 데이터 행이 없습니다.`);
+              continue;
+            }
+            setStatus44(`${file.name} 반영 중… (${rest.length.toLocaleString()}행)`, 'info');
+            const label = file.name + (viaRaw ? ` · 원본 자동 변환(${scanned.toLocaleString()}건 중 ${rest.length.toLocaleString()}행 매칭)` : '');
+            const res = api.ingestAndActivate(rest, label);
+            if (!res || !res.ok) { failures.push(`${file.name}: ${(res && res.reason) || '반영 실패'}`); continue; }
+            okNames.push(`${file.name}(${rest.length.toLocaleString()}행${viaRaw ? ', 원본 변환' : ''})`);
+          }
+          renderList44();
+          if (!okNames.length) { setStatus44(failures[0] || '인식 가능한 파일이 없습니다.', 'error'); return; }
+          const status = api.getStatus();
+          const scope = `활성 ${status.active.length}개 시·도 · 기사 ${status.articles.toLocaleString()}건(중복 제거)`;
+          setStatus44(failures.length
+            ? `${okNames.join(', ')} 반영 · ${scope} / ${failures.length}개 파일 실패: ${failures[0]}`
+            : `${okNames.join(', ')} 반영 · ${scope}`, failures.length ? 'warn' : 'ok');
+          fileInput44.value = '';
+        };
+
+        if (resetBtn44) resetBtn44.onclick = async () => {
+          hydrateExample();
+          const api = await waitForCase44();
+          if (api) api.reset();
+          if (fileInput44) fileInput44.value = '';
+          renderList44();
+          setStatus44('업로드한 데이터를 초기화했습니다. 내장 수치가 없으므로 빈 화면 틀로 되돌아갑니다.', 'ok');
+        };
+
+        const templateName44 = '표준양식_뉴스빅데이터_지역여론동향';
+        if (dlBtn44) dlBtn44.onclick = () => {
+          const csv = '\uFEFF' + [HEADER_44, ...SAMPLE_44].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+          const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = templateName44 + '.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+          setStatus44('표준 양식 CSV를 내려받았습니다. 시·도별 파일도 같은 13컬럼 양식입니다.', 'ok');
+        };
+        // SheetJS(CDN)를 불러오지 못한 환경에서도 XLSX 양식을 받을 수 있도록 최소 xlsx(zip) 생성기를 내장한다.
+        const buildXlsx44 = (aoa, widths) => {
+          const enc = new TextEncoder();
+          const xmlEsc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+          const colName = n => { let s=''; n++; while(n>0){ const r=(n-1)%26; s=String.fromCharCode(65+r)+s; n=Math.floor((n-1)/26); } return s; };
+          const cols = (widths||[]).map((w,i) => `<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join('');
+          const rowsXml = aoa.map((row,ri) => {
+            const cells = row.map((v,ci) => {
+              const t = String(v == null ? '' : v);
+              if (t === '') return '';
+              return `<c r="${colName(ci)}${ri+1}" t="inlineStr"><is><t xml:space="preserve">${xmlEsc(t)}</t></is></c>`;
+            }).join('');
+            return `<row r="${ri+1}">${cells}</row>`;
+          }).join('');
+          const files = [
+            ['[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>`],
+            ['_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+            ['xl/workbook.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="표준양식" sheetId="1" r:id="rId1"/></sheets></workbook>`],
+            ['xl/_rels/workbook.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/></Relationships>`],
+            ['xl/worksheets/sheet1.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><cols>${cols}</cols><sheetData>${rowsXml}</sheetData></worksheet>`]
+          ];
+          const table = (() => { const t = new Uint32Array(256); for (let i=0;i<256;i++){ let c=i; for(let k=0;k<8;k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); t[i]=c>>>0; } return t; })();
+          const crc32 = buf => { let c = 0xFFFFFFFF; for (let i=0;i<buf.length;i++) c = table[(c ^ buf[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+          const parts = [], central = []; let offset = 0;
+          const u16 = n => [n & 255, (n >>> 8) & 255];
+          const u32 = n => [n & 255, (n >>> 8) & 255, (n >>> 16) & 255, (n >>> 24) & 255];
+          files.forEach(([name, content]) => {
+            const nameBytes = enc.encode(name), body = enc.encode(content), crc = crc32(body);
+            const local = new Uint8Array([...u32(0x04034b50), ...u16(20), ...u16(0x0800), ...u16(0), ...u16(0), ...u16(0), ...u32(crc), ...u32(body.length), ...u32(body.length), ...u16(nameBytes.length), ...u16(0)]);
+            parts.push(local, nameBytes, body);
+            central.push(new Uint8Array([...u32(0x02014b50), ...u16(20), ...u16(20), ...u16(0x0800), ...u16(0), ...u16(0), ...u16(0), ...u32(crc), ...u32(body.length), ...u32(body.length), ...u16(nameBytes.length), ...u16(0), ...u16(0), ...u16(0), ...u16(0), ...u32(0), ...u32(offset)]), nameBytes);
+            offset += local.length + nameBytes.length + body.length;
+          });
+          const centralSize = central.reduce((a, b) => a + b.length, 0);
+          const end = new Uint8Array([...u32(0x06054b50), ...u16(0), ...u16(0), ...u16(files.length), ...u16(files.length), ...u32(centralSize), ...u32(offset), ...u16(0)]);
+          return new Blob([...parts, ...central, end], { type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        };
+        if (dlXlsx44) dlXlsx44.onclick = () => {
+          const widths44 = [11,14,9,10,12,7,12,60,18,14,14,60,50];
+          try {
+            if (typeof XLSX !== 'undefined') {
+              const ws = XLSX.utils.aoa_to_sheet([HEADER_44, ...SAMPLE_44]);
+              ws['!cols'] = widths44.map(w => ({ wch:w }));
+              const wb = XLSX.utils.book_new();
+              XLSX.utils.book_append_sheet(wb, ws, '표준양식');
+              XLSX.writeFile(wb, templateName44 + '.xlsx');
+            } else {
+              const blob = buildXlsx44([HEADER_44, ...SAMPLE_44], widths44);
+              const a = document.createElement('a');
+              a.href = URL.createObjectURL(blob); a.download = templateName44 + '.xlsx';
+              document.body.appendChild(a); a.click(); a.remove();
+              setTimeout(() => URL.revokeObjectURL(a.href), 0);
+            }
+            setStatus44('표준 양식 XLSX를 내려받았습니다. CSV 양식과 컬럼 구성이 동일합니다.', 'ok');
+          } catch (err) { setStatus44('Excel 양식을 만들지 못했습니다. CSV 양식을 사용해 주세요.', 'error'); }
+        };
+
+        renderList44();
+      }
+      if (id === '40') {
+        const fileInput40 = article.querySelector('#uploadFile40');
+        const addBtn40 = article.querySelector('#uploadAddBtn40');
+        const statusEl40 = article.querySelector('#uploadStatus40');
+        const listEl40 = article.querySelector('#uploadList40');
+        const dlBtn40 = article.querySelector('#dlTemplate40');
+        const resetBtn40 = article.querySelector('#uploadReset40');
+        const demoBtn40 = article.querySelector('#demoBtn40');
+        const REGIONS40 = ['서울','부산','대구','인천','광주','대전','울산','세종','경기','강원','충북','충남','전북','전남','경북','경남','제주'];
+        const HEADER40 = ["시도", "시군구", "주제", "구분", "항목", "값", "단위", "위도", "경도", "비고", "기준일자", "출처"];
+        const SAMPLE40 = [["서울특별시", "강남구", "상권", "시군구합계", "상가업소수", "66269", "개", "", "", "", "2026-06-30", "소상공인시장진흥공단 상가(상권)정보"], ["서울특별시", "", "상권", "시도합계", "상가업소수", "554092", "개", "", "", "", "2026-06-30", "소상공인시장진흥공단 상가(상권)정보"], ["서울특별시", "", "상권", "업종대분류", "과학·기술", "100549", "개", "", "", "", "2026-06-30", "소상공인시장진흥공단 상가(상권)정보"], ["서울특별시", "서울특별시", "버스정류장", "시군구합계", "정류장수", "16980", "곳", "", "", "", "2025-10-31", "국토교통부 전국 버스정류장 위치정보"], ["서울특별시", "", "버스정류장", "시도합계", "정류장수", "16980", "곳", "", "", "", "2025-10-31", "국토교통부 전국 버스정류장 위치정보"], ["서울특별시", "서울특별시", "버스정류장", "좌표표본", "2001아울렛중계점", "1", "곳", "37.6416882", "127.0676632", "표본", "2025-10-31", "국토교통부 전국 버스정류장 위치정보"], ["서울특별시", "강남구", "학교", "시군구합계", "학교수", "80", "개교", "", "", "", "2026-03-20", "전국초중등학교위치표준데이터(한국교육시설안전원)"], ["서울특별시", "", "학교", "시도합계", "학교수", "1313", "개교", "", "", "", "2026-03-20", "전국초중등학교위치표준데이터(한국교육시설안전원)"], ["서울특별시", "강남구", "학교", "학교", "개원중학교", "1", "개교", "37.49163975", "127.0714157", "중학교", "2026-03-20", "전국초중등학교위치표준데이터(한국교육시설안전원)"], ["서울특별시", "", "학교", "학교급", "고등학교", "319", "개교", "", "", "", "2026-03-20", "전국초중등학교위치표준데이터(한국교육시설안전원)"], ["서울특별시", "강남구", "전통시장", "시군구합계", "시장수", "3", "곳", "", "", "", "2025-11-10", "전국전통시장표준데이터(소상공인시장진흥공단)"], ["서울특별시", "", "전통시장", "시도합계", "시장수", "195", "곳", "", "", "", "2025-11-10", "전국전통시장표준데이터(소상공인시장진흥공단)"], ["서울특별시", "강남구", "전통시장", "시장", "강남시장", "72", "개", "37.51876501", "127.020678", "주차장:Y|시장유형:상설장", "2025-11-10", "전국전통시장표준데이터(소상공인시장진흥공단)"], ["서울특별시", "", "전통시장", "주차장보유", "N", "65", "곳", "", "", "", "2025-11-10", "전국전통시장표준데이터(소상공인시장진흥공단)"], ["서울특별시", "", "주차장", "시도합계", "주차면수", "317181", "면", "", "", "기준연도:2021", "2023-12-31", "한국교통안전공단 주차장 통계 시도별주차장현황"], ["서울특별시", "", "주차장", "연도별합계", "2018", "308025", "면", "", "", "시도별 단일행 완전집계 연도만 포함(2015년은 원자료 중복행으로 제외)", "2023-12-31", "한국교통안전공단 주차장 통계 시도별주차장현황"], ["서울특별시", "", "주차장", "유형별면수", "노상 무료", "0", "면", "", "", "기준연도:2021", "2023-12-31", "한국교통안전공단 주차장 통계 시도별주차장현황"], ["서울특별시", "", "기계식주차장", "검사결과", "부", "482", "건", "", "", "", "2021-09-14", "한국교통안전공단 전국 기계식주차장 설치 현황"], ["서울특별시", "", "기계식주차장", "설치대수", "대수합계", "276858", "대", "", "", "", "2021-09-14", "한국교통안전공단 전국 기계식주차장 설치 현황"], ["서울특별시", "강남구", "기계식주차장", "시군구합계", "설치건수", "2291", "건", "", "", "", "2021-09-14", "한국교통안전공단 전국 기계식주차장 설치 현황"], ["서울특별시", "", "기계식주차장", "시도합계", "설치건수", "12396", "건", "", "", "", "2021-09-14", "한국교통안전공단 전국 기계식주차장 설치 현황"], ["서울특별시", "", "기계식주차장", "종류", "2단식", "1404", "건", "", "", "", "2021-09-14", "한국교통안전공단 전국 기계식주차장 설치 현황"], ["전국", "", "국립공원", "공원목록", "가야산", "8", "", "", "", "코드:NPK007", "2024-09-11", "국립공원공단 국립공원코드"]];
+
+        uploadOpen?.addEventListener('click', () => {
+          hydrateExample();
+          const api = frame && frame.contentWindow && frame.contentWindow.CASE40_API;
+          renderList40((api && api.getActiveRegions()) || []);
+          if (api) syncDemo40(api.isBuiltIn());
+        });
+
+        const setStatus40 = (msg, level) => {
+          if (!statusEl40) return;
+          statusEl40.textContent = msg;
+          statusEl40.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
+          statusEl40.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+
+        function renderList40(activeRegions){
+          if (!listEl40) return;
+          const activeSet = new Set(Array.isArray(activeRegions) ? activeRegions : []);
+          listEl40.innerHTML = REGIONS40.map(g => {
+            const on = activeSet.has(g);
+            return `<li${on ? ` data-region40="${g}" title="클릭하면 ${g} 데이터만 뺍니다"` : ''} style="${on ? 'font-weight:750;color:#1a7a4c;background:#e7f5ee;cursor:pointer' : 'color:#8a949a'}">${on ? '✓ ' : '· '}${g}${on ? ' · 활성' : ''}</li>`;
+          }).join('');
+          listEl40.querySelectorAll('li[data-region40]').forEach(node => {
+            node.onclick = async () => {
+              const region = node.dataset.region40;
+              const win = await waitForCase40Api();
+              if (!win || !win.CASE40_API) { setStatus40('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+              const rr = win.CASE40_API.removeRegion(region);
+              if (rr && rr.ok) {
+                const left = win.CASE40_API.getActiveRegions();
+                setStatus40(left.length ? `${region}을(를) 뺐습니다. 현재 ${left.join(', ')}만 표시됩니다.` : '모든 업로드 데이터를 뺐습니다. 내장된 전국 데이터로 되돌아갑니다.', 'ok');
+                renderList40(left);
+              } else {
+                setStatus40((rr && rr.reason) || '삭제하지 못했습니다.', 'error');
+              }
+            };
+          });
+        }
+
+        const parseFile40 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. 잠시 후 다시 시도하거나 CSV로 업로드해 주세요.' }); return; }
+            const reader = new FileReader();
+            reader.onload = e => {
+              try {
+                const wb = XLSX.read(e.target.result, { type:'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                resolve({ ok:true, rows: XLSX.utils.sheet_to_json(ws, { header:1, raw:true }) });
+              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = e => {
+              const buf = new Uint8Array(e.target.result);
+              let text;
+              try { text = new TextDecoder('utf-8', { fatal: true }).decode(buf); }
+              catch (utf8Err) {
+                try { text = new TextDecoder('euc-kr').decode(buf); }
+                catch (ckErr) { resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 CSV만 지원합니다.' }); return; }
+              }
+              if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+              const rows = text.split(/\r?\n/).filter(Boolean).map(line => {
+                const out = []; let cur = ''; let q = false;
+                for (let i=0;i<line.length;i++){
+                  const ch = line[i];
+                  if (q){ if (ch === '"'){ if (line[i+1]==='"'){ cur+='"'; i++; } else q=false; } else cur += ch; }
+                  else { if (ch === '"') q = true; else if (ch === ',') { out.push(cur); cur=''; } else cur += ch; }
+                }
+                out.push(cur); return out;
+              });
+              resolve({ ok:true, rows });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+          }
+        });
+
+        const waitForCase40Api = async () => {
+          for (let i = 0; i < 40; i++) {
+            const win = frame && frame.contentWindow;
+            if (win && win.CASE40_API) return win;
+            await new Promise(r => setTimeout(r, 150));
+          }
+          return null;
+        };
+
+        if (addBtn40) addBtn40.onclick = async () => {
+          const files = fileInput40 && fileInput40.files ? Array.from(fileInput40.files) : [];
+          if (!files.length) { setStatus40('파일을 선택해주세요. 여러 개를 동시에 선택할 수 있습니다.', 'warn'); return; }
+          setStatus40(`파일 ${files.length}개 확인 중…`, 'info');
+          hydrateExample();
+          const win = await waitForCase40Api();
+          if (!win) { setStatus40('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+          const okRegions = []; const failed = []; let totalRows = 0;
+          for (const file of files) {
+            const parsed = await parseFile40(file);
+            if (!parsed.ok) { failed.push(`${file.name}: ${parsed.reason}`); continue; }
+            const rows = parsed.rows;
+            if (!rows || rows.length < 2) { failed.push(`${file.name}: 데이터를 읽지 못했습니다.`); continue; }
+            const head = rows[0].map(v => String(v == null ? '' : v).replace(/^\uFEFF/, '').trim());
+            if (head.indexOf('시도') < 0 || head.indexOf('주제') < 0 || head.indexOf('구분') < 0 || head.indexOf('항목') < 0 || head.indexOf('값') < 0) {
+              failed.push(`${file.name}: 통합 표준 양식(시도·시군구·주제·구분·항목·값 …)이 아닙니다. 표준 양식 CSV를 내려받아 형식을 맞춰주세요.`);
+              continue;
+            }
+            const result = win.CASE40_API.ingestAndActivate(rows, file.name);
+            if (!result.ok) { failed.push(`${file.name}: ${result.reason}`); continue; }
+            result.regions.forEach(r => okRegions.push(r));
+            totalRows += result.rowCount;
+          }
+          if (okRegions.length) {
+            const active = win.CASE40_API.getActiveRegions();
+            syncDemo40(false);
+            setStatus40(`${[...new Set(okRegions)].join(', ')} · ${totalRows}건을 반영했습니다. 현재 ${active.join(', ')}만 화면에 표시됩니다.` + (failed.length ? ` (실패 ${failed.length}건: ${failed[0]})` : ''), failed.length ? 'warn' : 'ok');
+            renderList40(active);
+          } else {
+            setStatus40(`반영된 파일이 없습니다. ${failed.join(' / ')}`, 'error');
+          }
+          fileInput40.value = '';
+        };
+
+        if (resetBtn40) resetBtn40.addEventListener('click', async () => {
+          hydrateExample();
+          const win = await waitForCase40Api();
+          if (win && win.CASE40_API) win.CASE40_API.reset();
+          if (fileInput40) fileInput40.value = '';
+          if (win && win.CASE40_API) win.CASE40_API.setBuiltIn(false);
+          syncDemo40(false);
+          setStatus40('업로드한 데이터를 모두 초기화했습니다. 데이터 없는 빈 화면 틀로 되돌아갑니다.', 'ok');
+          renderList40([]);
+        });
+
+        const syncDemo40 = on => { if (demoBtn40) demoBtn40.textContent = on ? '시연 끄기 · 빈 화면으로 ■' : '내장 전국 데이터로 시연 ▶'; };
+        if (demoBtn40) demoBtn40.onclick = async () => {
+          hydrateExample();
+          const win = await waitForCase40Api();
+          if (!win || !win.CASE40_API) { setStatus40('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+          const on = !win.CASE40_API.isBuiltIn();
+          win.CASE40_API.setBuiltIn(on);
+          syncDemo40(on);
+          setStatus40(on ? '내장된 전국 17개 시·도 데이터로 시연 중입니다. 업로드한 데이터는 해제되었습니다.' : '시연을 끄고 빈 화면 틀로 되돌아갔습니다.', 'ok');
+          renderList40(win.CASE40_API.getActiveRegions());
+        };
+
+        if (dlBtn40) dlBtn40.onclick = () => {
+          const csv = '\uFEFF' + [HEADER40, ...SAMPLE40].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+          const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '표준양식_주제분석통합데이터.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+
+        renderList40([]);
+      }
+      if (id === '43') {
+        const fileInput43 = article.querySelector('#uploadFile43');
+        const addBtn43 = article.querySelector('#uploadAddBtn43');
+        const statusEl43 = article.querySelector('#uploadStatus43');
+        const listEl43 = article.querySelector('#uploadList43');
+        const dlBtn43 = article.querySelector('#dlTemplate43');
+        const HEADER43 = ['데이터셋','출처파일','연도','기준일','시도','시군구','기관분류','기관명','분류1','분류2','지표','값','단위'];
+        const SAMPLE43 = [['처리기간 준수현황','국민권익위원회_정부민원신청_처리기간_준수현황_20260630.csv','','2026-06-30','경기도','수원시','시도-지방자치단체','경기도 수원시','','','처리건수','100030','건']];
+
+        /* ── 원본 8종 자동 인식 → 표준 13열 변환 ── */
+        const norm43 = h => (h || []).map(x => String(x == null ? '' : x).replace(/^\uFEFF/, '').trim());
+        const detectType43 = hRaw => {
+          const h = norm43(hRaw);
+          const eq = arr => arr.length === h.length && arr.every((v, i) => v === h[i]);
+          if (eq(HEADER43)) return 'standard';
+          if (eq(['기준연도','분야명','접수건수'])) return 'field';
+          if (eq(['년도','접수','처리','고충민원','기타민원','인용','시정권고','의견표명','조정합의'])) return 'yearly';
+          if (h.length === 9 && h[0] === '년도' && h[1] === '처리건수' && h[2] === '평균처리일_전체') return 'days';
+          if (eq(['연도','신문고 홈페이지','부처 홈페이지','지자체 등 이송이첩','서신 대통령실'])) return 'channel';
+          if (eq(['연도','국민제안','공무원제안'])) return 'idea';
+          if (h.length >= 2 && /언어\s*년도/.test(h[0]) && h.slice(1).every(v => /^\d{4}$/.test(v))) return 'lang';
+          if (h.length === 3 && /오퍼레이션\s*명/.test(h[0])) return 'api';
+          if (eq(['기관분류','기관명','처리건수','기간내 처리','기간초과 처리','준수율'])) return 'compl';
+          return null;
+        };
+        const baseDateFromName43 = name => { const m = name.match(/(\d{4})(\d{2})(\d{2})/); return m ? `${m[1]}-${m[2]}-${m[3]}` : ''; };
+        const CONVERT43 = {
+          field: (rows, fn) => rows.map(r => ['고충민원 분야별 접수', fn, r[0], '', '', '', '전국', '국민권익위원회', r[1], '', '접수건수', r[2], '건']),
+          yearly: (rows, fn) => { const cols=['접수','처리','고충민원','기타민원','인용','시정권고','의견표명','조정합의']; const out=[];
+            rows.forEach(r=>cols.forEach((c,i)=>out.push(['고충민원 연도별 접수·처리', fn, r[0], '', '', '', '전국', '국민권익위원회', '', '', c, r[i+1], '건']))); return out; },
+          days: (rows, fn, header) => { const cols=header.slice(1).map(h=>h.replace(/\s+/g,'')); const out=[];
+            rows.forEach(r=>cols.forEach((c,i)=>out.push(['고충민원 처리기간 통계', fn, r[0], '', '', '', '전국', '국민권익위원회', '', '', c, r[i+1], c==='처리건수'?'건':'일']))); return out; },
+          channel: (rows, fn, header) => { const cols=header.slice(1); const out=[];
+            rows.forEach(r=>cols.forEach((c,i)=>out.push(['국민신문고 접수경로별', fn, r[0], '', '', '', '전국', '국민권익위원회', c, '', '접수건수', r[i+1], '건']))); return out; },
+          idea: (rows, fn, header) => { const cols=header.slice(1); const out=[];
+            rows.forEach(r=>cols.forEach((c,i)=>out.push(['국민신문고 제안 접수', fn, r[0], '', '', '', '전국', '국민권익위원회', c, '', '접수건수', r[i+1], '건']))); return out; },
+          lang: (rows, fn, header) => { const years=header.slice(1); const out=[];
+            rows.forEach(r=>years.forEach((y,i)=>out.push(['국민신문고 외국어 민원', fn, y, '', '', '', '전국', '국민권익위원회', r[0], '', '접수건수', r[i+1], '건']))); return out; },
+          api: (rows, fn) => rows.map(r => ['민원 빅데이터 API 목록', fn, '', '2023-12-31', '', '', '전국', '국민권익위원회', r[1], '', r[0], '', '']),
+          compl: (rows, fn) => { const base=baseDateFromName43(fn); const out=[];
+            rows.forEach(r=>{ const [기관분류,기관명,처리건수,기간내,초과,준수율]=r; let 시도='',시군구='';
+              if(기관분류==='시도-지방자치단체'){const i=기관명.indexOf(' ');시도=i<0?기관명:기관명.slice(0,i);시군구=i<0?'':기관명.slice(i+1);}
+              else if(기관분류==='광역-지방자치단체'){시도=기관명;}
+              else if(기관분류==='시도교육청'){시도=기관명.replace('교육청','');}
+              [['처리건수',처리건수,'건'],['기간내 처리',기간내,'건'],['기간초과 처리',초과,'건'],['준수율',준수율,'%']]
+                .forEach(([지표,값,단위])=>out.push(['처리기간 준수현황', fn, '', base, 시도, 시군구, 기관분류, 기관명, '', '', 지표, 값, 단위])); });
+            return out; }
+        };
+        const TYPE_LABEL43 = { field:'고충민원 분야별 접수', yearly:'고충민원 연도별 접수·처리', days:'고충민원 처리기간 통계',
+          channel:'국민신문고 접수경로별', idea:'국민신문고 제안 접수', lang:'국민신문고 외국어 민원',
+          api:'민원 빅데이터 API 목록', compl:'처리기간 준수현황', standard:'통합 표준 양식' };
+        const ALL_TYPES43 = ['field','yearly','days','channel','idea','lang','api','compl'];
+        const resetBtn43 = article.querySelector('#uploadReset43');
+
+        /* ── 누적 저장소: 여러 번에 걸쳐 하나씩 올려도 이전 내용이 유지된 채 더해진다 ── */
+        const rowKey43 = r => [r[0], r[2], r[3], r[7], r[8], r[10]].join('␟'); // 데이터셋·연도·기준일·기관명·분류1·지표
+        const store43 = new Map();      // rowKey -> row
+        const loadedFiles43 = new Map(); // "파일명·종류" -> 행수 (표시용, 같은 파일 재업로드 시 갱신)
+
+        const setStatus43 = (msg, level) => {
+          if (!statusEl43) return;
+          statusEl43.textContent = msg;
+          statusEl43.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
+          statusEl43.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+        const renderList43 = () => {
+          if (!listEl43) return;
+          const haveTypes = new Set([...loadedFiles43.keys()].map(k => k.split('␟')[1]));
+          const missing = ALL_TYPES43.filter(t => !haveTypes.has(t)).map(t => TYPE_LABEL43[t]);
+          listEl43.innerHTML =
+            [...loadedFiles43.entries()].map(([k, n]) => {
+              const [name, type] = k.split('␟');
+              return `<li style="font-weight:750;color:#1a7a4c;background:#e7f5ee">✓ ${name} · ${TYPE_LABEL43[type] || type} · ${n.toLocaleString('ko-KR')}행</li>`;
+            }).join('') +
+            (missing.length && loadedFiles43.size
+              ? `<li style="color:#a8710a">△ 아직 없음: ${missing.join(', ')}</li>`
+              : '');
+        };
+        const parseFile43 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. CSV로 업로드해 주세요.' }); return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+              try {
+                const wb = XLSX.read(ev.target.result, { type:'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                resolve({ ok:true, rows: XLSX.utils.sheet_to_json(ws, { header:1, raw:false, defval:'' }) });
+              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = ev => {
+              const buf = new Uint8Array(ev.target.result);
+              let text;
+              try { text = new TextDecoder('utf-8', { fatal:true }).decode(buf); }
+              catch (e1) {
+                try { text = new TextDecoder('euc-kr').decode(buf); }
+                catch (e2) { resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 CSV만 지원합니다.' }); return; }
+              }
+              if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+              const rows = []; let row = [], cell = '', q = false;
+              for (let i = 0; i < text.length; i++) {
+                const ch = text[i];
+                if (q) { if (ch === '"') { if (text[i+1] === '"') { cell += '"'; i++; } else q = false; } else cell += ch; }
+                else if (ch === '"') q = true;
+                else if (ch === ',') { row.push(cell); cell = ''; }
+                else if (ch === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
+                else if (ch !== '\r') cell += ch;
+              }
+              if (cell.length || row.length) { row.push(cell); rows.push(row); }
+              resolve({ ok:true, rows: rows.filter(r => r.some(v => String(v).trim() !== '')) });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+          }
+        });
+        const waitForCase43 = async () => {
+          for (let i = 0; i < 40; i++) {
+            try { const w = frame && frame.contentWindow; if (w && w.CASE43_API) return w.CASE43_API; } catch (_) {}
+            await new Promise(r => setTimeout(r, 150));
+          }
+          return null;
+        };
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); renderList43(); });
+
+        if (addBtn43) addBtn43.onclick = async () => {
+          const files = fileInput43 && fileInput43.files ? Array.from(fileInput43.files) : [];
+          if (!files.length) { setStatus43('파일을 선택해주세요. 한 번에 여러 개를 선택하거나, 하나씩 여러 번 나눠 올려도 됩니다.', 'warn'); return; }
+          setStatus43(`파일 ${files.length}개 확인 중…`, 'info');
+          const okNames = []; const failures = [];
+          for (const file of files) {
+            const parsed = await parseFile43(file);
+            if (!parsed.ok) { failures.push(`${file.name}: ${parsed.reason}`); continue; }
+            const rows = parsed.rows || [];
+            if (rows.length < 2) { failures.push(`${file.name}: 데이터 행이 없습니다.`); continue; }
+            const header = rows[0], body = rows.slice(1);
+            const type = detectType43(header);
+            if (!type) { failures.push(`${file.name}: 원본 8종 또는 표준 양식 머리글과 일치하지 않습니다.`); continue; }
+            const conv = type === 'standard' ? body : CONVERT43[type](body, file.name, header);
+            conv.forEach(r => store43.set(rowKey43(r), r));
+            loadedFiles43.set(`${file.name}␟${type}`, conv.length);
+            okNames.push(`${file.name}(${TYPE_LABEL43[type]}·${conv.length}행)`);
+          }
+          renderList43();
+          if (!okNames.length) { setStatus43(failures[0] || '인식 가능한 파일이 없습니다.', 'error'); return; }
+
+          const combined = [...store43.values()];
+          hydrateExample();
+          setStatus43('대시보드에 데이터를 반영하는 중…', 'info');
+          const api = await waitForCase43();
+          if (!api) { setStatus43('실행 화면을 불러오지 못했습니다. 위의 ‘대시보드 조작’ 탭을 연 뒤 다시 시도해주세요.', 'error'); return; }
+          const res = api.ingest(combined, `누적 ${loadedFiles43.size}개 파일`);
+          if (!res || !res.ok) {
+            const haveTypes = new Set([...loadedFiles43.keys()].map(k => k.split('␟')[1]));
+            const missing = ALL_TYPES43.filter(t => !haveTypes.has(t)).map(t => TYPE_LABEL43[t]);
+            setStatus43(`${okNames.join(', ')} 인식됨 · 아직 화면을 채울 수 없습니다: ${(res && res.reason) || ''}` +
+              (missing.length ? `\n남은 파일: ${missing.join(', ')}` : ''), 'warn');
+            return;
+          }
+          setStatus43(failures.length
+            ? `${okNames.join(', ')} 반영 · ${failures.length}개 파일 인식 실패: ${failures[0]}`
+            : `${okNames.join(', ')} 반영 완료 · 누적 ${loadedFiles43.size}개 파일`, failures.length ? 'warn' : 'ok');
+          fileInput43.value = '';
+        };
+
+        if (dlBtn43) dlBtn43.onclick = () => {
+          const csv = '\uFEFF' + [HEADER43, ...SAMPLE43].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+          const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '표준양식_민원통합데이터.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+
+        if (resetBtn43) resetBtn43.onclick = async () => {
+          store43.clear();
+          loadedFiles43.clear();
+          renderList43();
+          if (fileInput43) fileInput43.value = '';
+          hydrateExample();
+          const api = await waitForCase43();
+          if (api) api.reset();
+          setStatus43('업로드한 데이터를 모두 초기화했습니다. 지도·지표·차트가 빈 화면 틀로 되돌아갑니다.', 'ok');
         };
       }
       if (id === '34') {
@@ -11075,6 +12245,148 @@ const CASE_CARD_IMG_MAP = {
         };
 
         renderList26([]);
+      }
+      if (id === '37') {
+        const fileInput37 = article.querySelector('#uploadFile37');
+        const addBtn37 = article.querySelector('#uploadAddBtn37');
+        const statusEl37 = article.querySelector('#uploadStatus37');
+        const listEl37 = article.querySelector('#uploadList37');
+        const dlBtn37 = article.querySelector('#dlTemplate37');
+        const pickBtn37 = article.querySelector('#uploadPick37');
+        const fileNameEl37 = article.querySelector('#uploadFileName37');
+        const resetBtn37 = article.querySelector('#uploadReset37');
+
+        const setStatus37 = (msg, level) => {
+          if (!statusEl37) return;
+          statusEl37.textContent = msg;
+          statusEl37.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
+          statusEl37.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+        function renderList37(activeKeys){
+          if (!listEl37) return;
+          if (!activeKeys || !activeKeys.length) { listEl37.innerHTML = '<li style="color:#8a949a">· 업로드된 지표 없음</li>'; return; }
+          listEl37.innerHTML = activeKeys.map(k => `<li style="font-weight:750;color:#1a7a4c;background:#e7f5ee">✓ ${k}</li>`).join('');
+        }
+        const parseFile37 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. 잠시 후 다시 시도하거나 CSV로 업로드해 주세요.' }); return; }
+            const reader = new FileReader();
+            reader.onload = e => {
+              try {
+                const wb = XLSX.read(e.target.result, { type:'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                const rows = XLSX.utils.sheet_to_json(ws, { header:1, raw:true });
+                resolve({ ok:true, rows });
+              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다. 파일이 손상되지 않았는지 확인해 주세요.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = e => {
+              const buf = new Uint8Array(e.target.result);
+              let text;
+              try {
+                text = new TextDecoder('utf-8', { fatal: true }).decode(buf);
+              } catch (utf8Err) {
+                try {
+                  text = new TextDecoder('euc-kr').decode(buf);
+                } catch (crkErr) {
+                  resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 형식의 CSV만 지원합니다.' });
+                  return;
+                }
+              }
+              if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+              const rows = text.split(/\r?\n/).filter(Boolean).map(line => {
+                const out = []; let cur = ''; let q = false;
+                for (let i=0;i<line.length;i++){
+                  const ch = line[i];
+                  if (q){ if (ch === '"'){ if (line[i+1]==='"'){ cur+='"'; i++; } else q=false; } else cur += ch; }
+                  else { if (ch === '"') q = true; else if (ch === ',') { out.push(cur); cur=''; } else cur += ch; }
+                }
+                out.push(cur);
+                return out;
+              });
+              resolve({ ok:true, rows });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+          }
+        });
+        const waitForCase37Api = async () => {
+          for (let i = 0; i < 40; i++) {
+            const win = frame && frame.contentWindow;
+            if (win && win.CASE37_API) return win;
+            await new Promise(r => setTimeout(r, 150));
+          }
+          return null;
+        };
+
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); (async () => { const win = await waitForCase37Api(); renderList37(win && win.CASE37_API ? win.CASE37_API.getActiveIndicators() : []); })(); });
+
+        if (pickBtn37 && fileInput37) pickBtn37.onclick = () => fileInput37.click();
+        if (fileInput37 && fileNameEl37) fileInput37.addEventListener('change', () => {
+          const n = fileInput37.files ? fileInput37.files.length : 0;
+          fileNameEl37.textContent = n === 0 ? '선택된 파일 없음'
+            : n === 1 ? fileInput37.files[0].name
+            : `${n}개 파일 선택됨 (${Array.from(fileInput37.files).map(f=>f.name).join(', ')})`;
+        });
+
+        if (addBtn37) addBtn37.onclick = async () => {
+          const files = fileInput37 && fileInput37.files ? Array.from(fileInput37.files) : [];
+          if (!files.length) { setStatus37('파일을 선택해주세요.', 'warn'); return; }
+          setStatus37(`파일 ${files.length}개 확인 중…`, 'info');
+          hydrateExample();
+          const win = await waitForCase37Api();
+          if (!win) { setStatus37('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+          const okNames = [];
+          const failed = [];
+          for (const file of files) {
+            const result = await parseFile37(file);
+            if (!result.ok) { failed.push(`${file.name}: ${result.reason}`); continue; }
+            const rows = result.rows;
+            if (!rows || rows.length < 3) { failed.push(`${file.name}: 데이터를 읽지 못했습니다.`); continue; }
+            const ingestResult = win.CASE37_API.ingestAndActivate(rows, file.name);
+            if (!ingestResult.ok) { failed.push(`${file.name}: ${ingestResult.reason}`); continue; }
+            if (Array.isArray(ingestResult.indicators)) { okNames.push(...ingestResult.indicators); }
+            else if (ingestResult.indicatorKey) { okNames.push(ingestResult.indicatorKey); }
+          }
+          if (okNames.length) {
+            const uniqueNames = [...new Set(okNames)];
+            setStatus37(
+              `${uniqueNames.join(', ')} 지표가 반영되었습니다.` +
+              (failed.length ? ` (실패 ${failed.length}건: ${failed.join(' / ')})` : ''),
+              failed.length ? 'warn' : 'ok'
+            );
+            renderList37(win.CASE37_API.getActiveIndicators());
+          } else {
+            setStatus37(`반영된 파일이 없습니다. ${failed.join(' / ')}`, 'error');
+          }
+          fileInput37.value = '';
+          if (fileNameEl37) fileNameEl37.textContent = '선택된 파일 없음';
+        };
+
+        if (resetBtn37) resetBtn37.addEventListener('click', async () => {
+          hydrateExample();
+          const win = await waitForCase37Api();
+          if (win && win.CASE37_API) win.CASE37_API.reset();
+          if (fileInput37) fileInput37.value = '';
+          setStatus37('업로드한 데이터를 초기화했습니다.', 'ok');
+          renderList37([]);
+        });
+
+        if (dlBtn37) dlBtn37.onclick = () => {
+          // e-지방지표 표준 wide-format 예시(1인가구비율, 3개 연도) — 실제 KOSIS 값 일부를 발췌.
+          const sample = '\uFEFF1인가구비율 (단위: %)\n,2022,2023,2024\n전국,34.5,35.5,36.1\n서울,38.2,39.3,39.9\n부산,35.3,36.4,37.2\n대구,33.8,34.7,35.5\n';
+          const blob = new Blob([sample], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '표준양식_e지방지표_예시.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+
+        renderList37([]);
       }
 
       if (id === '28') {
@@ -11598,344 +12910,6 @@ const CASE_CARD_IMG_MAP = {
         };
 
         renderList30(['미업로드']);
-      }
-
-      if (id === '1') {
-        const modalScope1 = uploadModal || article;
-        const fileInput1 = modalScope1.querySelector('#uploadFile1');
-        const addBtn1 = modalScope1.querySelector('#uploadAddBtn1');
-        const clearBtn1 = modalScope1.querySelector('#uploadFileClear1');
-        const statusEl1 = modalScope1.querySelector('#uploadStatus1');
-        const logEl1 = modalScope1.querySelector('#uploadFileLog1');
-        const applyBtn1 = modalScope1.querySelector('#uploadApply1');
-        const cancelBtn1 = modalScope1.querySelector('#uploadCancel1');
-        const resetBtn1 = article.querySelector('#uploadReset1');
-        const dlBtn1 = modalScope1.querySelector('#dlTemplate1');
-        const filterBtn1 = article.querySelector('#case1FilterBtn');
-        const filterPanel1 = article.querySelector('#case1FilterPanel');
-        const filterList1 = article.querySelector('#case1FilterList');
-        const filterApply1 = article.querySelector('#case1FilterApply');
-        const filterCancel1 = article.querySelector('#case1FilterCancel');
-        const GROUP_TITLE_FALLBACK_1 = { enterprise:'기업경기실사지수(BSI)', small:'소상공인경기실사지수(BSI)', consumer:'소비자체감경기지수(CSI)', esi:'경제심리지수(ESI)', manufacturing:'광공업생산지수', service:'서비스업생산지수' };
-        const GROUP_ORDER_1 = ['enterprise','small','consumer','esi','manufacturing','service'];
-        const escHtml1 = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-        let appliedList1 = [];
-        let pendingRemovals1 = new Set();
-        let stagedList1 = [];
-        let stagedActiveGroups1 = null;
-        const setStatus1 = (msg, level) => {
-          if (!statusEl1) return;
-          statusEl1.textContent = msg;
-          statusEl1.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
-          statusEl1.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
-        };
-        const waitForCase1 = async () => {
-          for (let i = 0; i < 50; i++) {
-            try { const w = frame && frame.contentWindow; if (w && w.CASE1_API) return w; } catch (_) {}
-            await new Promise(r => setTimeout(r, 120));
-          }
-          return null;
-        };
-        const currentStatus1 = () => {
-          try { const w = frame && frame.contentWindow; if (w && w.CASE1_API) return w.CASE1_API.getStatus(); } catch (_) {}
-          return null;
-        };
-        const byKoreanName1 = (a, b) => String(a.fileName || '').localeCompare(String(b.fileName || ''), 'ko-KR', {numeric:true, sensitivity:'base'});
-        const renderFileLog1 = () => {
-          if (!logEl1) return;
-          const appliedHtml = appliedList1.slice().sort(byKoreanName1).map(f => {
-            const marked = pendingRemovals1.has(f.fileName);
-            return `<li class="${marked ? 'is-marked' : ''}"><span>${escHtml1(f.fileName)}${f.label ? ' → ' + escHtml1(f.label) : ''}</span><button type="button" class="case1-file-x" data-remove-applied="${escHtml1(f.fileName)}" aria-label="제거">✕</button></li>`;
-          }).join('');
-          const stagedHtml = stagedList1.map((f, i) => ({ f, i })).sort((a, b) => byKoreanName1(a.f, b.f)).map(({ f, i }) => {
-            const label = f.rows ? (f.label ? '인식됨 → ' + f.label : '') : (f.reason || '인식 실패');
-            return `<li class="is-staged"><span>${escHtml1(f.fileName)}${label ? ' : ' + escHtml1(label) : ''}</span><button type="button" class="case1-file-x" data-remove-staged="${i}" aria-label="제거">✕</button></li>`;
-          }).join('');
-          logEl1.innerHTML = (appliedHtml + stagedHtml) || '<li style="background:none;color:#8a949a">· 아직 반영된 파일이 없습니다</li>';
-          logEl1.querySelectorAll('[data-remove-applied]').forEach(btn => {
-            btn.onclick = () => { const fn = btn.dataset.removeApplied; if (pendingRemovals1.has(fn)) pendingRemovals1.delete(fn); else pendingRemovals1.add(fn); renderFileLog1(); };
-          });
-          logEl1.querySelectorAll('[data-remove-staged]').forEach(btn => {
-            btn.onclick = () => { stagedList1.splice(Number(btn.dataset.removeStaged), 1); renderFileLog1(); };
-          });
-        };
-        const renderFilterList1 = () => {
-          if (!filterList1) return;
-          const status = currentStatus1();
-          const groups = status ? status.groups : GROUP_ORDER_1.map(key => ({ key, title: GROUP_TITLE_FALLBACK_1[key], hasData:false, active:false }));
-          if (!stagedActiveGroups1) stagedActiveGroups1 = new Set(groups.filter(g => g.active).map(g => g.key));
-          filterList1.innerHTML = groups.map(g => {
-            const checked = stagedActiveGroups1.has(g.key);
-            const cls = !g.hasData ? 'case1-toggle-item is-disabled' : (checked ? 'case1-toggle-item is-active' : 'case1-toggle-item');
-            const state = !g.hasData ? '데이터 없음' : (checked ? '✓ 선택' : '선택 안 함');
-            return `<button type="button" class="${cls}" data-filter-key="${g.key}" ${g.hasData ? '' : 'disabled'}>${escHtml1(g.title)}<span>${state}</span></button>`;
-          }).join('');
-          filterList1.querySelectorAll('[data-filter-key]').forEach(btn => {
-            btn.onclick = () => {
-              const k = btn.dataset.filterKey;
-              if (stagedActiveGroups1.has(k)) stagedActiveGroups1.delete(k); else stagedActiveGroups1.add(k);
-              renderFilterList1();
-            };
-          });
-        };
-        const closeFilter1 = () => { if (filterPanel1) filterPanel1.hidden = true; filterBtn1?.classList.remove('is-open'); };
-        filterBtn1?.addEventListener('click', async () => {
-          if (!filterPanel1.hidden) { closeFilter1(); return; }
-          hydrateExample();
-          stagedActiveGroups1 = null;
-          await waitForCase1();
-          renderFilterList1();
-          filterPanel1.hidden = false; filterBtn1.classList.add('is-open');
-        });
-        document.addEventListener('click', e => {
-          if (!filterPanel1 || filterPanel1.hidden) return;
-          const path = e.composedPath ? e.composedPath() : [e.target];
-          if (path.includes(filterPanel1) || (filterBtn1 && path.includes(filterBtn1))) return;
-          closeFilter1();
-        });
-        filterApply1?.addEventListener('click', async () => {
-          const win = await waitForCase1();
-          if (win && stagedActiveGroups1) win.CASE1_API.setActiveGroups([...stagedActiveGroups1]);
-          closeFilter1();
-        });
-        filterCancel1?.addEventListener('click', () => { stagedActiveGroups1 = null; closeFilter1(); });
-        const parseAnyFile1 = file => new Promise(resolve => {
-          const name = file.name.toLowerCase();
-          if (/\.(xlsx|xls)$/.test(name)) {
-            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다.' }); return; }
-            const reader = new FileReader();
-            reader.onload = e => {
-              try {
-                const wb = XLSX.read(new Uint8Array(e.target.result), { type:'array' });
-                const sheets = wb.SheetNames.map(n => XLSX.utils.sheet_to_json(wb.Sheets[n], { header:1, raw:true, defval:'' }));
-                resolve({ ok:true, sheets });
-              } catch (_) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다.' }); }
-            };
-            reader.readAsArrayBuffer(file);
-          } else if (name.endsWith('.csv')) {
-            const reader = new FileReader();
-            reader.onload = e => {
-              const buf = new Uint8Array(e.target.result);
-              let decoded; try { decoded = new TextDecoder('utf-8', { fatal:true }).decode(buf); } catch (_) { decoded = new TextDecoder('euc-kr').decode(buf); }
-              if (decoded.charCodeAt(0) === 0xFEFF) decoded = decoded.slice(1);
-              const rows = decoded.split(/\r?\n/).filter(Boolean).map(line => {
-                const out = []; let cur = ''; let q = false;
-                for (let i=0;i<line.length;i++){
-                  const ch=line[i];
-                  if(q){ if(ch==='"'){ if(line[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=ch; }
-                  else { if(ch==='"') q=true; else if(ch===','){out.push(cur);cur='';} else cur+=ch; }
-                }
-                out.push(cur); return out;
-              });
-              resolve({ ok:true, sheets:[rows] });
-            };
-            reader.readAsArrayBuffer(file);
-          } else resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
-        });
-        uploadOpen?.addEventListener('click', () => { hydrateExample(); renderFileLog1(); });
-        if (clearBtn1) clearBtn1.onclick = () => { if (fileInput1) fileInput1.value = ''; };
-        if (addBtn1) addBtn1.onclick = async () => {
-          const files = fileInput1 && fileInput1.files ? Array.from(fileInput1.files) : [];
-          if (!files.length) { setStatus1('파일을 선택해주세요.', 'warn'); return; }
-          hydrateExample();
-          const win = await waitForCase1();
-          if (!win) { setStatus1('실행 화면을 불러오지 못했습니다.', 'error'); return; }
-          for (const file of files) {
-            const parsed = await parseAnyFile1(file);
-            if (!parsed.ok) { stagedList1.push({ fileName:file.name, rows:null, label:null, reason:parsed.reason }); continue; }
-            let chosen = null;
-            for (const rows of parsed.sheets) {
-              const pv = win.CASE1_API.previewFile(rows);
-              if (pv.ok) { chosen = { rows, label:pv.label }; break; }
-            }
-            if (chosen) stagedList1.push({ fileName:file.name, rows:chosen.rows, label:chosen.label, reason:null });
-            else stagedList1.push({ fileName:file.name, rows:null, label:null, reason:'인식할 수 없는 파일 형식입니다.' });
-          }
-          renderFileLog1();
-          setStatus1('적용을 누르면 대시보드에 반영됩니다.', 'info');
-          fileInput1.value = '';
-        };
-        if (applyBtn1) applyBtn1.onclick = async () => {
-          const win = await waitForCase1();
-          if (!win) { setStatus1('실행 화면을 불러오지 못했습니다.', 'error'); return; }
-          const keep = appliedList1.filter(f => !pendingRemovals1.has(f.fileName));
-          const next = keep.map(f => ({ fileName:f.fileName, rows:f.rows })).concat(stagedList1.filter(f => f.rows).map(f => ({ fileName:f.fileName, rows:f.rows })));
-          const result = win.CASE1_API.setFiles(next);
-          appliedList1 = next.map((f, i) => ({ fileName:f.fileName, rows:f.rows, label: result.perFile[i] && result.perFile[i].ok ? result.perFile[i].label : null, ok: result.perFile[i] ? result.perFile[i].ok : false })).filter(f => f.ok);
-          stagedList1 = [];
-          pendingRemovals1 = new Set();
-          renderFileLog1();
-          const okCount = result.perFile.filter(p => p.ok).length;
-          setStatus1(`${okCount}/${result.perFile.length}개 파일 반영`, okCount === result.perFile.length ? 'ok' : (okCount > 0 ? 'warn' : 'error'));
-        };
-        if (cancelBtn1) cancelBtn1.onclick = () => {
-          stagedList1 = [];
-          pendingRemovals1 = new Set();
-          renderFileLog1();
-          setStatus1('대기 중이던 변경을 취소했습니다.', 'ok');
-        };
-        if (resetBtn1) resetBtn1.onclick = async () => {
-          hydrateExample();
-          const win = await waitForCase1();
-          win?.CASE1_API?.reset();
-          appliedList1 = []; stagedList1 = []; pendingRemovals1 = new Set(); stagedActiveGroups1 = null;
-          if (fileInput1) fileInput1.value = '';
-          setStatus1('업로드한 데이터를 모두 초기화했습니다.', 'ok');
-          renderFileLog1(); renderFilterList1();
-        };
-        const CASE1_TEMPLATE_XLSX_B64 = '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';
-        if (dlBtn1) dlBtn1.onclick = () => {
-          const bytes = Uint8Array.from(atob(CASE1_TEMPLATE_XLSX_B64), ch => ch.charCodeAt(0));
-          const blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob); a.download = '사례1_표준양식.xlsx';
-          document.body.appendChild(a); a.click(); a.remove();
-          setTimeout(() => URL.revokeObjectURL(a.href), 0);
-        };
-        renderFileLog1();
-      }
-
-      if (id === '37') {
-        const fileInput37 = article.querySelector('#uploadFile37');
-        const addBtn37 = article.querySelector('#uploadAddBtn37');
-        const statusEl37 = article.querySelector('#uploadStatus37');
-        const listEl37 = article.querySelector('#uploadList37');
-        const dlBtn37 = article.querySelector('#dlTemplate37');
-        const pickBtn37 = article.querySelector('#uploadPick37');
-        const fileNameEl37 = article.querySelector('#uploadFileName37');
-        const resetBtn37 = article.querySelector('#uploadReset37');
-
-        const setStatus37 = (msg, level) => {
-          if (!statusEl37) return;
-          statusEl37.textContent = msg;
-          statusEl37.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
-          statusEl37.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
-        };
-        function renderList37(activeKeys){
-          if (!listEl37) return;
-          if (!activeKeys || !activeKeys.length) { listEl37.innerHTML = '<li style="color:#8a949a">· 업로드된 지표 없음</li>'; return; }
-          listEl37.innerHTML = activeKeys.map(k => `<li style="font-weight:750;color:#1a7a4c;background:#e7f5ee">✓ ${k}</li>`).join('');
-        }
-        const parseFile37 = file => new Promise(resolve => {
-          const name = file.name.toLowerCase();
-          if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
-            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. 잠시 후 다시 시도하거나 CSV로 업로드해 주세요.' }); return; }
-            const reader = new FileReader();
-            reader.onload = e => {
-              try {
-                const wb = XLSX.read(e.target.result, { type:'array' });
-                const ws = wb.Sheets[wb.SheetNames[0]];
-                const rows = XLSX.utils.sheet_to_json(ws, { header:1, raw:true });
-                resolve({ ok:true, rows });
-              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다. 파일이 손상되지 않았는지 확인해 주세요.' }); }
-            };
-            reader.readAsArrayBuffer(file);
-          } else if (name.endsWith('.csv')) {
-            const reader = new FileReader();
-            reader.onload = e => {
-              const buf = new Uint8Array(e.target.result);
-              let text;
-              try {
-                text = new TextDecoder('utf-8', { fatal: true }).decode(buf);
-              } catch (utf8Err) {
-                try {
-                  text = new TextDecoder('euc-kr').decode(buf);
-                } catch (crkErr) {
-                  resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 형식의 CSV만 지원합니다.' });
-                  return;
-                }
-              }
-              if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
-              const rows = text.split(/\r?\n/).filter(Boolean).map(line => {
-                const out = []; let cur = ''; let q = false;
-                for (let i=0;i<line.length;i++){
-                  const ch = line[i];
-                  if (q){ if (ch === '"'){ if (line[i+1]==='"'){ cur+='"'; i++; } else q=false; } else cur += ch; }
-                  else { if (ch === '"') q = true; else if (ch === ',') { out.push(cur); cur=''; } else cur += ch; }
-                }
-                out.push(cur);
-                return out;
-              });
-              resolve({ ok:true, rows });
-            };
-            reader.readAsArrayBuffer(file);
-          } else {
-            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
-          }
-        });
-        const waitForCase37Api = async () => {
-          for (let i = 0; i < 40; i++) {
-            const win = frame && frame.contentWindow;
-            if (win && win.CASE37_API) return win;
-            await new Promise(r => setTimeout(r, 150));
-          }
-          return null;
-        };
-
-        uploadOpen?.addEventListener('click', () => { hydrateExample(); (async () => { const win = await waitForCase37Api(); renderList37(win && win.CASE37_API ? win.CASE37_API.getActiveIndicators() : []); })(); });
-
-        if (pickBtn37 && fileInput37) pickBtn37.onclick = () => fileInput37.click();
-        if (fileInput37 && fileNameEl37) fileInput37.addEventListener('change', () => {
-          const n = fileInput37.files ? fileInput37.files.length : 0;
-          fileNameEl37.textContent = n === 0 ? '선택된 파일 없음'
-            : n === 1 ? fileInput37.files[0].name
-            : `${n}개 파일 선택됨 (${Array.from(fileInput37.files).map(f=>f.name).join(', ')})`;
-        });
-
-        if (addBtn37) addBtn37.onclick = async () => {
-          const files = fileInput37 && fileInput37.files ? Array.from(fileInput37.files) : [];
-          if (!files.length) { setStatus37('파일을 선택해주세요.', 'warn'); return; }
-          setStatus37(`파일 ${files.length}개 확인 중…`, 'info');
-          hydrateExample();
-          const win = await waitForCase37Api();
-          if (!win) { setStatus37('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
-          const okNames = [];
-          const failed = [];
-          for (const file of files) {
-            const result = await parseFile37(file);
-            if (!result.ok) { failed.push(`${file.name}: ${result.reason}`); continue; }
-            const rows = result.rows;
-            if (!rows || rows.length < 3) { failed.push(`${file.name}: 데이터를 읽지 못했습니다.`); continue; }
-            const ingestResult = win.CASE37_API.ingestAndActivate(rows, file.name);
-            if (!ingestResult.ok) { failed.push(`${file.name}: ${ingestResult.reason}`); continue; }
-            if (Array.isArray(ingestResult.indicators)) { okNames.push(...ingestResult.indicators); }
-            else if (ingestResult.indicatorKey) { okNames.push(ingestResult.indicatorKey); }
-          }
-          if (okNames.length) {
-            const uniqueNames = [...new Set(okNames)];
-            setStatus37(
-              `${uniqueNames.join(', ')} 지표가 반영되었습니다.` +
-              (failed.length ? ` (실패 ${failed.length}건: ${failed.join(' / ')})` : ''),
-              failed.length ? 'warn' : 'ok'
-            );
-            renderList37(win.CASE37_API.getActiveIndicators());
-          } else {
-            setStatus37(`반영된 파일이 없습니다. ${failed.join(' / ')}`, 'error');
-          }
-          fileInput37.value = '';
-          if (fileNameEl37) fileNameEl37.textContent = '선택된 파일 없음';
-        };
-
-        if (resetBtn37) resetBtn37.addEventListener('click', async () => {
-          hydrateExample();
-          const win = await waitForCase37Api();
-          if (win && win.CASE37_API) win.CASE37_API.reset();
-          if (fileInput37) fileInput37.value = '';
-          setStatus37('업로드한 데이터를 초기화했습니다.', 'ok');
-          renderList37([]);
-        });
-
-        if (dlBtn37) dlBtn37.onclick = () => {
-          // e-지방지표 표준 wide-format 예시(1인가구비율, 3개 연도) — 실제 KOSIS 값 일부를 발췌.
-          const sample = '\uFEFF1인가구비율 (단위: %)\n,2022,2023,2024\n전국,34.5,35.5,36.1\n서울,38.2,39.3,39.9\n부산,35.3,36.4,37.2\n대구,33.8,34.7,35.5\n';
-          const blob = new Blob([sample], { type:'text/csv;charset=utf-8;' });
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob); a.download = '표준양식_e지방지표_예시.csv';
-          document.body.appendChild(a); a.click(); a.remove();
-          setTimeout(() => URL.revokeObjectURL(a.href), 0);
-        };
-
-        renderList37([]);
       }
 
 

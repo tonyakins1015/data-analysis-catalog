@@ -1,834 +1,834 @@
 ﻿<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>전국 민원 데이터 허브</title>
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>한눈에 보는 민원처리</title>
 <style>
-/* ── 토큰 ── */
 :root{
-  --bg:#F4EEDD; --bg1:#ECE4C8; --bg2:#E4D9B4;
-  --panel:#FFFFFF; --panel2:#FBF7EA;
-  --line:#DBD0A6; --line2:#C7BB8A;
-  --fg:#3B3324; --fg2:#6B6146; --fg3:#8A7F5E;
-  --h:#241F14;
-  --blue:#2E6DA4; --blue2:#3E8FC4; --blue3:#1B4B73;
-  --red:#A6323B;  --red2:#C0392B;  --red3:#F0C9C2;
-  --gold:#9C7222; --teal:#3E7A5C;
-  --r:4px;
+  --bg:#071426; --bg2:#0A1B30; --panel:#0E2440; --panel2:#122E52; --line:#1D3F69;
+  --line2:#1C3A61; --ink:#EAF3FB; --ink2:#8FAEC9; --ink3:#5F82A3;
+  --cyan:#35D0E8; --cyan2:#1FA6BD; --gold:#F5C63C; --lime:#7BD88F;
+  --violet:#8B7BE8; --pink:#E86A9A; --orange:#F08A3C; --red:#E9533F;
+  --g1:#35D0E8; --g2:#7BD88F; --g3:#C8DC5A; --g4:#F5C63C; --g5:#F08A3C; --g6:#E9533F;
+  --none:#2A3F58;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden}
-body{
-  background:
-    radial-gradient(1100px 620px at 96% -8%, rgba(122,171,204,.30), transparent 60%),
-    radial-gradient(900px 560px at -6% 105%, rgba(126,163,101,.24), transparent 55%),
-    var(--bg);
-  color:var(--fg);
-  font-family:'Pretendard','Pretendard Variable',-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
-  font-size:13px;line-height:1.5;
-  display:flex;flex-direction:column;
-  -webkit-font-smoothing:antialiased;
-  font-feature-settings:"tnum";
-}
-/* ── 상단바 ── */
-.topbar{
-  flex:none;height:48px;
-  background:linear-gradient(135deg,#1B4B73,#12354F);border-bottom:3px solid #A6323B;
-  display:flex;align-items:center;padding:0 20px;gap:16px;z-index:100;
-}
-.topbar .logo{display:flex;align-items:center;gap:10px}
-.taeguk{
-  width:20px;height:20px;border-radius:50%;flex:none;
-  background:conic-gradient(from 220deg,var(--red2) 0 50%,var(--blue2) 50% 100%);
-  box-shadow:0 0 0 2px rgba(255,255,255,.1);
-}
-.topbar h1{font-size:15px;font-weight:800;color:var(--h);letter-spacing:-.025em}
-.topbar h1 span{color:var(--blue3)}
-.topbar .en{font-size:9.5px;letter-spacing:.22em;color:var(--fg3);font-weight:500;text-transform:uppercase;margin-top:1px}
-.topbar .meta{margin-left:auto;display:flex;gap:20px;align-items:center}
-.topbar .meta span{font-size:11px;color:rgba(245,241,224,.65)}
-.topbar .meta strong{color:#F5F1E0}
-.badge{
-  display:inline-block;padding:3px 8px;border-radius:2px;font-size:10px;font-weight:700;
-  letter-spacing:.06em;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);color:#F5F1E0
-}
-/* ── 본문 레이아웃 ── */
-.layout{flex:1;display:flex;overflow:hidden}
-/* ── 사이드바 ── */
-.sidebar{
-  flex:none;width:240px;
-  background:var(--bg1);border-right:1px solid var(--line);
-  display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;
-}
-.sidebar::-webkit-scrollbar{width:3px}
-.sidebar::-webkit-scrollbar-thumb{background:var(--line2);border-radius:99px}
-.sb-section{padding:16px 16px 8px;border-bottom:1px solid var(--line)}
-.sb-label{font-size:10px;letter-spacing:.1em;color:var(--fg3);font-weight:700;margin-bottom:10px;text-transform:uppercase}
-.kpi-sm{
-  display:flex;flex-direction:column;gap:9px;
-}
-.kpi-row{
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
-  padding:10px 12px;position:relative;overflow:hidden;cursor:default;
-  transition:border-color .15s;
-}
-.kpi-row:hover{border-color:var(--line2)}
-.kpi-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--blue2)}
-.kpi-row.warn::before{background:var(--red2)}
-.kpi-row.good::before{background:var(--teal)}
-.kpi-row dt{font-size:10.5px;color:var(--fg2);font-weight:600;margin-bottom:5px}
-.kpi-row .val{font-size:20px;font-weight:800;color:var(--h);letter-spacing:-.04em;line-height:1;display:flex;align-items:baseline;gap:3px}
-.kpi-row .val small{font-size:11px;font-weight:600;color:var(--fg2)}
-.kpi-row .diff{font-size:10.5px;color:var(--fg3);margin-top:4px;display:flex;gap:5px;align-items:center}
-.up{color:var(--red2);font-weight:700}.dn{color:var(--blue3);font-weight:700}
-/* nav links */
-.nav-links{display:flex;flex-direction:column;padding:8px 10px}
-.nav-a{
-  display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--r);
-  text-decoration:none;color:var(--fg2);font-size:12.5px;font-weight:600;
-  transition:background .12s,color .12s;cursor:pointer;border:none;background:transparent;
-  width:100%;text-align:left;
-}
-.nav-a:hover{background:var(--panel);color:var(--fg)}
-.nav-a.on{background:rgba(62,143,196,.14);color:var(--blue3);border:1px solid rgba(62,143,196,.3)}
-.nav-a .ico{width:16px;height:16px;flex:none;opacity:.7}
-.nav-a.on .ico{opacity:1}
-/* ── 콘텐츠 ── */
-.content{flex:1;overflow-y:auto;overflow-x:hidden;background:transparent}
-.content::-webkit-scrollbar{width:4px}
-.content::-webkit-scrollbar-thumb{background:var(--line2);border-radius:99px}
-.view{display:none;padding:20px}
-.view.on{display:block}
-/* ── 패널 ── */
-.panel{
-  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
-  overflow:hidden;box-shadow:0 1px 3px rgba(59,51,36,.06);
-}
-.ph{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
-.ph h2{font-size:13.5px;font-weight:800;color:var(--h);letter-spacing:-.015em}
-.ph .sub{font-size:11px;color:var(--fg3);margin-top:2px}
-.pb{padding:16px}
-/* ── 그리드 ── */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-.g12{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
-.g21{display:grid;grid-template-columns:1fr 1.4fr;gap:16px}
-.gap{margin-bottom:16px}
-/* ── 지도 ── */
-#mapEl{width:100%;height:560px;background:#E4DAB9}
-#mapEl .region-pin{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:3px 7px;border-radius:5px;border:1.5px solid rgba(255,255,255,.85);
-  box-shadow:0 1px 4px rgba(36,31,20,.35);white-space:nowrap;
-  font-family:'Pretendard',sans-serif;line-height:1.15;transform:translate(-50%,-50%);
-  cursor:pointer;transition:transform .12s;
-}
-#mapEl .region-pin:hover{transform:translate(-50%,-50%) scale(1.08)}
-#mapEl .region-pin b{font-size:11px;font-weight:800;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4)}
-#mapEl .region-pin i{font-style:normal;font-size:10px;font-weight:700;color:rgba(255,255,255,.92)}
-#mapEl .region-pin.na{background:#8A8064!important;cursor:default;opacity:.85}
-#mapEl .region-pin.na:hover{transform:translate(-50%,-50%)}
-#mapEl .region-pin.sel{outline:2px solid #241F14;outline-offset:1px}
-.leaflet-control-attribution{font-size:9px!important;background:rgba(255,255,255,.75)!important}
-/* (region SVG classes removed — now using Leaflet div-icon pins, see #mapEl above) */
-.map-legend{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px;color:var(--fg3);padding:10px 16px;border-top:1px solid var(--line)}
-.lsw{display:flex;gap:2px}
-.lsw span{width:28px;height:8px;border-radius:1px}
-/* ── 키워드 버블 ── */
-#bubbleSvg{width:100%;height:380px}
-/* ── 표 ── */
-.tbl-wrap{max-height:480px;overflow:auto}
-.tbl-wrap::-webkit-scrollbar{width:3px}
-.tbl-wrap::-webkit-scrollbar-thumb{background:var(--line2);border-radius:99px}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:radial-gradient(1200px 600px at 20% -10%,#0D2C4E 0%,var(--bg) 55%) fixed,var(--bg);
+  color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select{font-family:inherit;font-size:inherit;color:inherit}
+.num{font-variant-numeric:tabular-nums}
+svg{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+/* 헤더 */
+header{display:flex;align-items:center;gap:12px;padding:12px 20px;background:linear-gradient(90deg,#0B2340 0%,#123156 100%);border-bottom:1px solid var(--line2);position:sticky;top:0;z-index:30}
+.mark{width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#7FE7F5,#1E88A8);display:grid;place-items:center;font-size:15px}
+.brand{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.hchip{display:flex;align-items:center;gap:9px;background:#14A7BE;border-radius:9px;padding:7px 14px;font-weight:700}
+.hchip small{font-weight:500;opacity:.85}
+
+.hchip{margin-left:auto}
+.statusbar{padding:7px 20px;font-size:11.5px;color:var(--ink3);background:rgba(11,30,54,.6);border-bottom:1px solid var(--line2)}
+/* 레이아웃 */
+.wrap{display:grid;grid-template-columns:minmax(330px,1fr) minmax(330px,1.05fr) minmax(360px,1.15fr);
+  gap:12px;padding:12px;max-width:1500px;margin:0 auto;align-items:start}
+@media(max-width:1180px){.wrap{grid-template-columns:1fr 1fr}}
+@media(max-width:780px){.wrap{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:12px}
+.box{background:linear-gradient(180deg,#102743 0%,#0D2038 100%);border:1px solid var(--line2);border-radius:12px;padding:13px 15px 15px}
+.bh{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.bh h2{margin:0;font-size:15px;font-weight:800;letter-spacing:-.02em}
+.bh .note{margin-left:auto;font-size:11px;color:var(--ink3)}
+.bh .tagx{font-size:10.5px;border-radius:999px;padding:2px 8px;background:rgba(245,198,60,.14);color:var(--gold);font-weight:700}
+
+/* KPI */
+.kpi3{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.kcard{background:#0B1E36;border:1px solid var(--line2);border-radius:10px;padding:11px 9px;text-align:center}
+.kcard h3{margin:0 0 7px;font-size:12px;font-weight:700;color:var(--ink2)}
+.kcard .big{font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.kcard .sub{margin-top:6px;font-size:11px;color:var(--ink2);line-height:1.5}
+.kcard .base{margin-top:7px;padding-top:6px;border-top:1px solid var(--line2);font-size:10.5px;color:var(--ink3)}
+
+/* 타일맵 */
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.tile{border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:6px 5px;cursor:pointer;color:#05131F;text-align:left;line-height:1.15;min-height:46px}
+.tile b{display:block;font-size:11px;font-weight:800}
+.tile span{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums}
+.tile[data-on="1"]{box-shadow:0 0 0 2px var(--cyan),0 0 14px rgba(53,208,232,.5)}
+.tile:disabled{cursor:not-allowed;color:#7C93AC;background:#1B2E45!important}
+.legend{display:flex;flex-wrap:wrap;gap:5px 11px;margin-top:9px;font-size:10.5px;color:var(--ink2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+
+/* 탭 */
+.tabs{display:grid;grid-auto-flow:column;gap:5px;margin-bottom:12px}
+.tabs button{background:#0B1E36;border:1px solid var(--line2);color:var(--ink2);border-radius:7px;padding:7px 0;cursor:pointer;font-weight:700;font-size:12.5px}
+.tabs button[aria-selected="true"]{background:var(--cyan2);border-color:var(--cyan);color:#03202A}
+
+/* 워드클라우드 */
+.cloud{min-height:132px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 16px;padding:6px 2px}
+.cloud button{background:none;border:0;cursor:pointer;font-weight:800;letter-spacing:-.02em;line-height:1.05;padding:2px 3px}
+.cloud button:hover{text-decoration:underline}
+
+/* 메뉴 버튼 */
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.menu button{display:flex;align-items:center;justify-content:center;gap:7px;background:#0B1E36;border:1px solid var(--line2);
+  color:var(--ink);border-radius:9px;padding:11px 8px;cursor:pointer;font-weight:700;font-size:12.5px}
+.menu button:hover{background:var(--panel2);border-color:var(--cyan2)}
+.menu button.wide{grid-column:1/-1;background:linear-gradient(90deg,#123C5E,#14536B);border-color:var(--cyan2)}
+
+/* 표 */
+.tbar{display:flex;gap:6px;margin-bottom:9px;flex-wrap:wrap}
+.tbar select,.tbar input{background:#0B1E36;border:1px solid var(--line2);border-radius:7px;padding:6px 9px}
+.tbar input{flex:1;min-width:110px}
+.tbar button{background:var(--cyan2);border:0;color:#03202A;border-radius:7px;padding:6px 14px;font-weight:800;cursor:pointer}
+.tblwrap{overflow:auto;border:1px solid var(--line2);border-radius:9px}
 table{width:100%;border-collapse:collapse;font-size:12px}
-thead th{
-  position:sticky;top:0;background:#ECE2C4;z-index:2;padding:9px 12px;
-  font-size:10.5px;font-weight:700;color:var(--fg2);letter-spacing:.04em;
-  text-align:right;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;
-}
-thead th:first-child,thead th:nth-child(2){text-align:left}
-tbody td{padding:7px 12px;border-bottom:1px solid rgba(0,0,0,.08);text-align:right;color:var(--fg2);font-variant-numeric:tabular-nums}
-tbody td:first-child{color:var(--fg3);font-size:10.5px;text-align:left}
-tbody td:nth-child(2){text-align:left;color:var(--fg);font-weight:600;font-size:12.5px}
-tbody tr:hover td{background:rgba(0,0,0,.035)}
-.bar-wrap{display:flex;align-items:center;justify-content:flex-end;gap:8px}
-.bar-track{width:52px;height:5px;border-radius:99px;background:rgba(0,0,0,.08);overflow:hidden;flex:none}
-.bar-fill{height:100%;border-radius:99px}
-/* 검색·필터 */
-.tbl-tools{display:flex;gap:8px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-input[type=search],select{
-  background:var(--bg1);border:1px solid var(--line);color:var(--fg);
-  border-radius:var(--r);padding:6px 10px;font:inherit;font-size:12px;outline:none;
-}
-input[type=search]{flex:1;min-width:140px}
-input[type=search]:focus,select:focus{border-color:var(--blue2);box-shadow:0 0 0 2px rgba(62,143,196,.2)}
-.chips{display:flex;gap:4px;flex-wrap:wrap}
-.chip{
-  background:transparent;border:1px solid var(--line);color:var(--fg3);
-  padding:5px 10px;border-radius:99px;font:inherit;font-size:11px;font-weight:700;cursor:pointer;
-  transition:.12s;
-}
-.chip:hover{color:var(--fg);border-color:var(--fg3)}
-.chip.on{background:rgba(62,143,196,.2);border-color:var(--blue2);color:var(--blue3)}
-/* 노트 */
-.note{
-  display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--line);
-  font-size:11px;color:var(--fg2);line-height:1.6;
-  border-left:2px solid var(--gold);background:rgba(201,162,39,.05);
-}
-.note b{color:var(--gold);font-weight:700;flex:none}
-/* 경로 도넛 */
-#donut{width:180px;height:180px;flex:none}
-.legend-list{display:flex;flex-direction:column;gap:9px;flex:1}
-.leg-item{display:flex;align-items:center;gap:9px;font-size:12px}
-.leg-dot{width:10px;height:10px;border-radius:2px;flex:none}
-.leg-val{margin-left:auto;font-weight:700;color:var(--h);font-variant-numeric:tabular-nums}
-/* 접수건수 추이 */
-#trendSvg{width:100%;height:220px}
-/* 처리결과 바 */
-.res-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.res-label{width:68px;font-size:11.5px;color:var(--fg2);text-align:right;flex:none}
-.res-track{flex:1;height:12px;border-radius:99px;background:var(--bg1);overflow:hidden;display:flex;gap:2px}
-.res-24{height:100%;background:var(--blue);border-radius:99px 0 0 99px}
-.res-25{height:100%;background:var(--blue2);border-radius:0 99px 99px 0}
-.res-val{width:80px;font-size:11px;color:var(--fg2);text-align:right;font-variant-numeric:tabular-nums}
-/* 태그 */
-.tag{display:inline-block;padding:2px 7px;border-radius:2px;font-size:10px;font-weight:700;letter-spacing:.05em;border:1px solid var(--line);color:var(--fg3);background:var(--bg1)}
-.tag.b{border-color:rgba(62,143,196,.4);color:var(--blue3);background:rgba(62,143,196,.12)}
-.tag.r{border-color:rgba(192,57,43,.45);color:#7A2830;background:rgba(166,50,59,.12)}
-.tag.g{border-color:rgba(76,140,107,.45);color:#1F5C4A;background:rgba(76,140,107,.12)}
-/* 시도 인포 패널 */
-.sido-info{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
-.sido-stat{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid rgba(0,0,0,.08);padding-bottom:9px}
-.sido-stat:last-child{border-bottom:0;padding-bottom:0}
-.sido-stat .k{font-size:11.5px;color:var(--fg2)}
-.sido-stat .v{font-size:15px;font-weight:800;color:var(--h)}
-.sido-stat .v em{font-size:10.5px;font-weight:500;color:var(--fg3);margin-left:3px}
-/* 빈 메시지 */
-.empty{padding:30px;text-align:center;color:var(--fg3);font-size:12px}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+th,td{padding:7px 8px;text-align:right;white-space:nowrap;border-bottom:1px solid rgba(29,63,105,.55)}
+th:nth-child(2),td:nth-child(2){text-align:left}
+thead th{background:#123156;color:var(--ink2);font-weight:700;font-size:11px;position:sticky;top:0;cursor:pointer}
+thead th[data-dir]:after{content:" ▲";font-size:8px;color:var(--cyan)}
+thead th[data-dir="desc"]:after{content:" ▼"}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:rgba(53,208,232,.09)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.pager{display:flex;gap:4px;justify-content:center;align-items:center;margin-top:9px;flex-wrap:wrap}
+.pager button{background:#0B1E36;border:1px solid var(--line2);color:var(--ink2);border-radius:6px;min-width:27px;height:27px;cursor:pointer;font-size:12px}
+.pager button[aria-current="true"]{background:var(--cyan2);color:#03202A;border-color:var(--cyan);font-weight:800}
+.foot{margin-top:9px;font-size:10.5px;color:var(--ink3)}
+
+/* 모달 */
+.scrim{position:fixed;inset:0;background:rgba(3,10,20,.72);display:none;z-index:60;padding:22px;overflow:auto}
+.scrim.on{display:block}
+.modal{max-width:1020px;margin:0 auto;background:var(--bg2);border:1px solid var(--line2);border-radius:14px;overflow:hidden}
+.mh{display:flex;align-items:flex-start;gap:12px;padding:15px 20px;background:linear-gradient(90deg,#12365C,#155A72)}
+.mh h2{margin:0;font-size:22px;font-weight:800;letter-spacing:-.03em}
+.mh p{margin:2px 0 0;font-size:12px;color:#A9CEE0}
+.close{margin-left:auto;background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:8px;width:31px;height:31px;cursor:pointer}
+.close:hover{background:var(--red)}
+.mb{padding:14px 16px 20px;display:grid;gap:12px}
+.m2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:820px){.m2{grid-template-columns:1fr}}
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:7px}
+.chip{border-radius:9px;padding:8px 10px;background:#0B1E36;border-left:3px solid var(--cyan)}
+.chip i{display:block;font-style:normal;font-size:10.5px;color:var(--ink2)}
+.chip b{font-size:17px;font-weight:800}
+.chip u{text-decoration:none;font-size:10.5px;color:var(--ink2);margin-left:2px}
+.callout{background:rgba(245,198,60,.09);border-left:3px solid var(--gold);border-radius:9px;padding:12px 14px;font-size:12.5px;color:#E7D9AE}
+.drop{border:2px dashed var(--cyan2);background:rgba(53,208,232,.07);border-radius:10px;padding:14px;text-align:center;color:var(--cyan);font-size:12.5px;cursor:pointer}
+.drop.hot{background:var(--cyan2);color:#03202A}
+.msg{font-size:12px;color:var(--ink2);white-space:pre-wrap;margin-top:8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:9px}
+.card{background:#0B1E36;border-radius:9px;padding:10px 12px;border-left:3px solid var(--cyan2)}
+.card b{display:block;font-size:12px;word-break:break-all}
+.card small{color:var(--ink3);font-size:11px}
+.slider{display:flex;align-items:center;gap:9px;margin-bottom:8px;font-size:11.5px;color:var(--ink2)}
+.slider input[type=range]{flex:1;accent-color:var(--cyan)}
 </style>
 </head>
 <body>
+<header>
+  <div class="mark">◎</div>
+  <div class="brand">한눈에 보는 민원처리</div>
+  <div class="hchip"><span id="hRegion">경기도</span><small id="hBase"></small></div>
+</header>
+<div class="statusbar" id="menuMsg">아직 업로드된 데이터가 없습니다. 왼쪽 파일 업로드에서 통합 표준 양식 CSV를 올리면 화면 전체가 채워집니다.</div>
 
-<!-- 상단바 -->
-<div class="topbar">
-  <div class="logo">
-    <div class="taeguk" aria-hidden="true"></div>
-    <div>
-      <div class="topbar h1" style="font-size:15px;font-weight:800;color:#F5F1E0;letter-spacing:-.025em">전국 <span style="color:#8FC1E8">민원</span> 데이터 허브</div>
-      <div class="en" style="font-size:9.5px;letter-spacing:.22em;color:rgba(245,241,224,.6);font-weight:500;text-transform:uppercase">National Civil Complaint Data Hub</div>
+<div class="wrap">
+  <!-- ─── 좌 ─── -->
+  <div class="col">
+    <div class="box">
+      <div class="bh"><h2>지역 선택</h2><span class="note">타일을 누르면 화면 전체가 바뀝니다</span></div>
+      <div class="tiles" id="tiles"></div>
+      <div class="legend" id="tileLegend"></div>
     </div>
+
+    <div class="box">
+      <div class="bh"><h2>민원처리 현황</h2><span class="note" id="kpiNote"></span></div>
+      <div class="kpi3" id="kpi3"></div>
+    </div>
+
+    <div class="box">
+      <div class="bh"><h2>연도별 민원 추이</h2><span class="tagx">전국</span><span class="note">고충민원 접수·처리</span></div>
+      <div id="chYear"></div>
+    </div>
+
   </div>
-  <div class="meta">
-    <span>분석 기간 <strong>2024–2025</strong></span>
-    <span>기준일 <strong>2026-06-30</strong></span>
-    <span>수록 기관 <strong>975개</strong></span>
-    <span class="badge">파일데이터 전용 · 로그인 불요</span>
+
+  <!-- ─── 중 ─── -->
+  <div class="col">
+    <div class="box">
+      <div class="bh"><h2>민원 분야 랭킹</h2><span class="tagx">전국</span><span class="note" id="fldNote"></span></div>
+      <div class="tabs" id="fldTabs"></div>
+      <div class="cloud" id="cloud"></div>
+      <div id="fldBar"></div>
+    </div>
+
+    <div class="box">
+      <div class="bh"><h2>지역 네트워크 현황</h2><span class="note">상·하위 시군구</span></div>
+      <div id="net"></div>
+    </div>
+
+    <div class="box">
+      <div class="bh"><h2>관할 기초 준수율 분포</h2><span class="note">막대 높이 = 처리 규모</span></div>
+      <div id="strip"></div>
+    </div>
+
+  </div>
+
+  <!-- ─── 우 ─── -->
+  <div class="col">
+    <div class="box">
+      <div class="bh"><h2>연도별 접수경로 구성</h2><span class="tagx">전국</span></div>
+      <div class="slider">
+        <span>시작</span><input type="range" id="y0"><b class="num" id="y0v"></b>
+        <span>종료</span><input type="range" id="y1"><b class="num" id="y1v"></b>
+      </div>
+      <div id="chChannel"></div>
+    </div>
+    <div class="box">
+      <div class="bh"><h2>지자체별 상세 현황</h2><span class="note" id="tblNote"></span></div>
+      <div class="tbar">
+        <select id="pageSize"><option value="10">10개씩</option><option value="20">20개씩</option><option value="50">50개씩</option></select>
+        <input type="search" id="q" placeholder="시·군·구 입력">
+        <select id="scope"><option value="sido">선택 지역</option><option value="all">전국</option></select>
+        <button type="button" id="btnSearch">검색</button>
+      </div>
+      <div class="tblwrap">
+        <table id="tbl"><thead><tr>
+          <th>연번</th>
+          <th data-k="기관명">지자체</th>
+          <th data-k="처리건수">처리건수</th>
+          <th data-k="초과">기간초과</th>
+          <th data-k="준수율" data-dir="desc">준수율</th>
+          <th data-k="전국순위">전국순위</th>
+        </tr></thead><tbody></tbody></table>
+      </div>
+      <div class="pager" id="pager"></div>
+      <div class="foot">행을 누르면 해당 지자체 상세가 열립니다 · 자료: 국민권익위원회 정부민원신청 처리기간 준수현황</div>
+    </div>
   </div>
 </div>
 
-<!-- 본문 -->
-<div class="layout">
-
-  <!-- 사이드바 -->
-  <aside class="sidebar">
-    <div class="sb-section">
-      <div class="sb-label">주요 지표 · 2025년</div>
-      <div class="kpi-sm" id="kpiSm"></div>
-    </div>
-    <div class="nav-links" id="navLinks">
-      <button class="nav-a on" data-view="v-map">
-        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3l4 1.5L10 3l4 1.5v9L10 12l-4 1.5L2 12V3z"/></svg>
-        전국 처리실적
-      </button>
-      <button class="nav-a" data-view="v-kw">
-        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4"/><path d="M11 11l3 3"/></svg>
-        민원 키워드 분석
-      </button>
-      <button class="nav-a" data-view="v-org">
-        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
-        기관 랭킹
-      </button>
-      <button class="nav-a" data-view="v-trend">
-        <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="2,12 5,7 9,9 14,4"/></svg>
-        접수 추이·경로
-      </button>
-    </div>
-    <div style="padding:12px 16px;border-top:1px solid var(--line);font-size:10.5px;color:var(--fg3);line-height:1.7;margin-top:auto">
-      출처 · 국민권익위원회<br>공공데이터포털 파일데이터<br>화면 생성일 2026-08-26
-    </div>
-  </aside>
-
-  <!-- 콘텐츠 영역 -->
-  <div class="content">
-
-    <!-- ① 전국 처리실적 -->
-    <div class="view on" id="v-map">
-      <div class="g12 gap">
-        <div class="panel">
-          <div class="ph">
-            <div><div class="ph h2" style="font-size:13.5px;font-weight:800;color:#241F14">전국 처리기한 준수 현황</div><div class="sub">실제 지도(OpenStreetMap) 위 마커 · 숫자 = 처리기한 준수율(%) · 클릭하면 우측에 상세 통계</div></div>
-            <span class="tag r" id="worstTag"></span>
-          </div>
-          <div id="mapEl" role="img" aria-label="전국 처리기한 준수 현황 지도 (실제 지도 기반)"></div>
-          <div class="map-legend">
-            <span>준수율 높음</span>
-            <span class="lsw" id="lsw"></span>
-            <span>낮음</span>
-          </div>
-          <div class="note"><b>미공표</b>광주광역시·전라남도는 원본 파일에 수치가 없어 회색 마커로 표시. 수치 비교에서 제외.</div>
-        </div>
-        <div class="panel" id="sidoPanel">
-          <div class="ph"><div><div class="ph h2" style="font-size:13.5px;font-weight:800;color:#241F14" id="sidoTitle">전국 지방자치단체</div><div class="sub" id="sidoSub">광역 15 + 기초 198 · 광주·전남 미수록</div></div></div>
-          <div class="sido-info" id="sidoStats"></div>
-          <div class="ph" style="border-top:1px solid var(--line);margin-top:0"><div><div class="ph h2" style="font-size:12px;font-weight:700;color:#6B6146">기관 유형별 준수율</div></div></div>
-          <div id="clsBar" style="padding:12px 16px"></div>
-          <div class="ph" style="border-top:1px solid var(--line)"><div><div class="ph h2" style="font-size:12px;font-weight:700;color:#6B6146">시·도 순위</div></div></div>
-          <div style="padding:8px 16px 14px" id="sidoRank"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ② 키워드 분석 -->
-    <div class="view" id="v-kw">
-      <div class="gap">
-        <div class="panel">
-          <div class="ph">
-            <div><div class="ph h2" style="font-size:13.5px;font-weight:800;color:#241F14">민원 분야 키워드</div><div class="sub">고충민원 분야별 접수건수 · 버블 크기 = 2025년 접수량 · 색 = 전년 대비 증감 · 클릭하면 상세 보기</div></div>
-            <span class="tag b">2024 → 2025</span>
-          </div>
-          <svg id="bubbleSvg" role="img" aria-label="민원 분야 키워드 버블"></svg>
-          <div class="map-legend" style="justify-content:center;gap:20px">
-            <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#EF5350"></span>전년 대비 증가</span>
-            <span style="display:flex;align-items:center;gap:6px"><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#1565C0"></span>전년 대비 감소·유지</span>
-            <span style="font-size:11px;color:#8A7F5E">* 기타 분야 제외</span>
-          </div>
-        </div>
-      </div>
-      <div class="g2">
-        <div class="panel">
-          <div class="ph"><div><div class="ph h2" style="font-size:13.5px;font-weight:800;color:#241F14">증가율 상위 키워드</div><div class="sub">2024년 대비 접수건수 증가율 (기타 제외)</div></div></div>
-          <div class="pb" id="incrBar"></div>
-        </div>
-        <div class="panel">
-          <div class="ph"><div><div class="ph h2" style="font-size:13.5px;font-weight:800;color:#241F14">접수량 상위 키워드</div><div class="sub">2025년 기준 상위 10개 분야</div></div></div>
-          <div class="pb" id="topBar"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ③ 기관 랭킹 -->
-    <div class="view" id="v-org">
-      <div class="panel">
-        <div class="tbl-tools">
-          <input type="search" id="orgQ" placeholder="기관명 검색 (예: 창원, 경찰청)">
-          <select id="orgCls">
-            <option value="">전체 기관 유형</option>
-          </select>
-          <div class="chips">
-            <button class="chip on" data-sort="rate-asc">낮은 준수율</button>
-            <button class="chip" data-sort="rate-desc">높은 준수율</button>
-            <button class="chip" data-sort="over-desc">초과건수 많은 순</button>
-            <button class="chip" data-sort="total-desc">처리량 많은 순</button>
-          </div>
-          <span style="font-size:11px;color:var(--fg3);margin-left:auto" id="orgCount"></span>
-        </div>
-        <div class="tbl-wrap">
-          <table>
-            <thead><tr>
-              <th style="width:120px">기관유형</th>
-              <th>기관명</th>
-              <th style="width:90px">처리건수</th>
-              <th style="width:80px">기간초과</th>
-              <th style="width:140px">준수율</th>
-            </tr></thead>
-            <tbody id="orgTbody"></tbody>
-          </table>
-        </div>
-        <div class="note"><b>읽는 법</b>처리건수가 적은 기관은 1~2건만 지연돼도 준수율이 크게 떨어집니다. 준수율과 처리건수를 함께 봐야 합니다.</div>
-      </div>
-    </div>
-
-    <!-- ④ 추이·경로 -->
-    <div class="view" id="v-trend">
-      <div class="g2 gap">
-        <div class="panel">
-          <div class="ph"><div><div class="ph h2" style="font-size:13.5px;font-weight:800;color:#241F14">고충민원 연도별 접수 추이</div><div class="sub">2008–2025 전체 흐름</div></div></div>
-          <svg id="trendSvg" viewBox="0 0 500 220" role="img" aria-label="고충민원 연도별 추이"></svg>
-          <div class="note"><b>2025</b>51,079건으로 전년 대비 19.0% 증가. 인용·시정권고·조정합의는 모두 소폭 감소.</div>
-        </div>
-        <div class="panel">
-          <div class="ph"><div><div class="ph h2" style="font-size:13.5px;font-weight:800;color:#241F14">처리 결과 비교</div><div class="sub">2024 vs 2025 · 인용·시정권고·의견표명·조정합의</div></div></div>
-          <div class="pb" id="resultRows"></div>
-          <div class="note"><b>주의</b>접수 증가에도 인용 건수는 오히려 줄어 민원 수용률 하락. 접수 증가분 대부분이 '기타' 분야에 집중.</div>
-        </div>
-      </div>
-      <div class="g2">
-        <div class="panel">
-          <div class="ph"><div><div class="ph h2" style="font-size:13.5px;font-weight:800;color:#241F14">접수경로 구성</div><div class="sub">2025년 국민신문고 총 11,697,691건</div></div></div>
-          <div class="pb" style="display:flex;gap:20px;align-items:center">
-            <svg id="donut" viewBox="0 0 180 180" role="img" aria-label="접수경로 도넛차트"></svg>
-            <div class="legend-list" id="routeLegend"></div>
-          </div>
-          <div class="note"><b>변화</b>지자체 이송이첩이 2024년 87,081건 → 2025년 30,538건으로 64.9% 감소. 온라인 집중 심화.</div>
-        </div>
-        <div class="panel">
-          <div class="ph"><div><div class="ph h2" style="font-size:13.5px;font-weight:800;color:#241F14">국민제안 접수</div><div class="sub">2024–2025 비교</div></div></div>
-          <div class="pb" id="sugRows"></div>
-          <div class="ph" style="border-top:1px solid var(--line);border-bottom:0;padding-top:12px"><div><div class="ph h2" style="font-size:12px;font-weight:700;color:#6B6146">전년 대비 변화</div></div></div>
-          <div style="padding:12px 16px 16px" id="sugDiff"></div>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /.content -->
-</div><!-- /.layout -->
+<div class="scrim" id="scrim" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal"><div class="mh"><div><h2 id="mTitle">—</h2><p id="mSub"></p></div>
+    <button class="close" id="mClose" aria-label="닫기">✕</button></div>
+    <div class="mb" id="mBody"></div></div>
+</div>
 
 <script>
-const DATA={"sido":[{"sido":"강원","total":68532,"inTime":67999,"over":533,"n":19,"rate":99.22},{"sido":"경기","total":893087,"inTime":889534,"over":3553,"n":32,"rate":99.6},{"sido":"경남","total":161089,"inTime":160238,"over":851,"n":19,"rate":99.47},{"sido":"경북","total":125157,"inTime":123672,"over":1485,"n":23,"rate":98.81},{"sido":"대구","total":149848,"inTime":147885,"over":1963,"n":10,"rate":98.69},{"sido":"대전","total":128064,"inTime":127826,"over":238,"n":6,"rate":99.81},{"sido":"부산","total":199849,"inTime":198871,"over":978,"n":17,"rate":99.51},{"sido":"서울","total":396900,"inTime":392666,"over":4234,"n":26,"rate":98.93},{"sido":"세종","total":19555,"inTime":19516,"over":39,"n":1,"rate":99.8},{"sido":"울산","total":89711,"inTime":89322,"over":389,"n":6,"rate":99.57},{"sido":"인천","total":143026,"inTime":142185,"over":841,"n":8,"rate":99.41},{"sido":"전북","total":89199,"inTime":87784,"over":1415,"n":15,"rate":98.41},{"sido":"제주","total":32616,"inTime":32548,"over":68,"n":3,"rate":99.79},{"sido":"충남","total":128823,"inTime":127768,"over":1055,"n":16,"rate":99.18},{"sido":"충북","total":112155,"inTime":111413,"over":742,"n":12,"rate":99.34}],"natTotal":{"total":3493876,"inTime":3449081,"over":44795,"rate":98.72,"orgs":975},"locTotal":{"total":2737611,"over":18384,"rate":99.33},"orgs":[{"cls":"중앙행정기관","name":"개인정보보호위원회","total":2405,"over":63,"rate":97.38,"sido":""},{"cls":"중앙행정기관","name":"경찰청","total":161125,"over":310,"rate":99.81,"sido":""},{"cls":"중앙행정기관","name":"고용노동부","total":36219,"over":1819,"rate":94.98,"sido":""},{"cls":"중앙행정기관","name":"고위공직자범죄수사처","total":1980,"over":1,"rate":99.95,"sido":""},{"cls":"중앙행정기관","name":"고준위방사성폐기물관리위원회","total":17,"over":0,"rate":100.0,"sido":""},{"cls":"중앙행정기관","name":"공정거래위원회","total":11858,"over":804,"rate":93.22,"sido":""},{"cls":"중앙행정기관","name":"과학기술정보통신부","total":11447,"over":6,"rate":99.95,"sido":""},{"cls":"중앙행정기관","name":"관세청","total":1931,"over":6,"rate":99.69,"sido":""},{"cls":"중앙행정기관","name":"교육부","total":5739,"over":118,"rate":97.94,"sido":""},{"cls":"중앙행정기관","name":"국가건축정책위원회","total":46,"over":0,"rate":100.0,"sido":""},{"cls":"중앙행정기관","name":"국가교육위원회","total":149,"over":7,"rate":95.3,"sido":""},{"cls":"중앙행정기관","name":"국가데이터처","total":263,"over":1,"rate":99.62,"sido":""},{"cls":"중앙행정기관","name":"국가보훈부","total":2453,"over":0,"rate":100.0,"sido":""},{"cls":"중앙행정기관","name":"국가유산청","total":799,"over":5,"rate":99.37,"sido":""},{"cls":"중앙행정기관","name":"국가인권위원회","total":2053,"over":7,"rate":99.66,"sido":""},{"cls":"중앙행정기관","name":"국무조정실","total":932,"over":16,"rate":98.28,"sido":""},{"cls":"중앙행정기관","name":"국무총리비서실","total":1319,"over":1,"rate":99.92,"sido":""},{"cls":"중앙행정기관","name":"국민권익위원회","total":8455,"over":17,"rate":99.8,"sido":""},{"cls":"중앙행정기관","name":"국방부","total":22234,"over":45,"rate":99.8,"sido":""},{"cls":"중앙행정기관","name":"국세청","total":11765,"over":18,"rate":99.85,"sido":""},{"cls":"중앙행정기관","name":"국토교통부","total":114076,"over":5699,"rate":95.0,"sido":""},{"cls":"중앙행정기관","name":"금융위원회","total":1943,"over":546,"rate":71.9,"sido":""},{"cls":"중앙행정기관","name":"기상청","total":112,"over":2,"rate":98.21,"sido":""},{"cls":"중앙행정기관","name":"기획예산처","total":1727,"over":17,"rate":99.02,"sido":""},{"cls":"중앙행정기관","name":"기후에너지환경부","total":9075,"over":418,"rate":95.39,"sido":""},{"cls":"중앙행정기관","name":"농림축산식품부","total":5025,"over":12,"rate":99.76,"sido":""},{"cls":"중앙행정기관","name":"농촌진흥청","total":177,"over":0,"rate":100.0,"sido":""},{"cls":"중앙행정기관","name":"대검찰청","total":14296,"over":21,"rate":99.85,"sido":""},{"cls":"중앙행정기관","name":"문화체육관광부","total":3455,"over":76,"rate":97.8,"sido":""},{"cls":"중앙행정기관","name":"민주평화통일자문회의사무처","total":36,"over":1,"rate":97.22,"sido":""},{"cls":"중앙행정기관","name":"방송미디어통신위원회","total":4116,"over":12,"rate":99.71,"sido":""},{"cls":"중앙행정기관","name":"방위사업청","total":125,"over":0,"rate":100.0,"sido":""},{"cls":"중앙행정기관","name":"법무부","total":9759,"over":197,"rate":97.98,"sido":""},{"cls":"중앙행정기관","name":"법제처","total":839,"over":8,"rate":99.05,"sido":""},{"cls":"중앙행정기관","name":"병무청","total":2642,"over":2,"rate":99.92,"sido":""},{"cls":"중앙행정기관","name":"보건복지부","total":34454,"over":8703,"rate":74.74,"sido":""},{"cls":"중앙행정기관","name":"부마민주항쟁진상규명및관련자명예회복심의위원회","total":24,"over":0,"rate":100.0,"sido":""},{"cls":"중앙행정기관","name":"산림청","total":2053,"over":11,"rate":99.46,"sido":""},{"cls":"중앙행정기관","name":"산업통상부","total":2432,"over":168,"rate":93.09,"sido":""},{"cls":"중앙행정기관","name":"새만금개발청","total":71,"over":2,"rate":97.18,"sido":""},{"cls":"중앙행정기관","name":"성평등가족부","total":1007,"over":3,"rate":99.7,"sido":""},{"cls":"중앙행정기관","name":"소방청","total":3819,"over":46,"rate":98.8,"sido":""},{"cls":"중앙행정기관","name":"식품의약품안전처","total":15334,"over":0,"rate":100.0,"sido":""},{"cls":"중앙행정기관","name":"외교부","total":1606,"over":15,"rate":99.07,"sido":""},{"cls":"중앙행정기관","name":"우주항공청","total":32,"over":0,"rate":100.0,"sido":""},{"cls":"중앙행정기관","name":"원자력안전위원회","total":49,"over":0,"rate":100.0,"sido":""},{"cls":"중앙행정기관","name":"인사혁신처","total":2741,"over":4,"rate":99.85,"sido":""},{"cls":"중앙행정기관","name":"재외동포청","total":68,"over":2,"rate":97.06,"sido":""},{"cls":"중앙행정기관","name":"재정경제부","total":1810,"over":97,"rate":94.64,"sido":""},{"cls":"중앙행정기관","name":"저출산고령사회위원회","total":86,"over":39,"rate":54.65,"sido":""},{"cls":"중앙행정기관","name":"조달청","total":2654,"over":5,"rate":99.81,"sido":""},{"cls":"중앙행정기관","name":"중소벤처기업부","total":1146,"over":51,"rate":95.55,"sido":""},{"cls":"중앙행정기관","name":"지식재산처","total":317,"over":4,"rate":98.74,"sido":""},{"cls":"중앙행정기관","name":"진실화해를위한과거사정리위원회","total":61,"over":0,"rate":100.0,"sido":""},{"cls":"중앙행정기관","name":"질병관리청","total":472,"over":2,"rate":99.58,"sido":""},{"cls":"중앙행정기관","name":"통일부","total":228,"over":7,"rate":96.93,"sido":""},{"cls":"중앙행정기관","name":"해양경찰청","total":522,"over":14,"rate":97.32,"sido":""},{"cls":"중앙행정기관","name":"해양수산부","total":5410,"over":13,"rate":99.76,"sido":""},{"cls":"중앙행정기관","name":"행정안전부","total":11149,"over":96,"rate":99.14,"sido":""},{"cls":"중앙행정기관","name":"행정중심복합도시건설청","total":38,"over":0,"rate":100.0,"sido":""},{"cls":"광역자치단체","name":"강원특별자치도","total":1539,"over":20,"rate":98.7,"sido":"강원"},{"cls":"광역자치단체","name":"경기도","total":14329,"over":107,"rate":99.25,"sido":"경기"},{"cls":"광역자치단체","name":"경상남도","total":1465,"over":3,"rate":99.8,"sido":"경남"},{"cls":"광역자치단체","name":"경상북도","total":1706,"over":9,"rate":99.47,"sido":"경북"},{"cls":"광역자치단체","name":"대구광역시","total":4377,"over":1,"rate":99.98,"sido":"대구"},{"cls":"광역자치단체","name":"대전광역시","total":15859,"over":10,"rate":99.94,"sido":"대전"},{"cls":"광역자치단체","name":"부산광역시","total":8222,"over":7,"rate":99.91,"sido":"부산"},{"cls":"광역자치단체","name":"서울특별시","total":51242,"over":481,"rate":99.06,"sido":"서울"},{"cls":"광역자치단체","name":"세종특별자치시","total":19555,"over":39,"rate":99.8,"sido":"세종"},{"cls":"광역자치단체","name":"울산광역시","total":4086,"over":4,"rate":99.9,"sido":"울산"},{"cls":"광역자치단체","name":"인천광역시","total":11428,"over":241,"rate":97.89,"sido":"인천"},{"cls":"광역자치단체","name":"전북특별자치도","total":1479,"over":73,"rate":95.06,"sido":"전북"},{"cls":"광역자치단체","name":"제주특별자치도","total":1872,"over":12,"rate":99.36,"sido":"제주"},{"cls":"광역자치단체","name":"충청남도","total":3628,"over":84,"rate":97.68,"sido":"충남"},{"cls":"광역자치단체","name":"충청북도","total":1566,"over":8,"rate":99.49,"sido":"충북"},{"cls":"기초자치단체","name":"강원특별자치도 강릉시","total":11822,"over":61,"rate":99.48,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 고성군","total":1054,"over":0,"rate":100.0,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 동해시","total":3892,"over":64,"rate":98.36,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 삼척시","total":2589,"over":11,"rate":99.58,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 속초시","total":4353,"over":0,"rate":100.0,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 양구군","total":594,"over":3,"rate":99.49,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 양양군","total":1545,"over":0,"rate":100.0,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 영월군","total":1310,"over":26,"rate":98.02,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 원주시","total":18633,"over":123,"rate":99.34,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 인제군","total":767,"over":13,"rate":98.31,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 정선군","total":1125,"over":30,"rate":97.33,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 철원군","total":1316,"over":13,"rate":99.01,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 춘천시","total":11026,"over":80,"rate":99.27,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 태백시","total":1315,"over":3,"rate":99.77,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 평창군","total":1113,"over":33,"rate":97.04,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 홍천군","total":2435,"over":38,"rate":98.44,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 화천군","total":709,"over":2,"rate":99.72,"sido":"강원"},{"cls":"기초자치단체","name":"강원특별자치도 횡성군","total":1395,"over":13,"rate":99.07,"sido":"강원"},{"cls":"기초자치단체","name":"경기도 가평군","total":2987,"over":20,"rate":99.33,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 고양시","total":56484,"over":447,"rate":99.21,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 과천시","total":9859,"over":72,"rate":99.27,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 광명시","total":19151,"over":49,"rate":99.74,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 광주시","total":16831,"over":11,"rate":99.93,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 구리시","total":8993,"over":20,"rate":99.78,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 군포시","total":15438,"over":44,"rate":99.71,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 김포시","total":24736,"over":19,"rate":99.92,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 남양주시","total":28494,"over":216,"rate":99.24,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 동두천시","total":3775,"over":11,"rate":99.71,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 부천시","total":46877,"over":49,"rate":99.9,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 성남시","total":85840,"over":644,"rate":99.25,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 수원시","total":100030,"over":98,"rate":99.9,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 시흥시","total":40535,"over":8,"rate":99.98,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 안산시","total":54483,"over":28,"rate":99.95,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 안성시","total":10179,"over":29,"rate":99.72,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 안양시","total":36649,"over":560,"rate":98.47,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 양주시","total":14618,"over":20,"rate":99.86,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 양평군","total":4182,"over":61,"rate":98.54,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 여주시","total":4769,"over":87,"rate":98.18,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 연천군","total":2206,"over":13,"rate":99.41,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 오산시","total":16675,"over":58,"rate":99.65,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 용인시","total":59457,"over":30,"rate":99.95,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 의왕시","total":8326,"over":38,"rate":99.54,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 의정부시","total":26798,"over":16,"rate":99.94,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 이천시","total":10282,"over":33,"rate":99.68,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 파주시","total":24089,"over":91,"rate":99.62,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 평택시","total":52697,"over":317,"rate":99.4,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 포천시","total":5589,"over":69,"rate":98.77,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 하남시","total":16689,"over":5,"rate":99.97,"sido":"경기"},{"cls":"기초자치단체","name":"경기도 화성시","total":71040,"over":283,"rate":99.6,"sido":"경기"},{"cls":"기초자치단체","name":"경상남도 거제시","total":8934,"over":6,"rate":99.93,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 거창군","total":1651,"over":8,"rate":99.52,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 고성군","total":1327,"over":5,"rate":99.62,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 김해시","total":32267,"over":75,"rate":99.77,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 남해군","total":1026,"over":3,"rate":99.71,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 밀양시","total":3289,"over":1,"rate":99.97,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 사천시","total":4208,"over":17,"rate":99.6,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 산청군","total":642,"over":0,"rate":100.0,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 양산시","total":17519,"over":73,"rate":99.58,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 의령군","total":697,"over":252,"rate":63.85,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 진주시","total":17608,"over":84,"rate":99.52,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 창녕군","total":1869,"over":10,"rate":99.46,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 창원시","total":58368,"over":203,"rate":99.65,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 통영시","total":4333,"over":2,"rate":99.95,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 하동군","total":1103,"over":13,"rate":98.82,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 함안군","total":2647,"over":46,"rate":98.26,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 함양군","total":1358,"over":32,"rate":97.64,"sido":"경남"},{"cls":"기초자치단체","name":"경상남도 합천군","total":778,"over":18,"rate":97.69,"sido":"경남"},{"cls":"기초자치단체","name":"경상북도 경산시","total":13722,"over":87,"rate":99.37,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 경주시","total":11857,"over":247,"rate":97.92,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 고령군","total":871,"over":3,"rate":99.66,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 구미시","total":26393,"over":42,"rate":99.84,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 김천시","total":5744,"over":39,"rate":99.32,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 문경시","total":2418,"over":111,"rate":95.41,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 봉화군","total":709,"over":52,"rate":92.67,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 상주시","total":2210,"over":46,"rate":97.92,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 성주군","total":1544,"over":43,"rate":97.22,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 안동시","total":7552,"over":26,"rate":99.66,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 영덕군","total":921,"over":83,"rate":90.99,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 영양군","total":368,"over":0,"rate":100.0,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 영주시","total":3094,"over":39,"rate":98.74,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 영천시","total":3481,"over":3,"rate":99.91,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 예천군","total":1313,"over":44,"rate":96.65,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 울릉군","total":232,"over":12,"rate":94.83,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 울진군","total":1232,"over":20,"rate":98.38,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 의성군","total":1192,"over":1,"rate":99.92,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 청도군","total":1150,"over":14,"rate":98.78,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 청송군","total":378,"over":2,"rate":99.47,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 칠곡군","total":3903,"over":18,"rate":99.54,"sido":"경북"},{"cls":"기초자치단체","name":"경상북도 포항시","total":33167,"over":544,"rate":98.36,"sido":"경북"},{"cls":"기초자치단체","name":"대구광역시 군위군","total":570,"over":29,"rate":94.91,"sido":"대구"},{"cls":"기초자치단체","name":"대구광역시 남구","total":8879,"over":64,"rate":99.28,"sido":"대구"},{"cls":"기초자치단체","name":"대구광역시 달서구","total":27830,"over":81,"rate":99.71,"sido":"대구"},{"cls":"기초자치단체","name":"대구광역시 달성군","total":10186,"over":278,"rate":97.27,"sido":"대구"},{"cls":"기초자치단체","name":"대구광역시 동구","total":21473,"over":1158,"rate":94.61,"sido":"대구"},{"cls":"기초자치단체","name":"대구광역시 북구","total":24801,"over":141,"rate":99.43,"sido":"대구"},{"cls":"기초자치단체","name":"대구광역시 서구","total":9271,"over":5,"rate":99.95,"sido":"대구"},{"cls":"기초자치단체","name":"대구광역시 수성구","total":26834,"over":63,"rate":99.77,"sido":"대구"},{"cls":"기초자치단체","name":"대구광역시 중구","total":15627,"over":143,"rate":99.08,"sido":"대구"},{"cls":"기초자치단체","name":"대전광역시 대덕구","total":10964,"over":14,"rate":99.87,"sido":"대전"},{"cls":"기초자치단체","name":"대전광역시 동구","total":13661,"over":31,"rate":99.77,"sido":"대전"},{"cls":"기초자치단체","name":"대전광역시 서구","total":40297,"over":44,"rate":99.89,"sido":"대전"},{"cls":"기초자치단체","name":"대전광역시 유성구","total":30987,"over":106,"rate":99.66,"sido":"대전"},{"cls":"기초자치단체","name":"대전광역시 중구","total":16296,"over":33,"rate":99.8,"sido":"대전"},{"cls":"기초자치단체","name":"부산광역시 강서구","total":11491,"over":75,"rate":99.35,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 금정구","total":9594,"over":92,"rate":99.04,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 기장군","total":10697,"over":75,"rate":99.3,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 남구","total":11134,"over":16,"rate":99.86,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 동구","total":7427,"over":2,"rate":99.97,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 동래구","total":12416,"over":92,"rate":99.26,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 부산진구","total":40532,"over":124,"rate":99.69,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 북구","total":8747,"over":35,"rate":99.6,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 사상구","total":9260,"over":49,"rate":99.47,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 사하구","total":11698,"over":5,"rate":99.96,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 서구","total":5834,"over":19,"rate":99.67,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 수영구","total":13486,"over":10,"rate":99.93,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 연제구","total":11082,"over":1,"rate":99.99,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 영도구","total":4254,"over":12,"rate":99.72,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 중구","total":4114,"over":17,"rate":99.59,"sido":"부산"},{"cls":"기초자치단체","name":"부산광역시 해운대구","total":19861,"over":347,"rate":98.25,"sido":"부산"},{"cls":"기초자치단체","name":"서울특별시 강남구","total":29702,"over":165,"rate":99.44,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 강동구","total":16860,"over":30,"rate":99.82,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 강북구","total":7884,"over":42,"rate":99.47,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 강서구","total":16742,"over":153,"rate":99.09,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 관악구","total":18478,"over":884,"rate":95.22,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 광진구","total":15689,"over":44,"rate":99.72,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 구로구","total":12232,"over":237,"rate":98.06,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 금천구","total":10949,"over":7,"rate":99.94,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 노원구","total":14027,"over":124,"rate":99.12,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 도봉구","total":8663,"over":156,"rate":98.2,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 동대문구","total":11898,"over":132,"rate":98.89,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 동작구","total":8511,"over":46,"rate":99.46,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 마포구","total":15520,"over":40,"rate":99.74,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 서대문구","total":7595,"over":49,"rate":99.35,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 서초구","total":20367,"over":227,"rate":98.89,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 성동구","total":9257,"over":14,"rate":99.85,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 성북구","total":10575,"over":4,"rate":99.96,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 송파구","total":25981,"over":260,"rate":99.0,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 양천구","total":10878,"over":27,"rate":99.75,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 영등포구","total":16214,"over":370,"rate":97.72,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 용산구","total":11581,"over":75,"rate":99.35,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 은평구","total":11996,"over":321,"rate":97.32,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 종로구","total":10554,"over":86,"rate":99.19,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 중구","total":9902,"over":50,"rate":99.5,"sido":"서울"},{"cls":"기초자치단체","name":"서울특별시 중랑구","total":13603,"over":210,"rate":98.46,"sido":"서울"},{"cls":"기초자치단체","name":"울산광역시 남구","total":38329,"over":5,"rate":99.99,"sido":"울산"},{"cls":"기초자치단체","name":"울산광역시 동구","total":5398,"over":58,"rate":98.93,"sido":"울산"},{"cls":"기초자치단체","name":"울산광역시 북구","total":12367,"over":48,"rate":99.61,"sido":"울산"},{"cls":"기초자치단체","name":"울산광역시 울주군","total":15330,"over":142,"rate":99.07,"sido":"울산"},{"cls":"기초자치단체","name":"울산광역시 중구","total":14201,"over":132,"rate":99.07,"sido":"울산"},{"cls":"기초자치단체","name":"인천광역시 강화군","total":2440,"over":20,"rate":99.18,"sido":"인천"},{"cls":"기초자치단체","name":"인천광역시 계양구","total":15867,"over":9,"rate":99.94,"sido":"인천"},{"cls":"기초자치단체","name":"인천광역시 남동구","total":30499,"over":231,"rate":99.24,"sido":"인천"},{"cls":"기초자치단체","name":"인천광역시 미추홀구","total":26418,"over":226,"rate":99.14,"sido":"인천"},{"cls":"기초자치단체","name":"인천광역시 부평구","total":29826,"over":43,"rate":99.86,"sido":"인천"},{"cls":"기초자치단체","name":"인천광역시 연수구","total":25892,"over":64,"rate":99.75,"sido":"인천"},{"cls":"기초자치단체","name":"인천광역시 옹진군","total":656,"over":7,"rate":98.93,"sido":"인천"},{"cls":"기초자치단체","name":"전북특별자치도 고창군","total":1210,"over":18,"rate":98.51,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 군산시","total":11454,"over":27,"rate":99.76,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 김제시","total":2903,"over":14,"rate":99.52,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 남원시","total":3213,"over":3,"rate":99.91,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 무주군","total":547,"over":14,"rate":97.44,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 부안군","total":2054,"over":68,"rate":96.69,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 순창군","total":694,"over":2,"rate":99.71,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 완주군","total":5502,"over":42,"rate":99.24,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 익산시","total":12029,"over":64,"rate":99.47,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 임실군","total":877,"over":7,"rate":99.2,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 장수군","total":370,"over":30,"rate":91.89,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 전주시","total":43333,"over":931,"rate":97.85,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 정읍시","total":2969,"over":3,"rate":99.9,"sido":"전북"},{"cls":"기초자치단체","name":"전북특별자치도 진안군","total":565,"over":119,"rate":78.94,"sido":"전북"},{"cls":"기초자치단체","name":"제주특별자치도 서귀포시","total":5547,"over":15,"rate":99.73,"sido":"제주"},{"cls":"기초자치단체","name":"제주특별자치도 제주시","total":25197,"over":41,"rate":99.84,"sido":"제주"},{"cls":"기초자치단체","name":"충청남도 계룡시","total":2317,"over":18,"rate":99.22,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 공주시","total":4712,"over":5,"rate":99.89,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 금산군","total":1742,"over":38,"rate":97.82,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 논산시","total":4269,"over":26,"rate":99.39,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 당진시","total":10053,"over":278,"rate":97.23,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 보령시","total":3817,"over":0,"rate":100.0,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 부여군","total":1558,"over":41,"rate":97.37,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 서산시","total":8153,"over":71,"rate":99.13,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 서천군","total":1535,"over":11,"rate":99.28,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 아산시","total":20197,"over":230,"rate":98.86,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 예산군","total":2660,"over":57,"rate":97.86,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 천안시","total":56110,"over":58,"rate":99.9,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 청양군","total":1046,"over":3,"rate":99.71,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 태안군","total":1840,"over":108,"rate":94.13,"sido":"충남"},{"cls":"기초자치단체","name":"충청남도 홍성군","total":5186,"over":27,"rate":99.48,"sido":"충남"},{"cls":"기초자치단체","name":"충청북도 괴산군","total":1143,"over":20,"rate":98.25,"sido":"충북"},{"cls":"기초자치단체","name":"충청북도 단양군","total":1421,"over":112,"rate":92.12,"sido":"충북"},{"cls":"기초자치단체","name":"충청북도 보은군","total":952,"over":0,"rate":100.0,"sido":"충북"},{"cls":"기초자치단체","name":"충청북도 영동군","total":1078,"over":20,"rate":98.14,"sido":"충북"},{"cls":"기초자치단체","name":"충청북도 옥천군","total":2335,"over":19,"rate":99.19,"sido":"충북"},{"cls":"기초자치단체","name":"충청북도 음성군","total":7406,"over":1,"rate":99.99,"sido":"충북"},{"cls":"기초자치단체","name":"충청북도 제천시","total":5340,"over":133,"rate":97.51,"sido":"충북"},{"cls":"기초자치단체","name":"충청북도 증평군","total":1690,"over":4,"rate":99.76,"sido":"충북"},{"cls":"기초자치단체","name":"충청북도 진천군","total":4820,"over":30,"rate":99.38,"sido":"충북"},{"cls":"기초자치단체","name":"충청북도 청주시","total":75251,"over":388,"rate":99.48,"sido":"충북"},{"cls":"기초자치단체","name":"충청북도 충주시","total":9153,"over":7,"rate":99.92,"sido":"충북"},{"cls":"시도교육청","name":"강원특별자치도교육청","total":719,"over":0,"rate":100.0,"sido":""},{"cls":"시도교육청","name":"경기도교육청","total":12472,"over":2,"rate":99.98,"sido":""},{"cls":"시도교육청","name":"경상남도교육청","total":1289,"over":0,"rate":100.0,"sido":""},{"cls":"시도교육청","name":"경상북도교육청","total":1763,"over":25,"rate":98.58,"sido":""},{"cls":"시도교육청","name":"대구광역시교육청","total":1072,"over":0,"rate":100.0,"sido":""},{"cls":"시도교육청","name":"대전광역시교육청","total":785,"over":3,"rate":99.62,"sido":""},{"cls":"시도교육청","name":"부산광역시교육청","total":1801,"over":0,"rate":100.0,"sido":""},{"cls":"시도교육청","name":"서울특별시교육청","total":5533,"over":1,"rate":99.98,"sido":""},{"cls":"시도교육청","name":"세종특별자치시교육청","total":379,"over":0,"rate":100.0,"sido":""},{"cls":"시도교육청","name":"울산광역시교육청","total":679,"over":3,"rate":99.56,"sido":""},{"cls":"시도교육청","name":"인천광역시교육청","total":5133,"over":5,"rate":99.9,"sido":""},{"cls":"시도교육청","name":"전북특별자치도교육청","total":762,"over":0,"rate":100.0,"sido":""},{"cls":"시도교육청","name":"제주특별자치도교육청","total":380,"over":0,"rate":100.0,"sido":""},{"cls":"시도교육청","name":"충청남도교육청","total":1006,"over":5,"rate":99.5,"sido":""},{"cls":"시도교육청","name":"충청북도교육청","total":825,"over":1,"rate":99.88,"sido":""},{"cls":"공공기관","name":"(사)남북교류협력지원협회","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"(사)오산스포츠클럽","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"(재)경기도수원월드컵경기장관리재단","total":42,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"(재)성남시청소년청년재단","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"(재)이천문화재단","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"(재)제물포문화재단","total":30,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"(주)강원랜드","total":20,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"88관광개발","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"FITI시험연구원","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"KATRI시험연구원","total":25,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"KOTITI시험연구원","total":137,"over":3,"rate":97.81,"sido":""},{"cls":"공공기관","name":"㈜공영홈쇼핑","total":6,"over":1,"rate":83.33,"sido":""},{"cls":"공공기관","name":"㈜에스알","total":127,"over":1,"rate":99.21,"sido":""},{"cls":"공공기관","name":"㈜인천대교","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"가축위생방역지원본부","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"가평군시설관리공단","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"강남구도시관리공단","total":300,"over":205,"rate":31.67,"sido":""},{"cls":"공공기관","name":"강원정보문화산업진흥원","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"강화군시설관리공단","total":22,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"거제해양관광개발공사","total":42,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"건강보험심사평가원","total":2450,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"건설근로자공제회","total":63,"over":2,"rate":96.83,"sido":""},{"cls":"공공기관","name":"게임물관리위원회","total":1057,"over":3,"rate":99.72,"sido":""},{"cls":"공공기관","name":"경기고속도로(주)","total":88,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기관광공사","total":23,"over":2,"rate":91.3,"sido":""},{"cls":"공공기관","name":"경기교통공사","total":141,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기남부도로","total":55,"over":3,"rate":94.55,"sido":""},{"cls":"공공기관","name":"경기대진테크노파크","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기도경제과학진흥원","total":19,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기도농수산진흥원","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기도미래세대재단","total":23,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기도사회적경제원","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기도시장상권진흥원","total":44,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기도여성가족재단","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기도의료원","total":31,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기도일자리재단","total":17,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기도장애인체육회","total":15,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기도체육회","total":174,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기도평생교육진흥원","total":33,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기도학교안전공제회","total":19,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기동서순환도로㈜","total":20,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기문화재단","total":101,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기복지재단","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기신용보증재단","total":64,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기아트센터","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기주택도시공사","total":401,"over":20,"rate":95.01,"sido":""},{"cls":"공공기관","name":"경기철도(주)","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기콘텐츠진흥원","total":19,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기평택항만공사","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경기환경에너지진흥원","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경남개발공사","total":17,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경상북도개발공사","total":21,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경상북도문화관광공사","total":30,"over":1,"rate":96.67,"sido":""},{"cls":"공공기관","name":"경상북도장애인체육회","total":4,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경상북도체육회","total":14,"over":6,"rate":57.14,"sido":""},{"cls":"공공기관","name":"경수고속도로㈜","total":28,"over":1,"rate":96.43,"sido":""},{"cls":"공공기관","name":"경제인문사회연구회","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"경주시시설관리공단","total":19,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"고성문화관광재단","total":4,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"고양도시관리공사","total":285,"over":6,"rate":97.89,"sido":""},{"cls":"공공기관","name":"고양문화재단","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"고양시청소년재단","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"공간정보품질관리원","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"공무원연금공단","total":716,"over":1,"rate":99.86,"sido":""},{"cls":"공공기관","name":"공항철도(주)","total":150,"over":28,"rate":81.33,"sido":""},{"cls":"공공기관","name":"과천도시공사","total":56,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"과학기술인공제회","total":29,"over":1,"rate":96.55,"sido":""},{"cls":"공공기관","name":"광명도시공사","total":97,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"광산구시설관리공단","total":153,"over":4,"rate":97.39,"sido":""},{"cls":"공공기관","name":"광주과학기술원","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"광주광역시관광공사","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"광주광역시도시공사","total":99,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"광주광역시사회서비스원","total":14,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"광주교통공사","total":46,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"광주도시관리공사","total":165,"over":1,"rate":99.39,"sido":""},{"cls":"공공기관","name":"광주디자인진흥원","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"광주북구시설관리공단","total":88,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"광주서구시설관리공단","total":63,"over":1,"rate":98.41,"sido":""},{"cls":"공공기관","name":"광주환경공단","total":63,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"구리농수산물공사","total":26,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"구리도시공사","total":40,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"구미도시공사","total":85,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국가과학기술연구회","total":41,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국가아동권리보장원","total":54,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국가유산진흥원","total":32,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국가철도공단","total":10141,"over":200,"rate":98.03,"sido":""},{"cls":"공공기관","name":"국가평생교육진흥원","total":85,"over":2,"rate":97.65,"sido":""},{"cls":"공공기관","name":"국립공원공단","total":589,"over":8,"rate":98.64,"sido":""},{"cls":"공공기관","name":"국립광주과학관","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립낙동강생물자원관","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립농업박물관","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립대구과학관","total":17,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립박물관문화재단","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립부산과학관","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립생태원","total":29,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립아시아문화전당재단","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립암센터","total":29,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립인천해양박물관","total":4,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립중앙의료원","total":15,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립항공박물관","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립해양과학관","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립해양박물관","total":14,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국립해양생물자원관","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국민건강보험공단","total":3873,"over":20,"rate":99.48,"sido":""},{"cls":"공공기관","name":"국민연금공단","total":1219,"over":12,"rate":99.02,"sido":""},{"cls":"공공기관","name":"국민체육진흥공단","total":140,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국방과학연구소","total":28,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국방기술진흥연구소","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국방기술품질원","total":9,"over":1,"rate":88.89,"sido":""},{"cls":"공공기관","name":"국악방송","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국제방송교류재단","total":8,"over":1,"rate":87.5,"sido":""},{"cls":"공공기관","name":"국제식물검역인증원","total":4,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국토교통과학기술진흥원","total":18,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국토안전관리원","total":183,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"국토연구원","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"그랜드코리아레저(주)","total":3,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"극지연구소","total":8,"over":1,"rate":87.5,"sido":""},{"cls":"공공기관","name":"근로복지공단","total":2072,"over":162,"rate":92.18,"sido":""},{"cls":"공공기관","name":"금융감독원","total":13317,"over":1672,"rate":87.44,"sido":""},{"cls":"공공기관","name":"금융결제원","total":67,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"금천구시설관리공단","total":36,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"기술보증기금","total":90,"over":2,"rate":97.78,"sido":""},{"cls":"공공기관","name":"기장군도시관리공단","total":99,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"기초과학연구원","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"김천시시설관리공단","total":14,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"김포도시공사","total":51,"over":3,"rate":94.12,"sido":""},{"cls":"공공기관","name":"김해문화관광재단","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"김해시도시개발공사","total":57,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"남동구도시관리공단","total":69,"over":1,"rate":98.55,"sido":""},{"cls":"공공기관","name":"남양주도시공사","total":218,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"노사발전재단","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"농림수산식품교육문화정보원","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"농림식품기술기획평가원","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"농업정책보험금융원","total":18,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"농협중앙회","total":871,"over":4,"rate":99.54,"sido":""},{"cls":"공공기관","name":"단양관광공사","total":18,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"당진도시공사","total":36,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대구경북과학기술원","total":3,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대구공공시설관리공단","total":3594,"over":79,"rate":97.8,"sido":""},{"cls":"공공기관","name":"대구광역시동구문화재단","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대구교통공사","total":111,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대구농수산물유통관리공사","total":14,"over":1,"rate":92.86,"sido":""},{"cls":"공공기관","name":"대구도시개발공사","total":32,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대전고암미술문화재단","total":1,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대전관광공사","total":45,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대전광역시시설관리공단","total":84,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대전교통공사","total":238,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대전도시공사","total":56,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대전일자리경제진흥원","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대전평생교육진흥원","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대전환경사업지방자치단체조합","total":61,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대한무역투자진흥공사","total":21,"over":2,"rate":90.48,"sido":""},{"cls":"공공기관","name":"대한법률구조공단","total":2760,"over":26,"rate":99.06,"sido":""},{"cls":"공공기관","name":"대한변호사협회","total":184,"over":53,"rate":71.2,"sido":""},{"cls":"공공기관","name":"대한석탄공사","total":24,"over":2,"rate":91.67,"sido":""},{"cls":"공공기관","name":"대한장애인체육회","total":87,"over":14,"rate":83.91,"sido":""},{"cls":"공공기관","name":"대한적십자사","total":139,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"대한체육회","total":674,"over":31,"rate":95.4,"sido":""},{"cls":"공공기관","name":"독립기념관","total":20,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"동남권원자력의학원","total":7,"over":1,"rate":85.71,"sido":""},{"cls":"공공기관","name":"동두천시시설관리공단","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"동북아역사재단","total":30,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"동해시시설관리공단","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"무역안보관리원","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"문경관광공사","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"미추홀구시설관리공단","total":136,"over":3,"rate":97.79,"sido":""},{"cls":"공공기관","name":"밀양시시설관리공단","total":11,"over":1,"rate":90.91,"sido":""},{"cls":"공공기관","name":"방송미디어통신심의위원회","total":2138,"over":361,"rate":83.12,"sido":""},{"cls":"공공기관","name":"별정우체국연금관리단","total":24,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"부산관광공사","total":34,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"부산광역시남구시설관리공단","total":46,"over":4,"rate":91.3,"sido":""},{"cls":"공공기관","name":"부산교통공사","total":203,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"부산도시공사","total":125,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"부산시설공단","total":299,"over":4,"rate":98.66,"sido":""},{"cls":"공공기관","name":"부산신항제이배후도로주식회사","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"부산울산고속도로주식회사","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"부산항만공사","total":164,"over":1,"rate":99.39,"sido":""},{"cls":"공공기관","name":"부산항보안공사","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"부산환경공단","total":123,"over":1,"rate":99.19,"sido":""},{"cls":"공공기관","name":"부천도시공사","total":820,"over":4,"rate":99.51,"sido":""},{"cls":"공공기관","name":"북한이탈주민지원재단","total":20,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"사립학교교직원연금공단","total":45,"over":1,"rate":97.78,"sido":""},{"cls":"공공기관","name":"산림조합중앙회","total":33,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"상주영천고속도로주식회사","total":27,"over":4,"rate":85.19,"sido":""},{"cls":"공공기관","name":"새마을금고중앙회","total":696,"over":4,"rate":99.43,"sido":""},{"cls":"공공기관","name":"새서울철도(주)","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"생명보험협회","total":148,"over":7,"rate":95.27,"sido":""},{"cls":"공공기관","name":"서민금융진흥원","total":448,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"서부내륙고속도로","total":68,"over":1,"rate":98.53,"sido":""},{"cls":"공공기관","name":"서서울고속도로㈜","total":90,"over":6,"rate":93.33,"sido":""},{"cls":"공공기관","name":"서울고속도로㈜","total":34,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"서울문산고속도로㈜","total":46,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"서울북부고속도로(주)","total":26,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"서울춘천고속도로","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"서울특별시학교안전공제회","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"성남도시개발공사","total":190,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"성남산업진흥원","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"성남시상권활성화재단","total":18,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"성남시의료원","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"세종도시교통공사","total":149,"over":5,"rate":96.64,"sido":""},{"cls":"공공기관","name":"세종연구원","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"세종특별자치시시설관리공단","total":145,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"세종학당재단","total":15,"over":5,"rate":66.67,"sido":""},{"cls":"공공기관","name":"소망교도소","total":35,"over":9,"rate":74.29,"sido":""},{"cls":"공공기관","name":"소상공인시장진흥공단","total":541,"over":21,"rate":96.12,"sido":""},{"cls":"공공기관","name":"속초시시설관리공단","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"손해보험협회","total":102,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"수도권매립지관리공사","total":31,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"수도권서부고속도로","total":90,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"수원도시공사","total":1008,"over":538,"rate":46.63,"sido":""},{"cls":"공공기관","name":"수원문화재단","total":871,"over":3,"rate":99.66,"sido":""},{"cls":"공공기관","name":"수원시체육회","total":107,"over":1,"rate":99.07,"sido":""},{"cls":"공공기관","name":"수협중앙회","total":84,"over":1,"rate":98.81,"sido":""},{"cls":"공공기관","name":"시청자미디어재단","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"시흥도시공사","total":247,"over":4,"rate":98.38,"sido":""},{"cls":"공공기관","name":"식품안전정보원","total":224,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"신공항하이웨이㈜","total":29,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"신대구부산고속도로주식회사","total":42,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"신분당선(주)","total":62,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"신용보증기금","total":147,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"신용보증재단중앙회","total":135,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"신용회복위원회","total":362,"over":33,"rate":90.88,"sido":""},{"cls":"공공기관","name":"아산시시설관리공단","total":55,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"아시아태평양경제협력체기후센터","total":1,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"안동시시설관리공단","total":14,"over":4,"rate":71.43,"sido":""},{"cls":"공공기관","name":"안산도시공사","total":156,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"안성시시설관리공단","total":56,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"안양도시공사","total":53,"over":2,"rate":96.23,"sido":""},{"cls":"공공기관","name":"안양시인재육성재단","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"안양시청소년재단","total":18,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"양산시시설관리공단","total":44,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"양육비이행관리원","total":48,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"양주도시공사","total":84,"over":3,"rate":96.43,"sido":""},{"cls":"공공기관","name":"양평공사","total":127,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"언론중재위원회","total":69,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"에너지경제연구원","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"에코융합섬유연구원","total":3,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"여수광양항만공사","total":54,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"여수시도시관리공단","total":78,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"여주도시공사","total":28,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"연구개발특구진흥재단","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"영상물등급위원회","total":42,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"영월군시설관리공단","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"영화진흥위원회","total":17,"over":2,"rate":88.24,"sido":""},{"cls":"공공기관","name":"예금보험공사","total":95,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"예술의전당","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"오산도시공사","total":33,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"오산시체육회","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"옥산오창고속도로","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"완주군시설관리공단","total":28,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"완주문화재단","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"용인도시공사","total":135,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"용인문화재단","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"용인시청소년미래재단","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"우체국금융개발원","total":55,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"우체국물류지원단","total":130,"over":4,"rate":96.92,"sido":""},{"cls":"공공기관","name":"우체국시설관리단","total":20,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"울산과학기술원","total":1,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"울산광역시 중구 도시관리공단","total":97,"over":6,"rate":93.81,"sido":""},{"cls":"공공기관","name":"울산광역시남구도시관리공단","total":112,"over":1,"rate":99.11,"sido":""},{"cls":"공공기관","name":"울산광역시도시공사","total":15,"over":2,"rate":86.67,"sido":""},{"cls":"공공기관","name":"울산광역시북구시설관리공단","total":66,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"울산시설공단","total":503,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"울산항만공사","total":17,"over":1,"rate":94.12,"sido":""},{"cls":"공공기관","name":"울주군시설관리공단","total":43,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"울진군의료원","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"원주문화재단","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"원주시시설관리공단","total":60,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"의료기관평가인증원","total":48,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"의왕도시공사","total":127,"over":3,"rate":97.64,"sido":""},{"cls":"공공기관","name":"의정부경전철","total":24,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"의정부도시공사","total":117,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"의정부시자원봉사센터","total":4,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"이천시시설관리공단","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"이천시청소년재단","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"익산시도시관리공단","total":29,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"인제군문화재단","total":15,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"인천관광공사","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"인천광역시사회서비스원","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"인천광역시중구시설관리공단","total":169,"over":1,"rate":99.41,"sido":""},{"cls":"공공기관","name":"인천교통공사","total":332,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"인천국제공항공사","total":295,"over":11,"rate":96.27,"sido":""},{"cls":"공공기관","name":"인천김포고속도로","total":43,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"인천도시공사","total":459,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"인천문화재단","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"인천시설공단","total":681,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"인천테크노파크","total":17,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"인천항만공사","total":113,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"인천환경공단","total":35,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"일산대교","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"일제강제동원피해자지원재단","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"자동차손해배상진흥원","total":1099,"over":9,"rate":99.18,"sido":""},{"cls":"공공기관","name":"재단법인대전문화재단","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"전남개발공사","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"전남교육꿈실현재단","total":1,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"전북개발공사","total":20,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"전북대학교병원","total":20,"over":1,"rate":95.0,"sido":""},{"cls":"공공기관","name":"전북특별자치도문화관광재단","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"전북특별자치도콘텐츠융합진흥원","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"전북특별자치도평생교육장학진흥원","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"전주시시설관리공단","total":92,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"정보통신산업진흥원","total":51,"over":2,"rate":96.08,"sido":""},{"cls":"공공기관","name":"정부법무공단","total":40,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"정선군시설관리공단","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"제삼경인고속도로","total":33,"over":2,"rate":93.94,"sido":""},{"cls":"공공기관","name":"제이경인연결고속도로(주)","total":44,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"제이서해안고속도로㈜","total":53,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"제이영동고속도로㈜","total":27,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"제주국제자유도시개발센터","total":24,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"제주문화예술재단","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"제주콘텐츠진흥원","total":12,"over":1,"rate":91.67,"sido":""},{"cls":"공공기관","name":"제주특별자치도사회서비스원","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"제주특별자치도체육회","total":21,"over":4,"rate":80.95,"sido":""},{"cls":"공공기관","name":"주택관리공단","total":421,"over":17,"rate":95.96,"sido":""},{"cls":"공공기관","name":"주택도시보증공사","total":1576,"over":20,"rate":98.73,"sido":""},{"cls":"공공기관","name":"중소기업기술정보진흥원","total":49,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"중소기업은행","total":26,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"중소벤처기업진흥공단","total":161,"over":3,"rate":98.14,"sido":""},{"cls":"공공기관","name":"진안군의료원","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"진주시시설관리공단","total":18,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"창녕군시설관리공단","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"창업진흥원","total":84,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"창원시설공단","total":156,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"천안논산고속도로㈜","total":71,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"천안도시공사","total":72,"over":1,"rate":98.61,"sido":""},{"cls":"공공기관","name":"천안의료원","total":4,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"청와대재단","total":34,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"청주도시공사","total":51,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"축산물품질평가원","total":17,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"축산환경관리원","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"춘천도시공사","total":46,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"춘천문화재단","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"충남혁신도시조합","total":319,"over":13,"rate":95.92,"sido":""},{"cls":"공공기관","name":"충북개발공사","total":13,"over":2,"rate":84.62,"sido":""},{"cls":"공공기관","name":"충북인재평생교육진흥원","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"충주시시설관리공단","total":49,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"충청남도개발공사","total":43,"over":2,"rate":95.35,"sido":""},{"cls":"공공기관","name":"충청남도공주의료원","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"충청남도서산의료원","total":4,"over":3,"rate":25.0,"sido":""},{"cls":"공공기관","name":"코레일관광개발","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"코레일네트웍스","total":1,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"코레일유통","total":23,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"킨텍스","total":21,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"파주도시공사","total":51,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"평택도시공사","total":56,"over":1,"rate":98.21,"sido":""},{"cls":"공공기관","name":"포천도시공사","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"포천시청소년재단","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"포천화도고속도로주식회사","total":30,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"포항시시설관리공단","total":63,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"하남도시공사","total":98,"over":2,"rate":97.96,"sido":""},{"cls":"공공기관","name":"학교법인한국폴리텍","total":67,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국가스공사","total":120,"over":6,"rate":95.0,"sido":""},{"cls":"공공기관","name":"한국가스기술공사","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국가스안전공사","total":350,"over":10,"rate":97.14,"sido":""},{"cls":"공공기관","name":"한국개발연구원","total":1800,"over":884,"rate":50.89,"sido":""},{"cls":"공공기관","name":"한국거래소","total":516,"over":1,"rate":99.81,"sido":""},{"cls":"공공기관","name":"한국건강가정진흥원","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국건설생활환경시험연구원","total":102,"over":3,"rate":97.06,"sido":""},{"cls":"공공기관","name":"한국고용정보원","total":31,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국고전번역원","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국공정거래조정원","total":1089,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국공항공사","total":329,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국과학기술기획평가원","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국과학기술연구원","total":31,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국과학기술원","total":91,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국과학기술원부설고등과학원","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국과학창의재단","total":15,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국관광공사","total":65,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국광해광업공단","total":20,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국교육개발원","total":14,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국교육과정평가원","total":41,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국교육학술정보원","total":43,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국교직원공제회","total":54,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국교통안전공단","total":1320,"over":1,"rate":99.92,"sido":""},{"cls":"공공기관","name":"한국국제교류재단","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국국제협력단","total":52,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국국토정보공사","total":235,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국기계전기전자시험연구원","total":113,"over":1,"rate":99.12,"sido":""},{"cls":"공공기관","name":"한국기상산업기술원","total":3,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국남동발전","total":39,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국남부발전","total":56,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국농수산식품유통공사","total":38,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국농어촌공사","total":2390,"over":30,"rate":98.74,"sido":""},{"cls":"공공기관","name":"한국농업기술진흥원","total":40,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국농촌경제연구원","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국데이터산업진흥원","total":49,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국도로공사","total":3194,"over":23,"rate":99.28,"sido":""},{"cls":"공공기관","name":"한국도로공사서비스(주)","total":866,"over":2,"rate":99.77,"sido":""},{"cls":"공공기관","name":"한국도로교통공단","total":475,"over":7,"rate":98.53,"sido":""},{"cls":"공공기관","name":"한국도박문제예방치유원","total":77,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국도자재단","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국동서발전","total":18,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국등산트레킹지원센터","total":4,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국로봇산업진흥원","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국마사회","total":50,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국마약퇴치운동본부","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국무역보험공사","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국문학번역원","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국문화관광연구원","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국문화예술교육진흥원","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국문화예술위원회","total":85,"over":5,"rate":94.12,"sido":""},{"cls":"공공기관","name":"한국문화정보원","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국물기술인증원","total":56,"over":1,"rate":98.21,"sido":""},{"cls":"공공기관","name":"한국발명진흥회","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국방송광고진흥공사","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국방송통신전파진흥원","total":46,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국법무보호복지공단","total":57,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국법제연구원","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국벤처투자","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국보건복지인재원","total":22,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국보건사회연구원","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국보건산업진흥원","total":30,"over":2,"rate":93.33,"sido":""},{"cls":"공공기관","name":"한국보건의료연구원","total":22,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국보건의료인국가시험원","total":21,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국보훈복지의료공단","total":163,"over":3,"rate":98.16,"sido":""},{"cls":"공공기관","name":"한국부동산원","total":919,"over":13,"rate":98.59,"sido":""},{"cls":"공공기관","name":"한국사학진흥재단","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국사회보장정보원","total":62,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국사회적기업진흥원","total":17,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국산림복지진흥원","total":20,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국산업기술기획평가원","total":9,"over":1,"rate":88.89,"sido":""},{"cls":"공공기관","name":"한국산업기술시험원","total":26,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국산업기술진흥원","total":47,"over":3,"rate":93.62,"sido":""},{"cls":"공공기관","name":"한국산업단지공단","total":67,"over":6,"rate":91.04,"sido":""},{"cls":"공공기관","name":"한국산업안전보건공단","total":2448,"over":28,"rate":98.86,"sido":""},{"cls":"공공기관","name":"한국산업은행","total":37,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국산업인력공단","total":5200,"over":18,"rate":99.65,"sido":""},{"cls":"공공기관","name":"한국생명공학연구원","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국생명존중희망재단","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국생산기술연구원","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국서부발전(주)","total":32,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국석유공사","total":60,"over":17,"rate":71.67,"sido":""},{"cls":"공공기관","name":"한국석유관리원","total":114,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국섬진흥원","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국소방산업기술원","total":19,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국소방안전원","total":46,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국소비자원","total":9042,"over":21,"rate":99.77,"sido":""},{"cls":"공공기관","name":"한국수력원자력(주)","total":288,"over":18,"rate":93.75,"sido":""},{"cls":"공공기관","name":"한국수목원정원관리원","total":68,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국수산자원공단","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국수자원공사","total":1054,"over":6,"rate":99.43,"sido":""},{"cls":"공공기관","name":"한국수출입은행","total":15,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국승강기안전공단","total":447,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국식품안전관리인증원","total":361,"over":1,"rate":99.72,"sido":""},{"cls":"공공기관","name":"한국식품연구원","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국식품연구원부설세계김치연구소","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국양성평등교육진흥원","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국어촌어항공단","total":25,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국언론진흥재단","total":40,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국에너지공단","total":1216,"over":39,"rate":96.79,"sido":""},{"cls":"공공기관","name":"한국에너지기술평가원","total":56,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국에너지재단","total":33,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국여성인권진흥원","total":32,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국연구재단","total":42,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국영상자료원","total":4,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국예탁결제원","total":32,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국우편사업진흥원","total":15,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국원자력안전기술원","total":15,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국원자력안전재단","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국원자력연구원","total":23,"over":3,"rate":86.96,"sido":""},{"cls":"공공기관","name":"한국원자력의학원","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국원자력통제기술원","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국원자력환경공단","total":7,"over":1,"rate":85.71,"sido":""},{"cls":"공공기관","name":"한국은행","total":196,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국의료기기안전정보원","total":204,"over":1,"rate":99.51,"sido":""},{"cls":"공공기관","name":"한국의료분쟁조정중재원","total":152,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국의약품안전관리원","total":14,"over":1,"rate":92.86,"sido":""},{"cls":"공공기관","name":"한국인터넷진흥원","total":1781,"over":26,"rate":98.54,"sido":""},{"cls":"공공기관","name":"한국임업진흥원","total":24,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국자산관리공사","total":2025,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국자활복지개발원","total":24,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국잡월드","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국장기조직기증원","total":3,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국장애인개발원","total":63,"over":13,"rate":79.37,"sido":""},{"cls":"공공기관","name":"한국장애인고용공단","total":102,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국장학재단","total":143,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국재료연구원","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국재정정보원","total":32,"over":1,"rate":96.88,"sido":""},{"cls":"공공기관","name":"한국저작권보호원","total":104,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국저작권위원회","total":54,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국전기안전공사","total":247,"over":12,"rate":95.14,"sido":""},{"cls":"공공기관","name":"한국전력거래소","total":32,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국전력공사","total":7789,"over":305,"rate":96.08,"sido":""},{"cls":"공공기관","name":"한국전력기술","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국정보통신진흥협회","total":1405,"over":344,"rate":75.52,"sido":""},{"cls":"공공기관","name":"한국제품안전관리원","total":2801,"over":83,"rate":97.04,"sido":""},{"cls":"공공기관","name":"한국조폐공사","total":60,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국주택금융공사","total":194,"over":4,"rate":97.94,"sido":""},{"cls":"공공기관","name":"한국중부발전주식회사","total":30,"over":8,"rate":73.33,"sido":""},{"cls":"공공기관","name":"한국중소벤처기업유통원","total":66,"over":2,"rate":96.97,"sido":""},{"cls":"공공기관","name":"한국지능정보사회진흥원","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국지방재정공제회","total":95,"over":2,"rate":97.89,"sido":""},{"cls":"공공기관","name":"한국지식재산보호원","total":291,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국지역난방공사","total":116,"over":2,"rate":98.28,"sido":""},{"cls":"공공기관","name":"한국직업능력연구원","total":25,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국천문연구원","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국철도공사","total":3316,"over":125,"rate":96.23,"sido":""},{"cls":"공공기관","name":"한국철도기술연구원","total":17,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국청소년상담복지개발원","total":26,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국청소년활동진흥원","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국체육산업개발주식회사","total":156,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국출판문화산업진흥원","total":15,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국콘텐츠진흥원","total":734,"over":4,"rate":99.46,"sido":""},{"cls":"공공기관","name":"한국토지주택공사","total":28180,"over":9,"rate":99.97,"sido":""},{"cls":"공공기관","name":"한국통신사업자연합회","total":3559,"over":8,"rate":99.78,"sido":""},{"cls":"공공기관","name":"한국투자공사","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국학중앙연구원","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국항공우주연구원","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국항로표지기술원","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국항만협회","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국해양과학기술원","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국해양교통안전공단","total":25,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국해양수산개발원","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국해양수산연수원","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국해양조사협회","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국해양진흥공사","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국형사·법무정책연구원","total":66,"over":5,"rate":92.42,"sido":""},{"cls":"공공기관","name":"한국화학융합시험연구원","total":2226,"over":10,"rate":99.55,"sido":""},{"cls":"공공기관","name":"한국환경공단","total":721,"over":29,"rate":95.98,"sido":""},{"cls":"공공기관","name":"한국환경보전원","total":32,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한국환경산업기술원","total":659,"over":8,"rate":98.79,"sido":""},{"cls":"공공기관","name":"한국환경연구원","total":15,"over":1,"rate":93.33,"sido":""},{"cls":"공공기관","name":"한국희귀의약품센터","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한식진흥원","total":14,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한전KDN","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"한전KPS(주)","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"합천군시설관리공단","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"항공안전기술원","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"해양환경공단","total":32,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"홍성의료원","total":1,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"화성광주고속도로주식회사","total":51,"over":1,"rate":98.04,"sido":""},{"cls":"공공기관","name":"화성도시공사","total":438,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"화성시문화관광재단","total":47,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"화성시여성가족청소년재단","total":14,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"화성시인재육성재단","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"공공기관","name":"화성시체육회","total":22,"over":1,"rate":95.45,"sido":""},{"cls":"공공기관","name":"화성특례시장애인체육회","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"가천대학교","total":18,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"가톨릭관동대학교","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"가톨릭꽃동네대학교","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"가톨릭대학교","total":13,"over":4,"rate":69.23,"sido":""},{"cls":"고등교육기관","name":"강원대학교","total":93,"over":5,"rate":94.62,"sido":""},{"cls":"고등교육기관","name":"건국대학교","total":20,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"건양대학교","total":19,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"경기대학교","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"경남정보대학교","total":1,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"경동대학교","total":8,"over":1,"rate":87.5,"sido":""},{"cls":"고등교육기관","name":"경북대학교","total":183,"over":6,"rate":96.72,"sido":""},{"cls":"고등교육기관","name":"경상국립대학교","total":60,"over":1,"rate":98.33,"sido":""},{"cls":"고등교육기관","name":"경성대학교","total":11,"over":1,"rate":90.91,"sido":""},{"cls":"고등교육기관","name":"경운대학교","total":19,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"경인교육대학교","total":26,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"경일대학교","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"경희대학교","total":15,"over":1,"rate":93.33,"sido":""},{"cls":"고등교육기관","name":"계명대학교","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"계명문화대학교","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"고신대학교","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"공주교육대학교","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"광운대학교","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"광주교육대학교","total":15,"over":1,"rate":93.33,"sido":""},{"cls":"고등교육기관","name":"광주대학교","total":3,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"구미대학교","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"국립경국대학교","total":20,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"국립공주대학교","total":58,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"국립군산대학교","total":22,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"국립금오공과대학교","total":21,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"국립창원대학교","total":45,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"국립한국교통대학교","total":36,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"국립한밭대학교","total":24,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"국민대학교","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"국제대학교","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"김천대학교","total":15,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"대구가톨릭대학교","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"대구교육대학교","total":15,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"대구대학교","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"대구한의대학교","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"대림대학교","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"대원대학교","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"대전가톨릭대학교","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"대전대학교","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"대전보건대학교","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"대진대학교","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"덕성여자대학교","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"동국대학교","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"동덕여자대학교","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"동명대학교","total":14,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"동서울대학교","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"동신대학교","total":8,"over":3,"rate":62.5,"sido":""},{"cls":"고등교육기관","name":"동아대학교","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"동양대학교","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"동의과학대학교","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"동의대학교","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"마산대학교","total":6,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"명지대학교","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"명지전문대학","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"목원대학교","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"목포대학교","total":20,"over":1,"rate":95.0,"sido":""},{"cls":"고등교육기관","name":"목포해양대학교","total":22,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"백석대학교","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"부경대학교","total":94,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"부산교육대학교","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"부산대학교","total":69,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"부산외국어대학교","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"부천대학교","total":5,"over":1,"rate":80.0,"sido":""},{"cls":"고등교육기관","name":"서경대학교","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"서영대학교","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"서울과학기술대학교","total":41,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"서울교육대학교","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"서울대학교","total":125,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"서울여자간호대학교","total":5,"over":1,"rate":80.0,"sido":""},{"cls":"고등교육기관","name":"서원대학교","total":1,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"서정대학교","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"선문대학교","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"성결대학교","total":15,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"성균관대학교","total":7,"over":1,"rate":85.71,"sido":""},{"cls":"고등교육기관","name":"성신여자대학교","total":3,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"세종대학교","total":24,"over":6,"rate":75.0,"sido":""},{"cls":"고등교육기관","name":"수원과학대학교","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"수원대학교","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"숙명여자대학교","total":4,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"순천대학교","total":14,"over":2,"rate":85.71,"sido":""},{"cls":"고등교육기관","name":"순천향대학교","total":13,"over":3,"rate":76.92,"sido":""},{"cls":"고등교육기관","name":"숭실대학교","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"신라대학교","total":14,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"신한대학교","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"아주대학교","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"안산대학교","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"안양대학교","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"영남대학교","total":2,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"영산대학교","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"영진전문대학교","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"예수대학교","total":3,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"용인대학교","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"우석대학교","total":30,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"우송대학교","total":19,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"우송정보대학","total":8,"over":7,"rate":12.5,"sido":""},{"cls":"고등교육기관","name":"울산대학교","total":15,"over":1,"rate":93.33,"sido":""},{"cls":"고등교육기관","name":"원광대학교","total":17,"over":1,"rate":94.12,"sido":""},{"cls":"고등교육기관","name":"유한대학교","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"인제대학교","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"인천대학교","total":40,"over":1,"rate":97.5,"sido":""},{"cls":"고등교육기관","name":"인하공업전문대학","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"인하대학교","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"전남대학교","total":63,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"전북대학교","total":121,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"전주교육대학교","total":29,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"전주대학교","total":8,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"제주대학교","total":16,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"중부대학교","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"중앙대학교","total":13,"over":1,"rate":92.31,"sido":""},{"cls":"고등교육기관","name":"중원대학교","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"진주교육대학교","total":14,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"진주보건대학교","total":9,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"창신대학교","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"청운대학교","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"청주교육대학교","total":21,"over":1,"rate":95.24,"sido":""},{"cls":"고등교육기관","name":"초당대학교","total":3,"over":1,"rate":66.67,"sido":""},{"cls":"고등교육기관","name":"총신대학교","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"춘천교육대학교","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"충남대학교","total":658,"over":5,"rate":99.24,"sido":""},{"cls":"고등교육기관","name":"충북대학교","total":48,"over":3,"rate":93.75,"sido":""},{"cls":"고등교육기관","name":"평택대학교","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"포항공과대학교","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"한경국립대학교","total":28,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"한국교원대학교","total":25,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"한국기술교육대학교","total":17,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"한국방송통신대학교","total":104,"over":2,"rate":98.08,"sido":""},{"cls":"고등교육기관","name":"한국성서대학교","total":1,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"한국외국어대학교","total":3,"over":1,"rate":66.67,"sido":""},{"cls":"고등교육기관","name":"한국전력국제원자력대학원대학교","total":5,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"한국체육대학교","total":29,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"한국침례신학대학교","total":12,"over":2,"rate":83.33,"sido":""},{"cls":"고등교육기관","name":"한국해양대학교","total":40,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"한남대학교","total":17,"over":1,"rate":94.12,"sido":""},{"cls":"고등교육기관","name":"한림대학교","total":10,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"한성대학교","total":14,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"한세대학교","total":14,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"한양대학교","total":20,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"한양여자대학교","total":12,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"호남대학교","total":11,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"호서대학교","total":13,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"호원대학교","total":7,"over":0,"rate":100.0,"sido":""},{"cls":"고등교육기관","name":"홍익대학교","total":48,"over":0,"rate":100.0,"sido":""},{"cls":"헌법기관","name":"감사원","total":1459,"over":279,"rate":80.88,"sido":""},{"cls":"헌법기관","name":"법원행정처(대법원)","total":6148,"over":497,"rate":91.92,"sido":""},{"cls":"헌법기관","name":"중앙선거관리위원회","total":5828,"over":96,"rate":98.35,"sido":""},{"cls":"헌법기관","name":"헌법재판소","total":595,"over":0,"rate":100.0,"sido":""}],"byClass":[{"cls":"고등교육기관","n":146,"total":3388,"over":65,"rate":98.08},{"cls":"공공기관","n":537,"total":166074,"over":5892,"rate":96.45},{"cls":"광역자치단체","n":15,"total":142353,"over":1099,"rate":99.23},{"cls":"기초자치단체","n":198,"total":2595258,"over":17285,"rate":99.33},{"cls":"시도교육청","n":15,"total":34598,"over":45,"rate":99.87},{"cls":"중앙행정기관","n":60,"total":538175,"over":19537,"rate":96.37},{"cls":"헌법기관","n":4,"total":14030,"over":872,"rate":93.78}],"field":[{"field":"기타","y2024":27031,"y2025":28608,"delta":1577,"pct":5.8},{"field":"교통","y2024":1441,"y2025":4112,"delta":2671,"pct":185.4},{"field":"재정","y2024":936,"y2025":3796,"delta":2860,"pct":305.6},{"field":"경찰","y2024":1900,"y2025":2018,"delta":118,"pct":6.2},{"field":"도로","y2024":908,"y2025":1730,"delta":822,"pct":90.5},{"field":"도시","y2024":1136,"y2025":1351,"delta":215,"pct":18.9},{"field":"보건복지","y2024":1166,"y2025":1129,"delta":-37,"pct":-3.2},{"field":"세무","y2024":875,"y2025":1050,"delta":175,"pct":20.0},{"field":"국방","y2024":556,"y2025":865,"delta":309,"pct":55.6},{"field":"주택","y2024":735,"y2025":827,"delta":92,"pct":12.5},{"field":"행정안전","y2024":1023,"y2025":822,"delta":-201,"pct":-19.6},{"field":"산업자원","y2024":913,"y2025":697,"delta":-216,"pct":-23.7},{"field":"환경","y2024":657,"y2025":675,"delta":18,"pct":2.7},{"field":"농림","y2024":527,"y2025":485,"delta":-42,"pct":-8.0},{"field":"노동","y2024":468,"y2025":473,"delta":5,"pct":1.1},{"field":"교육","y2024":815,"y2025":423,"delta":-392,"pct":-48.1},{"field":"보훈","y2024":376,"y2025":393,"delta":17,"pct":4.5},{"field":"건축","y2024":445,"y2025":391,"delta":-54,"pct":-12.1},{"field":"인사행정","y2024":207,"y2025":299,"delta":92,"pct":44.4},{"field":"민사법무","y2024":107,"y2025":242,"delta":135,"pct":126.2},{"field":"문화관광","y2024":229,"y2025":236,"delta":7,"pct":3.1},{"field":"수자원","y2024":207,"y2025":141,"delta":-66,"pct":-31.9},{"field":"해양수산","y2024":95,"y2025":104,"delta":9,"pct":9.5},{"field":"군사","y2024":26,"y2025":85,"delta":59,"pct":226.9},{"field":"방송통신","y2024":111,"y2025":82,"delta":-29,"pct":-26.1},{"field":"외무통일","y2024":27,"y2025":45,"delta":18,"pct":66.7}],"topKeywords":[{"field":"교통","y2025":4112,"y2024":1441,"pct":185.4},{"field":"재정","y2025":3796,"y2024":936,"pct":305.6},{"field":"경찰","y2025":2018,"y2024":1900,"pct":6.2},{"field":"도로","y2025":1730,"y2024":908,"pct":90.5},{"field":"도시","y2025":1351,"y2024":1136,"pct":18.9},{"field":"보건복지","y2025":1129,"y2024":1166,"pct":-3.2},{"field":"세무","y2025":1050,"y2024":875,"pct":20.0},{"field":"국방","y2025":865,"y2024":556,"pct":55.6},{"field":"주택","y2025":827,"y2024":735,"pct":12.5},{"field":"행정안전","y2025":822,"y2024":1023,"pct":-19.6},{"field":"산업자원","y2025":697,"y2024":913,"pct":-23.7},{"field":"환경","y2025":675,"y2024":657,"pct":2.7},{"field":"농림","y2025":485,"y2024":527,"pct":-8.0},{"field":"노동","y2025":473,"y2024":468,"pct":1.1},{"field":"교육","y2025":423,"y2024":815,"pct":-48.1}],"yearly":[{"year":2024,"recv":42917,"done":42549,"gochung":9610,"etc":4432,"accept":2844,"correct":152,"opinion":316,"mediate":2376},{"year":2025,"recv":51079,"done":53187,"gochung":9972,"etc":4754,"accept":2542,"correct":111,"opinion":296,"mediate":2135}],"yearlyAll":[{"year":2008,"recv":27372,"done":27509},{"year":2009,"recv":29716,"done":28163},{"year":2010,"recv":32584,"done":34510},{"year":2011,"recv":32351,"done":32082},{"year":2012,"recv":34347,"done":33242},{"year":2013,"recv":31681,"done":32737},{"year":2014,"recv":30038,"done":28744},{"year":2015,"recv":31308,"done":31112},{"year":2016,"recv":30252,"done":30625},{"year":2017,"recv":26533,"done":26623},{"year":2018,"recv":30712,"done":29609},{"year":2019,"recv":56189,"done":42031},{"year":2020,"recv":49390,"done":45657},{"year":2021,"recv":56423,"done":58880},{"year":2022,"recv":37569,"done":37598},{"year":2023,"recv":44390,"done":42581},{"year":2024,"recv":42917,"done":42549},{"year":2025,"recv":51079,"done":53187}],"route":[{"year":2024,"sinmungo":10351552,"ministry":1769683,"transfer":87081,"letter":19812,"total":12228128},{"year":2025,"sinmungo":9879001,"ministry":1770967,"transfer":30538,"letter":17185,"total":11697691}],"routeAll":[{"year":2011,"sinmungo":360225,"ministry":621838,"transfer":66628,"letter":20202,"total":1068893},{"year":2012,"sinmungo":477920,"ministry":671839,"transfer":77302,"letter":15885,"total":1242946},{"year":2013,"sinmungo":659115,"ministry":733384,"transfer":90215,"letter":30303,"total":1513017},{"year":2014,"sinmungo":795736,"ministry":750893,"transfer":110874,"letter":32394,"total":1689897},{"year":2015,"sinmungo":1087567,"ministry":674222,"transfer":111657,"letter":29457,"total":1902903},{"year":2016,"sinmungo":1359614,"ministry":802116,"transfer":114908,"letter":28963,"total":2305601},{"year":2017,"sinmungo":1949387,"ministry":1031012,"transfer":89369,"letter":31833,"total":3101601},{"year":2018,"sinmungo":2742615,"ministry":1864975,"transfer":93608,"letter":34194,"total":4735392},{"year":2019,"sinmungo":4599017,"ministry":3234517,"transfer":127608,"letter":33974,"total":7995116},{"year":2020,"sinmungo":6494339,"ministry":2902774,"transfer":147861,"letter":25037,"total":9570011},{"year":2021,"sinmungo":9438994,"ministry":3743984,"transfer":59276,"letter":22806,"total":13265060},{"year":2022,"sinmungo":8599039,"ministry":2041523,"transfer":46828,"letter":18738,"total":10706128},{"year":2023,"sinmungo":10220170,"ministry":2065889,"transfer":67815,"letter":19906,"total":12373780},{"year":2024,"sinmungo":10351552,"ministry":1769683,"transfer":87081,"letter":19812,"total":12228128},{"year":2025,"sinmungo":9879001,"ministry":1770967,"transfer":30538,"letter":17185,"total":11697691}],"suggest":[{"year":2024,"citizen":132983,"official":5983},{"year":2025,"citizen":137714,"official":5169}]};
-</script>
-<script>
-/* ── 데이터 ── */
-const fmt=n=>n.toLocaleString('ko-KR');
-const pct=(a,b)=>((b-a)/a*100).toFixed(1);
+"use strict";
+let DATA=null; /* 내장 데이터 없음 — 업로드 전까지 빈 틀만 표시 */
+const $=s=>document.querySelector(s);
+const el=(t,a,h)=>{const n=document.createElement(t);if(a)for(const k in a)k==='class'?n.className=a[k]:n.setAttribute(k,a[k]);if(h!=null)n.innerHTML=h;return n;};
+const fmt=n=>(n==null||isNaN(n))?'—':Number(n).toLocaleString('ko-KR');
+const pct=n=>(n==null||isNaN(n))?'—':Number(n).toFixed(2);
+const PAL=['#35D0E8','#F5C63C','#7BD88F','#8B7BE8','#E86A9A','#F08A3C','#5FA8FF','#C8DC5A'];
+const GRADE=[{min:99.8,c:'#35D0E8',t:'최상위'},{min:99.5,c:'#7BD88F',t:'상위'},
+ {min:99.0,c:'#C8DC5A',t:'평균권'},{min:98.0,c:'#F5C63C',t:'주의'},
+ {min:97.0,c:'#F08A3C',t:'경고'},{min:-1,c:'#E9533F',t:'심각'}];
+const gr=v=>GRADE.find(g=>v>=g.min);
 
-/* ── 색 램프 ── */
-const RAMP=['#1A5276','#6E2F8E','#922B21','#B71C1C','#C62828'];
-const binOf=r=>r>=99.5?0:r>=99?1:r>=98.5?2:r>=98?3:4;
-const regionColor=r=>RAMP[binOf(r)];
-
-/* ── KPI ── */
-function buildKPI(){
-  const r=DATA.route,y=DATA.yearly,s=DATA.suggest,n=DATA.natTotal;
-  const g=(a,b)=>((b-a)/a*100);
-  const items=[
-    {t:'국민신문고 민원',v:fmt(r[1].total),u:'건',d:g(r[0].total,r[1].total),warn:true},
-    {t:'고충민원 접수',v:fmt(y[1].recv),u:'건',d:g(y[0].recv,y[1].recv),warn:true},
-    {t:'처리기한 준수율',v:n.rate.toFixed(2),u:'%',raw:`${fmt(n.over)}건 초과`,cls:'good'},
-    {t:'국민제안 접수',v:fmt(s[1].citizen),u:'건',d:g(s[0].citizen,s[1].citizen)},
-  ];
-  document.getElementById('kpiSm').innerHTML=items.map(it=>`
-    <div class="kpi-row${it.warn?' warn':it.cls?' '+it.cls:''}">
-      <dt>${it.t}</dt>
-      <dd class="val">${it.v}<small>${it.u}</small></dd>
-      <dd class="diff">${it.raw?`<span style="color:var(--fg3)">${it.raw}</span>`:
-        `<span class="${it.d>0?'up':'dn'}">${it.d>0?'▲':'▼'} ${Math.abs(it.d).toFixed(1)}%</span><span>전년 대비</span>`}</dd>
-    </div>`).join('');
+/* 데이터 파생 */
+let CUR='경기도';
+let ALL,PROV,EDU,B,bySido,MAXVOL,NAT,sidoStat,SIDO_N;
+const EXTRA={byRegionYear:{}};
+function derive(){
+  ALL=DATA.compl.rows.map(r=>({기관분류:r[0],기관명:r[1],처리건수:r[2],기간내:r[3],초과:r[4],준수율:r[5]}));
+  PROV={};EDU={};
+  ALL.filter(o=>o.기관분류==='광역-지방자치단체').forEach(o=>{PROV[o.기관명]={...o,시도:o.기관명};});
+  ALL.filter(o=>o.기관분류==='시도교육청').forEach(o=>{const k=o.기관명.replace('교육청','').trim();EDU[k]={...o,시도:k};});
+  B=ALL.filter(o=>o.기관분류==='시도-지방자치단체').map(o=>{const i=o.기관명.indexOf(' ');
+    return {...o,시도:i<0?o.기관명:o.기관명.slice(0,i),시군구:i<0?'':o.기관명.slice(i+1)};});
+  B.sort((a,b)=>b.준수율-a.준수율).forEach((b,i)=>b.전국순위=i+1);
+  bySido={};B.forEach(b=>{(bySido[b.시도] ||= []).push(b);});
+  Object.values(bySido).forEach(l=>l.slice().sort((a,b)=>b.준수율-a.준수율).forEach((b,i)=>b.도내순위=i+1));
+  B.slice().sort((a,b)=>a.처리건수-b.처리건수).forEach((b,i,a)=>{b.규모백분위=Math.round((i+1)/a.length*100);});
+  B.forEach(b=>{b.초과율=b.처리건수?b.초과/b.처리건수*10000:0;
+    b.규모=b.규모백분위>=80?'대규모':b.규모백분위>=50?'중규모':b.규모백분위>=25?'소규모':'초소규모';});
+  MAXVOL=Math.max(...B.map(b=>b.처리건수));
+  NAT={처리건수:B.reduce((s,b)=>s+b.처리건수,0),초과:B.reduce((s,b)=>s+b.초과,0)};
+  NAT.준수율=(NAT.처리건수-NAT.초과)/NAT.처리건수*100;
+  sidoStat={};
+  Object.entries(bySido).forEach(([s,l])=>{const v=l.reduce((a,b)=>a+b.처리건수,0),o=l.reduce((a,b)=>a+b.초과,0);
+    sidoStat[s]={시도:s,수:l.length,처리건수:v,초과:o,기간내:v-o,준수율:(v-o)/v*100};});
+  Object.values(sidoStat).sort((a,b)=>b.준수율-a.준수율).forEach((s,i)=>sidoStat[s.시도].순위=i+1);
+  SIDO_N=Object.keys(sidoStat).length;
+  if(!sidoStat[CUR])CUR=Object.keys(sidoStat).sort((a,b)=>sidoStat[b].처리건수-sidoStat[a].처리건수)[0]||CUR;
 }
-buildKPI();
 
-/* ── 네비 ── */
-document.querySelectorAll('.nav-a[data-view]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('.nav-a').forEach(b=>b.classList.remove('on'));
-    document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
-    btn.classList.add('on');
-    document.getElementById(btn.dataset.view).classList.add('on');
-    if(btn.dataset.view==='v-map' && leafletMap) setTimeout(()=>leafletMap.invalidateSize(),60);
+const TILE={'강원특별자치도':[4,0],'인천광역시':[1,1],'서울특별시':[2,1],'경기도':[3,1],
+ '충청남도':[2,2],'세종특별자치시':[3,2],'충청북도':[4,2],'경상북도':[5,2],
+ '전북특별자치도':[2,3],'대전광역시':[3,3],'대구광역시':[4,3],
+ '광주광역시':[1,4],'경상남도':[3,4],'부산광역시':[4,4],'울산광역시':[5,4],
+ '전라남도':[2,5],'제주특별자치도':[1,6]};
+const SHORT={'강원특별자치도':'강원','전북특별자치도':'전북','제주특별자치도':'제주','세종특별자치시':'세종',
+ '서울특별시':'서울','부산광역시':'부산','대구광역시':'대구','인천광역시':'인천','광주광역시':'광주',
+ '대전광역시':'대전','울산광역시':'울산','경기도':'경기','충청북도':'충북','충청남도':'충남',
+ '전라남도':'전남','경상북도':'경북','경상남도':'경남'};
+
+/* ═══ 차트 ═══ */
+const AX='#5F82A3', GRID='rgba(95,130,163,.22)';
+function barLine(labels,bars,lineVals,opt={}){
+  const W=opt.W||400,H=opt.H||190,P={l:44,r:34,t:14,b:26};
+  const mx=Math.max(...bars),bw=(W-P.l-P.r)/labels.length;
+  const y=v=>H-P.b-(v/mx)*(H-P.t-P.b);
+  const lmin=Math.min(...lineVals),lmax=Math.max(...lineVals);
+  const ly=v=>H-P.b-((v-lmin)/((lmax-lmin)||1))*(H-P.t-P.b)*0.8-8;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  for(let k=0;k<=3;k++){const v=mx*k/3;
+    s+=`<line x1="${P.l}" y1="${y(v)}" x2="${W-P.r}" y2="${y(v)}" stroke="${GRID}"/>
+        <text x="${P.l-6}" y="${y(v)+4}" text-anchor="end" fill="${AX}" font-size="10">${fmt(Math.round(v/1000))}k</text>`;}
+  bars.forEach((v,i)=>{const x=P.l+bw*i+bw*.22,w=bw*.56;
+    s+=`<rect x="${x}" y="${y(v)}" width="${w}" height="${H-P.b-y(v)}" rx="2" fill="url(#bg1)"><title>${labels[i]} ${fmt(v)}건</title></rect>`;});
+  let d='';lineVals.forEach((v,i)=>{d+=(i?'L':'M')+(P.l+bw*i+bw/2)+' '+ly(v)+' ';});
+  s+=`<path d="${d}" fill="none" stroke="#F5C63C" stroke-width="2"/>`;
+  lineVals.forEach((v,i)=>{s+=`<circle cx="${P.l+bw*i+bw/2}" cy="${ly(v)}" r="3" fill="#F5C63C"><title>${labels[i]} ${opt.lineFmt?opt.lineFmt(v):fmt(v)}</title></circle>`;});
+  labels.forEach((l,i)=>{if(labels.length<=10||i%2===0)
+    s+=`<text x="${P.l+bw*i+bw/2}" y="${H-8}" text-anchor="middle" fill="${AX}" font-size="10">${l}</text>`;});
+  s+=`<defs><linearGradient id="bg1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4FD8EE"/><stop offset="100%" stop-color="#1D6E92"/></linearGradient></defs></svg>`;
+  return s+`<div style="font-size:11px;color:#8FAEC9;margin-top:4px">
+    <span style="margin-right:12px"><i style="display:inline-block;width:9px;height:9px;background:#35D0E8;border-radius:2px;margin-right:4px"></i>${opt.barName||'건수'}</span>
+    <span><i style="display:inline-block;width:12px;height:3px;background:#F5C63C;margin-right:4px;vertical-align:3px"></i>${opt.lineName||'증감률'}</span></div>`;
+}
+function stackBar(labels,series,W=400,H=190){
+  const P={l:46,r:10,t:12,b:26},bw=(W-P.l-P.r)/labels.length;
+  const tot=labels.map((_,i)=>series.reduce((s,se)=>s+(se.values[i]||0),0));
+  const mx=Math.max(...tot),y=v=>H-P.b-(v/mx)*(H-P.t-P.b);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  for(let k=0;k<=3;k++){const v=mx*k/3;
+    s+=`<line x1="${P.l}" y1="${y(v)}" x2="${W-P.r}" y2="${y(v)}" stroke="${GRID}"/>
+        <text x="${P.l-6}" y="${y(v)+4}" text-anchor="end" fill="${AX}" font-size="10">${fmt(Math.round(v/10000))}만</text>`;}
+  labels.forEach((l,i)=>{let acc=0;
+    series.forEach((se,si)=>{const v=se.values[i]||0;const h=(v/mx)*(H-P.t-P.b);
+      s+=`<rect x="${P.l+bw*i+bw*.2}" y="${y(acc+v)}" width="${bw*.6}" height="${h}" fill="${PAL[si%PAL.length]}" opacity=".9"><title>${l} · ${se.name} ${fmt(v)}건</title></rect>`;acc+=v;});
+    if(labels.length<=12||i%2===0)s+=`<text x="${P.l+bw*i+bw/2}" y="${H-8}" text-anchor="middle" fill="${AX}" font-size="10">${l}</text>`;});
+  s+='</svg>';
+  return s+`<div style="font-size:11px;color:#8FAEC9;margin-top:4px">`+series.map((se,i)=>
+    `<span style="margin-right:10px"><i style="display:inline-block;width:9px;height:9px;background:${PAL[i%PAL.length]};border-radius:2px;margin-right:4px"></i>${se.name}</span>`).join('')+`</div>`;
+}
+function hbarMini(items,W=400){
+  const H=items.length*19+8,P={l:66,r:52};
+  const mx=Math.max(...items.map(i=>i.v));
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  items.forEach((it,i)=>{const y=i*19+6,w=(it.v/mx)*(W-P.l-P.r),c=PAL[i%PAL.length];
+    s+=`<text x="${P.l-7}" y="${y+11}" text-anchor="end" fill="#8FAEC9" font-size="11">${it.k}</text>
+        <rect x="${P.l}" y="${y+2}" width="${Math.max(2,w)}" height="12" rx="2" fill="${c}" opacity=".85"><title>${it.k} ${fmt(it.v)}건</title></rect>
+        <text x="${P.l+w+6}" y="${y+12}" fill="${c}" font-size="10.5" class="num">${fmt(it.v)}</text>`;});
+  return s+'</svg>';
+}
+function lollipop(items,W=460){
+  const H=Math.max(80,items.length*19+16),P={l:78,r:54};
+  const vs=items.map(i=>i.v),mn=Math.min(...vs),mx=Math.max(...vs),sp=(mx-mn)||1;
+  const x=v=>P.l+(v-mn)/sp*(W-P.l-P.r);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  items.forEach((it,i)=>{const y=i*19+12,c=it.c||PAL[i%PAL.length];
+    s+=`<text x="${P.l-8}" y="${y+4}" text-anchor="end" fill="#8FAEC9" font-size="11">${it.k}</text>
+        <line x1="${P.l}" y1="${y}" x2="${x(it.v)}" y2="${y}" stroke="${c}" stroke-width="2" opacity=".4"/>
+        <circle cx="${x(it.v)}" cy="${y}" r="4.5" fill="${c}"><title>${it.k} ${it.t||fmt(it.v)}</title></circle>
+        <text x="${x(it.v)+8}" y="${y+4}" fill="${c}" font-size="10.5" class="num">${it.t||fmt(it.v)}</text>`;});
+  return s+'</svg>';
+}
+function gauge(v,label,size=168){
+  const R=62,cx=size/2,cy=size/2+6,g=gr(v),a0=-Math.PI*1.05,a1=Math.PI*.05;
+  const t=Math.max(0,Math.min(1,(v-95)/5));
+  const arc=(f,to,r,w,c)=>{const x0=cx+r*Math.cos(f),y0=cy+r*Math.sin(f),x1=cx+r*Math.cos(to),y1=cy+r*Math.sin(to);
+    return `<path d="M${x0} ${y0} A${r} ${r} 0 ${(to-f)>Math.PI?1:0} 1 ${x1} ${y1}" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;};
+  return `<svg viewBox="0 0 ${size} ${size}" role="img">${arc(a0,a1,R,14,'#16304F')}${arc(a0,a0+(a1-a0)*t,R,14,g.c)}
+    <text x="${cx}" y="${cy+2}" text-anchor="middle" font-size="29" font-weight="800" fill="${g.c}" class="num">${pct(v)}</text>
+    <text x="${cx}" y="${cy+20}" text-anchor="middle" font-size="11" fill="#8FAEC9">% · ${g.t}</text>
+    <text x="${cx}" y="${size-2}" text-anchor="middle" font-size="11" fill="#8FAEC9">${label}</text></svg>`;
+}
+function donut(parts,size=168,center){
+  const R=56,r=35,cx=size/2,cy=size/2-4,tot=parts.reduce((s,p)=>s+p.v,0)||1;
+  let a=-Math.PI/2,s=`<svg viewBox="0 0 ${size} ${size}" role="img">`;
+  parts.forEach(p=>{const ang=p.v/tot*Math.PI*2,b=a+ang,la=ang>Math.PI?1:0;
+    s+=`<path d="M${cx+R*Math.cos(a)} ${cy+R*Math.sin(a)} A${R} ${R} 0 ${la} 1 ${cx+R*Math.cos(b)} ${cy+R*Math.sin(b)} L${cx+r*Math.cos(b)} ${cy+r*Math.sin(b)} A${r} ${r} 0 ${la} 0 ${cx+r*Math.cos(a)} ${cy+r*Math.sin(a)} Z" fill="${p.c}"><title>${p.k} ${fmt(p.v)}</title></path>`;a=b;});
+  if(center)s+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="15" font-weight="800" fill="#EAF3FB" class="num">${center[0]}</text>
+    <text x="${cx}" y="${cy+15}" text-anchor="middle" font-size="10" fill="#8FAEC9">${center[1]}</text>`;
+  return s+'</svg>'+`<div style="text-align:center;font-size:11px;color:#8FAEC9">`+
+    parts.map(p=>`<span style="margin:0 5px"><i style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${p.c};margin-right:3px"></i>${p.k}</span>`).join('')+`</div>`;
+}
+function scatter(list,sel,W=460,H=230){
+  const P={l:50,r:12,t:12,b:28},t=v=>Math.sqrt(Math.max(0,100-v));
+  const maxT=Math.max(.4,Math.max(...list.map(b=>t(b.준수율))));
+  const x=v=>P.l+t(v)/maxT*(W-P.l-P.r),maxV=Math.max(...list.map(b=>b.처리건수));
+  const y=v=>H-P.b-(Math.sqrt(v)/Math.sqrt(maxV))*(H-P.t-P.b);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  [0,.25,.5,.75,1].forEach(f=>{const v=Math.round(maxV*f*f);
+    s+=`<line x1="${P.l}" y1="${y(v)}" x2="${W-P.r}" y2="${y(v)}" stroke="${GRID}"/><text x="${P.l-6}" y="${y(v)+4}" text-anchor="end" fill="${AX}" font-size="10">${fmt(v)}</text>`;});
+  [100,99.9,99.5,99,98,95,90].filter(v=>t(v)<=maxT).forEach(v=>
+    s+=`<text x="${x(v)}" y="${H-9}" text-anchor="middle" fill="${AX}" font-size="10">${v}%</text>`);
+  list.forEach(b=>{const me=b.기관명===sel.기관명;
+    s+=`<circle cx="${x(b.준수율)}" cy="${y(b.처리건수)}" r="${me?7:4.5}" fill="${me?'#FFFFFF':gr(b.준수율).c}" opacity="${me?1:.75}"><title>${b.시군구} ${fmt(b.처리건수)}건 ${pct(b.준수율)}%</title></circle>`;
+    if(me)s+=`<text x="${x(b.준수율)}" y="${y(b.처리건수)-11}" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">${b.시군구}</text>`;});
+  return s+'</svg>';
+}
+function strip(sido){
+  const list=(bySido[sido]||[]).slice();
+  if(!list.length)return `<p style="color:var(--ink3);font-size:12px">관할 기초지자체가 없는 지역입니다.</p>`;
+  const W=430,H=112,L=10,R=10,t=v=>Math.sqrt(Math.max(0,100-v));
+  const maxT=Math.max(.5,t(Math.min(...list.map(b=>b.준수율))-.15)),x=v=>L+t(v)/maxT*(W-L-R);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="관할 기초 준수율 분포">`;
+  s+=`<line x1="${L}" y1="76" x2="${W-R}" y2="76" stroke="${GRID}"/>`;
+  [100,99.9,99.5,99,98,95,90,80,60].filter(v=>t(v)<=maxT).forEach(v=>{
+    s+=`<line x1="${x(v)}" y1="72" x2="${x(v)}" y2="80" stroke="${GRID}"/>
+        <text x="${x(v)}" y="94" text-anchor="middle" fill="${AX}" font-size="10">${v}%</text>`;});
+  list.forEach(b=>{const h=10+Math.sqrt(b.처리건수/MAXVOL)*38,c=gr(b.준수율).c;
+    s+=`<line x1="${x(b.준수율)}" y1="${76-h}" x2="${x(b.준수율)}" y2="76" stroke="${c}" stroke-width="3" stroke-linecap="round" opacity=".85"><title>${b.시군구} ${pct(b.준수율)}% · ${fmt(b.처리건수)}건</title></line>`;});
+  const nx=x(NAT.준수율);
+  s+=`<line x1="${nx}" y1="22" x2="${nx}" y2="80" stroke="#8B7BE8" stroke-dasharray="4 3"/>
+      <text x="${nx}" y="16" text-anchor="middle" fill="#8B7BE8" font-size="10">전국 기초 평균 ${pct(NAT.준수율)}%</text>`;
+  return s+'</svg>';
+}
+function network(sido){
+  const list=(bySido[sido]||[]).slice().sort((a,b)=>b.준수율-a.준수율);
+  if(!list.length)return `<p style="color:var(--ink3);font-size:12px">관할 기초지자체가 없는 지역입니다.</p>`;
+  const top=list.slice(0,3),bot=list.slice(-3).reverse().filter(b=>!top.includes(b));
+  const nodes=[...top.map(b=>({b,g:'상위'})),...bot.map(b=>({b,g:'하위'}))];
+  const W=430,H=250,cx=W/2,cy=H/2,R=92;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  nodes.forEach((n,i)=>{const a=-Math.PI/2+i/nodes.length*Math.PI*2;
+    const x=cx+R*Math.cos(a),y=cy+R*Math.sin(a)*.78;n.x=x;n.y=y;
+    s+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="${gr(n.b.준수율).c}" stroke-width="1.6" opacity=".45"/>`;});
+  s+=`<circle cx="${cx}" cy="${cy}" r="40" fill="#123156" stroke="#35D0E8" stroke-width="2.5"/>
+      <text x="${cx}" y="${cy-2}" text-anchor="middle" fill="#EAF3FB" font-size="14" font-weight="800">${SHORT[sido]||sido}</text>
+      <text x="${cx}" y="${cy+14}" text-anchor="middle" fill="#8FAEC9" font-size="10">${list.length}개 시군구</text>`;
+  nodes.forEach(n=>{const c=gr(n.b.준수율).c;
+    s+=`<g class="netnode" data-name="${n.b.기관명}" style="cursor:pointer">
+      <circle cx="${n.x}" cy="${n.y}" r="27" fill="#0B1E36" stroke="${c}" stroke-width="2.2"/>
+      <text x="${n.x}" y="${n.y-1}" text-anchor="middle" fill="#EAF3FB" font-size="11" font-weight="700">${n.b.시군구.length>4?n.b.시군구.slice(0,4):n.b.시군구}</text>
+      <text x="${n.x}" y="${n.y+12}" text-anchor="middle" fill="${c}" font-size="9.5" class="num">${pct(n.b.준수율)}</text>
+      <title>${n.g} · ${n.b.기관명} ${pct(n.b.준수율)}% · ${fmt(n.b.처리건수)}건</title></g>`;});
+  return s+'</svg>';
+}
+
+/* ═══ 렌더 ═══ */
+/* ═══ 빈 틀(스켈레톤) 기본화면 ═══ */
+function emptyFrame(h,msg){
+  return `<div style="height:${h}px;border:1px dashed var(--line2);border-radius:9px;
+    display:flex;align-items:center;justify-content:center;text-align:center;padding:0 16px;
+    color:var(--ink3);font-size:12px;background:rgba(255,255,255,.02)">${msg}</div>`;
+}
+function buildTilesSkeleton(){
+  const box=$('#tiles');box.innerHTML='';
+  Object.entries(TILE).forEach(([s,[c,r]])=>{
+    const b=el('button',{class:'tile',type:'button',disabled:'disabled',
+      style:`grid-column:${c};grid-row:${r+1};background:var(--none);color:#7C93AC;cursor:not-allowed`},
+      `<b>${SHORT[s]}</b><span style="font-size:10px">대기</span>`);
+    box.appendChild(b);
   });
-});
+  $('#tileLegend').innerHTML=`<span>표준 양식 CSV를 업로드하면 지역별 준수율 등급이 표시됩니다.</span>`;
+}
+function kpiSkeleton(){
+  return ['처리건수','기간초과','처리기간 준수율'].map(t=>
+    `<div class="kcard"><h3>${t}</h3><div class="big" style="color:var(--ink3)">—</div>
+     <div class="sub">업로드 후 표시됩니다</div><div class="base">데이터 없음</div></div>`).join('');
+}
+function renderSkeleton(){
+  buildTilesSkeleton();
+  $('#hRegion').textContent='지역 선택 전';
+  $('#hBase').textContent='업로드 대기';
+  $('#kpiNote').textContent='';
+  $('#kpi3').innerHTML=kpiSkeleton();
+  $('#chYear').innerHTML=emptyFrame(190,'연도별 민원 추이는 업로드 후 표시됩니다');
+  $('#fldTabs').innerHTML='';
+  $('#cloud').innerHTML=`<div style="padding:20px 0;text-align:center;color:var(--ink3);font-size:12px">민원 분야 랭킹은 업로드 후 표시됩니다</div>`;
+  $('#fldBar').innerHTML='';
+  $('#fldNote').textContent='';
+  $('#net').innerHTML=emptyFrame(220,'지역 네트워크는 업로드 후 표시됩니다');
+  $('#strip').innerHTML=emptyFrame(110,'관할 기초 준수율 분포는 업로드 후 표시됩니다');
+  $('#y0').disabled=$('#y1').disabled=true;
+  $('#y0v').textContent=$('#y1v').textContent='—';
+  $('#chChannel').innerHTML=emptyFrame(190,'연도별 접수경로 구성은 업로드 후 표시됩니다');
+  $('#tbl tbody').innerHTML=`<tr><td colspan="6" style="text-align:center;color:var(--ink3);padding:26px">
+    표준 양식 CSV를 업로드하면 지자체별 상세 현황이 표시됩니다.</td></tr>`;
+  $('#tblNote').textContent='';
+  $('#pager').innerHTML='';
+  ['#q','#scope','#pageSize','#btnSearch'].forEach(sel=>{const e=$(sel);if(e)e.disabled=true;});
+}
 
-/* ════════════════════════════════
-   지도 — 실제 지도 타일(OpenStreetMap/CARTO) + 좌표 마커
-   숫자만 라벨로 표기, 지도 자체 색상은 그대로 사용
-   ════════════════════════════════ */
-const sidoData=Object.fromEntries(DATA.sido.map(d=>[d.sido,d]));
-const LSWATCH=['#1A5276','#6E2F8E','#922B21','#B71C1C','#C62828'];
-const MISSING=['광주','전남'];
+function buildTiles(){
+  const box=$('#tiles');box.innerHTML='';
+  Object.entries(TILE).forEach(([s,[c,r]])=>{
+    const st=sidoStat[s],org=PROV[s]||EDU[s],v=st?st.준수율:(org?org.준수율:null),g=v!=null?gr(v):null;
+    const b=el('button',{class:'tile',type:'button',style:`grid-column:${c};grid-row:${r+1};background:${g?g.c:'var(--none)'}`},
+      v!=null?`<b>${SHORT[s]}</b><span>${pct(v)}</span>`:`<b>${SHORT[s]}</b><span style="font-size:10px">자료없음</span>`);
+    if(v==null)b.disabled=true;
+    if(s===CUR)b.dataset.on='1';
+    b.title=s+(v!=null?` 준수율 ${pct(v)}%`:'');
+    b.onclick=()=>{CUR=s;page=1;render();};
+    box.appendChild(b);});
+  $('#tileLegend').innerHTML=GRADE.map(g=>`<span><i style="background:${g.c}"></i>${g.t}</span>`).join('')
+    +`<span><i style="background:var(--none)"></i>자료없음</span>`;
+}
+function render(){
+  buildTiles();
+  const st=sidoStat[CUR],p=PROV[CUR],e=EDU[CUR],head=st||p||e;
+  $('#hRegion').textContent=CUR;
+  if(!head){
+    $('#hBase').textContent=DATA.meta.기준일?('기준일 '+DATA.meta.기준일):'업로드 대기';
+    $('#kpiNote').textContent='';
+    $('#kpi3').innerHTML=kpiSkeleton();
+  }else{
+    $('#hBase').textContent='기준일 '+DATA.meta.기준일;
+    $('#kpiNote').textContent=st?`관할 기초 ${st.수}곳 합산`:'본청·교육청 기준';
+    const g=gr(head.준수율),dn=head.준수율-NAT.준수율;
+    const cards=[
+      {t:'처리건수',v:fmt(head.처리건수)+'건',c:'#35D0E8',
+       sub:`전국 기초 대비 ${(head.처리건수/NAT.처리건수*100).toFixed(1)}%<br>전국 합계 ${fmt(NAT.처리건수)}건`},
+      {t:'기간초과',v:fmt(head.초과)+'건',c:'#F08A3C',
+       sub:`1만 건당 ${(head.초과/head.처리건수*10000).toFixed(1)}건<br>전국 초과 ${fmt(NAT.초과)}건`},
+      {t:'처리기간 준수율',v:pct(head.준수율)+'%',c:g.c,
+       sub:`${dn>=0?'▲':'▼'} 전국 평균 대비 ${(dn>=0?'+':'')+dn.toFixed(2)}%p<br>${st?`시·도 순위 ${st.순위} / ${SIDO_N}`:'광역 본청 기준'}`}];
+    $('#kpi3').innerHTML=cards.map(c=>`<div class="kcard"><h3>${c.t}</h3>
+      <div class="big" style="color:${c.c}">${c.v}</div><div class="sub">${c.sub}</div>
+      <div class="base">${DATA.meta.기준일} 기준</div></div>`).join('');
+  }
 
-// 시·도 대표 좌표 (도청소재지·중심 도시 기준 실측 위경도)
-const SIDO_LATLNG={
-  '서울':[37.5665,126.9780], '인천':[37.4563,126.7052], '경기':[37.4138,127.5183],
-  '강원':[37.7519,128.3808], '충북':[36.6357,127.4917], '충남':[36.5184,126.8000],
-  '대전':[36.3504,127.3845], '세종':[36.4801,127.2891], '전북':[35.8242,127.1480],
-  '전남':[34.8679,126.9910], '광주':[35.1595,126.8526], '경북':[36.5684,128.7294],
-  '경남':[35.2281,128.6811], '대구':[35.8714,128.6014], '울산':[35.5384,129.3114],
-  '부산':[35.1796,129.0756], '제주':[33.4996,126.5312]
-};
+  const yl=DATA.national.yearly;
+  $('#chYear').innerHTML = yl.years.length
+    ? barLine(yl.years.map(y=>String(y).slice(2)),yl.cols['접수'],
+        yl.years.map((_,i)=>yl.cols['처리'][i]/yl.cols['접수'][i]*100),
+        {W:400,H:190,barName:'접수건수',lineName:'처리율(%)',lineFmt:v=>v.toFixed(1)+'%'})
+    : emptyFrame(190,'「고충민원 연도별 접수·처리 현황」 파일을 올리면 표시됩니다');
 
-let selSido='';
-let leafletMap=null;
-const sidoMarkers={};
-
-function buildMap(){
-  const holder=document.getElementById('mapEl');
-  if(typeof L==='undefined'){
-    holder.innerHTML=`<div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
-      <div style="font-size:13px;color:#6B6146;font-weight:600">지도 라이브러리를 불러오지 못했습니다</div>
-      <div style="font-size:11px;color:#8A7F5E">인터넷 연결을 확인한 뒤 새로고침해 주세요</div>
-    </div>`;
-    const worst0=[...DATA.sido].sort((a,b)=>a.rate-b.rate)[0];
-    document.getElementById('worstTag').textContent=`최저 ${worst0.sido} ${worst0.rate}%`;
-    document.getElementById('lsw').innerHTML=LSWATCH.map(c=>`<span style="background:${c}"></span>`).join('');
+  drawChannel();
+  drawField();
+  $('#net').innerHTML=network(CUR);
+  $('#strip').innerHTML=strip(CUR);
+  $('#net').querySelectorAll('.netnode').forEach(n=>n.onclick=()=>{
+    const b=B.find(x=>x.기관명===n.dataset.name);if(b)openDetail(b);});
+  drawTable();
+}
+/* 접수경로 */
+function initSlider(){
+  const ys=DATA.national.channel.years;
+  const a=$('#y0'),b=$('#y1');
+  if(!ys.length){
+    a.disabled=b.disabled=true;a.oninput=b.oninput=null;
+    $('#y0v').textContent=$('#y1v').textContent='—';
+    $('#chChannel').innerHTML=emptyFrame(190,'「국민신문고 민원접수 경로별 현황」 파일을 올리면 표시됩니다');
     return;
   }
-  try{
-    const map=L.map('mapEl',{
-      center:[36.4,127.85], zoom:7, minZoom:6, maxZoom:11,
-      scrollWheelZoom:true, zoomControl:true
-    });
-    leafletMap=map;
-
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
-      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains:'abcd', maxZoom:19
-    }).addTo(map);
-
-    Object.entries(SIDO_LATLNG).forEach(([short,latlng])=>{
-      const isMissing=MISSING.includes(short);
-      const rec=sidoData[short];
-      const col=isMissing?'#8A8064':(rec?regionColor(rec.rate):'#8A8064');
-      const html=isMissing
-        ? `<div class="region-pin na"><b>${short}</b><i>미공표</i></div>`
-        : `<div class="region-pin" style="background:${col}"><b>${short}</b><i>${rec.rate.toFixed(1)}%</i></div>`;
-      const icon=L.divIcon({html,className:'',iconSize:null});
-      const marker=L.marker(latlng,{icon,keyboard:false}).addTo(map);
-      sidoMarkers[short]=marker;
-      if(!isMissing){
-        marker.on('click',()=>{
-          if(selSido===short){selSido='';renderSido(null);}
-          else{selSido=short;renderSido(short);}
-          refreshMapSelection();
-        });
-      }
-    });
-
-    setTimeout(()=>map.invalidateSize(),80);
-  }catch(e){
-    console.error('map init error',e);
+  a.disabled=b.disabled=false;
+  a.min=b.min=0;a.max=b.max=ys.length-1;a.value=Math.max(0,ys.length-8);b.value=ys.length-1;
+  a.oninput=b.oninput=drawChannel;
+  drawChannel();
+}
+function drawChannel(){
+  const CH=DATA.national.channel,ys=CH.years;
+  if(!ys.length)return;
+  let i0=+$('#y0').value,i1=+$('#y1').value;
+  if(i0>i1){const t=i0;i0=i1;i1=t;}
+  $('#y0v').textContent=ys[i0];$('#y1v').textContent=ys[i1];
+  const labels=ys.slice(i0,i1+1).map(y=>String(y).slice(2));
+  $('#chChannel').innerHTML=stackBar(labels,
+    Object.keys(CH.cols).map(k=>({name:k,values:CH.cols[k].slice(i0,i1+1)})));
+}
+/* 분야 */
+let fldYear=null;
+function initFldTabs(){
+  const ys=DATA.national.field.years.slice(-3);
+  $('#fldTabs').innerHTML='';
+  if(!ys.length){
+    fldYear=null;
+    $('#cloud').innerHTML=`<div style="padding:20px 0;text-align:center;color:var(--ink3);font-size:12px">「고충민원 분야별 접수 현황」 파일을 올리면 표시됩니다</div>`;
+    $('#fldBar').innerHTML='';$('#fldNote').textContent='';
+    return;
   }
-
-  const worst=[...DATA.sido].sort((a,b)=>a.rate-b.rate)[0];
-  document.getElementById('worstTag').textContent=`최저 ${worst.sido} ${worst.rate}%`;
-  document.getElementById('lsw').innerHTML=LSWATCH.map(c=>`<span style="background:${c}"></span>`).join('');
+  fldYear=String(ys[ys.length-1]);
+  ys.forEach(y=>{const b=el('button',{type:'button','aria-selected':String(y)===fldYear},y+'년');
+    b.onclick=()=>{fldYear=String(y);
+      $('#fldTabs').querySelectorAll('button').forEach(x=>x.setAttribute('aria-selected',x===b));drawField();};
+    $('#fldTabs').appendChild(b);});
+  drawField();
 }
-
-function refreshMapSelection(){
-  Object.entries(sidoMarkers).forEach(([short,m])=>{
-    const el=m.getElement();
-    if(!el)return;
-    const pin=el.querySelector('.region-pin');
-    if(!pin)return;
-    pin.classList.toggle('sel',short===selSido);
-  });
+function drawField(){
+  if(!fldYear)return;
+  const m=DATA.national.field.values[fldYear];
+  const items=Object.entries(m).map(([k,v])=>({k,v})).sort((a,b)=>b.v-a.v);
+  const named=items.filter(i=>i.k!=='기타');
+  const top=named.slice(0,10),mx=top[0].v,mn=top[top.length-1].v;
+  $('#cloud').innerHTML=top.map((it,i)=>{
+    const size=15+Math.round((it.v-mn)/((mx-mn)||1)*22),c=PAL[i%PAL.length];
+    return `<button type="button" data-f="${it.k}" style="font-size:${size}px;color:${c}" title="${it.k} ${fmt(it.v)}건">${it.k}</button>`;}).join('');
+  $('#cloud').querySelectorAll('button').forEach(b=>b.onclick=()=>openField(b.dataset.f));
+  $('#fldBar').innerHTML=hbarMini(top.slice(0,6));
+  $('#fldNote').textContent=`${fldYear}년 합계 ${fmt(items.reduce((s,i)=>s+i.v,0))}건 · 기타 분야 제외`;
 }
-
-function renderSido(sido){
-  const t=document.getElementById('sidoTitle'),s=document.getElementById('sidoSub'),box=document.getElementById('sidoStats');
-  let rows;
-  if(sido){
-    const d=sidoData[sido];
-    const kids=DATA.orgs.filter(o=>o.sido===sido&&o.cls==='기초자치단체').sort((a,b)=>a.rate-b.rate);
-    t.textContent=sido;s.textContent=`소속 기초자치단체 ${kids.length}개`;
-    rows=[
-      ['처리건수',fmt(d.total),'건'],['기간초과',fmt(d.over),'건'],
-      ['준수율',d.rate.toFixed(2),'%'],
-      ['관내 최저',kids[0]?kids[0].name.split(' ').slice(1).join(' '):'—',kids[0]?kids[0].rate.toFixed(2)+'%':''],
-      ['관내 최고',kids.at(-1)?kids.at(-1).name.split(' ').slice(1).join(' '):'—',kids.at(-1)?kids.at(-1).rate.toFixed(2)+'%':''],
-    ];
-  }else{
-    const L=DATA.locTotal;const sorted=[...DATA.sido].sort((a,b)=>b.rate-a.rate);
-    t.textContent='전국 지방자치단체';s.textContent='광역 15 + 기초 198 · 광주·전남 미수록';
-    rows=[
-      ['처리건수',fmt(L.total),'건'],['기간초과',fmt(L.over),'건'],
-      ['준수율',L.rate.toFixed(2),'%'],
-      ['최고 시·도',sorted[0].sido,sorted[0].rate.toFixed(2)+'%'],
-      ['최저 시·도',sorted.at(-1).sido,sorted.at(-1).rate.toFixed(2)+'%'],
-    ];
-  }
-  box.innerHTML=rows.map(([k,v,u])=>`<div class="sido-stat"><span class="k">${k}</span><span class="v">${v}<em>${u}</em></span></div>`).join('');
-  buildSidoRank(sido);
-  if(typeof refreshMapSelection==='function')refreshMapSelection();
+function openField(name){
+  const fd=DATA.national.field;
+  const vals=fd.years.map(y=>fd.values[y][name]??null);
+  $('#mTitle').textContent=name+' 분야';
+  $('#mSub').textContent='고충민원 분야별 접수 · 전국 집계 (지역 선택과 무관)';
+  $('#mBody').innerHTML=`<div class="box">${barLine(fd.years.map(y=>String(y).slice(2)),vals,
+      vals.map((v,i)=>i?((v-vals[i-1])/vals[i-1]*100):0),
+      {W:820,H:240,barName:'접수건수',lineName:'전년 대비 증감률(%)',lineFmt:v=>v.toFixed(1)+'%'})}</div>
+    <div class="callout">분야별 통계는 국민권익위원회가 전국 단위로만 공개합니다. 지자체별로 나눈 값은 원본에 없습니다.</div>`;
+  openModal();
 }
-
-function buildClsBar(){
-  const d=[...DATA.byClass].sort((a,b)=>b.rate-a.rate);
-  const min=92;
-  document.getElementById('clsBar').innerHTML=d.map(r=>`
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-      <span style="font-size:10.5px;color:var(--fg2);width:82px;text-align:right;flex:none">${r.cls.replace('-지방자치단체','').replace('자치단체','자치단체').slice(0,7)}</span>
-      <div style="flex:1;height:7px;border-radius:99px;background:var(--bg1);overflow:hidden">
-        <div style="width:${(r.rate-min)/(100-min)*100}%;height:100%;background:${RAMP[binOf(r.rate)]};border-radius:99px"></div>
-      </div>
-      <span style="font-size:11.5px;font-weight:700;color:var(--h);width:34px;text-align:right">${r.rate.toFixed(1)}</span>
-    </div>`).join('');
+/* 표 */
+let sortK='준수율',sortDir='desc',page=1;
+function tableRows(){
+  const scope=$('#scope').value,q=($('#q').value||'').trim();
+  let list=scope==='all'?B.slice():(bySido[CUR]||[]).slice();
+  if(q)list=list.filter(b=>b.기관명.includes(q));
+  list.sort((a,b)=>{const va=a[sortK],vb=b[sortK];
+    const r=typeof va==='string'?va.localeCompare(vb,'ko'):va-vb;return sortDir==='desc'?-r:r;});
+  return list;
 }
-
-function buildSidoRank(sido){
-  const sorted=[...DATA.sido].sort((a,b)=>b.rate-a.rate);
-  const min=98.3;
-  document.getElementById('sidoRank').innerHTML=sorted.map(r=>`
-    <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px;${sido===r.sido?'background:rgba(62,143,196,.12);border-radius:3px;padding:2px 4px':''}">
-      <span style="width:8px;height:8px;border-radius:2px;background:${RAMP[binOf(r.rate)]};flex:none;display:inline-block"></span>
-      <span style="font-size:11px;color:${sido===r.sido?'var(--blue3)':'var(--fg2)'};width:28px;font-weight:${sido===r.sido?700:400}">${r.sido}</span>
-      <div style="flex:1;height:5px;border-radius:99px;background:var(--bg1);overflow:hidden">
-        <div style="width:${(r.rate-min)/(100-min)*100}%;height:100%;background:${RAMP[binOf(r.rate)]};border-radius:99px"></div>
-      </div>
-      <span style="font-size:11px;font-weight:700;color:var(--h);width:38px;text-align:right">${r.rate.toFixed(2)}</span>
-    </div>`).join('');
+function drawTable(){
+  const list=tableRows(),size=+$('#pageSize').value,pages=Math.max(1,Math.ceil(list.length/size));
+  if(page>pages)page=pages;
+  const view=list.slice((page-1)*size,page*size);
+  const tb=$('#tbl tbody');tb.innerHTML='';
+  view.forEach((b,i)=>{const g=gr(b.준수율),tr=el('tr');
+    tr.innerHTML=`<td class="num" style="color:var(--ink3)">${(page-1)*size+i+1}</td>
+      <td><span class="dot" style="background:${g.c}"></span>${$('#scope').value==='all'?b.기관명:b.시군구}</td>
+      <td class="num">${fmt(b.처리건수)}</td><td class="num">${fmt(b.초과)}</td>
+      <td class="num" style="color:${g.c};font-weight:700">${pct(b.준수율)}</td>
+      <td class="num" style="color:var(--ink2)">${b.전국순위}</td>`;
+    tr.onclick=()=>openDetail(b);tb.appendChild(tr);});
+  if(!view.length)tb.innerHTML=`<tr><td colspan="6" style="text-align:center;color:var(--ink3);padding:22px">
+    표시할 지자체가 없습니다. 관할 기초지자체가 없는 지역이면 위 선택을 ‘전국’으로 바꿔 보세요.</td></tr>`;
+  $('#tblNote').textContent=`${fmt(list.length)}곳 중 ${view.length}곳`;
+  const pg=$('#pager');pg.innerHTML='';
+  const mk=(t,f,cur)=>{const b=el('button',{type:'button'},t);b.onclick=f;
+    if(cur)b.setAttribute('aria-current','true');pg.appendChild(b);};
+  mk('«',()=>{page=1;drawTable();});mk('‹',()=>{if(page>1){page--;drawTable();}});
+  const s=Math.max(1,Math.min(page-3,pages-6));
+  for(let i=s;i<=Math.min(pages,s+6);i++){const n=i;mk(String(n),()=>{page=n;drawTable();},n===page);}
+  mk('›',()=>{if(page<pages){page++;drawTable();}});mk('»',()=>{page=pages;drawTable();});
 }
+/* 상세 모달 */
+function openModal(){$('#scrim').classList.add('on');$('#mClose').focus();}
+function openDetail(b){
+  const list=bySido[b.시도],st=sidoStat[b.시도],g=gr(b.준수율);
+  const gap=b.준수율-st.준수율,gapN=b.준수율-NAT.준수율;
+  const peers=B.filter(x=>x.기관명!==b.기관명&&Math.abs(x.처리건수-b.처리건수)/b.처리건수<=.3)
+    .sort((x,y)=>Math.abs(x.처리건수-b.처리건수)-Math.abs(y.처리건수-b.처리건수)).slice(0,6);
+  const items=[b,...peers].sort((x,y)=>y.준수율-x.준수율).map(x=>({
+    k:x.기관명===b.기관명?'▶ '+x.시군구:x.기관명,v:x.준수율,t:pct(x.준수율)+'%',
+    c:x.기관명===b.기관명?'#FFFFFF':gr(x.준수율).c}));
+  const ext=EXTRA.byRegionYear[b.기관명];
+  $('#mTitle').textContent=b.시군구;
+  $('#mSub').textContent=`${b.시도} · 기준일 ${DATA.meta.기준일} · 기관명 “${b.기관명}” · 등급 ${g.t}`;
+  $('#mBody').innerHTML=`
+    <div class="box"><div style="display:grid;grid-template-columns:170px 1fr 170px;gap:12px;align-items:center">
+      <div>${gauge(b.준수율,'처리기간 준수율')}</div>
+      <div class="chips">${[
+        ['처리건수',fmt(b.처리건수),'건','#35D0E8'],['기간 내',fmt(b.기간내),'건','#7BD88F'],
+        ['기간 초과',fmt(b.초과),'건','#F08A3C'],['도내 순위',`${b.도내순위} / ${list.length}`,'','#8B7BE8'],
+        ['전국 순위',`${b.전국순위} / ${B.length}`,'','#5FA8FF'],['1만 건당 초과',b.초과율.toFixed(1),'건','#F5C63C'],
+        ['도 평균 대비',(gap>=0?'+':'')+gap.toFixed(2),'%p',gap>=0?'#7BD88F':'#E9533F'],
+        ['전국 대비',(gapN>=0?'+':'')+gapN.toFixed(2),'%p',gapN>=0?'#7BD88F':'#E9533F'],
+        ['처리 규모',b.규모,`상위 ${101-b.규모백분위}%`,'#C8DC5A']
+      ].map(([n,v,u,c])=>`<div class="chip" style="border-left-color:${c}"><i>${n}</i><b class="num" style="color:${c}">${v}</b><u>${u}</u></div>`).join('')}</div>
+      <div>${donut([{k:'기간 내',v:b.기간내,c:'#35D0E8'},{k:'초과',v:b.초과,c:'#F08A3C'}],168,[pct(b.초과/b.처리건수*100),'초과 비중 %'])}</div>
+    </div></div>
+    <div class="m2">
+      <div class="box"><div class="bh"><h2>${b.시도} 내 위치</h2><span class="note">규모 대비 준수율</span></div>${scatter(list,b)}</div>
+      <div class="box"><div class="bh"><h2>비슷한 규모 지자체</h2><span class="note">처리건수 ±30%</span></div>
+        ${peers.length?lollipop(items):'<p style="color:var(--ink3);font-size:12px">해당 지자체가 없습니다.</p>'}</div>
+    </div>
+    <div class="box"><div class="bh"><h2>연도별 추이</h2></div>${ext?yearBlock(b,ext):
+      `<div class="callout"><b>연도별 값은 아직 없습니다.</b> 지역 축을 가진 자료는 처리기간 준수현황 하나뿐이고 ${DATA.meta.기준일} 한 시점만 담겨 있습니다.
+       나머지 자료는 연도가 있지만 전국 집계라 ${b.시군구} 값으로 나눌 수 없어 추정치를 만들지 않고 비워 둡니다.
+       연도를 채운 통합 표준 양식 CSV를 왼쪽 파일 업로드에서 올리면 이 자리에 추이가 그려집니다.</div>`}</div>`;
+  openModal();
+}
+function yearBlock(b,ext){
+  const years=Object.keys(ext).sort(),ms=[...new Set(years.flatMap(y=>Object.keys(ext[y])))];
+  let out=`<p style="font-size:12px;color:var(--ink2)">올린 파일에서 ${b.시군구} 연도별 값을 찾았습니다 · ${years[0]}–${years[years.length-1]}</p>`;
+  ms.slice(0,3).forEach(m=>{const vals=years.map(y=>ext[y][m]==null?null:Number(ext[y][m]));
+    out+=`<div style="font-size:12px;font-weight:700;margin:6px 0 2px">${m}</div>`+
+      barLine(years.map(y=>String(y).slice(2)),vals.map(v=>v||0),vals.map((v,i)=>i&&vals[i-1]?((v-vals[i-1])/vals[i-1]*100):0),
+        {W:820,H:200,barName:m,lineName:'전년 대비 증감률(%)',lineFmt:v=>v.toFixed(1)+'%'});});
+  out+=`<div class="tblwrap" style="margin-top:9px"><table><thead><tr><th>연도</th>${ms.map(m=>`<th>${m}</th>`).join('')}</tr></thead><tbody>`+
+    years.map(y=>`<tr><td>${y}</td>${ms.map(m=>`<td class="num">${ext[y][m]==null?'—':fmt(ext[y][m])}</td>`).join('')}</tr>`).join('')+`</tbody></table></div>`;
+  return out;
+}
+/* ═══ 통합 표준 양식 데이터 적재 ═══ */
+const HEAD13=['데이터셋','출처파일','연도','기준일','시도','시군구','기관분류','기관명','분류1','분류2','지표','값','단위'];
+const IDX=Object.fromEntries(HEAD13.map((h,i)=>[h,i]));
+const numOf=v=>{const t=String(v??'').replace(/[,%\s]/g,'');return t!==''&&!isNaN(t)?Number(t):null;};
 
-try{ buildMap(); }catch(e){ console.error(e); }
-renderSido(null);buildClsBar();
-
-/* ════════════════════════════════
-   키워드 버블
-   ════════════════════════════════ */
-function buildBubbles(){
-  const svg=document.getElementById('bubbleSvg');
-  const W=svg.parentElement.offsetWidth||800, H=380;
-  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
-
-  const d=DATA.topKeywords.slice();
-  const maxV=Math.max(...d.map(f=>f.y2025));
-  const minR=18,maxR=72;
-  const scR=v=>minR+(v/maxV)*(maxR-minR);
-
-  // simple force-like layout
-  const nodes=d.map((f,i)=>{
-    const angle=(i/d.length)*Math.PI*2;
-    const dist=W*0.28;
-    return {
-      f,r:scR(f.y2025),
-      x:W/2+Math.cos(angle)*dist,
-      y:H/2+Math.sin(angle)*dist*.7,
-      tx:W/2+Math.cos(angle)*dist,
-      ty:H/2+Math.sin(angle)*dist*.7,
-    };
-  });
-
-  // simple collision avoidance
-  for(let iter=0;iter<60;iter++){
-    for(let i=0;i<nodes.length;i++){
-      for(let j=i+1;j<nodes.length;j++){
-        const a=nodes[i],b=nodes[j];
-        const dx=b.x-a.x,dy=b.y-a.y;
-        const dist2=Math.sqrt(dx*dx+dy*dy)||1;
-        const minD=a.r+b.r+6;
-        if(dist2<minD){
-          const push=(minD-dist2)/2;
-          const nx=dx/dist2,ny=dy/dist2;
-          a.x-=nx*push;a.y-=ny*push;
-          b.x+=nx*push;b.y+=ny*push;
-        }
-      }
-      // center gravity
-      nodes[i].x+=(W/2-nodes[i].x)*.02;
-      nodes[i].y+=(H/2-nodes[i].y)*.02;
+function buildFromRows(rows){
+  const get=(r,k)=>String(r[IDX[k]]??'').trim();
+  const compl={},byYear={},nat={},field={},lang={},api=[];
+  let base='';
+  rows.forEach(r=>{
+    const ds=get(r,'데이터셋'),지표=get(r,'지표'),값=numOf(r[IDX['값']]),연도=get(r,'연도'),분류1=get(r,'분류1');
+    if(ds==='처리기간 준수현황'){
+      const 명=get(r,'기관명');if(!명)return;
+      const 기준=get(r,'기준일');if(기준&&기준>base)base=기준;
+      const o=(compl[명] ||= {기관분류:get(r,'기관분류'),기관명:명});
+      if(지표==='처리건수')o.처리건수=값;
+      else if(지표.startsWith('기간내'))o.기간내=값;
+      else if(지표.startsWith('기간초과'))o.초과=값;
+      else if(지표==='준수율')o.준수율=값;
+      if(연도){const s=(byYear[명] ||= {});(s[연도] ||= {})[지표]=값;}
+    }else if(ds==='민원 빅데이터 API 목록'){
+      api.push({이름:지표,방식:분류1,설명:''});
+    }else if(연도){
+      const y=+연도;
+      if(ds==='고충민원 분야별 접수'){(field[y] ||= {})[분류1]=값;}
+      else if(ds==='국민신문고 외국어 민원'){(lang[분류1] ||= {})[y]=값;}
+      else{const k=분류1||지표;((nat[ds] ||= {})[k] ||= {})[y]=값;}
     }
+  });
+  const rowsC=Object.values(compl).filter(o=>o.처리건수!=null&&o.준수율!=null)
+    .map(o=>[o.기관분류,o.기관명,o.처리건수,o.기간내??(o.처리건수-(o.초과||0)),o.초과||0,o.준수율]);
+  const series=ds=>{const c=nat[ds]||{};
+    const ys=[...new Set(Object.values(c).flatMap(m=>Object.keys(m).map(Number)))].sort((a,b)=>a-b);
+    return {years:ys,cols:Object.fromEntries(Object.entries(c).map(([k,m])=>[k,ys.map(y=>m[y]??null)]))};};
+  const fy=Object.keys(field).map(Number).sort((a,b)=>a-b);
+  const ly=[...new Set(Object.values(lang).flatMap(m=>Object.keys(m).map(Number)))].sort((a,b)=>a-b);
+  return {
+    ok:true,
+    data:{
+      meta:{기준일:base,파일:[]},
+      compl:{cols:['기관분류','기관명','처리건수','기간내','초과','준수율'],rows:rowsC},
+      national:{
+        yearly:series('고충민원 연도별 접수·처리'),
+        days:series('고충민원 처리기간 통계'),
+        channel:series('국민신문고 접수경로별'),
+        idea:series('국민신문고 제안 접수'),
+        field:{years:fy,names:[...new Set(fy.flatMap(y=>Object.keys(field[y])))],
+               values:Object.fromEntries(fy.map(y=>[String(y),field[y]]))},
+        lang:{years:ly,rows:Object.fromEntries(Object.entries(lang).map(([k,m])=>[k,ly.map(y=>m[y]??0)]))}
+      },
+      api,sources:[]
+    },
+    byYear,orgs:rowsC.length
+  };
+}
+
+/* ═══ 원본 8종 개별 자동 인식(표준 13열로 변환) ═══ */
+const stripAll=s=>String(s??'').replace(/\s+/g,'');
+function dateFromName(name){const m=String(name||'').match(/(\d{4})(\d{2})(\d{2})/);return m?`${m[1]}-${m[2]}-${m[3]}`:'';}
+const RAW_SIGS=[
+  {key:'고충민원 분야별 접수',sig:['기준연도','분야명','접수건수'],
+    convert(h,rows,fname){const out=[];rows.forEach(r=>{const y=String(r[0]||'').trim();if(!y)return;
+      out.push(['고충민원 분야별 접수',fname,y,'','','','전국','국민권익위원회',String(r[1]||'').trim(),'','접수건수',numOf(r[2]),'건']);});return out;}},
+  {key:'고충민원 연도별 접수·처리',sig:['년도','접수','처리','고충민원','기타민원','인용','시정권고','의견표명','조정합의'],
+    convert(h,rows,fname){const out=[];rows.forEach(r=>{const y=String(r[0]||'').trim();if(!y)return;
+      for(let i=1;i<h.length;i++)out.push(['고충민원 연도별 접수·처리',fname,y,'','','','전국','국민권익위원회','','',h[i].trim(),numOf(r[i]),'건']);});return out;}},
+  {key:'고충민원 처리기간 통계',sigNoSpace:['년도','처리건수','평균처리일_전체','평균처리일_시정권고','평균처리일_의견표명','평균처리일_조정합의','평균처리일_심의안내','평균처리일_기각','평균처리일_기타'],
+    convert(h,rows,fname){const out=[];rows.forEach(r=>{const y=String(r[0]||'').trim();if(!y)return;
+      for(let i=1;i<h.length;i++){const nm=stripAll(h[i]),unit=nm==='처리건수'?'건':'일';
+        out.push(['고충민원 처리기간 통계',fname,y,'','','','전국','국민권익위원회','','',nm,numOf(r[i]),unit]);}});return out;}},
+  {key:'국민신문고 접수경로별',sigNoSpace:['연도','신문고홈페이지','부처홈페이지','지자체등이송이첩','서신대통령실'],
+    convert(h,rows,fname){const out=[];rows.forEach(r=>{const y=String(r[0]||'').trim();if(!y)return;
+      for(let i=1;i<h.length;i++)out.push(['국민신문고 접수경로별',fname,y,'','','','전국','국민권익위원회',h[i].trim(),'','접수건수',numOf(r[i]),'건']);});return out;}},
+  {key:'국민신문고 제안 접수',sig:['연도','국민제안','공무원제안'],
+    convert(h,rows,fname){const out=[];rows.forEach(r=>{const y=String(r[0]||'').trim();if(!y)return;
+      for(let i=1;i<h.length;i++)out.push(['국민신문고 제안 접수',fname,y,'','','','전국','국민권익위원회',h[i].trim(),'','접수건수',numOf(r[i]),'건']);});return out;}},
+  {key:'민원 빅데이터 API 목록',test:h=>h.length===3&&stripAll(h[0]).includes('오퍼레이션명'),
+    convert(h,rows,fname){const out=[],base=dateFromName(fname);rows.forEach(r=>{const nm=String(r[0]||'').trim();if(!nm)return;
+      out.push(['민원 빅데이터 API 목록',fname,'',base,'','','전국','국민권익위원회',String(r[1]||'').trim(),'',nm,'','']);});return out;}},
+  {key:'처리기간 준수현황',sigNoSpace:['기관분류','기관명','처리건수','기간내처리','기간초과처리','준수율'],
+    convert(h,rows,fname){const out=[],base=dateFromName(fname);rows.forEach(r=>{
+      const cls=String(r[0]||'').trim(),name=String(r[1]||'').trim();if(!name)return;
+      let sido='',basic='';
+      if(cls==='광역-지방자치단체')sido=name;
+      else if(cls==='시도-지방자치단체'){const i=name.indexOf(' ');sido=i<0?name:name.slice(0,i);basic=i<0?'':name.slice(i+1);}
+      else if(cls==='시도교육청')sido=name.replace('교육청','');
+      [['처리건수',r[2],'건'],['기간내 처리',r[3],'건'],['기간초과 처리',r[4],'건'],['준수율',r[5],'%']]
+        .forEach(([m,v,u])=>out.push(['처리기간 준수현황',fname,'',base,sido,basic,cls,name,'','',m,numOf(v),u]));});return out;}},
+];
+function isLangHeader(h){if(h.length<2)return false;if(stripAll(h[0])!=='언어년도')return false;
+  return h.slice(1).every(c=>/^\d{4}$/.test(String(c).trim()));}
+function convertLang(h,rows,fname){const out=[];rows.forEach(r=>{const lang=String(r[0]||'').trim();if(!lang)return;
+  for(let i=1;i<h.length;i++)out.push(['국민신문고 외국어 민원',fname,String(h[i]).trim(),'','','','전국','국민권익위원회',lang,'','접수건수',numOf(r[i]),'건']);});return out;}
+function convertRawFile(header,rows,fname){
+  const clean=header.map(x=>String(x||'').trim()),noSp=clean.map(stripAll);
+  if(isLangHeader(clean))return {type:'국민신문고 외국어 민원(원본)',rows13:convertLang(clean,rows,fname)};
+  for(const s of RAW_SIGS){
+    if((s.sig&&JSON.stringify(clean)===JSON.stringify(s.sig))||
+       (s.sigNoSpace&&JSON.stringify(noSp)===JSON.stringify(s.sigNoSpace))||
+       (s.test&&s.test(clean)))
+      return {type:s.key+'(원본)',rows13:s.convert(clean,rows,fname)};
   }
-  // clamp
-  nodes.forEach(n=>{n.x=Math.max(n.r+4,Math.min(W-n.r-4,n.x));n.y=Math.max(n.r+4,Math.min(H-n.r-4,n.y));});
-
-  svg.innerHTML=nodes.map(n=>{
-    const up=n.f.pct>0;
-    const col=up?`#${Math.round(183+n.f.pct/5).toString(16).padStart(2,'0').slice(-2)}${Math.round(28-Math.min(20,n.f.pct/20)).toString(16).padStart(2,'0').slice(-2)}28`:
-      '#1565C0';
-    const border=up?'rgba(239,83,80,.5)':'rgba(21,101,192,.5)';
-    const opacity=0.75+Math.min(0.2,Math.abs(n.f.pct)/300);
-    return `<g class="bubble-g" data-field="${n.f.field}" style="cursor:pointer">
-      <circle cx="${n.x}" cy="${n.y}" r="${n.r}" fill="${up?'#B71C1C':'#0D47A1'}" opacity="${opacity}" stroke="${border}" stroke-width="1.5"/>
-      <circle cx="${n.x}" cy="${n.y}" r="${n.r}" fill="url(#bg${n.f.field})" opacity=".3"/>
-      <text x="${n.x}" y="${n.y}" text-anchor="middle" dominant-baseline="middle"
-        font-family="Pretendard,sans-serif" font-weight="800" font-size="${Math.max(11,n.r*0.38)}"
-        fill="rgba(255,255,255,.95)" pointer-events="none">${n.f.field}</text>
-      <text x="${n.x}" y="${n.y+Math.max(11,n.r*0.38)*0.8}" text-anchor="middle" dominant-baseline="middle"
-        font-family="Pretendard,sans-serif" font-weight="600" font-size="${Math.max(8,n.r*0.26)}"
-        fill="rgba(255,255,255,.75)" pointer-events="none">${fmt(n.f.y2025)}</text>
-      ${n.r>30?`<text x="${n.x}" y="${n.y+Math.max(11,n.r*0.38)*0.8+Math.max(8,n.r*0.26)+4}" text-anchor="middle" dominant-baseline="middle"
-        font-family="Pretendard,sans-serif" font-weight="700" font-size="${Math.max(8,n.r*0.22)}"
-        fill="${up?'#FFCDD2':'#90CAF9'}" pointer-events="none">${up?'+':''}${n.f.pct}%</text>`:''}
-    </g>`;
-  }).join('');
-
-  // hover
-  svg.querySelectorAll('.bubble-g').forEach(g=>{
-    g.addEventListener('mouseenter',()=>g.querySelector('circle').setAttribute('opacity','1'));
-    g.addEventListener('mouseleave',()=>g.querySelector('circle').setAttribute('opacity','.75'));
-  });
+  return null;
 }
 
-// 증가율 바
-function buildIncrBar(){
-  const d=[...DATA.topKeywords].filter(f=>f.pct>0).sort((a,b)=>b.pct-a.pct).slice(0,8);
-  const max=Math.max(...d.map(f=>f.pct));
-  document.getElementById('incrBar').innerHTML=d.map(f=>`
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:9px">
-      <span style="font-size:11.5px;color:var(--fg2);width:52px;text-align:right;flex:none">${f.field}</span>
-      <div style="flex:1;height:10px;border-radius:99px;background:var(--bg1);overflow:hidden">
-        <div style="width:${f.pct/max*100}%;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--red))"></div>
-      </div>
-      <span style="font-size:11px;font-weight:700;color:var(--red2);width:46px;text-align:right">+${f.pct}%</span>
-    </div>`).join('');
-}
+window.CASE43_API={
+  header:HEAD13.slice(),
+  /* 여러 파일(표준 양식 또는 원본 8종 각각)을 한 번에 받아 자동 인식·병합 */
+  ingestFiles(bundles){
+    try{
+      if(!bundles||!bundles.length)return {ok:false,reason:'파일이 없습니다.'};
+      let combined=[];const recognized=[],unrecognized=[];
+      bundles.forEach(fb=>{
+        const header=(fb.header||[]).map(x=>String(x||'').trim());
+        const body=(fb.rows||[]).filter(r=>Array.isArray(r)&&r.some(v=>String(v??'').trim()!==''));
+        if(JSON.stringify(header)===JSON.stringify(HEAD13)){
+          combined=combined.concat(body);
+          recognized.push({name:fb.name,type:'표준 통합 양식',rows:body.length});
+          return;
+        }
+        const conv=convertRawFile(header,body,fb.name);
+        if(conv&&conv.rows13.length){
+          combined=combined.concat(conv.rows13);
+          recognized.push({name:fb.name,type:conv.type,rows:conv.rows13.length});
+        }else unrecognized.push(fb.name);
+      });
+      if(!combined.length)
+        return {ok:false,reason:'인식 가능한 파일이 없습니다.'+(unrecognized.length?` (${unrecognized.join(', ')})`:'')};
+      const built=buildFromRows(combined);
+      const n=built.data.national;
+      DATA=built.data;
+      EXTRA.byRegionYear=built.byYear;
+      derive();initSlider();initFldTabs();render();
+      ['#q','#scope','#pageSize','#btnSearch'].forEach(sel=>{const e=$(sel);if(e)e.disabled=(B.length===0);});
+      const summary=recognized.map(r=>`${r.name}(${r.type})`).join(', ');
+      const regionMsg=built.orgs>0?`기관 ${fmt(built.orgs)}곳 / 기초 ${fmt(B.length)}곳 · 기준일 ${DATA.meta.기준일}`:'지역 자료 없음(처리기간 준수현황 파일 필요)';
+      $('#menuMsg').textContent=`업로드 반영 · ${summary} · ${regionMsg}`+
+        (unrecognized.length?` · 인식 실패 ${unrecognized.length}개: ${unrecognized.join(', ')}`:'');
+      return {ok:true,orgs:built.orgs,basics:B.length,base:DATA.meta.기준일,
+              years:n.field.years.length?`${n.field.years[0]}–${n.field.years[n.field.years.length-1]}`:'',
+              recognized,unrecognized};
+    }catch(e){return {ok:false,reason:'적재 중 오류: '+e.message};}
+  },
+  header13:HEAD13.slice(),
+  ingest(rows,label){
+    try{
+      const body=(rows||[]).filter(r=>Array.isArray(r)&&r.some(v=>String(v??'').trim()!==''));
+      if(!body.length)return {ok:false,reason:'데이터 행이 없습니다.'};
+      const built=buildFromRows(body);
+      const n=built.data.national;
+      DATA=built.data;
+      EXTRA.byRegionYear=built.byYear;
+      derive();initSlider();initFldTabs();render();
+      ['#q','#scope','#pageSize','#btnSearch'].forEach(sel=>{const e=$(sel);if(e)e.disabled=(B.length===0);});
+      const regionMsg=built.orgs>0?`기관 ${fmt(built.orgs)}곳 / 기초 ${fmt(B.length)}곳 · 기준일 ${DATA.meta.기준일}`:'지역 자료 없음(처리기간 준수현황 파일 필요)';
+      $('#menuMsg').textContent=`업로드 반영 · ${label||'통합 표준 양식'} · ${regionMsg}`;
+      return {ok:true,orgs:built.orgs,basics:B.length,base:DATA.meta.기준일,
+              years:n.field.years.length?`${n.field.years[0]}–${n.field.years[n.field.years.length-1]}`:''};
+    }catch(e){return {ok:false,reason:'적재 중 오류: '+e.message};}
+  },
+  reset(){location.reload();}
+};
 
-// 상위 접수량 바
-function buildTopBar(){
-  const d=[...DATA.topKeywords].sort((a,b)=>b.y2025-a.y2025).slice(0,10);
-  const max=d[0].y2025;
-  document.getElementById('topBar').innerHTML=d.map((f,i)=>`
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-      <span style="font-size:10px;color:var(--fg3);width:14px;text-align:right;flex:none">${i+1}</span>
-      <span style="font-size:11.5px;color:var(--fg2);width:52px;flex:none">${f.field}</span>
-      <div style="flex:1;height:8px;border-radius:99px;background:var(--bg1);overflow:hidden">
-        <div style="width:${f.y2025/max*100}%;height:100%;border-radius:99px;background:${f.pct>0?'var(--red)':'var(--blue)'}"></div>
-      </div>
-      <span style="font-size:11px;font-weight:700;color:var(--fg);width:38px;text-align:right">${(f.y2025/1000).toFixed(1)}k</span>
-    </div>`).join('');
-}
-
-// 뷰 변경 시 버블 그리기 (크기 의존)
-document.querySelectorAll('.nav-a[data-view]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    if(btn.dataset.view==='v-kw') setTimeout(buildBubbles,50);
-  });
-});
-
-buildBubbles();buildIncrBar();buildTopBar();
-
-/* ════════════════════════════════
-   기관 랭킹
-   ════════════════════════════════ */
-const orgState={q:'',cls:'',sort:'rate-asc'};
-document.getElementById('orgCls').innerHTML='<option value="">전체 기관 유형</option>'+
-  [...new Set(DATA.orgs.map(r=>r.cls))].sort().map(c=>`<option>${c}</option>`).join('');
-function renderOrg(){
-  let rows=DATA.orgs.filter(r=>(!orgState.q||r.name.includes(orgState.q))&&(!orgState.cls||r.cls===orgState.cls));
-  const[k,dir]=orgState.sort.split('-');
-  rows.sort((a,b)=>dir==='asc'?a[k]-b[k]:b[k]-a[k]);
-  document.getElementById('orgCount').textContent=`${fmt(rows.length)} / ${fmt(DATA.orgs.length)}개 기관`;
-  document.getElementById('orgTbody').innerHTML=rows.length?rows.slice(0,500).map(r=>`
-    <tr>
-      <td>${r.cls}</td><td>${r.name}</td>
-      <td>${fmt(r.total)}</td>
-      <td style="color:${r.over>0?'var(--red2)':'var(--fg3)'}">${fmt(r.over)}</td>
-      <td><div class="bar-wrap">
-        <div class="bar-track"><div class="bar-fill" style="width:${Math.max(2,r.rate-50)/50*100}%;background:${RAMP[binOf(r.rate)]}"></div></div>
-        <span style="font-weight:700;color:var(--h);min-width:52px;text-align:right">${r.rate.toFixed(2)}%</span>
-      </div></td>
-    </tr>`).join(''):
-    `<tr><td colspan="5" class="empty">조건에 맞는 기관이 없습니다</td></tr>`;
-}
-document.getElementById('orgQ').addEventListener('input',e=>{orgState.q=e.target.value.trim();renderOrg();});
-document.getElementById('orgCls').addEventListener('change',e=>{orgState.cls=e.target.value;renderOrg();});
-document.querySelectorAll('.chip[data-sort]').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.chip[data-sort]').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on');orgState.sort=b.dataset.sort;renderOrg();
-}));
-renderOrg();
-
-/* ════════════════════════════════
-   추이·경로
-   ════════════════════════════════ */
-(function trendChart(){
-  const y=DATA.yearlyAll;
-  const W=500,H=220,pad={t:20,b:35,l:46,r:16};
-  const iw=W-pad.l-pad.r,ih=H-pad.t-pad.b;
-  const maxV=Math.max(...y.map(r=>r.recv));
-  const xStep=iw/(y.length-1);
-  const scY=v=>pad.t+ih-(v/maxV*ih);
-  const pts=y.map((r,i)=>`${pad.l+i*xStep},${scY(r.recv)}`).join(' ');
-  let h=`<polyline points="${pts}" fill="none" stroke="var(--blue2)" stroke-width="2"/>`;
-  // area fill
-  h+=`<polygon points="${pad.l},${pad.t+ih} ${pts} ${pad.l+(y.length-1)*xStep},${pad.t+ih}" fill="url(#trendGrad)" opacity=".4"/>`;
-  // dots for 24,25
-  [y.length-2,y.length-1].forEach(i=>{
-    h+=`<circle cx="${pad.l+i*xStep}" cy="${scY(y[i].recv)}" r="4" fill="var(--blue2)"/>
-      <text x="${pad.l+i*xStep}" y="${scY(y[i].recv)-10}" text-anchor="middle" font-size="10" fill="var(--blue3)" font-family="Pretendard,sans-serif" font-weight="700">${(y[i].recv/10000).toFixed(0)}만</text>`;
-  });
-  // x labels
-  y.filter((_,i)=>i%3===0||i>=y.length-2).forEach((r,_,arr)=>{
-    const i=y.indexOf(r);
-    h+=`<text x="${pad.l+i*xStep}" y="${H-8}" text-anchor="middle" font-size="10" fill="var(--fg3)" font-family="Pretendard,sans-serif">${r.year}</text>`;
-  });
-  // y gridlines
-  [0,.25,.5,.75,1].forEach(f=>{
-    const yy=pad.t+ih*(1-f);
-    h+=`<line x1="${pad.l}" y1="${yy}" x2="${W-pad.r}" y2="${yy}" stroke="var(--line)" stroke-width="1"/>
-      <text x="${pad.l-4}" y="${yy+3.5}" text-anchor="end" font-size="9" fill="var(--fg3)" font-family="Pretendard,sans-serif">${(maxV*f/10000).toFixed(0)}만</text>`;
-  });
-  h=`<defs><linearGradient id="trendGrad" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--blue2)"/><stop offset="1" stop-color="var(--blue2)" stop-opacity="0"/></linearGradient></defs>`+h;
-  document.getElementById('trendSvg').innerHTML=h;
-})();
-
-// 처리 결과
-(function resultRows(){
-  const [a,b]=DATA.yearly;
-  const keys=[['accept','인용',a.accept,b.accept],['mediate','조정합의',a.mediate,b.mediate],['opinion','의견표명',a.opinion,b.opinion],['correct','시정권고',a.correct,b.correct]];
-  const max=Math.max(...keys.map(k=>Math.max(k[2],k[3])));
-  document.getElementById('resultRows').innerHTML=keys.map(([,label,v24,v25])=>`
-    <div class="res-row">
-      <span class="res-label">${label}</span>
-      <div class="res-track">
-        <div class="res-24" style="width:${v24/max*48}%"></div>
-        <div class="res-25" style="width:${v25/max*48}%"></div>
-      </div>
-      <span class="res-val">
-        <span style="color:var(--fg3)">${fmt(v24)}</span>
-        <span style="color:var(--fg3)"> → </span>
-        <span style="color:${v25>v24?'var(--red2)':'var(--blue3)'};font-weight:700">${fmt(v25)}</span>
-      </span>
-    </div>`).join('');
-})();
-
-// 도넛
-(function donut(){
-  const r=DATA.route[1];
-  const COLS=['#1565C0','#0D47A1','#7B1FA2','#B71C1C'];
-  const LABELS=['신문고 홈페이지','부처 홈페이지','지자체 이송이첩','서신·대통령실'];
-  const vals=[r.sinmungo,r.ministry,r.transfer,r.letter];
-  const total=vals.reduce((a,b)=>a+b,0);
-  const cx=90,cy=90,R=70,ir=48;
-  let angle=-Math.PI/2;
-  let h=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="#FFFFFF"/>`;
-  vals.forEach((v,i)=>{
-    const sweep=v/total*Math.PI*2;
-    const x1=cx+R*Math.cos(angle),y1=cy+R*Math.sin(angle);
-    const x2=cx+R*Math.cos(angle+sweep),y2=cy+R*Math.sin(angle+sweep);
-    const flag=sweep>Math.PI?1:0;
-    h+=`<path d="M${cx},${cy} L${x1},${y1} A${R},${R} 0 ${flag},1 ${x2},${y2} Z" fill="${COLS[i]}" opacity=".9"/>`;
-    angle+=sweep;
-  });
-  h+=`<circle cx="${cx}" cy="${cy}" r="${ir}" fill="#FFFFFF"/>
-    <text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="13" font-weight="800" fill="#241F14" font-family="Pretendard,sans-serif">${(total/10000000).toFixed(2)}천만</text>
-    <text x="${cx}" y="${cy+11}" text-anchor="middle" font-size="9" fill="#8A7F5E" font-family="Pretendard,sans-serif">총 접수건</text>`;
-  document.getElementById('donut').innerHTML=h;
-  document.getElementById('routeLegend').innerHTML=vals.map((v,i)=>`
-    <div class="leg-item">
-      <span class="leg-dot" style="background:${COLS[i]}"></span>
-      <span style="color:var(--fg2)">${LABELS[i]}</span>
-      <span class="leg-val">${(v/total*100).toFixed(1)}%</span>
-    </div>`).join('');
-})();
-
-// 국민제안
-(function sug(){
-  const [a,b]=DATA.suggest;
-  document.getElementById('sugRows').innerHTML=`
-    <div style="display:flex;gap:16px">
-      ${[['국민제안',a.citizen,b.citizen,'var(--blue2)'],['공무원제안',a.official,b.official,'var(--red2)']].map(([l,v24,v25,c])=>`
-        <div style="flex:1;background:var(--bg1);border:1px solid var(--line);border-radius:var(--r);padding:14px;border-top:2px solid ${c}">
-          <div style="font-size:10.5px;color:var(--fg2);margin-bottom:6px">${l}</div>
-          <div style="font-size:22px;font-weight:800;color:var(--h);letter-spacing:-.03em">${fmt(v25)}</div>
-          <div style="font-size:11px;color:var(--fg3);margin-top:4px">2024년 ${fmt(v24)}</div>
-        </div>`).join('')}
-    </div>`;
-  document.getElementById('sugDiff').innerHTML=`
-    <div style="display:flex;gap:16px">
-      ${[['국민제안',DATA.suggest[0].citizen,DATA.suggest[1].citizen],['공무원제안',DATA.suggest[0].official,DATA.suggest[1].official]].map(([l,v24,v25])=>{
-        const chg=(v25-v24)/v24*100;
-        return `<div style="flex:1;text-align:center">
-          <div style="font-size:10.5px;color:var(--fg3);margin-bottom:4px">${l}</div>
-          <div style="font-size:17px;font-weight:800;color:${chg>0?'var(--red2)':'var(--blue3)'}">${chg>0?'+':''}${chg.toFixed(1)}%</div>
-        </div>`;}).join('')}
-    </div>`;
-})();
+/* ═══ 이벤트 ═══ */
+document.querySelectorAll('#tbl thead th[data-k]').forEach(th=>th.onclick=()=>{
+  const k=th.dataset.k;
+  if(sortK===k)sortDir=sortDir==='desc'?'asc':'desc';else{sortK=k;sortDir='desc';}
+  document.querySelectorAll('#tbl thead th').forEach(x=>x.removeAttribute('data-dir'));
+  th.setAttribute('data-dir',sortDir);page=1;drawTable();});
+$('#q').oninput=()=>{page=1;drawTable();};
+$('#btnSearch').onclick=()=>{page=1;drawTable();};
+$('#scope').onchange=()=>{page=1;drawTable();};
+$('#pageSize').onchange=()=>{page=1;drawTable();};
+$('#mClose').onclick=()=>$('#scrim').classList.remove('on');
+$('#scrim').onclick=e=>{if(e.target.id==='scrim')$('#scrim').classList.remove('on');};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#scrim').classList.remove('on');});
+renderSkeleton();
 </script>
 </body>
 </html>
