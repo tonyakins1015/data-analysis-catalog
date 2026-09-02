@@ -15631,8 +15631,32 @@ body.cover-active .page-cover .cover-v10{
     document.querySelectorAll('.case-prototype-detail-body').forEach(body => observer.observe(body,{childList:true,subtree:false}));
   };
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, {once:true});
-  else init();
+  /* buildApp()은 document.fonts.ready(최대 500ms)에 물려 비동기로 DOM을 만든다.
+     그래서 DOMContentLoaded 시점엔 .modern-home-copy / #page-all-fields 가 아직 없고,
+     그 상태로 init()이 돌면 querySelector가 전부 null이라 표지 문구 교체와
+     사례별 인덱스 주입이 에러 없이 조용히 스킵된다(= 간헐적으로 빠지는 원인).
+     대상 DOM이 실제로 생길 때까지 폴링한 뒤 init()을 딱 한 번만 실행한다.
+     rAF가 아니라 setInterval을 쓰는 이유: rAF는 백그라운드 탭에서 멈춰서
+     링크를 새 탭으로 열어두면 영영 실행되지 않는다. */
+  let __refineDone = false;
+  const __refineReady = () => document.querySelector('.modern-home-copy h1')
+                            && document.querySelector('#page-all-fields .modern-list-head');
+  const __refineRun = () => {
+    if (__refineDone) return;
+    __refineDone = true;
+    try { init(); } catch (e) { console.error('[refine] init failed', e); }
+  };
+  const __refineDeadline = Date.now() + 15000;
+  const __refineTimer = setInterval(() => {
+    if (__refineDone) { clearInterval(__refineTimer); return; }
+    if (__refineReady() || Date.now() > __refineDeadline) {
+      clearInterval(__refineTimer);
+      __refineRun();
+    }
+  }, 50);
+  window.addEventListener('load', () => {
+    if (!__refineDone && __refineReady()) { clearInterval(__refineTimer); __refineRun(); }
+  }, {once:true});
 })();
 </script>
 
