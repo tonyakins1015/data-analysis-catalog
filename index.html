@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
@@ -10003,11 +10003,11 @@ const CASE_CARD_IMG_MAP = {
 
         <div class="case-prototype-layout">
           <aside class="case-prototype-sidebar" aria-label="서비스 활용 및 필요 데이터">
-            <div class="case-file-action-row${(id === '1' || id === '34' || id === '23' || id === '26' || id === '27' || id === '28' || id === '30' || id === '37' || id === '39' || id === '40' || id === '44' || id === '43') ? ' has-reset' : ''}">
+            <div class="case-file-action-row${(id === '1' || id === '34' || id === '23' || id === '26' || id === '27' || id === '28' || id === '30' || id === '37' || id === '39' || id === '40' || id === '44' || id === '43' || id === '45' || id === '48' || id === '49' || id === '52') ? ' has-reset' : ''}">
               <button class="case-file-upload-button" type="button" data-case-upload-open>
                 <span>FILE</span><b>파일 업로드</b><i aria-hidden="true">＋</i>
               </button>
-              ${id === '1' ? '<button type="button" class="case-file-reset-button" id="uploadReset1">초기화</button>' : id === '34' ? '<button type="button" class="case-file-reset-button" id="uploadReset35">초기화</button>' : id === '23' ? '<button type="button" class="case-file-reset-button" id="uploadReset23">초기화</button>' : id === '26' ? '<button type="button" class="case-file-reset-button" id="uploadReset26">초기화</button>' : id === '27' ? '<button type="button" class="case-file-reset-button" id="uploadReset27">초기화</button>' : id === '28' ? '<button type="button" class="case-file-reset-button" id="uploadReset28">초기화</button>' : id === '30' ? '<button type="button" class="case-file-reset-button" id="uploadReset30">초기화</button>' : id === '37' ? '<button type="button" class="case-file-reset-button" id="uploadReset37">초기화</button>' : id === '39' ? '<button type="button" class="case-file-reset-button" id="uploadReset39">초기화</button>' : id === '40' ? '<button type="button" class="case-file-reset-button" id="uploadReset40">초기화</button>' : id === '44' ? '<button type="button" class="case-file-reset-button" id="uploadReset44">초기화</button>' : id === '43' ? '<button type="button" class="case-file-reset-button" id="uploadReset43">초기화</button>' : ''}
+              ${id === '1' ? '<button type="button" class="case-file-reset-button" id="uploadReset1">초기화</button>' : id === '34' ? '<button type="button" class="case-file-reset-button" id="uploadReset35">초기화</button>' : id === '23' ? '<button type="button" class="case-file-reset-button" id="uploadReset23">초기화</button>' : id === '26' ? '<button type="button" class="case-file-reset-button" id="uploadReset26">초기화</button>' : id === '27' ? '<button type="button" class="case-file-reset-button" id="uploadReset27">초기화</button>' : id === '28' ? '<button type="button" class="case-file-reset-button" id="uploadReset28">초기화</button>' : id === '30' ? '<button type="button" class="case-file-reset-button" id="uploadReset30">초기화</button>' : id === '37' ? '<button type="button" class="case-file-reset-button" id="uploadReset37">초기화</button>' : id === '39' ? '<button type="button" class="case-file-reset-button" id="uploadReset39">초기화</button>' : id === '40' ? '<button type="button" class="case-file-reset-button" id="uploadReset40">초기화</button>' : id === '44' ? '<button type="button" class="case-file-reset-button" id="uploadReset44">초기화</button>' : id === '43' ? '<button type="button" class="case-file-reset-button" id="uploadReset43">초기화</button>' : id === '45' ? '<button type="button" class="case-file-reset-button" id="uploadReset45">초기화</button>' : id === '48' ? '<button type="button" class="case-file-reset-button" id="uploadReset48">초기화</button>' : id === '49' ? '<button type="button" class="case-file-reset-button" id="uploadReset49">초기화</button>' : id === '52' ? '<button type="button" class="case-file-reset-button" id="uploadReset52">초기화</button>' : ''}
             </div>
             ${id === '1' ? `
             <div class="case1-filter-wrap">
@@ -10153,6 +10153,15 @@ const CASE_CARD_IMG_MAP = {
                   <p style="font-size:11px;color:#8a949a;margin:2px 0 10px">활성(초록) 시·도를 클릭하면 그 지역만 빼고, 제외(주황) 상태를 다시 클릭하면 재반영합니다. 여러 시·도를 함께 올린 경우 같은 기사는 기사ID로 중복 제거해 집계합니다. 원본 CSV를 직접 올릴 때는 개체명(지역)이 있으면 그 값을, 없으면 키워드·특성추출 토큰을 시·도명·시·군 지명 사전과 <b>토큰 단위로 정확히 일치</b>할 때만 그 시·도로 집계합니다. ‘경기·달성·진주·강화’처럼 일반명사와 겹치는 지명은 오탐이 많아 정식 시·군명(예: 진주시) 형태로만 인정하며, 판정 근거는 기사 목록에 그대로 표시됩니다.</p>
                   <button type="button" class="case-upload-template35" id="dlTemplate44">표준 양식 CSV 다운로드 ↓</button>
                   <button type="button" class="case-upload-template35" id="dlTemplateXlsx44" style="margin-top:8px">표준 양식 XLSX 다운로드 ↓</button>
+                  ` : id === '48' ? `
+                  <b>전국 대기환경 실측 데이터를 올려주세요.</b>
+                  <p>이 대시보드에는 내장 수치가 없습니다. 두 가지 형식 중 하나를 인식합니다 — ① 시도·시군구 월평균 표준 양식(13컬럼: 시도, 시군구, 측정소코드, 측정소명, 측정망, 주소, 연월, SO2, CO, O3, NO2, PM10, PM2.5), ② 에어코리아 원본 시간자료(12컬럼: 지역, 망, 측정소코드, 측정소명, 측정일시, SO2, CO, O3, NO2, PM10, PM25, 주소)를 변환 없이 그대로 올려도 자동 인식해 월평균·시간대별 패턴으로 집계합니다. 시도별로 나눈 파일을 여러 개 동시에 선택할 수 있고, 올릴 때마다 지역과 월이 누적됩니다. 업로드한 지역·월만 지도·표·추이 그래프에 채워지며, 나머지는 값을 채우지 않고 비워 둡니다.</p>
+                  <input type="file" id="uploadFile48" accept=".csv,.xlsx,.xls" multiple>
+                  <button type="button" class="case-upload-select" id="uploadAddBtn48">업로드하여 반영</button>
+                  <p class="case-upload-status35" id="uploadStatus48" aria-live="polite" style="white-space:pre-line"></p>
+                  <p style="font-size:11px;color:#8a949a;margin:2px 0 10px">두 형식을 섞어 올려도 측정소코드 기준으로 자동 병합됩니다. 시간대별(0~23시) 평균 패턴과 지도 드릴다운(시군구→측정소)은 원본 시간자료를 올렸을 때만 채워집니다.</p>
+                  <button type="button" class="case-upload-template35" id="dlTemplate48">표준 양식(월평균) CSV 다운로드 ↓</button>
+                  <button type="button" class="case-upload-template35" id="dlTemplateRaw48" style="margin-top:8px">표준 양식(원본 시간자료) CSV 다운로드 ↓</button>
                   ` : id === '43' ? `
                   <b>민원 데이터를 올려주세요.</b>
                   <p>국민권익위원회 공개 원본 8종(고충민원 분야별·연도별·처리기간, 국민신문고 접수경로·외국어·제안, 민원빅데이터 API 목록, 정부민원 처리기간 준수현황)을 파일 이름 그대로 올리면 머리글을 보고 자동으로 인식합니다. 8종을 전부 올릴 필요는 없습니다 — 한두 개만 올려도 그 자료로 채울 수 있는 영역은 바로 시각화되고, 나머지 영역은 빈 틀로 남아 있다가 해당 자료가 들어오면 채워집니다. 여러 개를 한 번에 선택하거나, 하나씩 여러 번 나눠 올려도 이전에 올린 내용이 유지된 채 새 파일이 더해집니다. 이미 하나로 정리한 통합 표준 양식(13열: 데이터셋, 출처파일, 연도, 기준일, 시도, 시군구, 기관분류, 기관명, 분류1, 분류2, 지표, 값, 단위) 파일도 함께 올릴 수 있습니다. 인식하지 못한 파일만 사유와 함께 알리고 값을 임의로 채우지 않습니다. 옆의 초기화 버튼을 누르면 처음 상태(빈 화면 틀)로 되돌립니다. 아래에서 통합 표준 양식(머리글 1행 + 값 1행)을 내려받아 참고할 수 있습니다.</p>
@@ -10161,6 +10170,33 @@ const CASE_CARD_IMG_MAP = {
                   <p class="case-upload-status35" id="uploadStatus43" aria-live="polite" style="white-space:pre-line"></p>
                   <ul class="case-upload-list35" id="uploadList43"></ul>
                   <button type="button" class="case-upload-template35" id="dlTemplate43">표준 양식 CSV 다운로드 ↓</button>
+                  ` : id === '45' ? `
+                  <b>공공와이파이 AP별 사용량 표준 데이터를 지역 · 유형별로 올려주세요.</b>
+                  <p>이 대시보드에는 내장 수치가 없습니다. 표준 양식 8컬럼(시도, 시군구, 유형, AP식별자, 이용량(GB), 기준시작일, 기준종료일, 출처)뿐 아니라 서울·부산 원본 공공데이터 파일(관리번호·자치구·AP별 이용량(GB) 등 원래 컬럼 그대로)도 그대로 인식합니다. 파일의 시도·유형 값(원본은 파일 형식으로 자동 판별)을 읽어 그 시·도·유형 버튼만 켜집니다. 서울처럼 세 유형을 모두 보유한 지자체는 세 파일을 따로 올려 유형별로 나눠 보거나 한 번에 올려 합산해 볼 수 있습니다. 여러 개를 동시에 선택할 수 있고 올릴 때마다 지역·유형이 누적됩니다. 시내버스처럼 원자료에 자치구 정보가 없는 유형은 구별 지도·순위표를 비워 두고 유형 총계에만 반영하며, 값을 임의로 채우거나 추정하지 않습니다. 업로드 전에는 지역·유형 버튼이 모두 비활성이고 KPI·차트·지도의 빈 화면 틀만 표시됩니다.</p>
+                  <input type="file" id="uploadFile45" accept=".csv,.xlsx,.xls" multiple>
+                  <button type="button" class="case-upload-select" id="uploadAddBtn45">업로드하여 활성화</button>
+                  <p class="case-upload-status35" id="uploadStatus45" aria-live="polite"></p>
+                  <ul class="case-upload-list35" id="uploadList45"></ul>
+                  <p style="font-size:11px;color:#8a949a;margin:2px 0 10px">※ 활성화(초록) 지역을 클릭하면 그 지역만 뺍니다. 유형만 바꿔 보려면 대시보드 상단의 서비스 유형 버튼을 쓰세요.</p>
+                  <button type="button" class="case-upload-template35" id="dlTemplate45">표준 양식 CSV 다운로드 ↓</button>
+                  ` : id === '49' ? `
+                  <b>시군구 에너지수급통계 표준 데이터를 시·도별로 올려주세요.</b>
+                  <p>표준 양식 14컬럼(연도, 시도, 시군구, 최종에너지소비, 산업부문, 수송부문, 가정부문, 상업부문, 공공부문, 석유, 가스, 전력, 열, 신재생및기타) 또는 산업통상자원부·에너지경제연구원 시군구 에너지수급통계 원본 xlsx(파일명에 연도 포함, 예: 2023_시군구_에너지수급통계.xlsx)를 그대로 인식합니다. 시·도별로 나눈 파일을 여러 개 동시에 선택할 수 있으며, 올릴 때마다 지역이 누적됩니다. 업로드한 시·도만 '전국현황·지역별·부문별' 3개 탭에 반영되고, 나머지 시·도는 값을 채우지 않습니다. 업로드 전에는 예시(시연) 데이터만 볼 수 있고 값을 임의로 채우거나 추정하지 않습니다. 도시가스·공공건축물 탭은 이 업로드와 무관하게 항상 내장 원본을 표시합니다.</p>
+                  <input type="file" id="uploadFile49" accept=".csv,.xlsx,.xls" multiple>
+                  <button type="button" class="case-upload-select" id="uploadAddBtn49">업로드하여 반영</button>
+                  <p class="case-upload-status35" id="uploadStatus49" aria-live="polite"></p>
+                  <ul class="case-upload-list35" id="uploadList49"></ul>
+                  <p style="font-size:12px;color:#747a7e;margin:2px 0 10px">※ 활성화(초록) 지역을 클릭하면 그 지역만 뺍니다.</p>
+                  <button type="button" class="case-upload-template35" id="dlTemplate49" style="font-size:12px;color:#747a7e">통합 표준 양식 CSV 다운로드 ↓</button>
+                  ` : id === '52' ? `
+                  <b>대기질·기상 표준 데이터를 시도·측정소별로 올려주세요.</b>
+                  <p>이 대시보드에는 내장 수치가 없습니다. 표준 양식 6컬럼(시도, 시군구, 지표, 연월, 값, 단위)만 인식합니다. PM10(미세먼지)·NO2측정소(이산화질소)는 개별 측정소 단위라 시도가 비어 있어도 되며, NO2(이산화질소)·CO(일산화탄소)·기상 3종은 시도(선택: 시군구)로 지역을 구분합니다. 지표명은 PM10(미세먼지), NO2측정소(이산화질소), NO2(이산화질소), CO(일산화탄소), 평균기온, 합계강수량, 평균상대습도, 평균풍속 8종 중 하나와 정확히 일치해야 합니다. 여러 개를 동시에 선택할 수 있고 올릴 때마다 지역이 누적됩니다. 보유한 지표만 올려도 되며, 값을 임의로 채우거나 추정하지 않습니다. 업로드 전에는 카드·표·지도가 모두 빈 화면 틀만 표시됩니다.</p>
+                  <input type="file" id="uploadFile52" accept=".csv,.xlsx,.xls" multiple>
+                  <button type="button" class="case-upload-select" id="uploadAddBtn52">업로드하여 활성화</button>
+                  <p class="case-upload-status35" id="uploadStatus52" aria-live="polite"></p>
+                  <ul class="case-upload-list35" id="uploadList52"></ul>
+                  <p style="font-size:11px;color:#8a949a;margin:2px 0 10px">※ 활성화(초록) 지역을 클릭하면 그 지역만 뺍니다.</p>
+                  <button type="button" class="case-upload-template35" id="dlTemplate52">표준 양식 CSV 다운로드 ↓</button>
                   ` : `
                   <b>분석에 사용할 데이터 파일을 추가하세요.</b>
                   <p>현재는 화면 구성 확인용이며 실제 파일은 전송되지 않습니다.</p>
@@ -10996,6 +11032,714 @@ const CASE_CARD_IMG_MAP = {
           a.href=URL.createObjectURL(blob);a.download='표준양식_안전시설통합.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),0);
         };
       }
+      if (id === '45') {
+        const fileInput45 = article.querySelector('#uploadFile45');
+        const addBtn45 = article.querySelector('#uploadAddBtn45');
+        const statusEl45 = article.querySelector('#uploadStatus45');
+        const listEl45 = article.querySelector('#uploadList45');
+        const dlBtn45 = article.querySelector('#dlTemplate45');
+        const resetBtn45 = article.querySelector('#uploadReset45');
+        const HEADER_45 = ['시도','시군구','유형','AP식별자','이용량(GB)','기준시작일','기준종료일','출처'];
+        const REGIONS_45 = ['서울특별시','부산광역시','대구광역시','인천광역시','광주광역시','대전광역시','울산광역시','세종특별자치시','경기도','강원특별자치도','충청북도','충청남도','전북특별자치도','전라남도','경상북도','경상남도','제주특별자치도','전남광주통합특별시'];
+        // 표준 양식 예시 행은 원자료(서울특별시 공공와이파이 AP별 사용량 · 한국지능정보사회진흥원 부산광역시 공공와이파이 정보)에서 그대로 가져온 실제 값이며 임의로 만든 값이 아니다.
+        const SAMPLE_45 = [["서울특별시","성동구","고정형","WF181037","13990.4252","2021-05-01","2021-10-13","서울특별시 공공와이파이 AP별 사용량"],["서울특별시","은평구","고정형","WF181190","12011.0474","2021-05-01","2021-10-13","서울특별시 공공와이파이 AP별 사용량"],["서울특별시","은평구","고정형","WF191009","10940.3177","2021-05-01","2021-10-13","서울특별시 공공와이파이 AP별 사용량"],["서울특별시","노원구","마을버스","성서교통_노원01_서울70사6805","1463.839","2021-05-01","2021-10-13","서울특별시 공공와이파이 AP별 사용량"],["서울특별시","서초구","마을버스","청화운수_서초09_서울70사9239","1148.911","2021-05-01","2021-10-13","서울특별시 공공와이파이 AP별 사용량"],["서울특별시","서초구","마을버스","청화운수_서초09_서울71사2907","1129.9775","2021-05-01","2021-10-13","서울특별시 공공와이파이 AP별 사용량"],["서울특별시","","시내버스","진화운수_3422_서울74사3085","1668.8844","2021-05-01","2021-10-13","서울특별시 공공와이파이 AP별 사용량"],["서울특별시","","시내버스","우신버스_502_서울70사8939","1569.609","2021-05-01","2021-10-13","서울특별시 공공와이파이 AP별 사용량"],["서울특별시","","시내버스","선진운수_7212_서울74사4512","1418.3519","2021-05-01","2021-10-13","서울특별시 공공와이파이 AP별 사용량"],["부산광역시","남구","고정형","NIAS2015F3079","66.9","","2024-12-31","한국지능정보사회진흥원 부산광역시 공공와이파이 정보"],["부산광역시","남구","고정형","NIAK1051663","633.3","","2024-12-31","한국지능정보사회진흥원 부산광역시 공공와이파이 정보"],["부산광역시","남구","고정형","19523532","1542.1","","2024-12-31","한국지능정보사회진흥원 부산광역시 공공와이파이 정보"],["부산광역시","해운대구","고정형","NIAS2015F4078","875.2","","2024-12-31","한국지능정보사회진흥원 부산광역시 공공와이파이 정보"],["서울특별시","과천시","고정형","WF110011","31.0282","2021-05-01","2021-10-13","서울특별시 공공와이파이 AP별 사용량"]];
+
+        const setStatus45 = (msg, level) => {
+          if (!statusEl45) return;
+          statusEl45.textContent = msg;
+          statusEl45.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
+          statusEl45.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+        const api45 = () => { const w = frame && frame.contentWindow; return (w && w.CASE45_API) || null; };
+        function renderList45(){
+          if (!listEl45) return;
+          const api = api45();
+          const active = api ? api.getActiveRegions() : [];
+          const set = new Set(active);
+          const head = active.length
+            ? `<li style="font-weight:750;color:#1a7a4c;background:#e7f5ee">✓ 활성 ${active.length}개 지역 — 업로드한 지역·유형만 화면에 표시됩니다</li>`
+            : `<li style="color:#8a949a">· 업로드 전 — 내장 수치 없음, 지역·유형 버튼 모두 비활성</li>`;
+          listEl45.innerHTML = head + REGIONS_45.map(r => {
+            const on = set.has(r);
+            const types = (on && api && api.getActiveTypes) ? api.getActiveTypes(r) : [];
+            return `<li data-region45="${r}" style="${on ? 'font-weight:750;color:#1a7a4c;background:#e7f5ee;cursor:pointer' : 'color:#8a949a'}" ${on ? `title="클릭하면 ${r} 데이터만 뺍니다"` : ''}>${on ? '✓ ' : '· '}${r}${on ? ` · 활성 (${types.join(' / ') || '유형 없음'})` : ''}</li>`;
+          }).join('');
+        }
+        if (listEl45) listEl45.addEventListener('click', async e => {
+          const li = e.target.closest('[data-region45]');
+          if (!li) return;
+          const api = api45();
+          if (!api) return;
+          if (!api.getActiveRegions().includes(li.dataset.region45)) return;
+          api.removeRegion(li.dataset.region45);
+          renderList45();
+          const left = api.getActiveRegions();
+          setStatus45(left.length ? `${li.dataset.region45} 제외됨 · 현재 ${left.join(', ')}만 화면에 표시됩니다.` : '모든 지역을 제외했습니다. 업로드 전 빈 화면 틀로 되돌아갑니다.', 'ok');
+        });
+        const parseCsvRows45 = text => {
+          if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+          const rows = []; let row = [], field = '', quoted = false;
+          for (let i = 0; i < text.length; i++) {
+            const c = text[i];
+            if (quoted) { if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else quoted = false; } else field += c; }
+            else if (c === '"') quoted = true;
+            else if (c === ',') { row.push(field); field = ''; }
+            else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+            else if (c !== '\r') field += c;
+          }
+          if (field.length || row.length) { row.push(field); rows.push(row); }
+          return rows.filter(r => r.some(v => String(v).trim()));
+        };
+        const parseFile45 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (/\.(xlsx|xls)$/.test(name)) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. CSV로 업로드해 주세요.' }); return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+              try {
+                const wb = XLSX.read(ev.target.result, { type:'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                resolve({ ok:true, rows: XLSX.utils.sheet_to_json(ws, { header:1, raw:false, defval:'' }) });
+              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = ev => {
+              const buf = new Uint8Array(ev.target.result);
+              let text;
+              try { text = new TextDecoder('utf-8', { fatal:true }).decode(buf); }
+              catch (e1) {
+                try { text = new TextDecoder('euc-kr').decode(buf); }
+                catch (e2) { resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 CSV만 지원합니다.' }); return; }
+              }
+              resolve({ ok:true, rows: parseCsvRows45(text) });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+          }
+        });
+        const validHeader45 = row => Array.isArray(row) && HEADER_45.every((h,i) => String(row[i]||'').replace(/^\uFEFF/,'').trim() === h);
+
+        /* ===== 원본(전처리 전) 공공데이터 파일 자동 판별 · 표준 8컬럼으로 변환 =====
+           서울/부산 원본 CSV는 표준 양식과 헤더가 다르므로, 첫 두 컬럼명으로 형식을 식별해
+           표준 스키마(시도, 시군구, 유형, AP식별자, 이용량(GB), 기준시작일, 기준종료일, 출처)로
+           그 자리에서 변환한다. 값은 원자료 그대로 옮기며 임의로 채우지 않는다(§8.4 원자료 자동 판별과 동일 원칙). */
+        const trimCell45 = v => String(v == null ? '' : v).replace(/^\uFEFF/, '').trim();
+        const detectRawKind45 = header => {
+          if (!Array.isArray(header) || header.length < 3) return null;
+          const h0 = trimCell45(header[0]), h1 = trimCell45(header[1]);
+          if (h0 === '관리번호' && h1 === '자치구') return 'seoulFixed';
+          if (h0 === '관리번호' && h1 === '시군구') return 'busan';
+          if (h0 === '구분' && h1 === '버스명') return 'seoulBus';
+          return null;
+        };
+        const seoulBusGu45 = name => {
+          const seg = trimCell45(name).split('_');
+          if (seg.length < 2) return '';
+          const m = /^([가-힣]+)/.exec(seg[1]);
+          return m ? m[1] + '구' : '';
+        };
+        const SEOUL_SRC_45 = '서울특별시 공공와이파이 AP별 사용량';
+        const BUSAN_SRC_45 = '한국지능정보사회진흥원 부산광역시 공공와이파이 정보';
+        const convertRaw45 = (kind, dataRows) => dataRows
+          .filter(r => r && trimCell45(r[0]))
+          .map(r => {
+            if (kind === 'seoulFixed') return ['서울특별시', trimCell45(r[1]), '고정형', trimCell45(r[0]), trimCell45(r[2]), '2021-05-01', '2021-10-13', SEOUL_SRC_45];
+            if (kind === 'busan') return ['부산광역시', trimCell45(r[1]), '고정형', trimCell45(r[0]), trimCell45(r[2]), '', '2024-12-31', BUSAN_SRC_45];
+            // seoulBus: 구분 컬럼값이 그 행의 유형(마을버스/시내버스)이며, 시내버스는 원자료에 자치구 컬럼이 없다.
+            const type = trimCell45(r[0]);
+            const gu = type === '마을버스' ? seoulBusGu45(r[1]) : '';
+            return ['서울특별시', gu, type, trimCell45(r[1]), trimCell45(r[2]), '2021-05-01', '2021-10-13', SEOUL_SRC_45];
+          });
+
+        const waitForCase45 = async () => {
+          for (let i = 0; i < 40; i++) {
+            const api = api45();
+            if (api) return api;
+            await new Promise(r => setTimeout(r, 150));
+          }
+          return null;
+        };
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); renderList45(); });
+
+        if (addBtn45) addBtn45.onclick = async () => {
+          const files = fileInput45 && fileInput45.files ? Array.from(fileInput45.files) : [];
+          if (!files.length) { setStatus45('파일을 선택해주세요. 여러 개를 동시에 선택할 수 있습니다.', 'warn'); return; }
+          setStatus45(`파일 ${files.length}개 확인 중…`, 'info');
+          const body = []; const okNames = []; const failures = [];
+          for (const file of files) {
+            const parsed = await parseFile45(file);
+            if (!parsed.ok) { failures.push(`${file.name}: ${parsed.reason}`); continue; }
+            const rows = parsed.rows || [];
+            if (!rows.length) { failures.push(`${file.name}: 빈 파일입니다.`); continue; }
+            let rest;
+            if (validHeader45(rows[0])) {
+              rest = rows.slice(1).filter(r => r && String(r[0]||'').trim());
+            } else {
+              const kind = detectRawKind45(rows[0]);
+              if (!kind) { failures.push(`${file.name}: 첫 행이 표준 양식 머리글(시도, 시군구, 유형, AP식별자, 이용량(GB), 기준시작일, 기준종료일, 출처)이나 서울/부산 원본 머리글(관리번호·자치구 / 관리번호·시군구 / 구분·버스명)과 다릅니다.`); continue; }
+              rest = convertRaw45(kind, rows.slice(1));
+            }
+            if (!rest.length) { failures.push(`${file.name}: 데이터 행이 없습니다.`); continue; }
+            body.push(...rest); okNames.push(`${file.name}(${rest.length}행)`);
+          }
+          if (!body.length) { setStatus45(failures[0] || '인식 가능한 파일이 없습니다.', 'error'); return; }
+          hydrateExample();
+          setStatus45('대시보드에 반영하는 중…', 'info');
+          const api = await waitForCase45();
+          if (!api) { setStatus45('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+          const res = api.ingestAndActivate(body, okNames.join(', '));
+          if (!res || !res.ok) { setStatus45((res && res.reason) || '데이터를 반영하지 못했습니다.', 'error'); return; }
+          renderList45();
+          const typeTxt = (res.added || []).map(r => `${r}(${(res.types && res.types[r] ? res.types[r] : []).join('/')})`).join(', ');
+          const scope = `${res.regions.join(', ')} · ${res.rowCount.toLocaleString('ko-KR')}건을 반영했습니다. 현재 ${res.regions.join(', ')}만 화면에 표시됩니다.`;
+          setStatus45(failures.length
+            ? `${typeTxt} 반영 · ${scope} / ${failures.length}개 파일 실패: ${failures[0]}`
+            : `${typeTxt} 반영 · ${scope}`, failures.length ? 'warn' : 'ok');
+          fileInput45.value = '';
+        };
+
+        if (resetBtn45) resetBtn45.onclick = async () => {
+          hydrateExample();
+          const api = await waitForCase45();
+          if (api) api.reset();
+          if (fileInput45) fileInput45.value = '';
+          renderList45();
+          setStatus45('업로드한 데이터를 모두 초기화했습니다. 내장 수치가 없으므로 지역·유형 버튼이 모두 비활성인 빈 화면 틀로 되돌아갑니다.', 'ok');
+        };
+
+        if (dlBtn45) dlBtn45.onclick = () => {
+          const csv = '\uFEFF' + [HEADER_45, ...SAMPLE_45].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+          const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '표준양식_공공와이파이_AP별사용량.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+
+        renderList45();
+      }
+      if (id === '49') {
+        const fileInput49 = article.querySelector('#uploadFile49');
+        const addBtn49 = article.querySelector('#uploadAddBtn49');
+        const statusEl49 = article.querySelector('#uploadStatus49');
+        const listEl49 = article.querySelector('#uploadList49');
+        const dlBtn49 = article.querySelector('#dlTemplate49');
+        const resetBtn49 = article.querySelector('#uploadReset49');
+        const HEADER_49 = ['연도','시도','시군구','최종에너지소비','산업부문','수송부문','가정부문','상업부문','공공부문','석유','가스','전력','열','신재생및기타'];
+        const REGIONS_49 = ['서울특별시','부산광역시','대구광역시','인천광역시','광주광역시','대전광역시','울산광역시','세종특별자치시','경기도','강원특별자치도','충청북도','충청남도','전북특별자치도','전라남도','경상북도','경상남도','제주특별자치도','전남광주통합특별시'];
+        // 표준 양식 예시 행은 원자료(산업통상자원부·에너지경제연구원 시군구 에너지수급통계 2023·2024)를 그대로 사용하며 임의로 만든 값이 아니다.
+        const SAMPLE_49 = [["2023", "서울특별시", "강남구", "1008.866", "13.153", "143.931", "271.424", "503.596", "76.763", "200.022", "234.637", "417.504", "92.805", "63.899"], ["2024", "강원특별자치도", "원주시", "824.873", "149.92", "323.455", "173.414", "117.391", "60.694", "388.579", "174.227", "234.972", "0.0", "27.095"], ["2024", "경기도", "화성시", "3627.102", "1869.047", "854.285", "406.912", "441.729", "55.13", "1099.025", "481.135", "1837.566", "164.841", "44.536"], ["2024", "경상남도", "창원시", "2532.579", "863.061", "810.281", "400.443", "269.422", "189.373", "994.389", "512.946", "915.722", "0.0", "109.522"], ["2024", "경상북도", "포항시", "4048.071", "3128.415", "477.345", "226.07", "117.561", "98.68", "598.963", "1090.514", "900.636", "9.511", "1448.447"], ["2024", "광주광역시", "광산구", "918.124", "251.556", "342.901", "169.989", "106.285", "47.393", "369.619", "190.145", "320.019", "21.727", "16.614"], ["2024", "대구광역시", "달서구", "842.626", "219.847", "236.196", "218.805", "125.593", "42.185", "236.517", "163.415", "335.752", "57.146", "49.796"], ["2024", "대전광역시", "유성구", "705.538", "91.987", "184.64", "156.653", "167.701", "104.557", "178.757", "153.921", "302.813", "20.125", "49.923"], ["2024", "부산광역시", "강서구", "1254.148", "457.032", "576.687", "63.789", "114.12", "42.522", "641.079", "178.321", "385.475", "13.656", "35.617"], ["2024", "서울특별시", "강서구", "1291.126", "12.069", "822.269", "228.2", "189.653", "38.935", "812.518", "170.691", "251.411", "41.34", "15.166"], ["2024", "세종특별자치시", "세종시", "834.156", "282.053", "200.136", "166.952", "108.606", "76.409", "227.068", "100.776", "357.044", "78.651", "70.616"], ["2024", "울산광역시", "남구", "16255.702", "15500.017", "339.577", "125.979", "187.618", "102.51", "11947.978", "2760.058", "1314.271", "0.0", "233.395"], ["2024", "인천광역시", "서구", "5696.758", "4116.451", "910.316", "359.73", "251.449", "58.813", "4601.183", "303.528", "554.07", "156.767", "81.209"], ["2024", "전라남도", "여수시", "23923.189", "22955.168", "688.025", "115.465", "125.98", "38.55", "21851.281", "382.299", "1289.409", "0.0", "400.2"], ["2024", "전북특별자치도", "군산시", "1401.119", "864.02", "280.314", "128.38", "81.732", "46.673", "470.152", "273.532", "535.001", "0.0", "122.435"], ["2024", "제주특별자치도", "제주시", "1007.153", "78.603", "504.743", "164.245", "202.036", "57.526", "615.27", "34.958", "322.863", "0.0", "34.062"], ["2024", "충청남도", "서산시", "24513.355", "23877.744", "338.108", "85.672", "134.781", "77.05", "23159.82", "417.089", "843.221", "0.0", "93.225"], ["2024", "충청북도", "청주시", "3104.308", "1534.969", "798.209", "379.789", "233.953", "157.388", "904.774", "881.738", "1049.876", "54.524", "213.396"]];
+
+        const setStatus49 = (msg, level) => {
+          if (!statusEl49) return;
+          statusEl49.textContent = msg;
+          statusEl49.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#747a7e';
+          statusEl49.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+        const api49 = () => { const w = frame && frame.contentWindow; return (w && w.CASE49_API) || null; };
+        function renderList49(){
+          if (!listEl49) return;
+          const api = api49();
+          const active = api ? api.getActiveRegions() : [];
+          const set = new Set(active);
+          const head = active.length
+            ? `<li style="font-size:12px;font-weight:750;color:#1a7a4c;background:#e7f5ee">✓ 활성 ${active.length}개 지역 · 업로드 데이터 표시 중</li>`
+            : `<li style="font-size:12px;color:#747a7e">· 업로드 전 — 예시(시연) 데이터 또는 빈 화면 틀</li>`;
+          listEl49.innerHTML = head + REGIONS_49.map(r => {
+            const on = set.has(r);
+            return `<li data-region49="${r}" style="font-size:12px;${on ? 'font-weight:750;color:#1a7a4c;background:#e7f5ee;cursor:pointer' : 'color:#747a7e'}" ${on ? `title="클릭하면 ${r} 데이터만 뺍니다"` : ''}>${on ? '✓ ' : '· '}${r}${on ? ' · 활성' : ''}</li>`;
+          }).join('');
+        }
+        if (listEl49) listEl49.addEventListener('click', async e => {
+          const li = e.target.closest('[data-region49]');
+          if (!li) return;
+          const api = api49();
+          if (!api) return;
+          if (!api.getActiveRegions().includes(li.dataset.region49)) return;
+          api.removeRegion(li.dataset.region49);
+          renderList49();
+          const left = api.getActiveRegions();
+          setStatus49(left.length ? `${li.dataset.region49} 제외됨 · 현재 ${left.join(', ')}만 화면에 표시됩니다.` : '모든 지역을 제외했습니다. 업로드 전 상태로 되돌아갑니다.', 'ok');
+        });
+        const parseCsvRows49 = text => {
+          if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+          const rows = []; let row = [], field = '', quoted = false;
+          for (let i = 0; i < text.length; i++) {
+            const c = text[i];
+            if (quoted) { if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else quoted = false; } else field += c; }
+            else if (c === '"') quoted = true;
+            else if (c === ',') { row.push(field); field = ''; }
+            else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+            else if (c !== '\r') field += c;
+          }
+          if (field.length || row.length) { row.push(field); rows.push(row); }
+          return rows.filter(r => r.some(v => String(v).trim()));
+        };
+        const parseFile49 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (/\.(xlsx|xls)$/.test(name)) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. CSV로 업로드해 주세요.' }); return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+              try {
+                const wb = XLSX.read(ev.target.result, { type:'array' });
+                const wsName = wb.SheetNames.includes('요약') ? '요약' : wb.SheetNames[0];
+                const ws = wb.Sheets[wsName];
+                resolve({ ok:true, rows: XLSX.utils.sheet_to_json(ws, { header:1, raw:false, defval:'' }) });
+              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = ev => {
+              const buf = new Uint8Array(ev.target.result);
+              let text;
+              try { text = new TextDecoder('utf-8', { fatal:true }).decode(buf); }
+              catch (e1) {
+                try { text = new TextDecoder('euc-kr').decode(buf); }
+                catch (e2) { resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 CSV만 지원합니다.' }); return; }
+              }
+              resolve({ ok:true, rows: parseCsvRows49(text) });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+          }
+        });
+        const validHeader49 = row => Array.isArray(row) && HEADER_49.every((h,i) => String(row[i]||'').replace(/^\uFEFF/,'').trim() === h);
+        // 원본 데이터 호환: 산업부·에너지경제연구원 "시군구 에너지수급통계" 원본 xlsx(요약 시트)를 자동 인식·변환
+        const SIDO_FULL_49 = {
+          '서울':'서울특별시','부산':'부산광역시','대구':'대구광역시','인천':'인천광역시',
+          '광주':'광주광역시','대전':'대전광역시','울산':'울산광역시','세종':'세종특별자치시',
+          '경기':'경기도','강원':'강원특별자치도','충북':'충청북도','충남':'충청남도',
+          '전북':'전북특별자치도','전남':'전라남도','경북':'경상북도','경남':'경상남도',
+          '제주':'제주특별자치도'
+        };
+        const detectRawSigunguHeader49 = row => {
+          if (!Array.isArray(row)) return false;
+          const n = row.map(v => String(v||'').trim());
+          return n[2] === '광역시도' && n[3] === '시군구' && n[5] === '최종에너지소비';
+        };
+        const extractYearFromName49 = name => {
+          const m = name.match(/(20\d{2})/);
+          return m ? parseInt(m[1], 10) : null;
+        };
+        const tryConvertRawSigungu49 = (rows, filename) => {
+          let headerIdx = -1;
+          for (let i = 0; i < Math.min(rows.length, 5); i++) {
+            if (detectRawSigunguHeader49(rows[i])) { headerIdx = i; break; }
+          }
+          if (headerIdx === -1) return null;
+          const year = extractYearFromName49(filename);
+          if (!year) return { error: '원본 시군구 에너지수급통계 형식으로 보이지만, 파일명에서 연도를 찾을 수 없습니다. 파일명에 연도(예: 2023, 2024)를 포함해 주세요.' };
+          const num = v => { const n = parseFloat(String(v).replace(/,/g,'')); return isNaN(n) ? 0 : n; };
+          const out = [];
+          for (let i = headerIdx + 1; i < rows.length; i++) {
+            const r = rows[i];
+            if (!r) continue;
+            const sidoShort = String(r[2]||'').trim();
+            const sigungu = String(r[3]||'').trim();
+            if (!sidoShort || !sigungu || sigungu === '기타') continue;
+            const full = SIDO_FULL_49[sidoShort];
+            if (!full) continue;
+            out.push([String(year), full, sigungu, num(r[5]), num(r[6]), num(r[7]), num(r[8]), num(r[9]), num(r[10]), num(r[11]), num(r[12]), num(r[13]), num(r[14]), num(r[15])]);
+          }
+          return out.length ? { rows: out } : { error: '원본 파일에서 인식 가능한 데이터 행을 찾지 못했습니다.' };
+        };
+        const waitForCase49 = async () => {
+          for (let i = 0; i < 40; i++) {
+            const api = api49();
+            if (api) return api;
+            await new Promise(r => setTimeout(r, 150));
+          }
+          return null;
+        };
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); renderList49(); });
+
+        if (addBtn49) addBtn49.onclick = async () => {
+          try {
+            const files = fileInput49 && fileInput49.files ? Array.from(fileInput49.files) : [];
+            if (!files.length) { setStatus49('파일을 선택해주세요. 여러 개(시·도별)를 동시에 선택할 수 있습니다.', 'warn'); return; }
+            setStatus49(`파일 ${files.length}개 확인 중…`, 'info');
+            const body = []; const okNames = []; const failures = [];
+            for (const file of files) {
+              let parsed;
+              try { parsed = await parseFile49(file); }
+              catch (fileErr) { failures.push(`${file.name}: 파일을 읽는 중 오류가 발생했습니다 (${fileErr && fileErr.message || fileErr}).`); continue; }
+              if (!parsed.ok) { failures.push(`${file.name}: ${parsed.reason}`); continue; }
+              const rows = parsed.rows || [];
+              if (!rows.length) { failures.push(`${file.name}: 빈 파일입니다.`); continue; }
+              if (validHeader49(rows[0])) {
+                const rest = rows.slice(1).filter(r => r && String(r[0]||'').trim());
+                if (!rest.length) { failures.push(`${file.name}: 데이터 행이 없습니다.`); continue; }
+                body.push(...rest); okNames.push(`${file.name}(${rest.length}행)`);
+                continue;
+              }
+              let conv;
+              try { conv = tryConvertRawSigungu49(rows, file.name); }
+              catch (convErr) { failures.push(`${file.name}: 원본 형식 변환 중 오류가 발생했습니다 (${convErr && convErr.message || convErr}).`); continue; }
+              if (conv && conv.rows) {
+                body.push(...conv.rows); okNames.push(`${file.name}(원본 인식 · ${conv.rows.length}행)`);
+                continue;
+              }
+              failures.push(`${file.name}: ${(conv && conv.error) || '첫 행이 통합 표준 양식과도, 시군구 에너지수급통계 원본 형식과도 다릅니다. 표준 양식 CSV를 내려받아 형식을 맞춰주세요.'}`);
+            }
+            if (!body.length) { setStatus49(failures[0] || '인식 가능한 파일이 없습니다.', 'error'); return; }
+            hydrateExample();
+            setStatus49('대시보드에 데이터를 반영하는 중…', 'info');
+            const api = await waitForCase49();
+            if (!api) { setStatus49('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+            const res = api.ingestAndActivate(body, okNames.join(', '));
+            if (!res || !res.ok) { setStatus49((res && res.reason) || '데이터를 반영하지 못했습니다.', 'error'); return; }
+            renderList49();
+            const active = api.getActiveRegions();
+            setStatus49(failures.length
+              ? `${okNames.join(', ')} 반영 · 현재 ${active.join(', ')}만 화면에 표시됩니다 / ${failures.length}개 파일 실패: ${failures[0]}`
+              : `${okNames.join(', ')} 반영 · 현재 ${active.join(', ')}만 화면에 표시됩니다.`, failures.length ? 'warn' : 'ok');
+            fileInput49.value = '';
+          } catch (unexpectedErr) {
+            console.error('case49 upload error:', unexpectedErr);
+            setStatus49(`예상치 못한 오류가 발생했습니다: ${(unexpectedErr && unexpectedErr.message) || unexpectedErr}. 페이지를 새로고침한 뒤 다시 시도해주세요.`, 'error');
+          }
+        };
+
+        if (resetBtn49) resetBtn49.onclick = async () => {
+          try {
+            hydrateExample();
+            const api = await waitForCase49();
+            if (api) api.reset();
+            if (fileInput49) fileInput49.value = '';
+            renderList49();
+            setStatus49('업로드한 데이터를 모두 초기화했습니다. 업로드 전 상태(예시 데이터 또는 빈 화면)로 되돌아갑니다.', 'ok');
+          } catch (unexpectedErr) {
+            console.error('case49 reset error:', unexpectedErr);
+            setStatus49(`초기화 중 오류가 발생했습니다: ${(unexpectedErr && unexpectedErr.message) || unexpectedErr}`, 'error');
+          }
+        };
+
+        if (dlBtn49) dlBtn49.onclick = () => {
+          const csv = '\uFEFF' + [HEADER_49, ...SAMPLE_49].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+          const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '표준양식_에너지수급통계_시군구.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+
+        renderList49();
+      }
+
+      if (id === '52') {
+        const fileInput52 = article.querySelector('#uploadFile52');
+        const addBtn52 = article.querySelector('#uploadAddBtn52');
+        const statusEl52 = article.querySelector('#uploadStatus52');
+        const listEl52 = article.querySelector('#uploadList52');
+        const dlBtn52 = article.querySelector('#dlTemplate52');
+        const resetBtn52 = article.querySelector('#uploadReset52');
+        const HEADER_52 = ['시도','시군구','지표','연월','값','단위'];
+        const SAMPLE_52 = [
+          ["","중구","PM10(미세먼지)","2024-01","31","㎍/㎥(추정, 원본 단위란 공란)"],
+          ["","중구","NO2측정소(이산화질소)","2024-01","0.025","ppm(원본 정수 표기 ×0.001 환산)"],
+          ["서울특별시","","NO2(이산화질소)","2024-01","0.0278","ppm"],
+          ["서울특별시","중구","CO(일산화탄소)","2025-01","0.53","ppm"],
+          ["강원특별자치도","속초","평균기온","2025-01","1.2","℃"],
+          ["강원특별자치도","속초","합계강수량","2025-01","14.5","mm"],
+          ["강원특별자치도","속초","평균상대습도","2025-01","43","%"],
+          ["강원특별자치도","속초","평균풍속","2025-01","3","m/s"]
+        ];
+        const STATION_TO_SIDO_52 = {"강릉":"강원특별자치도","북강릉":"강원특별자치도","대관령":"강원특별자치도","동해":"강원특별자치도","속초":"강원특별자치도","영월":"강원특별자치도","원주":"강원특별자치도","인제":"강원특별자치도","정선군":"강원특별자치도","철원":"강원특별자치도","춘천":"강원특별자치도","북춘천":"강원특별자치도","태백":"강원특별자치도","홍천":"강원특별자치도","강화":"인천광역시","백령도":"인천광역시","인천":"인천광역시","거제":"경상남도","거창":"경상남도","김해시":"경상남도","남해":"경상남도","밀양":"경상남도","북창원":"경상남도","산청":"경상남도","양산시":"경상남도","의령군":"경상남도","진주":"경상남도","창원":"경상남도","통영":"경상남도","함양군":"경상남도","합천":"경상남도","경주시":"경상북도","구미":"경상북도","문경":"경상북도","봉화":"경상북도","상주":"경상북도","안동":"경상북도","영덕":"경상북도","영주":"경상북도","영천":"경상북도","울릉도":"경상북도","울진":"경상북도","의성":"경상북도","청송군":"경상북도","포항":"경상북도","동두천":"경기도","수원":"경기도","양평":"경기도","이천":"경기도","파주":"경기도","고산":"제주특별자치도","서귀포":"제주특별자치도","성산":"제주특별자치도","제주":"제주특별자치도","금산":"충청남도","보령":"충청남도","서산":"충청남도","부여":"충청남도","천안":"충청남도","홍성":"충청남도","보은":"충청북도","서청주":"충청북도","제천":"충청북도","청주":"충청북도","추풍령":"충청북도","충주":"충청북도","고창":"전북특별자치도","고창군":"전북특별자치도","군산":"전북특별자치도","남원":"전북특별자치도","부안":"전북특별자치도","순창군":"전북특별자치도","임실":"전북특별자치도","장수":"전북특별자치도","전주":"전북특별자치도","정읍":"전북특별자치도","광주":"전남광주통합특별시","강진군":"전남광주통합특별시","고흥":"전남광주통합특별시","광양시":"전남광주통합특별시","목포":"전남광주통합특별시","보성군":"전남광주통합특별시","순천":"전남광주통합특별시","여수":"전남광주통합특별시","영광군":"전남광주통합특별시","완도":"전남광주통합특별시","장흥":"전남광주통합특별시","진도군":"전남광주통합특별시","해남":"전남광주통합특별시","흑산도":"전남광주통합특별시","대구":"대구광역시","대전":"대전광역시","부산":"부산광역시","북부산":"부산광역시","서울":"서울특별시","세종":"세종특별자치시","울산":"울산광역시"};
+
+        const setStatus52 = (msg, level) => {
+          if (!statusEl52) return;
+          statusEl52.textContent = msg;
+          statusEl52.style.color = level === 'error' ? '#c0392b' : level === 'ok' ? '#1a7a4c' : level === 'warn' ? '#a8710a' : '#5b676d';
+          statusEl52.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+        const api52 = () => { const w = frame && frame.contentWindow; return (w && w.CASE52_API) || null; };
+        function renderList52(){
+          if (!listEl52) return;
+          const api = api52();
+          const active = api ? api.getActiveRegions() : [];
+          const set = new Set(active);
+          const head = active.length
+            ? `<li style="font-weight:750;color:#1a7a4c;background:#e7f5ee">✓ 활성 ${active.length}개 지역 — 업로드한 지역만 화면에 표시됩니다</li>`
+            : `<li style="color:#8a949a">· 업로드 전 — 내장 수치 없음, 카드·표·지도가 모두 빈 화면입니다</li>`;
+          listEl52.innerHTML = head + active.map(r => `<li data-region52="${r}" style="font-weight:750;color:#1a7a4c;background:#e7f5ee;cursor:pointer" title="클릭하면 ${r} 데이터만 뺍니다">✓ ${r}</li>`).join('');
+        }
+        if (listEl52) listEl52.addEventListener('click', async e => {
+          const li = e.target.closest('[data-region52]');
+          if (!li) return;
+          const api = api52();
+          if (!api) return;
+          if (!api.getActiveRegions().includes(li.dataset.region52)) return;
+          api.removeRegion(li.dataset.region52);
+          renderList52();
+          const left = api.getActiveRegions();
+          setStatus52(left.length ? `${li.dataset.region52} 제외됨 · 현재 ${left.join(', ')}만 화면에 표시됩니다.` : '모든 지역을 제외했습니다. 업로드 전 빈 화면 틀로 되돌아갑니다.', 'ok');
+        });
+        const trimCell52 = v => String(v == null ? '' : v).replace(/^\uFEFF/, '').replace(/\*+$/, '').trim();
+        const parseCsvRows52 = text => {
+          if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+          const rows = []; let row = [], field = '', quoted = false;
+          for (let i = 0; i < text.length; i++) {
+            const c = text[i];
+            if (quoted) { if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else quoted = false; } else field += c; }
+            else if (c === '"') quoted = true;
+            else if (c === ',') { row.push(field); field = ''; }
+            else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+            else if (c !== '\r') field += c;
+          }
+          if (field.length || row.length) { row.push(field); rows.push(row); }
+          return rows.filter(r => r.some(v => String(v).trim()));
+        };
+        const parseFile52 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (/\.(xlsx|xls)$/.test(name)) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. CSV로 업로드해 주세요.' }); return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+              try {
+                const wb = XLSX.read(ev.target.result, { type:'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                resolve({ ok:true, rows: XLSX.utils.sheet_to_json(ws, { header:1, raw:false, defval:'' }) });
+              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = ev => {
+              const buf = new Uint8Array(ev.target.result);
+              let text;
+              try { text = new TextDecoder('utf-8', { fatal:true }).decode(buf); }
+              catch (e1) {
+                try { text = new TextDecoder('euc-kr').decode(buf); }
+                catch (e2) { resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 CSV만 지원합니다.' }); return; }
+              }
+              resolve({ ok:true, rows: parseCsvRows52(text) });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+          }
+        });
+
+        const normSido52 = s => {
+          if (s === '광주광역시' || s === '전라남도') return '전남광주통합특별시';
+          if (s === '전라북도') return '전북특별자치도';
+          return s;
+        };
+        const toDotMonth52 = ym => {
+          const m = /^(\d{4})[.\-](\d{2})/.exec(String(ym||'').trim());
+          return m ? `${m[1]}-${m[2]}` : String(ym||'').trim();
+        };
+
+        // ===== 형식 1: 표준 양식(6컬럼, 순서·추가컬럼 무관) — 통합 마스터 파일도 포함 =====
+        const detectStandardMap52 = header => {
+          if (!Array.isArray(header)) return null;
+          const clean = header.map(trimCell52);
+          const idx = {};
+          for (const name of HEADER_52) {
+            const i = clean.indexOf(name);
+            if (i === -1) return null;
+            idx[name] = i;
+          }
+          return idx;
+        };
+        const convertStandard52 = (idx, dataRows) => dataRows
+          .filter(r => r && r.some(v => String(v||'').trim()))
+          .map(r => [
+            trimCell52(r[idx['시도']]), trimCell52(r[idx['시군구']]), trimCell52(r[idx['지표']]),
+            toDotMonth52(r[idx['연월']]), trimCell52(r[idx['값']]), trimCell52(r[idx['단위']])
+          ])
+          .filter(r => r[2] && r[3] && r[4] !== '');
+
+        // ===== 형식 2~6: 공공데이터포털/KOSIS 원본 파일 자동 판별 =====
+        const detectRawKind52 = header => {
+          if (!Array.isArray(header) || header.length < 3) return null;
+          const h = header.map(trimCell52);
+          if (h[0] === '관측지점별') return 'weather';
+          if (h[0] === '구분(1)' && h[1] === '구분(2)' && h[2] === '구분(3)' && h[3] === '구분(4)') return 'co';
+          if (h[0] === '구분(1)' && h[1] === '구분(2)') return 'no2city';
+          if (h[0] === '구분' && h[1] === '항목' && h[2] === '단위') {
+            // PM10(0200076) vs NO2측정소(0200176) 구분: 항목/단위 칸에 ppm 표기가 있으면 NO2측정소
+            const sample = header.length; // header 자체엔 항목값 없음 -> 첫 데이터행에서 판별하도록 별도 처리
+            return 'stationWide'; // 세부 종류는 첫 데이터행의 항목/단위로 재판별
+          }
+          return null;
+        };
+        const monthCols52 = (header, startIdx) => {
+          const cols = [];
+          for (let i = startIdx; i < header.length; i++) {
+            const h = trimCell52(header[i]).replace(/\s*월$/, '');
+            if (!h) continue;
+            const m = /^(\d{4})\.(\d{2})/.exec(h);
+            if (m) cols.push({ i, ym: `${m[1]}-${m[2]}` });
+          }
+          return cols;
+        };
+        const convertWeather52 = (header, dataRows) => {
+          const WX = {
+            '평균기온[℃]': ['평균기온', '℃'],
+            '합계강수량[mm]': ['합계강수량', 'mm'],
+            '평균상대습도[%]': ['평균상대습도', '%'],
+            '평균풍속[m/s]': ['평균풍속', 'm/s']
+          };
+          const cols = monthCols52(header, 3);
+          const out = [];
+          dataRows.forEach(r => {
+            if (!r || !r.length) return;
+            const station = trimCell52(r[0]), item = trimCell52(r[1]);
+            const meta = WX[item];
+            if (!meta) return;
+            const sido = STATION_TO_SIDO_52[station];
+            if (!sido) return;
+            cols.forEach(({ i, ym }) => {
+              const v = trimCell52(r[i]);
+              if (v === '' || v === '-') return;
+              out.push([sido, station, meta[0], ym, v, meta[1]]);
+            });
+          });
+          return out;
+        };
+        const convertCo52 = (header, dataRows) => {
+          const cols = monthCols52(header, 4);
+          const out = [];
+          dataRows.forEach(r => {
+            if (!r || !r.length) return;
+            const sidoRaw = trimCell52(r[1]), city = trimCell52(r[2]);
+            const sido = normSido52(sidoRaw);
+            cols.forEach(({ i, ym }) => {
+              const v = trimCell52(r[i]);
+              if (v === '') return;
+              out.push([sido, city, 'CO(일산화탄소)', ym, v, 'ppm']);
+            });
+          });
+          return out;
+        };
+        const convertNo2City52 = (header, dataRows) => {
+          const cols = monthCols52(header, 2);
+          const out = [];
+          dataRows.forEach(r => {
+            if (!r || !r.length) return;
+            const sidoRaw = trimCell52(r[0]), gu = trimCell52(r[1]);
+            if (sidoRaw === '총계') return;
+            const sido = normSido52(sidoRaw);
+            const sgg = (gu === '도평균' || gu === sidoRaw) ? '' : gu;
+            cols.forEach(({ i, ym }) => {
+              const v = trimCell52(r[i]);
+              if (v === '') return;
+              out.push([sido, sgg, 'NO2(이산화질소)', ym, v, 'ppm']);
+            });
+          });
+          return out;
+        };
+        const convertStationWide52 = (header, dataRows) => {
+          const cols = monthCols52(header, 3);
+          const out = [];
+          // 첫 유효 데이터행의 항목/단위로 PM10 vs NO2측정소 구분 (항목에 ppm 표기 있으면 NO2측정소)
+          const sampleItem = (dataRows.find(r => r && trimCell52(r[1])) || [])[1] || '';
+          const isNo2 = /ppm/i.test(trimCell52(sampleItem));
+          dataRows.forEach(r => {
+            if (!r || !r.length) return;
+            const name = trimCell52(r[0]);
+            if (name === '시도평균') return;
+            cols.forEach(({ i, ym }) => {
+              const raw = trimCell52(r[i]);
+              if (raw === '') return;
+              if (isNo2) {
+                out.push(['', name, 'NO2측정소(이산화질소)', ym, raw, 'ppm(원본 정수 표기 ×0.001 환산)']);
+              } else {
+                out.push(['', name, 'PM10(미세먼지)', ym, raw, '㎍/㎥(추정, 원본 단위란 공란)']);
+              }
+            });
+          });
+          return out;
+        };
+        // (NO2측정소 스케일 계산을 단순화: 원본정수 × 0.001)
+        const fixNo2Scale52 = rows => rows.map(r => {
+          if (r[2] !== 'NO2측정소(이산화질소)') return r;
+          const n = Number(r[4]);
+          return [r[0], r[1], r[2], r[3], isNaN(n) ? r[4] : String(n * 0.001), r[5]];
+        });
+
+        const parseAnyFormat52 = (header, dataRows) => {
+          const stdMap = detectStandardMap52(header);
+          if (stdMap) return { ok:true, rows: convertStandard52(stdMap, dataRows), kind:'표준양식(통합 포함)' };
+          const kind = detectRawKind52(header);
+          if (kind === 'weather') return { ok:true, rows: convertWeather52(header, dataRows), kind:'기상 원본' };
+          if (kind === 'co') return { ok:true, rows: convertCo52(header, dataRows), kind:'CO 원본' };
+          if (kind === 'no2city') return { ok:true, rows: convertNo2City52(header, dataRows), kind:'NO2 시도 원본' };
+          if (kind === 'stationWide') return { ok:true, rows: fixNo2Scale52(convertStationWide52(header, dataRows)), kind:'PM10/NO2측정소 원본' };
+          return { ok:false, reason:'첫 행이 표준 양식(시도, 시군구, 지표, 연월, 값, 단위 — 순서 무관, 통합 마스터 파일도 인식) 또는 공공데이터포털/KOSIS 원본 6종 머리글과 다릅니다.' };
+        };
+        const rowsToObjects52 = rows => rows.map(r => ({
+          시도: String(r[0]||'').trim(), 시군구: String(r[1]||'').trim(), 지표: String(r[2]||'').trim(),
+          연월: String(r[3]||'').trim(), 값: String(r[4]||'').trim(), 단위: String(r[5]||'').trim()
+        }));
+
+        const waitForCase52 = async () => {
+          for (let i = 0; i < 40; i++) {
+            const api = api52();
+            if (api) return api;
+            await new Promise(r => setTimeout(r, 150));
+          }
+          return null;
+        };
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); renderList52(); });
+
+        if (addBtn52) addBtn52.onclick = async () => {
+          const files = fileInput52 && fileInput52.files ? Array.from(fileInput52.files) : [];
+          if (!files.length) { setStatus52('파일을 선택해주세요. 여러 개를 동시에 선택할 수 있습니다.', 'warn'); return; }
+          setStatus52(`파일 ${files.length}개 확인 중…`, 'info');
+          const body = []; const okNames = []; const failures = [];
+          for (const file of files) {
+            const parsed = await parseFile52(file);
+            if (!parsed.ok) { failures.push(`${file.name}: ${parsed.reason}`); continue; }
+            const rows = parsed.rows || [];
+            if (!rows.length) { failures.push(`${file.name}: 빈 파일입니다.`); continue; }
+            const result = parseAnyFormat52(rows[0], rows.slice(1));
+            if (!result.ok) { failures.push(`${file.name}: ${result.reason}`); continue; }
+            if (!result.rows.length) { failures.push(`${file.name}: 인식 가능한 데이터 행이 없습니다.`); continue; }
+            body.push(...result.rows); okNames.push(`${file.name}(${result.kind}·${result.rows.length}행)`);
+          }
+          if (!body.length) { setStatus52(failures[0] || '인식 가능한 파일이 없습니다.', 'error'); return; }
+          hydrateExample();
+          setStatus52('대시보드에 반영하는 중…', 'info');
+          const api = await waitForCase52();
+          if (!api) { setStatus52('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+          const res = api.ingestAndActivate(rowsToObjects52(body), okNames.join(', '));
+          if (!res || !res.ok) { setStatus52((res && res.reason) || '데이터를 반영하지 못했습니다.', 'error'); return; }
+          renderList52();
+          const scope = `${res.regions.join(', ')} · ${res.added.toLocaleString('ko-KR')}행을 반영했습니다.`;
+          setStatus52(failures.length
+            ? `${scope} / ${failures.length}개 파일 실패: ${failures[0]}`
+            : scope, failures.length ? 'warn' : 'ok');
+          fileInput52.value = '';
+        };
+
+        if (resetBtn52) resetBtn52.onclick = async () => {
+          hydrateExample();
+          const api = await waitForCase52();
+          if (api) api.reset();
+          if (fileInput52) fileInput52.value = '';
+          renderList52();
+          setStatus52('업로드한 데이터를 모두 초기화했습니다. 내장 수치가 없으므로 빈 화면 틀로 되돌아갑니다.', 'ok');
+        };
+
+        if (dlBtn52) dlBtn52.onclick = () => {
+          const csv = '\uFEFF' + [HEADER_52, ...SAMPLE_52].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+          const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '표준양식_환경지표.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+
+        renderList52();
+      }
       if (id === '39') {
         const fileInput39 = article.querySelector('#uploadFile39');
         const addBtn39 = article.querySelector('#uploadAddBtn39');
@@ -11577,6 +12321,142 @@ const CASE_CARD_IMG_MAP = {
         };
 
         renderList44();
+      }
+      if (id === '48') {
+        const fileInput48 = article.querySelector('#uploadFile48');
+        const addBtn48 = article.querySelector('#uploadAddBtn48');
+        const statusEl48 = article.querySelector('#uploadStatus48');
+        const dlBtn48 = article.querySelector('#dlTemplate48');
+        const dlBtn48Raw = article.querySelector('#dlTemplateRaw48');
+        const resetBtn48 = article.querySelector('#uploadReset48');
+        const HEADER_48_AGG = ['시도','시군구','측정소코드','측정소명','측정망','주소','연월','SO2(ppm)','CO(ppm)','O3(ppm)','NO2(ppm)','PM10(㎍/㎥)','PM2.5(㎍/㎥)'];
+        const HEADER_48_RAW = ['지역','망','측정소코드','측정소명','측정일시','SO2','CO','O3','NO2','PM10','PM25','주소'];
+        const SAMPLE_48_AGG = [
+          ['경남','진주시','238131','상봉동','도시대기','경상남도 진주시 북장대로64번길 14','202501',0.0037,0.28,0.0242,0.0171,29.1,20.6],
+          ['경남','진주시','238131','상봉동','도시대기','경상남도 진주시 북장대로64번길 14','202502',0.003,0.203,0.0323,0.0106,23.6,13.9],
+        ];
+        const SAMPLE_48_RAW = [
+          ['경남 진주시','도시대기','238131','상봉동',2025010101,0.0037,0.28,0.0242,0.0171,29,21,'경상남도 진주시 북장대로64번길 14'],
+          ['경남 진주시','도시대기','238131','상봉동',2025010102,0.0035,0.26,0.0255,0.0165,28,20,'경상남도 진주시 북장대로64번길 14'],
+        ];
+        const setStatus48 = (msg, level) => {
+          if (!statusEl48) return;
+          statusEl48.textContent = msg;
+          statusEl48.style.color = level === 'error' ? '#c0392b' : level === 'warn' ? '#a8710a' : level === 'ok' ? '#1a7a4c' : '#5b676d';
+          statusEl48.style.fontWeight = (level === 'error' || level === 'ok') ? '750' : '500';
+        };
+        const api48 = () => { const w = frame && frame.contentWindow; return (w && w.CASE48_API) || null; };
+        const waitForCase48 = async () => {
+          for (let i = 0; i < 40; i++) {
+            const api = api48();
+            if (api) return api;
+            await new Promise(r => setTimeout(r, 150));
+          }
+          return null;
+        };
+        const parseFile48 = file => new Promise(resolve => {
+          const name = file.name.toLowerCase();
+          if (name.endsWith('.xlsx') || name.endsWith('.xls')) {
+            if (typeof XLSX === 'undefined') { resolve({ ok:false, reason:'Excel 파서를 불러오지 못했습니다. CSV로 업로드해 주세요.' }); return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+              try {
+                const wb = XLSX.read(ev.target.result, { type:'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                resolve({ ok:true, rows: XLSX.utils.sheet_to_json(ws, { header:1, raw:false }) });
+              } catch (err) { resolve({ ok:false, reason:'Excel 파일을 읽지 못했습니다.' }); }
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (name.endsWith('.csv')) {
+            const reader = new FileReader();
+            reader.onload = ev => {
+              const buf = new Uint8Array(ev.target.result);
+              let text;
+              try { text = new TextDecoder('utf-8', { fatal:true }).decode(buf); }
+              catch (e1) {
+                try { text = new TextDecoder('euc-kr').decode(buf); }
+                catch (e2) { resolve({ ok:false, reason:'파일 인코딩을 인식하지 못했습니다. UTF-8 또는 CP949 CSV만 지원합니다.' }); return; }
+              }
+              if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+              const rows = text.split(/\r?\n/).filter(l => l.length).map(line => {
+                const out = []; let cur = ''; let q = false;
+                for (let i=0;i<line.length;i++){
+                  const ch = line[i];
+                  if (q){ if (ch === '"'){ if (line[i+1]==='"'){ cur+='"'; i++; } else q=false; } else cur += ch; }
+                  else { if (ch === '"') q = true; else if (ch === ',') { out.push(cur); cur=''; } else cur += ch; }
+                }
+                out.push(cur);
+                return out;
+              });
+              resolve({ ok:true, rows });
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            resolve({ ok:false, reason:'.csv, .xlsx, .xls 파일만 업로드할 수 있습니다.' });
+          }
+        });
+        const headerMatch48 = (row, expected) => Array.isArray(row) && expected.every((h,i) => String(row[i]||'').replace(/^\uFEFF/,'').trim() === h);
+        const validHeaderAgg48 = row => headerMatch48(row, HEADER_48_AGG);
+        const validHeaderRaw48 = row => headerMatch48(row, HEADER_48_RAW);
+        uploadOpen?.addEventListener('click', () => { hydrateExample(); });
+
+        if (addBtn48) addBtn48.onclick = async () => {
+          const files = fileInput48 && fileInput48.files ? Array.from(fileInput48.files) : [];
+          if (!files.length) { setStatus48('파일을 선택해주세요. 여러 개를 동시에 선택할 수 있습니다.', 'warn'); return; }
+          setStatus48(`파일 ${files.length}개 확인 중…`, 'info');
+          hydrateExample();
+          const api = await waitForCase48();
+          if (!api) { setStatus48('실행 화면을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.', 'error'); return; }
+          const okNames = []; const failures = [];
+          for (const file of files) {
+            const parsed = await parseFile48(file);
+            if (!parsed.ok) { failures.push(`${file.name}: ${parsed.reason}`); continue; }
+            const rows = parsed.rows || [];
+            if (!rows.length) { failures.push(`${file.name}: 빈 파일입니다.`); continue; }
+            let kind = null;
+            if (validHeaderAgg48(rows[0])) kind = 'agg';
+            else if (validHeaderRaw48(rows[0])) kind = 'raw';
+            if (!kind) { failures.push(`${file.name}: 첫 행이 표준 양식(월평균, 13컬럼) 또는 에어코리아 원본 시간자료(12컬럼) 머리글과 다릅니다.`); continue; }
+            const rest = rows.slice(1).filter(r => r && String(r[2]||'').trim());
+            if (!rest.length) { failures.push(`${file.name}: 데이터 행이 없습니다.`); continue; }
+            const res = api.ingestAndActivate(rest, file.name, kind);
+            if (!res || !res.ok) { failures.push(`${file.name}: ${(res && res.reason) || '반영 실패'}`); continue; }
+            okNames.push(`${file.name}(${kind === 'agg' ? '월평균' : '원본시간'}·${rest.length.toLocaleString()}행)`);
+          }
+          if (!okNames.length) { setStatus48(failures[0] || '인식 가능한 파일이 없습니다.', 'error'); return; }
+          const regions = api.getActiveRegions();
+          const scope = `활성 ${regions.length}개 시·도`;
+          setStatus48(failures.length
+            ? `${okNames.join(', ')} 반영 · ${scope} / ${failures.length}개 파일 실패: ${failures[0]}`
+            : `${okNames.join(', ')} 반영 · ${scope}`, failures.length ? 'warn' : 'ok');
+          fileInput48.value = '';
+        };
+
+        if (resetBtn48) resetBtn48.onclick = async () => {
+          hydrateExample();
+          const api = await waitForCase48();
+          if (api) api.reset();
+          if (fileInput48) fileInput48.value = '';
+          setStatus48('업로드한 데이터를 초기화했습니다. 내장 수치가 없으므로 빈 화면 틀로 되돌아갑니다.', 'ok');
+        };
+
+        if (dlBtn48) dlBtn48.onclick = () => {
+          const csv = '\uFEFF' + [HEADER_48_AGG, ...SAMPLE_48_AGG].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+          const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '표준양식_월평균집계.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
+
+        if (dlBtn48Raw) dlBtn48Raw.onclick = () => {
+          const csv = '\uFEFF' + [HEADER_48_RAW, ...SAMPLE_48_RAW].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+          const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob); a.download = '표준양식_원본시간자료.csv';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(a.href), 0);
+        };
       }
       if (id === '40') {
         const fileInput40 = article.querySelector('#uploadFile40');
